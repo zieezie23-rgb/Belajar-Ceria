@@ -101,12 +101,7 @@
   .canvaswrap.angka{ aspect-ratio: 1 / 1; max-height:500px; }
   .canvaswrap svg{ position:absolute; inset:0; width:100%; height:100%; }
   .canvaswrap canvas{ position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; }
-  .startdot{
-    position:absolute; width:26px; height:26px; border-radius:50%; background:var(--pink);
-    color:#fff; font-family:'Baloo 2'; font-weight:800; font-size:13px; display:flex;
-    align-items:center; justify-content:center; box-shadow:0 2px 0 rgba(0,0,0,0.25); z-index:3;
-    top:8px; left:8px; pointer-events:none;
-  }
+  .startdot{ display:none !important; }
 
   /* SIDEBAR */
   .sidebar{ display:flex; flex-direction:column; gap:12px; }
@@ -561,6 +556,31 @@
   pointer-events:none;
 }
 </style>
+
+<style id="help-header-style">
+.canvas-header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:0 2px 6px;
+  min-height:34px;
+}
+.canvas-instruction{
+  font-weight:800;
+  font-size:14px;
+  color:#4a3d63;
+}
+.canvas-header-row .petunjuk-help{
+  position:static !important;
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+}
+.canvas-header-row .helpbtn{
+  position:static !important;
+}
+</style>
 </head>
 <body>
 
@@ -615,14 +635,14 @@
           </div>
         </div>
       </div>
+      <div class="canvas-header-row">
+        <div class="canvas-instruction">Gambar dengan jari / mouse</div>
+        <div class="petunjuk-help"><button class="helpbtn" id="btnHelp" type="button" aria-label="Petunjuk">?</button></div>
+      </div>
       <div class="canvaswrap" id="wrapMain">
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
         <canvas id="canvasMain"></canvas>
-        <div class="startdot">1</div>
-        <div class="petunjuk-help">
-          <button class="helpbtn" id="btnHelp" type="button" aria-label="Petunjuk">?</button>
-        </div>
-      </div>
+              </div>
     </div>
 
     <div class="sidebar">
