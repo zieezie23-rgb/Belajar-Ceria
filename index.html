@@ -105,6 +105,7 @@
   .canvaswrap.angka{ aspect-ratio: 1 / 1; max-height:500px; }
   .canvaswrap svg{ position:absolute; inset:0; width:100%; height:100%; }
   .canvaswrap canvas{ position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; }
+  #matchAreaCanvas{ pointer-events:none; cursor:default; }
   .startdot{ display:none !important; }
 
   /* SIDEBAR */
@@ -645,7 +646,9 @@
       </div>
       <div class="canvaswrap" id="wrapMain">
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
+        <canvas id="matchAreaCanvas"></canvas>
         <canvas id="canvasMain"></canvas>
+        <div id="matchProgress">Kecocokan: 0%</div>
               </div>
     </div>
 
@@ -1041,31 +1044,122 @@ function pruneSkeletonSpurs(pts, adj, minLen){
   return alive;
 }
 
-// Menyusuri semua SISI graf (bukan cuma titik) jadi satu jalur menyambung lewat
-// DFS dengan mundur-balik (backtrack) -- supaya percabangan/lengkung tertutup
-// tetap tercakup penuh tanpa perlu angkat "pena" di tengah huruf.
-function traverseSkeletonComponent(startIdx, adj, alive, visitedEdge){
-  const edgeKey = (a,b) => a<b ? a+'_'+b : b+'_'+a;
-  const frame = (node) => ({ node, nbrs: adj[node].filter(j=>alive[j]), ptr:0 });
-  const path = [startIdx];
-  const st = [frame(startIdx)];
-  while(st.length){
-    const top = st[st.length-1];
-    if(top.ptr >= top.nbrs.length){ st.pop(); if(st.length) path.push(st[st.length-1].node); continue; }
-    const next = top.nbrs[top.ptr]; top.ptr++;
-    const key = edgeKey(top.node, next);
-    if(visitedEdge.has(key)) continue;
-    visitedEdge.add(key);
-    path.push(next);
-    st.push(frame(next));
+// Hasil thinning kadang menyisakan "gerombolan" kecil piksel berderajat>=3 yang
+// saling bertetangga di satu titik percabangan asli (noise raster), bukan satu
+// titik bersih. Kalau dibiarkan, tiap piksel gerombolan itu dihitung sebagai
+// percabangan terpisah -> pecah jadi ratusan ruas kecil yang tidak perlu.
+// Fungsi ini menyatukan tiap gerombolan piksel berderajat>=3 yang saling
+// terhubung langsung jadi SATU titik logis (union-find), lalu membangun ulang
+// graf yang sudah bersih.
+function collapseJunctionClusters(pts, adj, alive){
+  const n = pts.length;
+  const degree = i => adj[i].filter(j=>alive[j]).length;
+  const parent = new Int32Array(n);
+  for(let i=0;i<n;i++) parent[i]=i;
+  function find(x){ while(parent[x]!==x){ parent[x]=parent[parent[x]]; x=parent[x]; } return x; }
+  function union(a,b){ a=find(a); b=find(b); if(a!==b) parent[b]=a; }
+
+  for(let i=0;i<n;i++){
+    if(!alive[i] || degree(i)<3) continue;
+    adj[i].forEach(j => { if(alive[j] && degree(j)>=3) union(i,j); });
   }
-  return path;
+
+  const clusterPts = new Map(); // root -> {sx,sy,count}
+  for(let i=0;i<n;i++){
+    if(!alive[i]) continue;
+    const r = find(i);
+    const c = clusterPts.get(r) || {sx:0,sy:0,count:0};
+    c.sx += pts[i][0]; c.sy += pts[i][1]; c.count++;
+    clusterPts.set(r, c);
+  }
+
+  const newIndexOf = new Map(); // root -> new index
+  const newPts = [];
+  clusterPts.forEach((c, root) => {
+    newIndexOf.set(root, newPts.length);
+    newPts.push([c.sx/c.count, c.sy/c.count]);
+  });
+
+  const edgeSet = new Set();
+  const newAdj = newPts.map(()=>[]);
+  for(let i=0;i<n;i++){
+    if(!alive[i]) continue;
+    adj[i].forEach(j => {
+      if(!alive[j] || j<=i) return;
+      const ri = find(i), rj = find(j);
+      if(ri===rj) return; // ruas internal gerombolan, buang
+      const ni = newIndexOf.get(ri), nj = newIndexOf.get(rj);
+      const ek = ni<nj ? ni+'_'+nj : nj+'_'+ni;
+      if(edgeSet.has(ek)) return;
+      edgeSet.add(ek);
+      newAdj[ni].push(nj); newAdj[nj].push(ni);
+    });
+  }
+
+  return { pts:newPts, adj:newAdj, alive:newPts.map(()=>true) };
+}
+
+// titik ujung/percabangan ke titik ujung/percabangan berikutnya (melewati
+// titik-titik "lurus" berderajat 2 di antaranya). Ini menggantikan pendekatan
+// lama yang memaksa SATU jalur menyambung tanpa angkat pena -- pendekatan itu
+// gagal mencakup seluruh bentuk pada huruf berpercabangan (K, A, B, E, dst.)
+// karena secara matematis tidak selalu ada jalur tunggal yang melewati semua
+// ruas tanpa mengulang. Dengan memecah di percabangan (mis. tangan "angkat
+// pena" sejenak lalu lanjut ke goresan berikut), tiap ruas huruf dijamin
+// tertelusuri, walau jadi beberapa goresan alih-alih satu.
+function buildSkeletonSegments(pts, adj, alive){
+  const edgeKey = (a,b) => a<b ? a+'_'+b : b+'_'+a;
+  const degree = i => adj[i].filter(j=>alive[j]).length;
+  const visitedEdge = new Set();
+  const segments = [];
+
+  // 1) ruas yang dimulai/diakhiri di ujung (derajat 1) atau percabangan (derajat >=3)
+  for(let i=0;i<pts.length;i++){
+    if(!alive[i] || degree(i)===2) continue;
+    adj[i].filter(j=>alive[j]).forEach(j => {
+      const ek = edgeKey(i,j);
+      if(visitedEdge.has(ek)) return;
+      visitedEdge.add(ek);
+      const path=[i,j];
+      let prev=i, cur=j;
+      while(degree(cur)===2){
+        const nxt = adj[cur].filter(n=>alive[n] && n!==prev)[0];
+        if(nxt===undefined) break;
+        const ek2 = edgeKey(cur,nxt);
+        if(visitedEdge.has(ek2)) break;
+        visitedEdge.add(ek2);
+        path.push(nxt);
+        prev=cur; cur=nxt;
+      }
+      segments.push(path);
+    });
+  }
+
+  // 2) sisa berupa lingkaran tertutup murni (semua titik berderajat 2, mis. huruf O)
+  //    yang belum tersentuh proses di atas
+  for(let i=0;i<pts.length;i++){
+    if(!alive[i] || degree(i)!==2) continue;
+    const hasUnvisited = adj[i].some(j=>alive[j] && !visitedEdge.has(edgeKey(i,j)));
+    if(!hasUnvisited) continue;
+    const start=i; let prev=-1, cur=i; const path=[cur]; let guard=0;
+    while(guard++ < pts.length+5){
+      const nxt = adj[cur].filter(n=>alive[n] && n!==prev && !visitedEdge.has(edgeKey(cur,n)))[0];
+      if(nxt===undefined) break;
+      visitedEdge.add(edgeKey(cur,nxt));
+      path.push(nxt);
+      prev=cur; cur=nxt;
+      if(cur===start) break;
+    }
+    if(path.length>=3) segments.push(path);
+  }
+
+  return segments;
 }
 
 // Ambil satu atau beberapa jalur skeleton (dalam koordinat asli, bukan piksel
-// hasil supersampling) untuk sebuah glyph. Biasanya cuma 1 komponen (huruf kita
-// semuanya satu goresan yang saling terhubung), tapi kalau ada beberapa bagian
-// terpisah, tiap bagian jadi subpath ("angkat pena") sendiri.
+// hasil supersampling) untuk sebuah glyph. Huruf sederhana (mis. I, C, O)
+// biasanya jadi satu goresan; huruf berpercabangan (mis. A, K, E) jadi
+// beberapa goresan terpisah ("angkat pena" di tiap percabangan).
 function buildSkeletonSubpaths(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH){
   // SCALE dinaikkan (1.6 -> 3) supaya raster glyph lebih halus: thinning
   // Zhang-Suen bekerja piksel-per-piksel, jadi raster kasar bikin skeleton
@@ -1078,27 +1172,10 @@ function buildSkeletonSubpaths(ch, x, y, fontSize, fontWeight, viewBoxW, viewBox
   const { pts, adj } = buildSkeletonGraph(thin, raster.w, raster.h);
   if(!pts.length) return [];
   const alive = pruneSkeletonSpurs(pts, adj, 8);
+  const clean = collapseJunctionClusters(pts, adj, alive);
 
-  const seen = new Uint8Array(pts.length);
-  const comps = [];
-  for(let i=0;i<pts.length;i++){
-    if(!alive[i] || seen[i]) continue;
-    const stack=[i]; seen[i]=1; const comp=[i];
-    while(stack.length){
-      const c = stack.pop();
-      adj[c].forEach(n => { if(alive[n] && !seen[n]){ seen[n]=1; stack.push(n); comp.push(n); } });
-    }
-    comps.push(comp);
-  }
-
-  const visitedEdge = new Set();
-  const subpaths = [];
-  comps.filter(c => c.length >= 3).forEach(comp => {
-    let start = comp.find(i => adj[i].filter(j=>alive[j]).length === 1);
-    if(start === undefined) start = comp[0];
-    const tour = traverseSkeletonComponent(start, adj, alive, visitedEdge);
-    subpaths.push(tour.map(idx => pts[idx]));
-  });
+  const rawSegments = buildSkeletonSegments(clean.pts, clean.adj, clean.alive);
+  const subpaths = rawSegments.filter(seg => seg.length >= 2).map(seg => seg.map(idx => clean.pts[idx]));
 
   // kembalikan ke koordinat SVG asli
   const raw = subpaths.map(sp => sp.map(([px,py]) => [(px+raster.offX)/raster.SCALE, (py+raster.offY)/raster.SCALE]));
@@ -1370,30 +1447,58 @@ function buildMask(){
   maskCanvas.width = canvas.width;
   maskCanvas.height = canvas.height;
   maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
-  maskCtx.lineWidth = 34;
-  maskCtx.strokeStyle = '#fff';
   maskCtx.textAlign = 'center';
   maskCtx.textBaseline = 'alphabetic';
 
+  // Kanvas kedua yang TERLIHAT, menampilkan area target coretan dengan warna ungu muda
+  const areaCanvas = document.getElementById('matchAreaCanvas');
+  const areaCtx = areaCanvas ? areaCanvas.getContext('2d') : null;
+  if(areaCanvas){
+    areaCanvas.width = canvas.width;
+    areaCanvas.height = canvas.height;
+  }
+  if(areaCtx){
+    areaCtx.clearRect(0,0,areaCanvas.width,areaCanvas.height);
+    areaCtx.textAlign = 'center';
+    areaCtx.textBaseline = 'alphabetic';
+    areaCtx.fillStyle = '#D9C6FF'; // ungu muda
+  }
+
+  function drawGlyph(text, x, y, fontSize, lineWidth){
+    // Acuan kecocokan pakai isi huruf (fill), bukan garis tepi (stroke) —
+    // supaya area kecocokan mewakili bagian tengah huruf itu sendiri.
+    maskCtx.fillStyle = '#fff';
+    maskCtx.font = `700 ${fontSize}px 'Fredoka', sans-serif`;
+    maskCtx.fillText(text, x, y);
+    if(areaCtx){
+      areaCtx.font = `700 ${fontSize}px 'Fredoka', sans-serif`;
+      areaCtx.fillText(text, x, y);
+    }
+  }
+
   if(mode === 'huruf'){
-    const scale = canvas.width / 640;
-    maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `700 ${330*scale}px 'Fredoka', sans-serif`;
+    // Skala mengikuti sisi yang lebih membatasi (seperti preserveAspectRatio SVG)
+    // supaya posisi huruf tetap sinkron dengan panduan meski rasio kotak kanvas
+    // sedikit berbeda antar device (mis. akibat max-height di CSS).
+    const BASE_W = 640, BASE_H = 360;
+    const scale = Math.min(canvas.width / BASE_W, canvas.height / BASE_H);
+    const offX = (canvas.width - BASE_W*scale) / 2;
+    const offY = (canvas.height - BASE_H*scale) / 2;
     const item = LETTERS[index];
-    maskCtx.strokeText(item.ch, 160*scale, 255*scale);
-    maskCtx.strokeText(item.ch.toLowerCase(), 480*scale, 255*scale);
+    drawGlyph(item.ch, offX + 160*scale, offY + 255*scale, 330*scale, 34*scale);
+    drawGlyph(item.ch.toLowerCase(), offX + 480*scale, offY + 255*scale, 330*scale, 34*scale);
   } else {
-    const scale = canvas.width / 520;
-    maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `700 ${300*scale}px 'Fredoka', sans-serif`;
+    const BASE_W = 520, BASE_H = 520;
+    const scale = Math.min(canvas.width / BASE_W, canvas.height / BASE_H);
+    const offX = (canvas.width - BASE_W*scale) / 2;
+    const offY = (canvas.height - BASE_H*scale) / 2;
     const item = NUMBERS[index];
-    maskCtx.strokeText(item.d, 260*scale, 245*scale);
+    drawGlyph(item.d, offX + 260*scale, offY + 245*scale, 300*scale, 34*scale);
 
     const { fontSize, centers } = layoutNumberWord(item.word, 700, 260, 480);
     const wordY = 400 + fontSize*0.55;
-    maskCtx.font = `700 ${fontSize*scale}px 'Fredoka', sans-serif`;
     [...item.word].forEach((ch,i) => {
-      maskCtx.strokeText(ch, centers[i]*scale, wordY*scale);
+      drawGlyph(ch, offX + centers[i]*scale, offY + wordY*scale, fontSize*scale, 34*scale);
     });
   }
 
@@ -1408,6 +1513,8 @@ function buildMask(){
     }
   }
   celebrated = false;
+  window.lastMatchPercent = 0;
+  if(window.updateMatchProgress) window.updateMatchProgress(0);
 }
 
 function checkCoverage(){
@@ -1421,7 +1528,9 @@ function checkCoverage(){
     if(drawData[(y*canvas.width + x)*4 + 3] > 40) matched++;
   }
   const ratio = total > 0 ? matched/total : 0;
-  if(ratio >= 0.5){
+  window.lastMatchPercent = ratio*100;
+  if(window.updateMatchProgress) window.updateMatchProgress(ratio*100);
+  if(ratio >= 0.8){
     celebrated = true;
     celebrate();
     updateNextButton();
