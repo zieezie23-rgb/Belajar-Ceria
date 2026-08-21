@@ -946,7 +946,7 @@ function speakCurrent(){
 
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'id-ID';
-    u.rate = 0.85;
+    u.rate = 0.8;
     u.pitch = childGender === 'girl' ? 1.22 : 1.08;
     u.volume = 1;
 
@@ -1056,10 +1056,139 @@ const ADDITION_QUESTIONS = Array.from({length:20},()=>{
 });
 
 function speakWrong(){
-  const u=new SpeechSynthesisUtterance('Jawaban salah');
+  const u=new SpeechSynthesisUtterance('Jawaban salah!');
   u.lang='id-ID';
   u.rate=0.9;
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
 }
+</script>
+
+
+<!-- Penjumlahan Mode V9 -->
+<script>
+(function(){
+if(window.__addition_v9_loaded) return;
+window.__addition_v9_loaded = true;
+
+window.ADD_QUESTIONS = Array.from({length:20},()=>{
+  const a=Math.floor(Math.random()*20)+1;
+  const b=Math.floor(Math.random()*20)+1;
+  return {a,b,answer:a+b};
+});
+
+window.addState = {index:0};
+
+window.showAdditionQuestion = function(){
+  const q = ADD_QUESTIONS[addState.index];
+  const el = document.getElementById('additionQuestion');
+  if(el) el.textContent = q.a + " + " + q.b + " = ?";
+};
+
+window.checkAdditionAnswer = function(value){
+  const q = ADD_QUESTIONS[addState.index];
+  const ok = Number(value) === q.answer;
+
+  const msg = ok ? "Jawaban Benar!" : "Jawaban Salah!";
+  alert(msg);
+
+  try{
+    const u = new SpeechSynthesisUtterance(
+      ok ? "Hebat, jawaban benar!" : "Jawaban salah!"
+    );
+    u.lang = "id-ID";
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }catch(e){}
+
+  if(ok && addState.index < ADD_QUESTIONS.length-1){
+    addState.index++;
+    showAdditionQuestion();
+  }
+  return ok;
+};
+})();
+</script>
+
+<div id="additionPanel" style="display:none;padding:16px">
+  <h2>➕ Belajar Penjumlahan</h2>
+  <div id="additionQuestion" style="font-size:32px;font-weight:bold"></div>
+  <p>Tulis jawabanmu lalu periksa.</p>
+  <input id="additionAnswer" type="number" style="font-size:24px;padding:8px">
+  <button onclick="checkAdditionAnswer(document.getElementById('additionAnswer').value)">Periksa Jawaban</button>
+</div>
+
+<!-- Addition Feature V10 -->
+<style>
+#additionScreen{position:fixed;inset:0;background:#fff;z-index:5000;display:none;padding:20px;overflow:auto}
+.addbox{max-width:900px;margin:auto;text-align:center}
+.addq{font-size:48px;font-weight:bold;margin:20px}
+.addpopup{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:6000}
+.addcard{background:#fff;padding:20px;border-radius:20px;text-align:center}
+</style>
+<div id="additionScreen">
+ <div class="addbox">
+  <h1>➕ Belajar Penjumlahan</h1>
+  <div id="addProgress"></div>
+  <div class="addq" id="addQuestion"></div>
+  <p>Tulis atau ketik jawaban:</p>
+  <input id="addAnswer" type="number" style="font-size:32px;padding:10px">
+  <div style="margin-top:10px">
+   <button onclick="checkAddAnswer()">Periksa</button>
+   <button onclick="nextAddQuestion()">Berikutnya</button>
+   <button onclick="document.getElementById('additionScreen').style.display='none'">Keluar</button>
+  </div>
+ </div>
+</div>
+<div id="addPopup" class="addpopup">
+ <div class="addcard">
+  <h2 id="addPopupTitle"></h2>
+  <button onclick="retryAdd()">Coba Lagi</button>
+  <button onclick="nextAddQuestion()">Berikutnya</button>
+ </div>
+</div>
+<script>
+(function(){
+ window.addQuestions=Array.from({length:20},()=>{
+   let a=Math.floor(Math.random()*20)+1,b=Math.floor(Math.random()*20)+1;
+   return {a,b,ans:a+b};
+ });
+ window.addIndex=0;
+ window.renderAdd=function(){
+   let q=addQuestions[addIndex];
+   document.getElementById('addQuestion').textContent=`${q.a} + ${q.b} = ?`;
+   document.getElementById('addProgress').textContent=`Soal ${addIndex+1} dari 20`;
+   document.getElementById('addAnswer').value='';
+ }
+ window.openAddition=function(){
+   document.getElementById('additionScreen').style.display='block';
+   renderAdd();
+ }
+ window.checkAddAnswer=function(){
+   let q=addQuestions[addIndex];
+   let ok=Number(document.getElementById('addAnswer').value)===q.ans;
+   let p=document.getElementById('addPopup');
+   document.getElementById('addPopupTitle').textContent=ok?'🎉 Jawaban Benar!':'❌ Jawaban Salah!';
+   p.style.display='flex';
+   let u=new SpeechSynthesisUtterance(ok?'Hebat, jawaban benar':'Jawaban salah');
+   u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+   window._lastAddOk=ok;
+ }
+ window.retryAdd=function(){
+   document.getElementById('addPopup').style.display='none';
+   document.getElementById('addAnswer').focus();
+ }
+ window.nextAddQuestion=function(){
+   document.getElementById('addPopup').style.display='none';
+   if(window._lastAddOk && addIndex<19) addIndex++;
+   renderAdd();
+ }
+ setTimeout(()=>{
+   let btn=document.createElement('button');
+   btn.innerHTML='➕ Belajar Penjumlahan';
+   btn.className='pillbtn green';
+   btn.onclick=openAddition;
+   document.querySelector('.topbar')?.appendChild(btn);
+ },1000);
+})();
 </script>
