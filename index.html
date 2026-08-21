@@ -1,224 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#229fe8">
-<title>Belajar Ceria</title>
+<title>Belajar Ceria — Huruf & Angka</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial Rounded MT Bold,Arial,sans-serif;background:#21a6ed}
-body{touch-action:manipulation}
-button{border:0;background:none;font:inherit}
-
-.app{
-  width:100vw;height:100dvh;min-height:320px;position:relative;overflow:hidden;
-  background:linear-gradient(#23aaf0 0 12%,#a8e9ff 12% 100%);
-}
-
-/* background */
-.sky{position:absolute;inset:0;z-index:0;background:
- radial-gradient(circle at 10% 18%,#fff 0 3%,transparent 3.5%),
- radial-gradient(circle at 90% 25%,#fff 0 2.5%,transparent 3.2%),
- linear-gradient(180deg,#1da4ec 0 16%,#b7efff 55%,#9ddd76 100%)}
-.hills{position:absolute;left:0;right:0;bottom:0;height:30%;background:
- radial-gradient(ellipse at 15% 100%,#71c65c 0 42%,transparent 43%),
- radial-gradient(ellipse at 65% 110%,#56b84d 0 48%,transparent 49%),
- radial-gradient(ellipse at 95% 105%,#8bd66b 0 45%,transparent 46%)}
-
-/* top */
-.top{position:absolute;left:1.2%;right:1.2%;top:1.5%;height:11%;z-index:5;display:flex;align-items:center;gap:1.2%}
-.pill{height:78%;border-radius:22px;border:3px solid #fff;box-shadow:0 4px 0 #9b2368,0 5px 10px #0004;color:white;font-weight:900;text-shadow:0 2px #74316f;display:flex;align-items:center;justify-content:center}
-.back{width:12%;background:linear-gradient(#ff6799,#f12669);font-size:clamp(13px,2vw,30px)}
-.stars{width:10%;background:linear-gradient(#ffd94c,#ff9c18);font-size:clamp(15px,2.5vw,32px);color:#4d2b21;text-shadow:none}
-.title{flex:1;background:linear-gradient(#8f55ed,#5624c6);border-color:#ffe45b;font-size:clamp(19px,3vw,44px)}
-.sound{width:22%;background:linear-gradient(#ff6b9c,#ee2670);font-size:clamp(13px,2vw,30px)}
-
-.main{position:absolute;left:1%;right:1%;top:13%;bottom:13%;z-index:3;display:grid;grid-template-columns:19% 60% 19%;gap:1%}
-.panel{background:#fffdf9eF;border:4px solid #fff;border-radius:25px;box-shadow:0 5px 12px #3b73a755;overflow:hidden;position:relative}
-.left,.right{padding:2%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
-.ribbon{width:90%;padding:7px 5px;border-radius:12px;background:linear-gradient(#cfa2ff,#8c4de0);color:#fff;font-size:clamp(12px,1.55vw,24px);font-weight:900;text-align:center;text-shadow:0 2px #63309b}
-.kid{font-size:clamp(45px,7vw,100px);margin:4% 0 1%;filter:drop-shadow(0 4px 2px #0002)}
-.speaker{width:clamp(60px,7vw,105px);aspect-ratio:1;border-radius:50%;background:linear-gradient(#b26cff,#7a31d9);border:5px solid #fff;box-shadow:0 4px 8px #0004;color:#fff;font-size:clamp(28px,4vw,58px);margin:1% 0}
-.pronounce{color:#5120a2;font-size:clamp(18px,2.6vw,38px);font-weight:1000;text-align:center}
-.slow{color:#5a3b7d;font-size:clamp(10px,1.2vw,17px);text-align:center}
-
-.center{background:#fff;border:5px solid #f2c43e;border-radius:30px;position:relative;overflow:hidden}
-.lessonCanvas{position:absolute;inset:2% 3% 2% 3%;width:94%;height:96%;touch-action:none}
-.clear{position:absolute;left:50%;bottom:2%;transform:translateX(-50%);z-index:4;border-radius:18px;padding:7px 20px;background:linear-gradient(#82e55c,#42a82c);color:white;font-weight:900;font-size:clamp(11px,1.3vw,18px);border:3px solid #fff;box-shadow:0 3px 0 #347a24}
-.stepHint{position:absolute;left:50%;bottom:11%;transform:translateX(-50%);z-index:4;background:#ffffffdf;color:#53308d;border-radius:12px;padding:5px 10px;font-size:clamp(9px,1vw,15px);font-weight:900;white-space:nowrap}
-
-.card{width:100%;border:2px solid #c4e2ff;border-radius:15px;margin-bottom:5%;padding:4%;text-align:center}
-.card h3{margin:0 -4% 5%;padding:6px;border-radius:10px;background:#2e94df;color:white;font-size:clamp(12px,1.4vw,22px)}
-.example{font-size:clamp(45px,6vw,90px)}
-.word{font-size:clamp(20px,2.5vw,38px);color:#e52d31;font-weight:1000}
-.spell{display:flex;justify-content:center;gap:4px;flex-wrap:wrap}
-.spell b{padding:3px 6px;border-radius:6px;background:#e7f5ff;font-size:clamp(13px,1.6vw,24px)}
-.quote{font-size:clamp(14px,1.7vw,26px);color:#df4e27;font-weight:900}
-.tip{font-size:clamp(10px,1.2vw,17px);color:#4d3683;font-weight:800}
-
-/* bottom navigation */
-.bottom{position:absolute;left:2%;right:2%;bottom:1.2%;height:10.5%;z-index:7;display:grid;grid-template-columns:18% 18% 18% 18% 18%;justify-content:space-between}
-.nav{border-radius:24px;border:4px solid #fff;box-shadow:0 4px 0 #a76b1c,0 5px 10px #0003;color:white;font-weight:1000;font-size:clamp(11px,1.5vw,23px);text-shadow:0 2px #804500;padding:0 5px}
-.prev,.next{background:linear-gradient(#ffda5b,#f4a71b)}
-.letters{background:linear-gradient(#a45bff,#6c2bd4)}
-.numbers{background:linear-gradient(#38b9ff,#1686df)}
-.fav{background:linear-gradient(#79d951,#3da22d)}
-
-.rotate{display:none}
-@media (orientation:portrait){
-  .app{min-height:0}
-  .top{height:8%;top:1%}
-  .back{width:18%}.stars{width:15%}.sound{width:24%}
-  .title{font-size:clamp(16px,5vw,28px)}
-  .main{top:10%;bottom:11%;grid-template-columns:1fr;display:block;overflow:auto}
-  .left,.right{display:none}
-  .center{position:absolute;left:2%;right:2%;top:0;bottom:0;height:auto}
-  .bottom{height:9%;grid-template-columns:18% 18% 18% 18% 18%;bottom:1%}
-  .nav{border-width:2px;border-radius:14px;font-size:clamp(9px,2.5vw,14px)}
-}
-@media (max-width:600px) and (orientation:landscape){
-  .main{top:13.5%;bottom:13.5%}
-  .panel{border-width:2px;border-radius:16px}
-  .top{height:10%}
-  .bottom{height:11%}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{font-family:"Arial Rounded MT Bold",Arial,sans-serif;background:#19a6ed;color:#3b2874;touch-action:manipulation}
+button{font:inherit;border:0;cursor:pointer}
+.app{width:100vw;height:100dvh;overflow:hidden;position:relative;background:linear-gradient(#20a9ef 0 14%,#d8f7ff 55%,#91d86b)}
+.bg{position:absolute;inset:0;background:
+radial-gradient(circle at 10% 25%,#fff 0 2%,transparent 2.5%),
+radial-gradient(circle at 87% 20%,#fff 0 1.8%,transparent 2.3%),
+linear-gradient(180deg,transparent 0 62%,#74c45c 62% 100%)}
+.top{position:absolute;z-index:5;top:1.2%;left:1%;right:1%;height:10%;display:flex;gap:1%;align-items:center}
+.top button,.title{border:3px solid #fff;border-radius:22px;box-shadow:0 4px 0 #9d5a27,0 5px 10px #0003;color:white;font-weight:900;text-shadow:0 2px #693d36;display:flex;align-items:center;justify-content:center;height:82%}
+.back{width:13%;background:linear-gradient(#ff719d,#ef2c70);font-size:clamp(11px,1.7vw,28px)}
+.points{width:10%;background:linear-gradient(#ffe35c,#ffae19);font-size:clamp(13px,2vw,28px);text-shadow:none;color:#4a2b2b}
+.title{flex:1;background:linear-gradient(#9257ec,#5724c7);border-color:#ffe35c;font-size:clamp(17px,2.8vw,40px)}
+.voice{width:22%;background:linear-gradient(#ff709e,#eb2771);font-size:clamp(11px,1.6vw,26px)}
+.main{position:absolute;z-index:3;left:1%;right:1%;top:13%;bottom:13%;display:grid;grid-template-columns:19% 60% 19%;gap:1%}
+.panel,.center{background:#fffefc;border:4px solid white;box-shadow:0 4px 12px #3b73a744;border-radius:25px;overflow:hidden}
+.panel{padding:2%;text-align:center}.center{border-color:#f0c54b;position:relative}
+.ribbon{background:linear-gradient(#b27bfa,#7840d0);color:#fff;border-radius:12px;padding:7px;font-size:clamp(11px,1.5vw,22px);font-weight:900}
+.kid{font-size:clamp(40px,6vw,90px);margin:4% 0}
+.speaker{width:clamp(55px,7vw,100px);aspect-ratio:1;border-radius:50%;background:linear-gradient(#b36dff,#7430d2);border:4px solid white;box-shadow:0 4px 8px #0003;font-size:clamp(25px,3.8vw,55px)}
+.pronounce{font-size:clamp(17px,2.5vw,36px);font-weight:900;color:#5323a6;margin-top:3%}
+.slow{font-size:clamp(9px,1.1vw,15px)}
+.center canvas{position:absolute;inset:1.5%;width:97%;height:97%;touch-action:none}
+.clear{position:absolute;z-index:4;bottom:2%;left:50%;transform:translateX(-50%);background:linear-gradient(#8be968,#3ba72a);color:#fff;border:3px solid white;border-radius:18px;padding:7px 18px;font-weight:900;font-size:clamp(10px,1.3vw,18px);box-shadow:0 3px 0 #28761c}
+.info{position:absolute;z-index:4;left:50%;bottom:10%;transform:translateX(-50%);white-space:nowrap;background:#ffffffdf;border-radius:12px;padding:5px 10px;font-size:clamp(8px,1vw,14px);font-weight:900}
+.card{border:2px solid #c5e5ff;border-radius:14px;padding:4%;margin-bottom:5%}
+.card h3{margin:-2% -2% 4%;padding:5px;background:#2994df;color:#fff;border-radius:10px;font-size:clamp(11px,1.35vw,20px)}
+.example{font-size:clamp(38px,5.5vw,82px)}.word{font-size:clamp(18px,2.4vw,34px);color:#e52d31;font-weight:900}
+.spell{display:flex;justify-content:center;gap:3px;flex-wrap:wrap}.spell b{background:#e9f5ff;padding:3px 5px;border-radius:5px;font-size:clamp(11px,1.4vw,21px)}
+.quote{font-size:clamp(13px,1.6vw,24px);color:#df4e27;font-weight:900}.tip{font-size:clamp(9px,1.1vw,15px);font-weight:800}
+.bottom{position:absolute;z-index:6;left:2%;right:2%;bottom:1%;height:10.5%;display:grid;grid-template-columns:18% 18% 18% 18% 18%;justify-content:space-between}
+.nav{border:3px solid white;border-radius:20px;box-shadow:0 4px 0 #a76b1c;color:white;font-weight:900;text-shadow:0 2px #804500;font-size:clamp(9px,1.4vw,21px)}
+.prev,.next{background:linear-gradient(#ffdd63,#f4a81c)}.letters{background:linear-gradient(#a45dff,#6829d2)}.numbers{background:linear-gradient(#3dbdff,#1387df)}.fav{background:linear-gradient(#7bdb53,#3ba02d)}
+@media(orientation:portrait){
+ .top{height:8%;}.back{width:18%}.points{width:14%}.voice{width:24%}.title{font-size:clamp(13px,4.8vw,25px)}
+ .main{top:10%;bottom:11%;display:block}.panel{display:none}.center{position:absolute;inset:0}
+ .bottom{height:9%;bottom:1%}.nav{border-width:2px;border-radius:13px;font-size:clamp(8px,2.3vw,14px)}
 }
 </style>
 </head>
-<body>
-<div class="app">
-<div class="sky"></div><div class="hills"></div>
-
+<body><div class="app"><div class="bg"></div>
 <header class="top">
-<button class="pill back" onclick="toast('Kembali')">⬅ Kembali</button>
-<div class="pill stars">⭐ <span id="score">25</span></div>
-<div class="pill title">🌟 BELAJAR <span id="titleMode">HURUF</span> 🌟</div>
-<button class="pill sound" onclick="speakLesson()">🎙️ Suara Anak</button>
+<button class="back" onclick="toast('Kembali')">⬅ Kembali</button>
+<div class="points">⭐ <span id="points">25</span></div>
+<div class="title">🌟 BELAJAR <span id="modeName">HURUF</span> 🌟</div>
+<button class="voice" onclick="speak()">🎙️ Suara Anak</button>
 </header>
-
 <section class="main">
-<aside class="panel left">
-<div class="ribbon">Dengar Huruf</div>
-<div class="kid">👦🏻🎤</div>
-<button class="speaker" onclick="speakLesson()">🔊</button>
-<div class="pronounce" id="pronounce">Aaaa...</div>
-<div class="slow">(diucapkan pelan)</div>
+<aside class="panel">
+<div class="ribbon">Dengar Huruf</div><div class="kid">👦🏻🎤</div>
+<button class="speaker" onclick="speak()">🔊</button>
+<div id="pronounce" class="pronounce">Aaaa...</div><div class="slow">(diucapkan pelan)</div>
 </aside>
-
-<main class="center">
-<canvas id="canvas" class="lessonCanvas"></canvas>
-<div class="stepHint">Ikuti angka dan panah, lalu tulis mengikuti garis putus-putus dengan jari.</div>
-<button class="clear" onclick="clearCanvas()">🧽 Bersihkan</button>
-</main>
-
-<aside class="panel right">
-<div class="card"><h3>Contoh Kata</h3><div class="example" id="example">🍎</div><div class="word" id="word">Apel</div></div>
-<div class="card"><h3 style="background:#ed4f83">Cara Mengeja</h3><div class="spell" id="spell"></div></div>
-<div class="card"><h3 style="background:#f4ad21">Cara Mengucapkan</h3><div class="quote" id="quote">“Aaaa...”</div><div class="slow">(diucapkan pelan)</div></div>
-<div class="card"><h3 style="background:#9d62dc">Petunjuk</h3><div class="tip" id="tip">Mulai dari nomor 1, lalu ikuti panah nomor 2 dan 3.</div></div>
-</aside>
-</section>
-
+<main class="center"><canvas id="board"></canvas><div class="info">① ② ③ Ikuti nomor dan arah panah, lalu tulis dengan jari.</div><button class="clear" onclick="clearBoard()">🧽 Bersihkan</button></main>
+<aside class="panel">
+<div class="card"><h3>Contoh Kata</h3><div class="example" id="emoji">🍎</div><div class="word" id="word">Apel</div></div>
+<div class="card"><h3 style="background:#ed4f83">Cara Mengeja</h3><div id="spell" class="spell"></div></div>
+<div class="card"><h3 style="background:#f2ac20">Cara Mengucapkan</h3><div class="quote" id="quote">“Aaaa...”</div></div>
+<div class="card"><h3 style="background:#9b62dc">Petunjuk</h3><div class="tip">Mulai dari ①, lanjutkan ②, lalu ③.</div></div>
+</aside></section>
 <nav class="bottom">
 <button class="nav prev" onclick="prev()">⬅ Sebelumnya</button>
-<button class="nav letters" onclick="setMode('letters')">🔤 Huruf A–Z</button>
-<button class="nav numbers" onclick="setMode('numbers')">🔢 Angka 1–10</button>
-<button class="nav fav" onclick="favorite()">⭐ Favorit</button>
+<button class="nav letters" onclick="mode='letters';i=0;render()">🔤 Huruf A–Z</button>
+<button class="nav numbers" onclick="mode='numbers';i=0;render()">🔢 Angka 1–10</button>
+<button class="nav fav" onclick="fav()">⭐ Favorit</button>
 <button class="nav next" onclick="next()">Berikutnya ➡</button>
-</nav>
-</div>
-
+</nav></div>
 <script>
-const letters=[
-["A","Apel","🍎","Aaaa","A-P-E-L"],["B","Bola","⚽","Beee","B-O-L-A"],["C","Ceri","🍒","Ceee","C-E-R-I"],["D","Domba","🐑","Deee","D-O-M-B-A"],
-["E","Elang","🦅","Eeee","E-L-A-N-G"],["F","Foto","📷","Efff","F-O-T-O"],["G","Gajah","🐘","Geee","G-A-J-A-H"],["H","Harimau","🐯","Haaa","H-A-R-I-M-A-U"],
-["I","Ikan","🐟","Iiii","I-K-A-N"],["J","Jeruk","🍊","Jeee","J-E-R-U-K"],["K","Kucing","🐱","Kaaa","K-U-C-I-N-G"],["L","Lemon","🍋","Ellll","L-E-M-O-N"],
-["M","Mangga","🥭","Emmm","M-A-N-G-G-A"],["N","Nanas","🍍","Ennn","N-A-N-A-S"],["O","Obor","🔦","Oooo","O-B-O-R"],["P","Pisang","🍌","Peee","P-I-S-A-N-G"],
-["Q","Quran","📖","Kiuuu","Q-U-R-A-N"],["R","Roti","🍞","Errr","R-O-T-I"],["S","Sapi","🐄","Esss","S-A-P-I"],["T","Topi","🎩","Teee","T-O-P-I"],
-["U","Ular","🐍","Uuuu","U-L-A-R"],["V","Vas","🏺","Veee","V-A-S"],["W","Wortel","🥕","Weee","W-O-R-T-E-L"],["X","Xylophone","🎵","Eks","X-Y-L-O-P-H-O-N-E"],
-["Y","Yoyo","🪀","Yeee","Y-O-Y-O"],["Z","Zebra","🦓","Zet","Z-E-B-R-A"]];
-const numbers=[
-["1","Satu","1","Saaatu","S-A-T-U"],["2","Dua","2","Duuu-a","D-U-A"],["3","Tiga","3","Tii-ga","T-I-G-A"],["4","Empat","4","Em-paat","E-M-P-A-T"],["5","Lima","5","Lii-ma","L-I-M-A"],
-["6","Enam","6","E-naaam","E-N-A-M"],["7","Tujuh","7","Tujuuuh","T-U-J-U-H"],["8","Delapan","8","Delaaapan","D-E-L-A-P-A-N"],["9","Sembilan","9","Sembilaaaan","S-E-M-B-I-L-A-N"],["10","Sepuluh","🔟","Sepuluh","S-E-P-U-L-U-H"]];
-
-let mode="letters",idx=0,favs=new Set(),drawing=false;
-const c=document.getElementById("canvas"),x=c.getContext("2d");
-
-function item(){return (mode==="letters"?letters:numbers)[idx]}
-function setMode(m){mode=m;idx=0;render();toast(m==="letters"?"🔤 Huruf A–Z":"🔢 Angka 1–10")}
+const L=[["A", "a", "Apel", "🍎", "A-P-E-L"], ["B", "b", "Bola", "⚽", "B-O-L-A"], ["C", "c", "Ceri", "🍒", "C-E-R-I"], ["D", "d", "Domba", "🐑", "D-O-M-B-A"], ["E", "e", "Elang", "🦅", "E-L-A-N-G"], ["F", "f", "Flamingo", "🦩", "F-L-A-M-I-N-G-O"], ["G", "g", "Gajah", "🐘", "G-A-J-A-H"], ["H", "h", "Harimau", "🐯", "H-A-R-I-M-A-U"], ["I", "i", "Ikan", "🐟", "I-K-A-N"], ["J", "j", "Jeruk", "🍊", "J-E-R-U-K"], ["K", "k", "Kucing", "🐱", "K-U-C-I-N-G"], ["L", "l", "Lemon", "🍋", "L-E-M-O-N"], ["M", "m", "Mangga", "🥭", "M-A-N-G-G-A"], ["N", "n", "Nanas", "🍍", "N-A-N-A-S"], ["O", "o", "Obor", "🔦", "O-B-O-R"], ["P", "p", "Pisang", "🍌", "P-I-S-A-N-G"], ["Q", "q", "Quran", "📖", "Q-U-R-A-N"], ["R", "r", "Roti", "🍞", "R-O-T-I"], ["S", "s", "Sapi", "🐄", "S-A-P-I"], ["T", "t", "Topi", "🎩", "T-O-P-I"], ["U", "u", "Ular", "🐍", "U-L-A-R"], ["V", "v", "Vas", "🏺", "V-A-S"], ["W", "w", "Wortel", "🥕", "W-O-R-T-E-L"], ["X", "x", "Xilofon", "🎵", "X-I-L-O-F-O-N"], ["Y", "y", "Yoyo", "🪀", "Y-O-Y-O"], ["Z", "z", "Zebra", "🦓", "Z-E-B-R-A"]];
+const N=[["1", "Satu", "1", "S-A-T-U"], ["2", "Dua", "2", "D-U-A"], ["3", "Tiga", "3", "T-I-G-A"], ["4", "Empat", "4", "E-M-P-A-T"], ["5", "Lima", "5", "L-I-M-A"], ["6", "Enam", "6", "E-N-A-M"], ["7", "Tujuh", "7", "T-U-J-U-H"], ["8", "Delapan", "8", "D-E-L-A-P-A-N"], ["9", "Sembilan", "9", "S-E-M-B-I-L-A-N"], ["10", "Sepuluh", "10", "S-E-P-U-L-U-H"]];
+let mode='letters',i=0,draw=false,favorites=new Set();
+const data=()=>mode==='letters'?L[i]:N[i], board=document.getElementById('board'),ctx=board.getContext('2d');
 function render(){
- const d=item();
- document.getElementById("titleMode").textContent=mode==="letters"?"HURUF":"ANGKA";
- document.getElementById("pronounce").textContent=d[3]+"...";
- document.getElementById("example").textContent=d[2];
- document.getElementById("word").textContent=d[1];
- document.getElementById("quote").textContent="“"+d[3]+"...”";
- document.getElementById("spell").innerHTML=d[4].split("-").map(a=>`<b>${a}</b>`).join("");
- document.getElementById("tip").textContent=mode==="letters"?"Mulai dari nomor 1, lalu ikuti panah nomor 2 dan 3.":"Ikuti nomor dan panah satu per satu.";
- resize(); speakLater();
+ const d=data(), letter=mode==='letters'; document.getElementById('modeName').textContent=letter?'HURUF':'ANGKA';
+ document.getElementById('pronounce').textContent=letter?d[0]+'aaa...':'Angka '+d[0];
+ document.getElementById('emoji').textContent=d[3]; document.getElementById('word').textContent=d[2];
+ document.getElementById('quote').textContent='“'+(letter?d[0]+'...':d[1])+'”';
+ document.getElementById('spell').innerHTML=d[4].split('-').map(x=>'<b>'+x+'</b>').join('');
+ resize(); setTimeout(speak,180);
 }
-function resize(){
- const r=c.getBoundingClientRect(),dpr=devicePixelRatio||1;
- c.width=r.width*dpr;c.height=r.height*dpr;x.setTransform(dpr,0,0,dpr,0,0);
- drawGuide(item()[0],mode==="letters");
-}
-function drawGuide(ch,isLetter){
- const w=c.clientWidth,h=c.clientHeight;x.clearRect(0,0,w,h);
- x.textAlign="center";x.textBaseline="middle";
- const fs=isLetter?Math.min(h*.82,w*.70):(ch.length>1?Math.min(h*.55,w*.5):Math.min(h*.78,w*.55));
- x.font=`900 ${fs}px Arial`;
- x.strokeStyle="#151515";x.lineWidth=Math.max(4,Math.min(8,w/150));x.setLineDash([12,12]);x.strokeText(ch,w/2,h/2-4);
-
- /* Each arrow is deliberately placed on a different part of the letter.
-    No giant crossing arrows are drawn over one another. */
- if(isLetter && ch==="A"){
-   arrow(w*.40,h*.78,w*.49,h*.18,"#ef2773",1);
-   arrow(w*.60,h*.78,w*.51,h*.18,"#2588e5",2);
-   arrow(w*.39,h*.56,w*.61,h*.56,"#55b52f",3);
- }else if(isLetter){
-   const colors=["#ef2773","#2588e5","#55b52f"];
-   arrow(w*.38,h*.72,w*.50,h*.25,colors[0],1);
-   arrow(w*.62,h*.72,w*.52,h*.42,colors[1],2);
-   arrow(w*.43,h*.58,w*.57,h*.58,colors[2],3);
+function resize(){let r=board.getBoundingClientRect(),q=devicePixelRatio||1;board.width=r.width*q;board.height=r.height*q;ctx.setTransform(q,0,0,q,0,0);guide()}
+function guide(){
+ const d=data(),letter=mode==='letters',w=board.clientWidth,h=board.clientHeight;ctx.clearRect(0,0,w,h);
+ let fs=letter?Math.min(h*.65,w*.58):(String(d[0]).length>1?Math.min(h*.52,w*.45):Math.min(h*.70,w*.48));
+ ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='900 '+fs+'px Arial';
+ // Separate uppercase and lowercase guides.
+ if(letter){
+   ctx.setLineDash([16,13]);ctx.lineWidth=6;ctx.strokeStyle='#171717';
+   ctx.strokeText(d[0],w*.40,h*.43);ctx.strokeText(d[1],w*.65,h*.61);
+   ctx.setLineDash([]);
+   arrow(w*.26,h*.68,w*.39,h*.18,'#ef2773','1');
+   arrow(w*.52,h*.18,w*.52,h*.40,'#268be8','2');
+   arrow(w*.55,h*.72,w*.76,h*.58,'#56b52f','3');
  }else{
-   arrow(w*.46,h*.70,w*.53,h*.28,"#ef2773",1);
-   arrow(w*.56,h*.66,w*.66,h*.48,"#2588e5",2);
+   ctx.setLineDash([16,13]);ctx.lineWidth=6;ctx.strokeStyle='#171717';ctx.strokeText(d[0],w/2,h*.46);ctx.setLineDash([]);
+   arrow(w*.35,h*.72,w*.50,h*.23,'#ef2773','1');arrow(w*.55,h*.23,w*.68,h*.58,'#268be8','2');
  }
 }
-function arrow(x1,y1,x2,y2,color,n){
- x.save();x.strokeStyle=color;x.fillStyle=color;x.lineWidth=Math.max(3,Math.min(6,c.clientWidth/180));x.setLineDash([9,11]);
- x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke();x.setLineDash([]);
- const a=Math.atan2(y2-y1,x2-x1),s=14;
- x.beginPath();x.moveTo(x2,y2);x.lineTo(x2-s*Math.cos(a-.5),y2-s*Math.sin(a-.5));x.lineTo(x2-s*Math.cos(a+.5),y2-s*Math.sin(a+.5));x.closePath();x.fill();
- x.beginPath();x.arc(x1+(x2-x1)*.5,y1+(y2-y1)*.5,16,0,Math.PI*2);x.fill();
- x.fillStyle="#fff";x.font="900 17px Arial";x.textAlign="center";x.textBaseline="middle";x.fillText(n,x1+(x2-x1)*.5,y1+(y2-y1)*.5);x.restore();
-}
-function point(e){const r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
-c.addEventListener("pointerdown",e=>{drawing=true;c.setPointerCapture(e.pointerId);let p=point(e);x.beginPath();x.moveTo(p.x,p.y)});
-c.addEventListener("pointermove",e=>{if(!drawing)return;let p=point(e);x.strokeStyle="#7139d8";x.lineWidth=Math.max(6,Math.min(12,c.clientWidth/80));x.lineCap="round";x.lineJoin="round";x.lineTo(p.x,p.y);x.stroke()});
-["pointerup","pointercancel"].forEach(ev=>c.addEventListener(ev,()=>drawing=false));
-function clearCanvas(){drawGuide(item()[0],mode==="letters");toast("🧽 Bersih! Coba lagi!")}
-function next(){let max=mode==="letters"?25:9;if(idx<max){idx++;render()}else toast("🌟 Ini halaman terakhir")}
-function prev(){if(idx>0){idx--;render()}else toast("🌟 Ini halaman pertama")}
-function favorite(){let k=mode+idx;if(favs.has(k)){favs.delete(k);toast("☆ Dihapus dari favorit")}else{favs.add(k);toast("⭐ Ditambahkan ke favorit")}}
-function speakLater(){setTimeout(()=>speakLesson(),220)}
-function speakLesson(){
- if(!("speechSynthesis" in window)){toast("🔊 Suara tidak tersedia di browser");return}
- const d=item(), text=mode==="letters"
- ?`Hai teman! Ini huruf ${d[0]}. ${d[3]}. Contohnya ${d[0]} untuk ${d[1]}. Yuk eja pelan-pelan: ${d[4].split("-").join(", ")}.`
- :`Hai teman! Ini angka ${d[0]}. Namanya ${d[1]}. Yuk ucapkan pelan-pelan: ${d[3]}.`;
- speechSynthesis.cancel();
- const u=new SpeechSynthesisUtterance(text);
- u.lang="id-ID";u.rate=.48;u.pitch=1.65;u.volume=1;
- const voices=speechSynthesis.getVoices();
- const preferred=voices.find(v=>/id[-_]ID/i.test(v.lang))||voices.find(v=>/indones/i.test(v.name));
- if(preferred)u.voice=preferred;
- speechSynthesis.speak(u);
-}
-function toast(t){const z=document.createElement("div");z.textContent=t;Object.assign(z.style,{position:"fixed",left:"50%",top:"13%",transform:"translateX(-50%)",zIndex:100,padding:"9px 18px",borderRadius:"20px",background:"#6935d5",color:"#fff",fontWeight:"900",boxShadow:"0 4px 10px #0005"});document.body.appendChild(z);setTimeout(()=>z.remove(),1200)}
-window.addEventListener("resize",resize);
-if("speechSynthesis" in window)speechSynthesis.getVoices();
-render();
-</script>
-</body>
-</html>
+function arrow(x1,y1,x2,y2,c,n){ctx.save();ctx.strokeStyle=c;ctx.fillStyle=c;ctx.lineWidth=6;ctx.setLineDash([11,11]);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([]);let a=Math.atan2(y2-y1,x2-x1),s=18;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-s*Math.cos(a-.5),y2-s*Math.sin(a-.5));ctx.lineTo(x2-s*Math.cos(a+.5),y2-s*Math.sin(a+.5));ctx.closePath();ctx.fill();ctx.beginPath();ctx.arc(x1+(x2-x1)*.5,y1+(y2-y1)*.5,19,0,7);ctx.fill();ctx.fillStyle='white';ctx.font='900 18px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(n,x1+(x2-x1)*.5,y1+(y2-y1)*.5);ctx.restore()}
+function pos(e){let r=board.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+board.addEventListener('pointerdown',e=>{draw=true;board.setPointerCapture(e.pointerId);let p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y)});
+board.addEventListener('pointermove',e=>{if(!draw)return;let p=pos(e);ctx.strokeStyle='#7336d6';ctx.lineWidth=Math.max(6,board.clientWidth/100);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineTo(p.x,p.y);ctx.stroke()});
+['pointerup','pointercancel'].forEach(v=>board.addEventListener(v,()=>draw=false));
+function clearBoard(){guide();toast('🧽 Bersih! Ayo coba lagi!')}
+function next(){let m=mode==='letters'?L.length-1:N.length-1;if(i<m){i++;render()}else toast('🌟 Sudah yang terakhir!')}
+function prev(){if(i>0){i--;render()}else toast('🌟 Ini yang pertama!')}
+function fav(){let k=mode+i;favorites.has(k)?(favorites.delete(k),toast('☆ Dihapus')):(favorites.add(k),toast('⭐ Favorit disimpan'))}
+function speak(){if(!speechSynthesis)return;let d=data(),text=mode==='letters'?`Hai teman! Ini huruf ${d[0]}. ${d[0]} untuk ${d[2]}. Yuk eja pelan-pelan: ${d[4].replaceAll('- ', ', ')}`:`Hai teman! Ini angka ${d[0]}. Namanya ${d[1]}.`;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang='id-ID';u.rate=.45;u.pitch=1.7;let vs=speechSynthesis.getVoices();u.voice=vs.find(v=>/id[-_]ID/i.test(v.lang))||vs.find(v=>/indones/i.test(v.name))||null;speechSynthesis.speak(u)}
+function toast(t){let z=document.createElement('div');z.textContent=t;Object.assign(z.style,{position:'fixed',zIndex:99,left:'50%',top:'14%',transform:'translateX(-50%)',background:'#6636d6',color:'#fff',padding:'9px 18px',borderRadius:'20px',fontWeight:900});document.body.appendChild(z);setTimeout(()=>z.remove(),1100)}
+addEventListener('resize',resize);render();
+</script></body></html>

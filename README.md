@@ -1,25 +1,25 @@
-# 🌈 Belajar Ceria
+# 🌈 Belajar Ceria — A–Z & 1–10
 
-Aplikasi belajar anak untuk **huruf A–Z dan angka 1–10** dengan desain responsif.
+Aplikasi belajar anak dengan halaman responsif untuk HP.
 
-## Perubahan versi ini
-- Layout menyesuaikan **landscape maupun portrait**.
-- Pada portrait, panel samping disembunyikan supaya area latihan tetap besar dan tidak terpotong.
-- Pada landscape, layout menjadi tiga panel seperti desain referensi.
-- Panah penulisan dibuat **terpisah** agar tidak menumpuk.
-- Nomor 1, 2, 3 berada di jalur masing-masing.
-- Area tengah bisa dicoret menggunakan jari/stylus/mouse.
-- Suara dibuat lebih lambat dan pitch lebih tinggi agar lebih ceria.
+## Isi
+- Huruf **A–Z**, masing-masing memiliki huruf besar dan kecil.
+- Angka **1–10**.
+- Latihan menulis dengan jari/mouse/stylus.
+- Nomor dan panah langkah yang dibuat terpisah agar tidak menumpuk.
+- Suara pelan dengan pitch tinggi melalui Web Speech API.
+- **37 gambar PNG terpisah** di folder `gambar/`: A.png sampai Z.png dan 1.png sampai 10.png.
 
-## Suara
-Versi ini menggunakan Web Speech API. Browser/Android menentukan voice yang tersedia. Pengaturan dibuat lambat (`rate`) dan bernada tinggi (`pitch`) untuk mendekati gaya suara anak.
-
-Untuk **suara anak asli/natural**, diperlukan file rekaman suara karakter (MP3/OGG) yang kemudian bisa dimasukkan ke aplikasi.
-
-## Instalasi
-Upload `index.html` ke GitHub Pages.
-
+## Struktur
 ```text
 Belajar-Ceria/
-└── index.html
+├── index.html
+├── README.md
+└── gambar/
+    ├── A.png ... Z.png
+    └── 1.png ... 10.png
 ```
+
+Upload seluruh folder ke GitHub, lalu aktifkan GitHub Pages pada `index.html`.
+
+> Catatan: suara anak pada versi ini memakai suara TTS yang tersedia di perangkat. Jika ingin suara anak manusia yang benar-benar natural, rekaman MP3/OGG dapat ditambahkan pada tahap berikutnya.
