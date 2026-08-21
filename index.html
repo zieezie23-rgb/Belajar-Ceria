@@ -140,6 +140,39 @@
 
   .petunjuk-text{ font-size:14px; line-height:1.5; color:#453a5c; }
 
+  /* START / MENU SCREEN */
+  .start-screen{
+    min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; gap:22px; padding:20px;
+  }
+  .start-card{
+    background:var(--card); border-radius:32px; padding:38px 28px; box-shadow:0 10px 0 rgba(0,0,0,0.12);
+    max-width:480px; width:100%;
+  }
+  .start-title{
+    font-family:'Baloo 2',cursive; font-size:28px; color:#fff; -webkit-text-stroke:2px #B85A00;
+    margin:0 0 8px; letter-spacing:1px;
+  }
+  .start-sub{ font-size:15px; color:#6a5d82; margin:0 0 18px; font-weight:800; }
+  .start-name-row{ margin-bottom:22px; }
+  .start-name-input{
+    width:100%; box-sizing:border-box; border:3px solid #F3D9C4; border-radius:18px;
+    padding:12px 16px; font-family:'Baloo 2',cursive; font-size:17px; color:var(--ink);
+    background:#FFFDF7; text-align:center; outline:none;
+  }
+  .start-name-input:focus{ border-color:var(--pink); }
+  .start-name-input::placeholder{ color:#b5a9c7; font-family:'Nunito',sans-serif; font-weight:700; }
+  .start-options{ display:flex; flex-direction:column; gap:14px; }
+  .start-btn{
+    border:none; border-radius:24px; padding:20px; font-family:'Baloo 2'; font-weight:800; font-size:20px;
+    color:#fff; cursor:pointer; box-shadow:0 6px 0 rgba(0,0,0,0.18); display:flex; align-items:center;
+    justify-content:center; gap:12px; transition:transform .08s;
+  }
+  .start-btn:active{ transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,0.18); }
+  .start-btn.huruf{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); }
+  .start-btn.angka{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
+  .start-emoji{ font-size:28px; }
+
   /* BOTTOM NAV */
   .bottomnav{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
   .bottomnav .pillbtn{ flex:1; justify-content:center; min-width:130px; }
@@ -226,7 +259,22 @@
 </style>
 </head>
 <body>
-<div class="stage">
+
+<div class="start-screen" id="startScreen">
+  <div class="start-card">
+    <h1 class="start-title display">⭐ Belajar Huruf & Angka ⭐</h1>
+    <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
+    <div class="start-name-row">
+      <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
+    </div>
+    <div class="start-options">
+      <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🔤</span> Belajar Huruf (A–Z)</button>
+      <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🔢</span> Belajar Angka (0–9)</button>
+    </div>
+  </div>
+</div>
+
+<div class="stage" id="stage" style="display:none;">
 
   <div class="topbar">
     <button class="pillbtn pink" id="btnKembali">⟵ Kembali</button>
@@ -236,11 +284,6 @@
       <span style="font-size:22px;">⭐</span>
     </div>
     <button class="pillbtn orange" id="btnSuara">🔊 Suara Anak</button>
-  </div>
-
-  <div class="tabs">
-    <div class="tab active huruf" id="tabHuruf">🔤 Huruf (A–Z)</div>
-    <div class="tab angka" id="tabAngka">🔢 Angka (0–9)</div>
   </div>
 
   <div class="chipstrip" id="chipStrip"></div>
@@ -305,7 +348,7 @@
 <div class="celebrate-overlay" id="celebrateOverlay">
   <div class="celebrate-box">
     <div class="celebrate-emoji">🎉🥳🎉</div>
-    <div class="celebrate-title">Yeay, Kamu Pintar!</div>
+    <div class="celebrate-title" id="celebrateTitle">Yeay, Kamu Pintar!</div>
     <div class="celebrate-sub">Coretanmu bagus sekali ✨</div>
   </div>
 </div>
@@ -330,7 +373,7 @@ const LETTERS = [
   {ch:'N', word:'Nanas', emoji:'🍍', say:'En...'},
   {ch:'O', word:'Ombak', emoji:'🌊', say:'Oo...'},
   {ch:'P', word:'Pisang', emoji:'🍌', say:'Peh...'},
-  {ch:'Q', word:'Kuas', emoji:'🖌️', say:'Ki...'},
+  {ch:'Q', word:'Queen', emoji:'👑', say:'Ki...'},
   {ch:'R', word:'Rumah', emoji:'🏠', say:'Er...'},
   {ch:'S', word:'Singa', emoji:'🦁', say:'Es...'},
   {ch:'T', word:'Topi', emoji:'🎩', say:'Teh...'},
@@ -360,9 +403,11 @@ let index = 0;
 // ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
 const DASH = '14,10';
 
-// Melacak SILUET LUAR SAJA dari teks (mengabaikan lubang di dalam huruf seperti A/O/B/e/6/8/9)
-// supaya garis putus-putus tidak bertumpuk. Dilakukan dengan merender ke kanvas tersembunyi
-// lalu menelusuri tepi luarnya (boundary tracing), bukan memakai stroke pada glyph font langsung.
+// Melacak SILUET LUAR *dan* LUBANG DI DALAM huruf (mis. tengah A/O/B/e/6/8/9)
+// supaya semua tepi (luar maupun dalam) tergambar sebagai garis putus-putus.
+// Dilakukan dengan merender ke kanvas tersembunyi lalu menelusuri tepi luar
+// (outer boundary) dan tepi lubang (hole boundary) lewat boundary tracing,
+// bukan memakai stroke pada glyph font langsung.
 function traceOutlineContours(entries, fontWeight, viewBoxW, viewBoxH){
   const SCALE = 3;
   const w = Math.round(viewBoxW*SCALE), h = Math.round(viewBoxH*SCALE);
@@ -373,42 +418,17 @@ function traceOutlineContours(entries, fontWeight, viewBoxW, viewBoxH){
   cx.textAlign = 'center';
   cx.textBaseline = 'alphabetic';
   entries.forEach(e => {
-    cx.font = `${fontWeight} ${e.fontSize*SCALE}px 'Baloo 2', sans-serif`;
+    cx.font = `${fontWeight} ${e.fontSize*SCALE}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
     cx.fillText(e.text, e.x*SCALE, e.y*SCALE);
   });
 
   const data = cx.getImageData(0,0,w,h).data;
   const isFg = (x,y) => (x<0||y<0||x>=w||y>=h) ? false : data[(y*w+x)*4+3] > 120;
-  const visited = new Uint8Array(w*h);
-  const starts = [];
-
-  for(let y=0; y<h; y++){
-    for(let x=0; x<w; x++){
-      const idx = y*w+x;
-      if(visited[idx]) continue;
-      if(!isFg(x,y)){ visited[idx]=1; continue; }
-      let sx=x, sy=y;
-      const stack=[[x,y]]; visited[idx]=1;
-      while(stack.length){
-        const [px,py] = stack.pop();
-        if(py<sy || (py===sy && px<sx)){ sx=px; sy=py; }
-        const nb=[[px+1,py],[px-1,py],[px,py+1],[px,py-1]];
-        for(const [nx,ny] of nb){
-          if(nx<0||ny<0||nx>=w||ny>=h) continue;
-          const nidx=ny*w+nx;
-          if(visited[nidx]) continue;
-          visited[nidx]=1;
-          if(isFg(nx,ny)) stack.push([nx,ny]);
-        }
-      }
-      starts.push([sx,sy]);
-    }
-  }
 
   const dirs = [[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
-  function traceBoundary(sx,sy){
+  function traceBoundary(sx,sy,psx,psy){
     const start=[sx,sy];
-    let curr=start, prev=[sx-1,sy];
+    let curr=start, prev=[psx,psy];
     const pts=[curr];
     let steps=0; const maxSteps=w*h;
     do{
@@ -434,7 +454,79 @@ function traceOutlineContours(entries, fontWeight, viewBoxW, viewBoxH){
     return pts;
   }
 
-  const rawContours = starts.map(([sx,sy]) => traceBoundary(sx,sy)).filter(p => p.length > 8);
+  const rawContours = [];
+
+  // ---- 1) TEPI LUAR: scan baris demi baris, cari piksel FG yang tetangga kirinya BG ----
+  const outerTraced = new Uint8Array(w*h);
+  for(let y=0; y<h; y++){
+    for(let x=0; x<w; x++){
+      if(outerTraced[y*w+x] || !isFg(x,y) || isFg(x-1,y)) continue;
+      const pts = traceBoundary(x,y,x-1,y);
+      if(pts.length > 8) rawContours.push(pts);
+      pts.forEach(([px,py]) => { outerTraced[py*w+px]=1; });
+    }
+  }
+
+  // ---- 2) TEPI LUBANG: cari area BG yang terkurung (tidak menyentuh tepi kanvas) ----
+  const outside = new Uint8Array(w*h); // BG yang terhubung ke tepi kanvas (bukan lubang)
+  const stack = [];
+  for(let x=0; x<w; x++){
+    [0,h-1].forEach(y => { if(!isFg(x,y) && !outside[y*w+x]){ outside[y*w+x]=1; stack.push([x,y]); } });
+  }
+  for(let y=0; y<h; y++){
+    [0,w-1].forEach(x => { if(!isFg(x,y) && !outside[y*w+x]){ outside[y*w+x]=1; stack.push([x,y]); } });
+  }
+  while(stack.length){
+    const [px,py] = stack.pop();
+    const nb=[[px+1,py],[px-1,py],[px,py+1],[px,py-1]];
+    for(const [nx,ny] of nb){
+      if(nx<0||ny<0||nx>=w||ny>=h) continue;
+      const nidx=ny*w+nx;
+      if(outside[nidx] || isFg(nx,ny)) continue;
+      outside[nidx]=1;
+      stack.push([nx,ny]);
+    }
+  }
+
+  const holeVisited = new Uint8Array(w*h);
+  for(let y=0; y<h; y++){
+    for(let x=0; x<w; x++){
+      const idx = y*w+x;
+      if(isFg(x,y) || outside[idx] || holeVisited[idx]) continue;
+      // flood-fill satu lubang, sambil cari piksel paling atas-kiri di dalamnya
+      const compStack=[[x,y]]; holeVisited[idx]=1;
+      let hx=x, hy=y;
+      const holePixels=[[x,y]];
+      while(compStack.length){
+        const [px,py]=compStack.pop();
+        if(py<hy || (py===hy && px<hx)){ hx=px; hy=py; }
+        const nb=[[px+1,py],[px-1,py],[px,py+1],[px,py-1]];
+        for(const [nx,ny] of nb){
+          if(nx<0||ny<0||nx>=w||ny>=h) continue;
+          const nidx=ny*w+nx;
+          if(holeVisited[nidx] || isFg(nx,ny) || outside[nidx]) continue;
+          holeVisited[nidx]=1;
+          compStack.push([nx,ny]);
+          holePixels.push([nx,ny]);
+        }
+      }
+      // titik awal penelusuran: piksel FG yang bertetangga dengan lubang ini
+      let fgx=hx, fgy=hy-1, bgx=hx, bgy=hy;
+      if(!isFg(fgx,fgy)){
+        let found=null;
+        for(const [px,py] of holePixels){
+          const nb=[[px,py-1],[px,py+1],[px-1,py],[px+1,py]];
+          for(const [nx,ny] of nb){ if(isFg(nx,ny)){ found=[nx,ny,px,py]; break; } }
+          if(found) break;
+        }
+        if(!found) continue;
+        [fgx,fgy,bgx,bgy] = found;
+      }
+      const pts = traceBoundary(fgx,fgy,bgx,bgy);
+      if(pts.length > 8) rawContours.push(pts);
+    }
+  }
+
   const MIN_DIST = 3.2 * SCALE;
   return rawContours.map(pts => {
     const out=[]; let last=null;
@@ -460,9 +552,37 @@ function appendDashedOutline(svgEl, ns, contours){
     path.setAttribute('stroke-width','2.2');
     path.setAttribute('stroke-linecap','round');
     path.setAttribute('stroke-linejoin','round');
-    path.setAttribute('stroke-dasharray', DASH);
     svgEl.appendChild(path);
   });
+}
+
+// Kanvas kecil khusus untuk mengukur lebar tiap huruf (dipakai untuk memberi jarak spasi)
+const measureCanvas = document.createElement('canvas');
+const measureCtx = measureCanvas.getContext('2d');
+function charWidth(ch, fontSize, fontWeight){
+  measureCtx.font = `${fontWeight} ${fontSize}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
+  return measureCtx.measureText(ch).width;
+}
+
+// Menghitung ukuran font & posisi tengah tiap huruf pada kata di bawah angka
+// (mis. "Sembilan"): otomatis mengecil bila kata panjang, dan antar huruf
+// diberi jarak spasi supaya lebih mudah ditelusuri jari satu per satu.
+const WORD_LETTER_SPACING_RATIO = 0.55;
+function layoutNumberWord(word, fontWeight, centerX, maxWidth){
+  let fontSize = 190;
+  function totalWidth(fs){
+    const spacing = fs * WORD_LETTER_SPACING_RATIO;
+    let w = 0;
+    for(const ch of word) w += charWidth(ch, fs, fontWeight);
+    return w + spacing * (word.length - 1);
+  }
+  while(totalWidth(fontSize) > maxWidth && fontSize > 40){ fontSize -= 4; }
+  const spacing = fontSize * WORD_LETTER_SPACING_RATIO;
+  const widths = [...word].map(ch => charWidth(ch, fontSize, fontWeight));
+  const totalW = widths.reduce((a,b)=>a+b,0) + spacing*(word.length-1);
+  let curX = centerX - totalW/2;
+  const centers = widths.map(wd => { const cx = curX + wd/2; curX += wd + spacing; return cx; });
+  return { fontSize, centers };
 }
 
 // Huruf: dua glyph besar berdampingan dalam satu kotak lebar.
@@ -476,10 +596,10 @@ function renderHurufPair(svgEl, upper, lower){
     const t = document.createElementNS(ns,'text');
     t.setAttribute('x', String(x)); t.setAttribute('y','255');
     t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-family',"'Baloo 2', sans-serif");
+    t.setAttribute('font-family',"'Comic Sans MS', 'Comic Sans', cursive, sans-serif");
     t.setAttribute('font-weight', String(fontWeight));
     t.setAttribute('font-size', String(fontSize));
-    t.setAttribute('fill','#ffffff');
+    t.setAttribute('fill','none');
     t.textContent = text;
     svgEl.appendChild(t);
   });
@@ -502,30 +622,31 @@ function renderAngkaPair(svgEl, digit, word){
   const digitText = document.createElementNS(ns,'text');
   digitText.setAttribute('x','260'); digitText.setAttribute('y', String(digitY));
   digitText.setAttribute('text-anchor','middle');
-  digitText.setAttribute('font-family',"'Baloo 2', sans-serif");
+  digitText.setAttribute('font-family',"'Comic Sans MS', 'Comic Sans', cursive, sans-serif");
   digitText.setAttribute('font-weight', String(fontWeight));
   digitText.setAttribute('font-size', String(digitFontSize));
-  digitText.setAttribute('fill','#ffffff');
+  digitText.setAttribute('fill','none');
   digitText.textContent = digit;
   svgEl.appendChild(digitText);
 
-  const maxWidth = 480;
-  let fontSize = 190;
-  const estWidth = () => word.length * fontSize * 0.62;
-  while(estWidth() > maxWidth && fontSize > 50){ fontSize -= 4; }
+  const { fontSize, centers } = layoutNumberWord(word, fontWeight, 260, 480);
   const wordY = 400 + fontSize*0.55;
-  const wordText = document.createElementNS(ns,'text');
-  wordText.setAttribute('x','260'); wordText.setAttribute('y', String(wordY));
-  wordText.setAttribute('text-anchor','middle');
-  wordText.setAttribute('font-family',"'Baloo 2', sans-serif");
-  wordText.setAttribute('font-weight', String(fontWeight));
-  wordText.setAttribute('font-size', String(fontSize));
-  wordText.setAttribute('fill','#ffffff');
-  wordText.textContent = word;
-  svgEl.appendChild(wordText);
+  const wordEntries = [];
+  [...word].forEach((ch, i) => {
+    const t = document.createElementNS(ns,'text');
+    t.setAttribute('x', String(centers[i])); t.setAttribute('y', String(wordY));
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family',"'Comic Sans MS', 'Comic Sans', cursive, sans-serif");
+    t.setAttribute('font-weight', String(fontWeight));
+    t.setAttribute('font-size', String(fontSize));
+    t.setAttribute('fill','none');
+    t.textContent = ch;
+    svgEl.appendChild(t);
+    wordEntries.push({text:ch, x:centers[i], y:wordY, fontSize});
+  });
 
   const contours = traceOutlineContours(
-    [{text:digit,x:260,y:digitY,fontSize:digitFontSize}, {text:word,x:260,y:wordY,fontSize}],
+    [{text:digit,x:260,y:digitY,fontSize:digitFontSize}, ...wordEntries],
     fontWeight, 520, 520
   );
   appendDashedOutline(svgEl, ns, contours);
@@ -598,23 +719,23 @@ function buildMask(){
   if(mode === 'huruf'){
     const scale = canvas.width / 640;
     maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `700 ${330*scale}px 'Baloo 2', sans-serif`;
+    maskCtx.font = `700 ${330*scale}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
     const item = LETTERS[index];
     maskCtx.strokeText(item.ch, 160*scale, 255*scale);
     maskCtx.strokeText(item.ch.toLowerCase(), 480*scale, 255*scale);
   } else {
     const scale = canvas.width / 520;
     maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `700 ${300*scale}px 'Baloo 2', sans-serif`;
+    maskCtx.font = `700 ${300*scale}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
     const item = NUMBERS[index];
     maskCtx.strokeText(item.d, 260*scale, 245*scale);
 
-    const maxWidth = 480;
-    let fontSize = 190;
-    const estWidth = () => item.word.length * fontSize * 0.62;
-    while(estWidth() > maxWidth && fontSize > 50){ fontSize -= 4; }
-    maskCtx.font = `700 ${fontSize*scale}px 'Baloo 2', sans-serif`;
-    maskCtx.strokeText(item.word, 260*scale, (400 + fontSize*0.55)*scale);
+    const { fontSize, centers } = layoutNumberWord(item.word, 700, 260, 480);
+    const wordY = 400 + fontSize*0.55;
+    maskCtx.font = `700 ${fontSize*scale}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
+    [...item.word].forEach((ch,i) => {
+      maskCtx.strokeText(ch, centers[i]*scale, wordY*scale);
+    });
   }
 
   // ambil titik-titik sampel dari pola (stride biar ringan)
@@ -673,9 +794,12 @@ function celebrate(){
   const overlay = document.getElementById('celebrateOverlay');
   overlay.classList.add('show');
   spawnConfetti();
+  const name = document.getElementById('childName').value.trim();
+  const message = name ? `Yeay, ${name} kamu sangat pintar!` : 'Yeay, kamu pintar!';
+  document.getElementById('celebrateTitle').textContent = message;
   try{
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance('Yeay, kamu pintar!');
+    const u = new SpeechSynthesisUtterance(message);
     u.lang = 'id-ID';
     u.rate = 1;
     u.pitch = 1.3;
@@ -692,8 +816,6 @@ function render(){
   canvasMain.resize();
 
   document.getElementById('mainTitle').textContent = mode === 'huruf' ? 'BELAJAR HURUF' : 'BELAJAR ANGKA';
-  document.getElementById('tabHuruf').classList.toggle('active', mode==='huruf');
-  document.getElementById('tabAngka').classList.toggle('active', mode==='angka');
 
   if(mode === 'huruf'){
     wrapMain.classList.remove('angka');
@@ -718,6 +840,7 @@ function render(){
   renderChips();
   buildMask();
   updateNextButton();
+  speakCurrent();
 }
 
 function updateNextButton(){
@@ -754,15 +877,16 @@ function speakCurrent(){
 }
 
 // ---------- EVENTS ----------
-document.getElementById('tabHuruf').onclick = () => { mode='huruf'; index=0; render(); };
-document.getElementById('tabAngka').onclick = () => { mode='angka'; index=0; render(); };
 document.getElementById('btnPrev').onclick = () => { if(index>0){ index--; render(); } };
 document.getElementById('btnNext').onclick = () => {
   const list = mode === 'huruf' ? LETTERS : NUMBERS;
   if(index < list.length-1){ index++; render(); }
 };
 document.getElementById('btnClear').onclick = () => { canvasMain.clear(); celebrated = false; updateNextButton(); };
-document.getElementById('btnKembali').onclick = () => { mode='huruf'; index=0; render(); };
+document.getElementById('btnKembali').onclick = () => {
+  document.getElementById('stage').style.display = 'none';
+  document.getElementById('startScreen').style.display = '';
+};
 document.getElementById('btnSuara').onclick = speakCurrent;
 document.getElementById('btnSpeakPanel').onclick = speakCurrent;
 document.querySelectorAll('#colorPicker .swatch[data-color]').forEach(btn => {
@@ -779,12 +903,26 @@ document.getElementById('colorCustom').addEventListener('input', (e) => {
   document.querySelectorAll('#colorPicker .swatch').forEach(s => s.classList.remove('active'));
 });
 
-// ---------- INIT ----------
-if(document.fonts && document.fonts.ready){
-  document.fonts.ready.then(render).catch(render);
-} else {
-  render();
+// ---------- START / MENU ----------
+function startApp(selectedMode){
+  mode = selectedMode;
+  index = 0;
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('stage').style.display = '';
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(render).catch(render);
+  } else {
+    render();
+  }
 }
+document.getElementById('btnStartHuruf').onclick = () => startApp('huruf');
+document.getElementById('btnStartAngka').onclick = () => startApp('angka');
+
+function updateStartSub(){
+  const name = document.getElementById('childName').value.trim();
+  document.getElementById('startSub').textContent = name ? `Yuk pilih, ${name} mau belajar apa?` : 'Yuk pilih mau belajar apa dulu?';
+}
+document.getElementById('childName').addEventListener('input', updateStartSub);
 </script>
 </body>
 </html>
