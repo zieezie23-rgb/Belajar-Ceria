@@ -20,6 +20,27 @@ jobs:
         run: |
           unzip -q BelajarHurufAngka_APK_Ready.zip
 
+          cat > bh_project/settings.gradle <<'EOF'
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+
+          rootProject.name = "BelajarHurufAngka"
+          include(":app")
+          EOF
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
