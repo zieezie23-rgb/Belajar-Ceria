@@ -820,7 +820,7 @@ function celebrate(){
   }catch(e){ /* speech unavailable */ }
   setTimeout(() => {
     overlay.classList.remove('show');
-    if(mode === 'angka'){
+    if(mode === 'angka' || mode === 'huruf'){
       document.getElementById('actionOverlay').classList.add('show');
     }
   }, 2200);
@@ -946,8 +946,8 @@ function speakCurrent(){
 
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'id-ID';
-    u.rate = 0.75;
-    u.pitch = childGender === 'girl' ? 1.35 : 1.15;
+    u.rate = 0.85;
+    u.pitch = childGender === 'girl' ? 1.22 : 1.08;
     u.volume = 1;
 
     const voices = speechSynthesis.getVoices();
@@ -1045,4 +1045,21 @@ document.addEventListener('DOMContentLoaded',()=>{
    document.getElementById('actionOverlay').classList.remove('show');
  };
 });
+</script>
+
+<script>
+window.ADDITION_MODE = true;
+const ADDITION_QUESTIONS = Array.from({length:20},()=>{
+  const a=Math.floor(Math.random()*20)+1;
+  const b=Math.floor(Math.random()*20)+1;
+  return {a,b,ans:a+b};
+});
+
+function speakWrong(){
+  const u=new SpeechSynthesisUtterance('Jawaban salah');
+  u.lang='id-ID';
+  u.rate=0.9;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
 </script>
