@@ -314,7 +314,7 @@
     <div class="sidebar">
       <div class="siderow">
         <div class="card contoh">
-          <h3>Contoh Kata</h3>
+          <h3>Hitunglah</h3>
           <div class="contoh-visual" id="contohVisual">🍎</div>
           <div class="contoh-word" id="contohWord">A<span></span>pel</div>
         </div>
@@ -884,8 +884,8 @@ function renderChips(){
 function speakCurrent(){
   try{
     const text = mode === 'huruf'
-      ? LETTERS[index].ch + '. ' + LETTERS[index].say + '. Contohnya, ' + LETTERS[index].word
-      : NUMBERS[index].d + '. ' + (NUMBERS[index].syllable || NUMBERS[index].word) + '. ' + NUMBERS[index].word;
+      ? LETTERS[index].ch + '. Contohnya, ' + LETTERS[index].word
+      : NUMBERS[index].d + '. ' + NUMBERS[index].word;
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'id-ID';
     u.rate = 0.85;
