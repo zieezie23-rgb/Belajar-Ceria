@@ -314,7 +314,7 @@
     <div class="sidebar">
       <div class="siderow">
         <div class="card contoh">
-          <h3>Hitunglah</h3>
+          <h3 id='panelTitle'>Contoh Kata</h3>
           <div class="contoh-visual" id="contohVisual">🍎</div>
           <div class="contoh-word" id="contohWord">A<span></span>pel</div>
         </div>
@@ -411,6 +411,7 @@ const NUMBERS = [
 
 let mode = 'huruf'; // or 'angka'
 let index = 0;
+let childGender = 'boy';
 
 // ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
 const DASH = '14,10';
@@ -838,6 +839,7 @@ function render(){
     wrapMain.classList.remove('angka');
     const item = LETTERS[index];
     renderHurufPair(svgMain, item.ch, item.ch.toLowerCase());
+    document.getElementById('panelTitle').textContent='Contoh Kata';
     document.getElementById('contohVisual').textContent = item.emoji;
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.ch + '</span>' + item.word.slice(1);
@@ -846,6 +848,7 @@ function render(){
     wrapMain.classList.add('angka');
     const item = NUMBERS[index];
     renderAngkaPair(svgMain, item.d, item.word);
+    document.getElementById('panelTitle').textContent='Hitunglah';
     document.getElementById('contohVisual').textContent = item.emoji || '—';
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.d + '</span> = ' + item.word;
@@ -875,23 +878,75 @@ function renderChips(){
     const b = document.createElement('button');
     b.className = 'chip' + (i === index ? ' current' : '');
     b.textContent = mode === 'huruf' ? item.ch : item.d;
-    b.onclick = () => { index = i; render(); };
+    b.onclick = () => { index = i; updateVoiceButton();
+    render(); };
     strip.appendChild(b);
   });
 }
 
 // ---------- SPEECH ----------
+
+function updateVoiceButton(){
+  const btn = document.getElementById('btnSuara');
+  if(!btn) return;
+  btn.textContent = childGender === 'boy'
+    ? '👦 Anak Laki-laki'
+    : '👧 Anak Perempuan';
+}
+
+
 function speakCurrent(){
   try{
-    const text = mode === 'huruf'
-      ? LETTERS[index].ch + '. Contohnya, ' + LETTERS[index].word
-      : NUMBERS[index].d + '. ' + NUMBERS[index].word;
+    let text='';
+    if(mode === 'huruf'){
+      text = LETTERS[index].ch + ' untuk ' + LETTERS[index].word;
+    }else{
+      const item = NUMBERS[index];
+      const spellMap = {
+        'Nol':'n-o-l. nol',
+        'Satu':'s-a. sa. t-u. tu. satu',
+        'Dua':'d-u. du. a. dua',
+        'Tiga':'t-i. ti. g-a. ga. tiga',
+        'Empat':'em. pat. empat',
+        'Lima':'l-i. li. m-a. ma. lima',
+        'Enam':'e. nam. enam',
+        'Tujuh':'tu. juh. tujuh',
+        'Delapan':'de. la. pan. delapan',
+        'Sembilan':'sem. bi. lan. sembilan'
+      };
+      text = spellMap[item.word] || item.word;
+    }
+
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'id-ID';
-    u.rate = 0.85;
+    u.rate = 0.65;
+    u.pitch = childGender === 'girl' ? 2.0 : 1.2;
+    u.volume = 1;
+
+    const voices = speechSynthesis.getVoices();
+    let selectedVoice = null;
+
+    if(childGender === 'girl'){
+      selectedVoice = voices.find(v =>
+        v.lang && v.lang.startsWith('id') &&
+        /female|woman|girl/i.test(v.name)
+      );
+    } else {
+      selectedVoice = voices.find(v =>
+        v.lang && v.lang.startsWith('id') &&
+        /male|man|boy/i.test(v.name)
+      );
+    }
+
+    if(!selectedVoice){
+      selectedVoice = voices.find(v => v.lang && v.lang.startsWith('id'));
+    }
+
+    if(selectedVoice) u.voice = selectedVoice;
+
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
-  }catch(e){ /* speech unavailable */ }
+  }catch(e){}
 }
 
 // ---------- EVENTS ----------
@@ -905,7 +960,11 @@ document.getElementById('btnKembali').onclick = () => {
   document.getElementById('stage').style.display = 'none';
   document.getElementById('startScreen').style.display = '';
 };
-document.getElementById('btnSuara').onclick = speakCurrent;
+document.getElementById('btnSuara').onclick = () => {
+  childGender = childGender === 'boy' ? 'girl' : 'boy';
+  updateVoiceButton();
+  speakCurrent();
+};
 document.getElementById('btnSpeakPanel').onclick = speakCurrent;
 document.querySelectorAll('#colorPicker .swatch[data-color]').forEach(btn => {
   btn.onclick = () => {
