@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Belajar Huruf & Angka</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --sky1:#6EC6FF; --sky2:#8FD9FF;
@@ -21,18 +21,18 @@
   }
   *{box-sizing:border-box;}
   body{
-    margin:0; font-family:'Nunito',sans-serif; color:var(--ink);
+    margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
     background: linear-gradient(180deg,var(--sky1) 0%, var(--sky2) 55%, var(--grass1) 55%, var(--grass2) 100%);
     min-height:100vh; padding:14px; overflow-x:hidden;
   }
-  .display{font-family:'Baloo 2',cursive;}
+  .display{font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;}
   .stage{
     max-width:1300px; margin:0 auto; background:rgba(255,255,255,0.0);
   }
   /* HEADER */
   .topbar{ display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
   .pillbtn{
-    border:none; border-radius:40px; padding:12px 20px; font-family:'Baloo 2';
+    border:none; border-radius:40px; padding:12px 20px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
     font-weight:700; font-size:16px; color:#fff; cursor:pointer;
     box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
     display:flex; align-items:center; gap:8px; white-space:nowrap;
@@ -69,7 +69,7 @@
   /* TABS */
   .tabs{ display:flex; gap:10px; margin-bottom:12px; }
   .tab{
-    flex:1; text-align:center; padding:10px; border-radius:16px; font-family:'Baloo 2';
+    flex:1; text-align:center; padding:10px; border-radius:16px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
     font-weight:700; font-size:16px; cursor:pointer; border:3px solid transparent;
     background:rgba(255,255,255,0.55); color:#4a3d63;
   }
@@ -83,7 +83,7 @@
   }
   .chip{
     flex:0 0 auto; width:42px; height:42px; border-radius:12px; border:none;
-    font-family:'Baloo 2'; font-weight:700; font-size:18px; color:#fff; cursor:pointer;
+    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:700; font-size:18px; color:#fff; cursor:pointer;
     background:linear-gradient(180deg,#B497FF,#8C63E8); box-shadow:0 3px 0 rgba(0,0,0,0.18);
   }
   .chip.current{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); transform:scale(1.08); }
@@ -114,7 +114,7 @@
   .siderow .card{ flex:1; min-width:0; }
   .card{ background:var(--card); border-radius:22px; padding:14px; box-shadow:0 6px 0 rgba(0,0,0,0.10); }
   .card h3{
-    margin:0 0 10px; font-family:'Baloo 2'; font-size:15px; color:#fff; display:inline-block;
+    margin:0 0 10px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:15px; color:#fff; display:inline-block;
     padding:7px 16px; border-radius:16px; box-shadow:0 3px 0 rgba(0,0,0,0.15);
   }
   .card.contoh h3{ background:linear-gradient(180deg,var(--green),var(--green-dark)); }
@@ -125,13 +125,13 @@
     text-align:center; font-size:46px; line-height:1; margin:6px 0 8px;
     background:#FFF6DC; border-radius:16px; padding:12px 4px;
   }
-  .contoh-word{ text-align:center; font-family:'Baloo 2'; font-size:20px; font-weight:800; }
+  .contoh-word{ text-align:center; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:20px; font-weight:800; }
   .contoh-word .hl{ color:var(--pink-dark); }
 
   .ucap-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .ucap-row > div:not(.ucap-face){ flex:1; min-width:0; }
   .ucap-face{ font-size:30px; }
-  .ucap-text{ font-family:'Baloo 2'; font-size:18px; font-weight:800; color:var(--orange-dark); }
+  .ucap-text{ font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:18px; font-weight:800; color:var(--orange-dark); }
   .ucap-sub{ font-size:11px; color:#8a7e9c; margin-top:2px; }
 
   @media (max-width:560px){
@@ -145,7 +145,7 @@
     position:absolute; top:10px; right:10px; z-index:20;
     width:42px; height:42px; border:3px solid #fff; border-radius:50%;
     background:linear-gradient(180deg,var(--blue),var(--blue-dark)); color:#fff;
-    font-family:'Baloo 2'; font-size:24px; line-height:1; font-weight:800; cursor:pointer;
+    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:24px; line-height:1; font-weight:800; cursor:pointer;
     box-shadow:0 4px 0 rgba(0,0,0,0.18); transition:transform .1s, box-shadow .1s;
     display:flex; align-items:center; justify-content:center;
   }
@@ -164,7 +164,7 @@
   }
   .help-overlay.show .help-box{ transform:scale(1); }
   .help-icon{ font-size:44px; margin-bottom:4px; }
-  .help-title{ font-family:'Baloo 2'; font-size:25px; font-weight:800; color:var(--blue-dark); margin:0 0 10px; }
+  .help-title{ font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:25px; font-weight:800; color:var(--blue-dark); margin:0 0 10px; }
   .help-text{ font-size:16px; line-height:1.55; color:#453a5c; font-weight:700; margin:0 0 18px; }
 
   /* START / MENU SCREEN */
@@ -187,7 +187,7 @@
     position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:2;
   }
   .floaty-item{
-    position:absolute; bottom:-60px; font-family:'Baloo 2',cursive; font-weight:800;
+    position:absolute; bottom:-60px; font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-weight:800;
     user-select:none; will-change:transform,opacity; opacity:0;
     animation-name:floatyRise; animation-timing-function:ease-in-out; animation-iteration-count:infinite;
     text-shadow:0 3px 0 rgba(0,0,0,0.08);
@@ -377,7 +377,7 @@
     50%{ transform:scaleX(1); opacity:0.3; }
   }
   .start-title{
-    font-family:'Baloo 2',cursive;
+    font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;
     font-size:clamp(24px,5vw,40px);
     color:#fff;
     -webkit-text-stroke:2.5px #B85A00;
@@ -400,11 +400,11 @@
   .start-name-row{ margin-bottom:22px; }
   .start-name-input{
     width:100%; box-sizing:border-box; border:3px solid #F3D9C4; border-radius:18px;
-    padding:12px 16px; font-family:'Baloo 2',cursive; font-size:17px; color:var(--ink);
+    padding:12px 16px; font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:17px; color:var(--ink);
     background:#FFFDF7; text-align:center; outline:none;
   }
   .start-name-input:focus{ border-color:var(--pink); }
-  .start-name-input::placeholder{ color:#b5a9c7; font-family:'Nunito',sans-serif; font-weight:700; }
+  .start-name-input::placeholder{ color:#b5a9c7; font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:700; }
   .start-options{ display:flex; flex-direction:column; gap:12px; }
 
   /* Tombol menu: rapi & minimalis tapi tetap "hidup" -- warna gradasi
@@ -413,7 +413,7 @@
      interaktif dan menarik, bukan datar. */
   .start-btn{
     border:none; border-radius:20px; padding:17px 22px;
-    font-family:'Baloo 2'; font-weight:800; font-size:19px; letter-spacing:0.3px;
+    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:800; font-size:19px; letter-spacing:0.3px;
     color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:14px;
     position:relative; overflow:hidden;
     box-shadow:0 6px 0 rgba(0,0,0,0.16), 0 10px 18px rgba(0,0,0,0.16);
@@ -484,7 +484,7 @@
 
   .speakbtn-full{
     width:100%; margin-top:10px; border:none; border-radius:14px; padding:9px;
-    font-family:'Baloo 2'; font-weight:700; font-size:14px; color:#fff; cursor:pointer;
+    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:700; font-size:14px; color:#fff; cursor:pointer;
     background:linear-gradient(180deg,var(--orange),var(--orange-dark)); box-shadow:0 4px 0 rgba(0,0,0,0.18);
   }
   .speakbtn-full:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
@@ -516,10 +516,10 @@
     50%{ transform:translateY(-14px) rotate(-6deg); }
   }
   .celebrate-title{
-    font-family:'Baloo 2',cursive; font-size:30px; font-weight:800; color:var(--pink-dark);
+    font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:30px; font-weight:800; color:var(--pink-dark);
     -webkit-text-stroke:1.5px #fff; margin:6px 0 2px;
   }
-  .celebrate-sub{ font-family:'Baloo 2',cursive; font-size:18px; font-weight:700; color:#7E4CE0; }
+  .celebrate-sub{ font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:18px; font-weight:700; color:#7E4CE0; }
   .confetti-layer{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:998; }
   .confetti-piece{
     position:absolute; top:-40px; font-size:22px; opacity:0;
@@ -715,32 +715,32 @@
 <script>
 // ---------- DATA ----------
 const LETTERS = [
-  {ch:'A', word:'Ayam', wordEN:'Ant', emoji:'🐜', say:'Aaa...', sayEN:'Ay...'},
-  {ch:'B', word:'Bebek', wordEN:'Bear', emoji:'🐻', say:'Beh...', sayEN:'Buh...'},
-  {ch:'C', word:'Cicak', wordEN:'Cat', emoji:'🐱', say:'Ceh...', sayEN:'Kuh...'},
-  {ch:'D', word:'Domba', wordEN:'Dog', emoji:'🐶', say:'Deh...', sayEN:'Duh...'},
-  {ch:'E', word:'Elang', wordEN:'Elephant', emoji:'🐘', say:'Eh...', sayEN:'Eh...'},
-  {ch:'F', word:'Flamingo', wordEN:'Fox', emoji:'🦊', say:'Ef...', sayEN:'Fuh...'},
-  {ch:'G', word:'Gajah', wordEN:'Giraffe', emoji:'🦒', say:'Geh...', sayEN:'Juh...'},
-  {ch:'H', word:'Harimau', wordEN:'Horse', emoji:'🐴', say:'Ha...', sayEN:'Huh...'},
-  {ch:'I', word:'Ikan', wordEN:'Iguana', emoji:'🦎', say:'Ii...', sayEN:'Eye...'},
-  {ch:'J', word:'Jerapah', wordEN:'Jaguar', emoji:'🐆', say:'Jeh...', sayEN:'Juh...'},
-  {ch:'K', word:'Kucing', wordEN:'Kangaroo', emoji:'🦘', say:'Ka...', sayEN:'Kuh...'},
-  {ch:'L', word:'Lebah', wordEN:'Lion', emoji:'🦁', say:'El...', sayEN:'Luh...'},
-  {ch:'M', word:'Monyet', wordEN:'Monkey', emoji:'🐒', say:'Em...', sayEN:'Muh...'},
-  {ch:'N', word:'Nyamuk', wordEN:'Narwhal', emoji:'🐋', say:'En...', sayEN:'Nahr...'},
-  {ch:'O', word:'Onta', wordEN:'Owl', emoji:'🦉', say:'Oo...', sayEN:'Oh...'},
-  {ch:'P', word:'Penyu', wordEN:'Penguin', emoji:'🐧', say:'Peh...', sayEN:'Puh...'},
-  {ch:'Q', word:'Queen', wordEN:'Quail', emoji:'🐦', say:'Ki...', sayEN:'Kwail...'},
-  {ch:'R', word:'Rusa', wordEN:'Rabbit', emoji:'🐰', say:'Er...', sayEN:'Ruh...'},
-  {ch:'S', word:'Singa', wordEN:'Snake', emoji:'🐍', say:'Es...', sayEN:'Sss...'},
-  {ch:'T', word:'Tikus', wordEN:'Tiger', emoji:'🐯', say:'Teh...', sayEN:'Tih...'},
-  {ch:'U', word:'Ular', wordEN:'Urchin', emoji:'🦔', say:'Uu...', sayEN:'Uh...'},
-  {ch:'V', word:'Vas Bunga', wordEN:'Vulture', emoji:'🦅', say:'Vee...', sayEN:'Vee...'},
-  {ch:'W', word:'Wortel', wordEN:'Wolf', emoji:'🐺', say:'Weh...', sayEN:'Wuh...'},
-  {ch:'X', word:'Xilofon', wordEN:'X-ray Tetra', emoji:'🐟', say:'Eks...', sayEN:'Eks...'},
-  {ch:'Y', word:'Yak', wordEN:'Yak', emoji:'🐂', say:'Ye...', sayEN:'Yuh...'},
-  {ch:'Z', word:'Zebra', wordEN:'Zebra', emoji:'🦓', say:'Zet...', sayEN:'Zee...'},
+  {ch:'A', word:'Ayam', wordEN:'Ant', emoji:'🐔', emojiEN:'🐜', say:'Aaa...', sayEN:'Ay...'},
+  {ch:'B', word:'Bebek', wordEN:'Bear', emoji:'🦆', emojiEN:'🐻', say:'Beh...', sayEN:'Buh...'},
+  {ch:'C', word:'Cicak', wordEN:'Cat', emoji:'🦎', emojiEN:'🐱', say:'Ceh...', sayEN:'Kuh...'},
+  {ch:'D', word:'Domba', wordEN:'Dog', emoji:'🐑', emojiEN:'🐶', say:'Deh...', sayEN:'Duh...'},
+  {ch:'E', word:'Elang', wordEN:'Elephant', emoji:'🦅', emojiEN:'🐘', say:'Eh...', sayEN:'Eh...'},
+  {ch:'F', word:'Flamingo', wordEN:'Fox', emoji:'🦩', emojiEN:'🦊', say:'Ef...', sayEN:'Fuh...'},
+  {ch:'G', word:'Gajah', wordEN:'Giraffe', emoji:'🐘', emojiEN:'🦒', say:'Geh...', sayEN:'Juh...'},
+  {ch:'H', word:'Harimau', wordEN:'Horse', emoji:'🐯', emojiEN:'🐴', say:'Ha...', sayEN:'Huh...'},
+  {ch:'I', word:'Ikan', wordEN:'Iguana', emoji:'🐟', emojiEN:'🦎', say:'Ii...', sayEN:'Eye...'},
+  {ch:'J', word:'Jerapah', wordEN:'Jaguar', emoji:'🦒', emojiEN:'🐆', say:'Jeh...', sayEN:'Juh...'},
+  {ch:'K', word:'Kucing', wordEN:'Kangaroo', emoji:'🐱', emojiEN:'🦘', say:'Ka...', sayEN:'Kuh...'},
+  {ch:'L', word:'Lebah', wordEN:'Lion', emoji:'🐝', emojiEN:'🦁', say:'El...', sayEN:'Luh...'},
+  {ch:'M', word:'Monyet', wordEN:'Monkey', emoji:'🐒', emojiEN:'🐒', say:'Em...', sayEN:'Muh...'},
+  {ch:'N', word:'Nyamuk', wordEN:'Narwhal', emoji:'🦟', emojiEN:'🐋', say:'En...', sayEN:'Nahr...'},
+  {ch:'O', word:'Onta', wordEN:'Owl', emoji:'🐪', emojiEN:'🦉', say:'Oo...', sayEN:'Oh...'},
+  {ch:'P', word:'Penyu', wordEN:'Penguin', emoji:'🐢', emojiEN:'🐧', say:'Peh...', sayEN:'Puh...'},
+  {ch:'Q', word:'Queen', wordEN:'Quail', emoji:'👑', emojiEN:'🐦', say:'Ki...', sayEN:'Kwail...'},
+  {ch:'R', word:'Rusa', wordEN:'Rabbit', emoji:'🦌', emojiEN:'🐰', say:'Er...', sayEN:'Ruh...'},
+  {ch:'S', word:'Singa', wordEN:'Snake', emoji:'🦁', emojiEN:'🐍', say:'Es...', sayEN:'Sss...'},
+  {ch:'T', word:'Tikus', wordEN:'Tiger', emoji:'🐭', emojiEN:'🐯', say:'Teh...', sayEN:'Tih...'},
+  {ch:'U', word:'Ular', wordEN:'Urchin', emoji:'🐍', emojiEN:'🦔', say:'Uu...', sayEN:'Uh...'},
+  {ch:'V', word:'Vas Bunga', wordEN:'Vulture', emoji:'🏺', emojiEN:'🦅', say:'Vee...', sayEN:'Vee...'},
+  {ch:'W', word:'Wortel', wordEN:'Wolf', emoji:'🥕', emojiEN:'🐺', say:'Weh...', sayEN:'Wuh...'},
+  {ch:'X', word:'Xilofon', wordEN:'X-ray Tetra', emoji:'🎶', emojiEN:'🐟', say:'Eks...', sayEN:'Eks...'},
+  {ch:'Y', word:'Yak', wordEN:'Yak', emoji:'🐂', emojiEN:'🐂', say:'Ye...', sayEN:'Yuh...'},
+  {ch:'Z', word:'Zebra', wordEN:'Zebra', emoji:'🦓', emojiEN:'🦓', say:'Zet...', sayEN:'Zee...'},
 ];
 const NUMBERS = [
   {d:'0', word:'Nol', wordEN:'Zero', emoji:'', syllable:'n-o-l, nol', syllableEN:'z-e-r-o, zero'},
@@ -778,7 +778,7 @@ function traceOutlineContours(entries, fontWeight, viewBoxW, viewBoxH){
   cx.textAlign = 'center';
   cx.textBaseline = 'alphabetic';
   entries.forEach(e => {
-    cx.font = `${fontWeight} ${e.fontSize*SCALE}px 'Fredoka', sans-serif`;
+    cx.font = `${fontWeight} ${e.fontSize*SCALE}px Arial,Helvetica,sans-serif`;
     cx.fillText(e.text, e.x*SCALE, e.y*SCALE);
   });
 
@@ -933,7 +933,7 @@ function rasterizeGlyphBBox(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH, 
   cx.fillStyle = '#000';
   cx.textAlign = 'center';
   cx.textBaseline = 'alphabetic';
-  cx.font = `${fontWeight} ${fontSize*SCALE}px 'Fredoka', sans-serif`;
+  cx.font = `${fontWeight} ${fontSize*SCALE}px Arial,Helvetica,sans-serif`;
   cx.fillText(ch, x*SCALE, y*SCALE);
   const data = cx.getImageData(0,0,w,h).data;
   let minX=w, minY=h, maxX=-1, maxY=-1;
@@ -1221,8 +1221,17 @@ function buildSkeletonSubpaths(ch, x, y, fontSize, fontWeight, viewBoxW, viewBox
 function buildGuidePathD(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH){
   const subpaths = buildSkeletonSubpaths(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH);
   if(!subpaths.length) return null;
+  // Urutkan goresan kiri->kanan, atas->bawah (dipakai titik AWAL tiap goresan
+  // sebagai acuan utama, titik Y sebagai pemecah seri) supaya jari bergerak
+  // maju secara konsisten satu arah, tidak melompat mundur ke goresan yang
+  // posisinya sudah terlewati.
+  const ordered = subpaths.slice().sort((a,b) => {
+    const dx = a[0][0]-b[0][0];
+    if(Math.abs(dx) > 4) return dx;
+    return a[0][1]-b[0][1];
+  });
   let d = '';
-  subpaths.forEach(pts => {
+  ordered.forEach(pts => {
     if(pts.length === 2){
       d += `M ${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)} L ${pts[1][0].toFixed(1)},${pts[1][1].toFixed(1)} `;
       return;
@@ -1294,7 +1303,7 @@ document.getElementById('btnHandGuide').onclick = () => setHandGuideVisible(!han
 const measureCanvas = document.createElement('canvas');
 const measureCtx = measureCanvas.getContext('2d');
 function charWidth(ch, fontSize, fontWeight){
-  measureCtx.font = `${fontWeight} ${fontSize}px 'Fredoka', sans-serif`;
+  measureCtx.font = `${fontWeight} ${fontSize}px Arial,Helvetica,sans-serif`;
   return measureCtx.measureText(ch).width;
 }
 
@@ -1330,7 +1339,7 @@ function renderHurufPair(svgEl, upper, lower){
     const t = document.createElementNS(ns,'text');
     t.setAttribute('x', String(x)); t.setAttribute('y','255');
     t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-family',"'Fredoka', sans-serif");
+    t.setAttribute('font-family',"Arial,Helvetica,sans-serif");
     t.setAttribute('font-weight', String(fontWeight));
     t.setAttribute('font-size', String(fontSize));
     t.setAttribute('fill','none');
@@ -1338,11 +1347,8 @@ function renderHurufPair(svgEl, upper, lower){
     svgEl.appendChild(t);
   });
 
-  const contours = traceOutlineContours(
-    [{text:upper,x:160,y:255,fontSize},{text:lower,x:480,y:255,fontSize}],
-    fontWeight, 640, 360
-  );
-  appendDashedOutline(svgEl, ns, contours);
+  // Garis panduan huruf (dashed outline) disembunyikan — hanya area kecocokan
+  // ungu transparan di matchAreaCanvas yang ditampilkan sebagai penuntun.
   appendHandGuide(svgEl, ns, buildGuidePathD(upper, 160, 255, fontSize, fontWeight, 640, 360));
 }
 // Angka: digit di atas, tulisan di bawah dalam satu kotak.
@@ -1357,7 +1363,7 @@ function renderAngkaPair(svgEl, digit, word){
   const digitText = document.createElementNS(ns,'text');
   digitText.setAttribute('x','260'); digitText.setAttribute('y', String(digitY));
   digitText.setAttribute('text-anchor','middle');
-  digitText.setAttribute('font-family',"'Fredoka', sans-serif");
+  digitText.setAttribute('font-family',"Arial,Helvetica,sans-serif");
   digitText.setAttribute('font-weight', String(fontWeight));
   digitText.setAttribute('font-size', String(digitFontSize));
   digitText.setAttribute('fill','none');
@@ -1371,7 +1377,7 @@ function renderAngkaPair(svgEl, digit, word){
     const t = document.createElementNS(ns,'text');
     t.setAttribute('x', String(centers[i])); t.setAttribute('y', String(wordY));
     t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-family',"'Fredoka', sans-serif");
+    t.setAttribute('font-family',"Arial,Helvetica,sans-serif");
     t.setAttribute('font-weight', String(fontWeight));
     t.setAttribute('font-size', String(fontSize));
     t.setAttribute('fill','none');
@@ -1380,11 +1386,8 @@ function renderAngkaPair(svgEl, digit, word){
     wordEntries.push({text:ch, x:centers[i], y:wordY, fontSize});
   });
 
-  const contours = traceOutlineContours(
-    [{text:digit,x:260,y:digitY,fontSize:digitFontSize}, ...wordEntries],
-    fontWeight, 520, 520
-  );
-  appendDashedOutline(svgEl, ns, contours);
+  // Garis panduan angka (dashed outline) disembunyikan — hanya area kecocokan
+  // ungu transparan di matchAreaCanvas yang ditampilkan sebagai penuntun.
   appendHandGuide(svgEl, ns, buildGuidePathD(digit, 260, digitY, digitFontSize, fontWeight, 520, 520));
 }
 
@@ -1461,17 +1464,18 @@ function buildMask(){
     areaCtx.clearRect(0,0,areaCanvas.width,areaCanvas.height);
     areaCtx.textAlign = 'center';
     areaCtx.textBaseline = 'alphabetic';
-    areaCtx.fillStyle = '#D9C6FF'; // ungu muda
+    areaCtx.fillStyle = 'rgba(155,107,255,0.2)'; // ungu, transparansi 20%
   }
 
   function drawGlyph(text, x, y, fontSize, lineWidth){
     // Acuan kecocokan pakai isi huruf (fill), bukan garis tepi (stroke) —
     // supaya area kecocokan mewakili bagian tengah huruf itu sendiri.
     maskCtx.fillStyle = '#fff';
-    maskCtx.font = `700 ${fontSize}px 'Fredoka', sans-serif`;
+    maskCtx.font = `700 ${fontSize}px Arial,Helvetica,sans-serif`;
     maskCtx.fillText(text, x, y);
     if(areaCtx){
-      areaCtx.font = `700 ${fontSize}px 'Fredoka', sans-serif`;
+      areaCtx.font = `700 ${fontSize}px Arial,Helvetica,sans-serif`;
+      // Isi area kecocokan ungu transparan 20% saja, tanpa outline
       areaCtx.fillText(text, x, y);
     }
   }
@@ -1622,6 +1626,7 @@ const T = k => I18N[language][k] || k;
 const currentWord = item => language === 'en' ? item.wordEN : item.word;
 const currentSay = item => language === 'en' ? item.sayEN : item.say;
 const currentSyllable = item => language === 'en' ? item.syllableEN : item.syllable;
+const currentEmoji = item => (language === 'en' ? (item.emojiEN ?? item.emoji) : item.emoji) ?? '';
 
 function applyLanguage(){
   const startTitle = document.getElementById('startTitleText');
@@ -1676,7 +1681,7 @@ function render(){
     const item = LETTERS[index];
     renderHurufPair(svgMain, item.ch, item.ch.toLowerCase());
     document.getElementById('panelTitle').textContent=T('contoh');
-    document.getElementById('contohVisual').textContent = item.emoji;
+    document.getElementById('contohVisual').textContent = currentEmoji(item);
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.ch + '</span>' + currentWord(item).slice(1);
     document.getElementById('ucapText').textContent = '"' + currentSay(item) + '"';
@@ -1685,7 +1690,7 @@ function render(){
     const item = NUMBERS[index];
     renderAngkaPair(svgMain, item.d, currentWord(item));
     document.getElementById('panelTitle').textContent=T('hitung');
-    document.getElementById('contohVisual').textContent = item.emoji || '—';
+    document.getElementById('contohVisual').textContent = currentEmoji(item) || '—';
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.d + '</span> = ' + currentWord(item);
     document.getElementById('ucapText').textContent = '"' + currentWord(item) + '..."';
@@ -2073,23 +2078,23 @@ window.checkAdditionAnswer = function(value){
   box-shadow:0 10px 0 rgba(0,0,0,0.12);
 }
 .addbox h1{
-  font-family:'Baloo 2',cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px #2FA859;
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px #2FA859;
   margin:0 0 6px; letter-spacing:1px;
 }
 .addprogress{ font-size:14px; font-weight:800; color:#6a5d82; margin-bottom:14px; }
 .addq{
-  font-family:'Baloo 2',cursive; font-size:44px; font-weight:800; color:var(--ink);
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:44px; font-weight:800; color:var(--ink);
   background:#FFF6DC; border-radius:18px; padding:18px 8px; margin:6px 0 16px;
 }
 .addhint{ font-size:14px; color:#8a7e9c; font-weight:700; margin:0 0 10px; }
 .addanswer-display{
-  font-family:'Baloo 2',cursive; font-size:40px; font-weight:800; color:var(--ink);
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:40px; font-weight:800; color:var(--ink);
   background:#FFFDF7; border:3px solid #F3D9C4; border-radius:18px; padding:10px;
   margin-bottom:14px; min-height:56px; letter-spacing:4px;
 }
 .addkeypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
 .addkey{
-  border:none; border-radius:16px; padding:16px 0; font-family:'Baloo 2'; font-weight:800; font-size:24px;
+  border:none; border-radius:16px; padding:16px 0; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:800; font-size:24px;
   color:#fff; cursor:pointer; box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
   background:linear-gradient(180deg,var(--purple),var(--purple-dark));
 }
@@ -2098,7 +2103,7 @@ window.checkAdditionAnswer = function(value){
 .addkey.back{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
 .addinput{
   width:100%; box-sizing:border-box; border:3px solid #F3D9C4; border-radius:18px;
-  padding:12px 16px; font-family:'Baloo 2',cursive; font-size:24px; color:var(--ink);
+  padding:12px 16px; font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:24px; color:var(--ink);
   background:#FFFDF7; text-align:center; outline:none; margin-bottom:16px;
 }
 .addinput:focus{ border-color:var(--green); }
@@ -2227,7 +2232,7 @@ window.checkAdditionAnswer = function(value){
   background: linear-gradient(180deg,var(--sky1) 0%, var(--sky2) 55%, var(--grass1) 55%, var(--grass2) 100%);
 }
 .subbox h1{
-  font-family:'Baloo 2',cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px var(--orange-dark);
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px var(--orange-dark);
   margin:0 0 6px; letter-spacing:1px;
 }
 .subkey{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
