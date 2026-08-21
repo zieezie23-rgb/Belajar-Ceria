@@ -1,38 +1,25 @@
-# 🌈 Belajar Ceria — Huruf & Angka
+# 🌈 Belajar Ceria
 
-Aplikasi belajar anak dalam mode **landscape**, dibuat mengikuti referensi desain yang diberikan: warna cerah, tombol besar, panel kiri/tengah/kanan, karakter lucu, latihan tracing, panah urutan penulisan, dan navigasi bawah.
+Aplikasi belajar anak untuk **huruf A–Z dan angka 1–10** dengan desain responsif.
 
-## Fitur
-- 🔤 Huruf A–Z
-- 🔢 Angka 1–10
-- ✍️ Menulis/coret langsung dengan jari
-- ➡️ Panah dan nomor tahapan cara menulis
-- ⬛ Garis putus-putus besar
-- 🔊 Suara Bahasa Indonesia yang diperlambat dan dibuat bernada lebih tinggi
-- ⭐ Favorit
-- ⬅️ / ➡️ navigasi
-- 📱 Landscape
-- 🧽 Bersihkan coretan
+## Perubahan versi ini
+- Layout menyesuaikan **landscape maupun portrait**.
+- Pada portrait, panel samping disembunyikan supaya area latihan tetap besar dan tidak terpotong.
+- Pada landscape, layout menjadi tiga panel seperti desain referensi.
+- Panah penulisan dibuat **terpisah** agar tidak menumpuk.
+- Nomor 1, 2, 3 berada di jalur masing-masing.
+- Area tengah bisa dicoret menggunakan jari/stylus/mouse.
+- Suara dibuat lebih lambat dan pitch lebih tinggi agar lebih ceria.
 
-## Cara pakai
-Upload `index.html` ke GitHub Pages lalu buka dengan HP dalam posisi landscape.
+## Suara
+Versi ini menggunakan Web Speech API. Browser/Android menentukan voice yang tersedia. Pengaturan dibuat lambat (`rate`) dan bernada tinggi (`pitch`) untuk mendekati gaya suara anak.
 
-## Catatan suara
-Suara memakai Web Speech API. `rate` dibuat lambat dan `pitch` dibuat tinggi agar terdengar lebih ceria. Suara anak yang benar-benar natural bergantung pada voice Bahasa Indonesia yang tersedia di perangkat.
+Untuk **suara anak asli/natural**, diperlukan file rekaman suara karakter (MP3/OGG) yang kemudian bisa dimasukkan ke aplikasi.
 
-## Struktur
+## Instalasi
+Upload `index.html` ke GitHub Pages.
+
 ```text
-belajar-ceria/
-├── index.html
-└── README.md
+Belajar-Ceria/
+└── index.html
 ```
-
-Versi ini sengaja dibuat satu file. Gambar referensi disisipkan ke dalam HTML sehingga `index.html` dapat dipindahkan tanpa file gambar tambahan.
-
-## Pengembangan berikutnya
-- Animasi urutan goresan.
-- Penilaian ketepatan tracing.
-- Rekaman suara karakter anak asli.
-- Maskot animasi.
-- Musik belajar.
-- Materi warna, bentuk, hewan, buah, dan suku kata.
