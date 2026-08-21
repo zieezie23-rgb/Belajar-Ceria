@@ -2,148 +2,171 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#6c63ff">
-<title>Belajar Ceria — Game Edukasi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#6C63FF">
+<title>Belajar Ceria — Angka & Huruf</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(135deg,#eef2ff,#fff7ed);color:#25243a;min-height:100vh}
-.app{max-width:650px;margin:auto;padding:16px 14px 30px}
+body{margin:0;background:linear-gradient(135deg,#eef2ff,#fff8ec);font-family:Arial,system-ui,sans-serif;color:#25243a}
+.app{max-width:760px;margin:auto;padding:14px 12px 30px}
 .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.brand{font-size:20px;font-weight:950}.brand span{color:#6c63ff}
-.pills{display:flex;gap:7px}.pill{background:#fff;border-radius:18px;padding:7px 10px;font-weight:850;box-shadow:0 4px 14px #0001}
-.card{background:#ffffffee;border-radius:28px;padding:18px;box-shadow:0 12px 35px #4c45a51a;border:1px solid white}
-h1{text-align:center;font-size:26px;margin:6px 0}.sub{text-align:center;color:#77758a;margin:0 0 18px}
-.menu{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-.game{border:0;border-radius:24px;padding:22px 12px;cursor:pointer;background:#f5f4ff;box-shadow:0 6px 0 #dedbf8;font-size:18px;font-weight:900;color:#403b78}
-.game:active{transform:translateY(4px);box-shadow:0 2px 0 #dedbf8}
-.game .ico{font-size:46px;display:block;margin-bottom:8px}
-.game small{display:block;font-size:12px;color:#777;margin-top:4px}
-.hidden{display:none}
-.back{border:0;background:#ecebff;color:#5149b9;border-radius:16px;padding:10px 13px;font-weight:850;margin-bottom:10px}
-.progress{height:9px;background:#eeeef7;border-radius:20px;overflow:hidden;margin:4px 0 17px}.bar{height:100%;background:linear-gradient(90deg,#6c63ff,#ff7ab6);width:10%;transition:.35s}
-.number{font-size:96px;line-height:1;text-align:center;font-weight:1000;color:#6c63ff;text-shadow:0 6px 0 #e6e3ff}
-.objects{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;min-height:62px;max-width:390px;margin:7px auto 12px}.obj{font-size:29px;animation:pop .22s both}
-@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
-.question{text-align:center;font-weight:900;font-size:18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}
-.answer{border:0;border-radius:20px;padding:16px;background:#f5f4ff;box-shadow:0 5px 0 #dedbf8;color:#403b78;font-size:26px;font-weight:950}.answer:active{transform:translateY(4px);box-shadow:0 1px 0 #dedbf8}.correct{background:#d9fbe7!important;color:#08753d!important;box-shadow:0 5px 0 #9de8bd!important}.wrong{background:#ffe0e4!important;color:#b4233d!important;box-shadow:0 5px 0 #f4aab5!important}
-.feedback{text-align:center;min-height:29px;margin:12px 0;font-weight:900;font-size:17px}.actions{display:flex;gap:8px}.btn{flex:1;border:0;border-radius:17px;padding:12px;font-weight:900;font-size:14px;cursor:pointer}.sound{background:#fff0f6;color:#b52e70}.next{background:#6c63ff;color:#fff}.restart{background:#ecebff;color:#5149b9}
-.letter{font-size:105px;text-align:center;font-weight:1000;color:#ff6b9a;text-shadow:0 6px 0 #ffd9e7}.word{text-align:center;font-size:21px;font-weight:950;margin:5px}.picture{text-align:center;font-size:60px;margin:8px}
-.modalbg{position:fixed;inset:0;background:#24213ecc;display:none;align-items:center;justify-content:center;padding:20px;z-index:9}.modal{background:#fff;border-radius:30px;padding:28px;text-align:center;max-width:400px;width:100%}.modal .big{font-size:70px}.modal h2{margin:3px 0;font-size:28px}.modal p{color:#666}
-@media(max-width:390px){.game{padding:18px 8px}.game .ico{font-size:39px}.number{font-size:82px}.letter{font-size:88px}}
+.logo{font-size:22px;font-weight:900}.logo b{color:#6c63ff}
+.homeBtn{border:0;border-radius:15px;padding:10px 14px;background:white;font-weight:800;box-shadow:0 4px 15px #0001}
+.card{background:#fffffff2;border-radius:30px;padding:18px;box-shadow:0 15px 40px #4c45a51a}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.menu button{border:0;border-radius:25px;background:#f4f2ff;padding:24px 12px;font-size:20px;font-weight:900;color:#49419a;box-shadow:0 6px 0 #ddd9f7}
+.menu button:active{transform:translateY(4px);box-shadow:0 2px 0 #ddd9f7}
+.menu .emoji{font-size:58px;display:block;margin-bottom:10px}
+h1{text-align:center;font-size:27px;margin:5px 0}.intro{text-align:center;color:#777;margin:0}
+.lesson{display:none}
+.nav{display:flex;gap:8px;margin-bottom:12px}
+.nav button,.speak,.modeBtn{border:0;border-radius:15px;padding:10px 13px;background:#ecebff;color:#5149b9;font-weight:900}
+.nav .grow{flex:1;text-align:center;font-weight:900;padding:10px}
+.hero{text-align:center;background:linear-gradient(180deg,#faf9ff,#fff);border-radius:26px;padding:12px 10px 18px}
+.heroChar{font-size:clamp(110px,25vw,190px);line-height:.95;font-weight:1000;color:#6c63ff;text-shadow:0 9px 0 #e4e1ff;margin:5px 0 8px}
+.heroNum{font-size:clamp(120px,28vw,210px)}
+.title{font-size:clamp(28px,7vw,48px);font-weight:1000;margin:5px 0}
+.example{font-size:clamp(24px,6vw,40px);font-weight:900;color:#ff5f98;margin:6px}
+.pronounce{font-size:clamp(22px,5vw,32px);font-weight:900;margin:10px 0}
+.pronounce span{color:#6c63ff}
+.spelling{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.spelling span{background:#fff1f6;color:#c53172;border-radius:14px;padding:8px 12px;font-size:22px;font-weight:900}
+.instructions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.info{background:#f7f7fb;border-radius:20px;padding:14px;text-align:left}
+.info b{display:block;color:#5149b9;margin-bottom:5px;font-size:14px}.info p{margin:0;font-size:17px;font-weight:700}
+.controls{display:flex;gap:9px;margin-top:14px}.controls button{flex:1;border:0;border-radius:18px;padding:14px;font-size:15px;font-weight:900}
+.prev{background:#ecebff;color:#5149b9}.sound{background:#fff0f6;color:#b52e70}.next{background:#6c63ff;color:white}
+.counter{text-align:center;font-weight:900;color:#777;margin-top:10px}
+.bigObjects{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;font-size:42px;max-width:560px;margin:10px auto}
+.write{position:relative;margin:12px auto;max-width:460px;height:115px;border-radius:18px;background:repeating-linear-gradient(to bottom,#fff 0,#fff 37px,#d9d9e8 38px,#fff 39px);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.write .trace{font-size:80px;font-weight:1000;color:#c9c8d8;font-family:cursive}
+.write:after{content:"✍️ Ikuti arah tulisan dengan jari";position:absolute;bottom:6px;right:9px;font-size:11px;color:#888;background:#ffffffcc;padding:2px 5px;border-radius:8px}
+.tip{margin:10px 0 0;text-align:center;color:#666;font-weight:700}
+@media(max-width:430px){.instructions{grid-template-columns:1fr}.menu button{padding:20px 8px}.spelling span{font-size:19px}}
 </style>
 </head>
 <body>
 <div class="app">
- <div class="top">
-  <div class="brand">🌈 <span>Belajar</span> Ceria</div>
-  <div class="pills"><div class="pill">⭐ <b id="score">0</b></div><div class="pill">❤️ <b id="lives">3</b></div></div>
- </div>
-
- <section id="home" class="card">
-  <h1>🎮 Yuk Belajar!</h1>
-  <p class="sub">Pilih permainan yang ingin kamu mainkan.</p>
-  <div class="menu">
-   <button class="game" onclick="startNumbers()"><span class="ico">🔢</span>Angka 1–10<small>Hitung dan pilih angka</small></button>
-   <button class="game" onclick="startLetters()"><span class="ico">🔤</span>Huruf A–Z<small>Kenali huruf dan kata</small></button>
-   <button class="game" onclick="comingSoon('🎨 Warna')"><span class="ico">🎨</span>Warna<small>Segera hadir</small></button>
-   <button class="game" onclick="comingSoon('🐶 Hewan')"><span class="ico">🐶</span>Hewan<small>Segera hadir</small></button>
-  </div>
- </section>
-
- <section id="game" class="card hidden">
-  <button class="back" onclick="goHome()">⬅️ Menu Utama</button>
-  <div class="progress"><div id="bar" class="bar"></div></div>
-  <h1 id="gameTitle">🔢 Belajar Angka</h1>
-  <p id="gameSub" class="sub">Hitung benda lalu pilih jawaban.</p>
-
-  <div id="numberArea">
-   <div id="target" class="number">1</div><div id="objects" class="objects"></div>
-  </div>
-  <div id="letterArea" class="hidden">
-   <div id="letter" class="letter">A</div><div id="picture" class="picture">🍎</div><div id="word" class="word">A untuk Apel</div>
+  <div class="top">
+    <div class="logo">🌈 <b>Belajar</b> Ceria</div>
+    <button class="homeBtn" onclick="home()">🏠 Menu</button>
   </div>
 
-  <div id="question" class="question">Ada berapa benda? 🤔</div>
-  <div id="answers" class="answers"></div>
-  <div id="feedback" class="feedback"></div>
-  <div class="actions">
-   <button class="btn sound" onclick="speakCurrent()">🔊 Dengarkan</button>
-   <button class="btn restart" onclick="restartGame()">🔄 Ulangi</button>
-   <button id="nextBtn" class="btn next" onclick="nextQuestion()" disabled>➡️ Lanjut</button>
-  </div>
- </section>
+  <section id="home" class="card">
+    <h1>Belajar Angka & Huruf</h1>
+    <p class="intro">Baca, dengarkan, ucapkan, eja, dan belajar cara menulisnya.</p>
+    <div class="menu">
+      <button onclick="openNumbers()"><span class="emoji">🔢</span>Angka 1–10</button>
+      <button onclick="openLetters()"><span class="emoji">🔤</span>Huruf A–Z</button>
+    </div>
+  </section>
+
+  <section id="lesson" class="card lesson">
+    <div class="nav">
+      <button onclick="home()">⬅️</button>
+      <div class="grow" id="sectionTitle"></div>
+    </div>
+    <div class="hero">
+      <div id="char" class="heroChar">A</div>
+      <div id="title" class="title">A — Apel</div>
+      <div id="example" class="example">🍎</div>
+
+      <div class="pronounce">🔊 Cara mengucapkan: <span id="pronounce"></span></div>
+
+      <div class="spelling" id="spelling"></div>
+
+      <div class="write">
+        <div class="trace" id="trace">A</div>
+      </div>
+      <div class="tip">✍️ Perhatikan bentuk huruf/angka, lalu ikuti garisnya dengan jari atau pensil.</div>
+
+      <div class="instructions">
+        <div class="info"><b>👄 CARA MENGUCAPKAN</b><p id="howSay"></p></div>
+        <div class="info"><b>🔤 CARA MENGEJA</b><p id="howSpell"></p></div>
+        <div class="info"><b>✍️ CARA MENULIS</b><p id="howWrite"></p></div>
+        <div class="info"><b>💡 CONTOH</b><p id="howExample"></p></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="prev" onclick="prev()">⬅️ Sebelumnya</button>
+      <button class="sound" onclick="listen()">🔊 Dengarkan</button>
+      <button class="next" onclick="next()">Berikutnya ➡️</button>
+    </div>
+    <div class="counter" id="counter"></div>
+  </section>
 </div>
 
-<div id="modalbg" class="modalbg"><div class="modal"><div id="modalIcon" class="big">🏆</div><h2 id="modalTitle">Hebat!</h2><p id="modalText"></p><button class="btn next" onclick="closeModal()">👍 Oke</button></div></div>
-
 <script>
-let mode="",index=1,score=0,lives=3,answered=false;
-const numEmoji=["🍎","⭐","🐟","🦋","🍓","🌼","🚗","🍭","🐸","🎈"];
 const letters=[
-["A","Apel","🍎"],["B","Bola","⚽"],["C","Ceri","🍒"],["D","Domba","🐑"],["E","Elang","🦅"],["F","Foto","📷"],
-["G","Gajah","🐘"],["H","Harimau","🐯"],["I","Ikan","🐟"],["J","Jeruk","🍊"],["K","Kucing","🐱"],["L","Lemon","🍋"],
-["M","Mangga","🥭"],["N","Nanas","🍍"],["O","Obor","🔦"],["P","Pisang","🍌"],["Q","Quran","📖"],["R","Roti","🍞"],
-["S","Sapi","🐄"],["T","Topi","🎩"],["U","Ular","🐍"],["V","Vas","🏺"],["W","Wortel","🥕"],["X","Xylophone","🎵"],
-["Y","Yoyo","🪀"],["Z","Zebra","🦓"]
+["A","Apel","🍎","a","A-P-E-L","Mulai dari atas, turun ke kiri dan kanan, lalu buat garis mendatar di tengah.","A seperti pada kata Apel."],
+["B","Bola","⚽","be","B-O-L-A","Tarik garis tegak, lalu buat dua lengkungan ke kanan.","B seperti pada kata Bola."],
+["C","Ceri","🍒","ce","C-E-R-I","Buat lengkungan terbuka ke arah kanan.","C seperti pada kata Ceri."],
+["D","Domba","🐑","de","D-O-M-B-A","Buat garis tegak, lalu satu lengkungan besar ke kanan.","D seperti pada kata Domba."],
+["E","Elang","🦅","e","E-L-A-N-G","Buat garis tegak, lalu tiga garis mendatar.","E seperti pada kata Elang."],
+["F","Foto","📷","ef","F-O-T-O","Buat garis tegak dan dua garis mendatar di bagian atas dan tengah.","F seperti pada kata Foto."],
+["G","Gajah","🐘","ge","G-A-J-A-H","Mulai seperti C, lalu tambahkan garis kecil ke dalam.","G seperti pada kata Gajah."],
+["H","Harimau","🐯","ha","H-A-R-I-M-A-U","Buat dua garis tegak, lalu hubungkan dengan garis mendatar.","H seperti pada kata Harimau."],
+["I","Ikan","🐟","i","I-K-A-N","Buat satu garis tegak; pada huruf kapital tambahkan garis atas dan bawah.","I seperti pada kata Ikan."],
+["J","Jeruk","🍊","je","J-E-R-U-K","Buat garis mendatar di atas lalu lengkungkan garis ke bawah.","J seperti pada kata Jeruk."],
+["K","Kucing","🐱","ka","K-U-C-I-N-G","Buat garis tegak, lalu dua garis miring dari tengah.","K seperti pada kata Kucing."],
+["L","Lemon","🍋","el","L-E-M-O-N","Buat garis tegak dari atas ke bawah lalu garis mendatar ke kanan.","L seperti pada kata Lemon."],
+["M","Mangga","🥭","em","M-A-N-G-G-A","Buat dua garis tegak dengan dua garis miring bertemu di tengah.","M seperti pada kata Mangga."],
+["N","Nanas","🍍","en","N-A-N-A-S","Buat garis tegak kiri, garis miring ke kanan bawah, lalu garis tegak kanan.","N seperti pada kata Nanas."],
+["O","Obor","🔦","o","O-B-O-R","Buat satu lingkaran tertutup.","O seperti pada kata Obor."],
+["P","Pisang","🍌","pe","P-I-S-A-N-G","Buat garis tegak dan satu lengkungan di bagian atas.","P seperti pada kata Pisang."],
+["Q","Quran","📖","kiu","Q-U-R-A-N","Buat lingkaran seperti O, lalu tambahkan garis kecil di bagian bawah.","Q seperti pada kata Quran."],
+["R","Roti","🍞","er","R-O-T-I","Buat P terlebih dahulu, lalu tambahkan garis miring dari tengah.","R seperti pada kata Roti."],
+["S","Sapi","🐄","es","S-A-P-I","Buat dua lengkungan yang membentuk seperti huruf S.","S seperti pada kata Sapi."],
+["T","Topi","🎩","te","T-O-P-I","Buat garis mendatar, lalu tarik garis tegak dari tengah.","T seperti pada kata Topi."],
+["U","Ular","🐍","u","U-L-A-R","Tarik dua garis turun lalu lengkungkan bagian bawah.","U seperti pada kata Ular."],
+["V","Vas","🏺","ve","V-A-S","Buat dua garis miring yang bertemu di bawah.","V seperti pada kata Vas."],
+["W","Wortel","🥕","we","W-O-R-T-E-L","Buat empat garis miring yang membentuk dua lembah.","W seperti pada kata Wortel."],
+["X","Xylophone","🎵","eks","X-Y-L-O-P-H-O-N-E","Buat dua garis miring yang saling menyilang.","X seperti pada kata Xylophone."],
+["Y","Yoyo","🪀","ye","Y-O-Y-O","Buat dua garis miring bertemu, lalu tarik garis turun dari tengah.","Y seperti pada kata Yoyo."],
+["Z","Zebra","🦓","zet","Z-E-B-R-A","Buat garis mendatar atas, garis miring, lalu garis mendatar bawah.","Z seperti pada kata Zebra."]
 ];
 
-function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
-function speak(t){if("speechSynthesis" in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="id-ID";u.rate=.82;u.pitch=1.1;speechSynthesis.speak(u)}}
-function updateStats(){document.getElementById("score").textContent=score;document.getElementById("lives").textContent=lives}
-function goHome(){document.getElementById("game").classList.add("hidden");document.getElementById("home").classList.remove("hidden");}
-function startNumbers(){mode="numbers";index=1;score=0;lives=3;document.getElementById("home").classList.add("hidden");document.getElementById("game").classList.remove("hidden");render()}
-function startLetters(){mode="letters";index=0;score=0;lives=3;document.getElementById("home").classList.add("hidden");document.getElementById("game").classList.remove("hidden");render()}
-function restartGame(){mode==="numbers"?startNumbers():startLetters()}
-function comingSoon(name){showModal("🚧","Segera Hadir",name+" akan kita tambahkan setelah Angka dan Huruf selesai.")}
-function speakCurrent(){
- if(mode==="numbers") speak("Angka "+index+". Ada "+index+" benda.");
- else {let x=letters[index];speak("Huruf "+x[0]+". "+x[0]+" untuk "+x[1]);}
+const numbers=[
+["1","Satu","1","satu","S-A-T-U","Mulai dari atas, buat garis miring kecil lalu tarik garis tegak ke bawah.","Satu benda."],
+["2","Dua","2","dua","D-U-A","Buat lengkungan di atas, garis miring ke bawah, lalu garis mendatar.","Dua benda."],
+["3","Tiga","3","tiga","T-I-G-A","Buat dua lengkungan yang tersambung seperti angka 3.","Tiga benda."],
+["4","Empat","4","empat","E-M-P-A-T","Buat garis tegak, garis mendatar, lalu garis miring turun.","Empat benda."],
+["5","Lima","5","lima","L-I-M-A","Buat garis mendatar, turun, lalu lengkungan ke kanan.","Lima benda."],
+["6","Enam","6","enam","E-N-A-M","Buat lengkungan ke bawah hingga membentuk lingkaran kecil.","Enam benda."],
+["7","Tujuh","7","tujuh","T-U-J-U-H","Buat garis mendatar lalu garis miring turun.","Tujuh benda."],
+["8","Delapan","8","delapan","D-E-L-A-P-A-N","Buat dua lingkaran kecil yang bertumpuk.","Delapan benda."],
+["9","Sembilan","9","sembilan","S-E-M-B-I-L-A-N","Buat lingkaran di atas lalu tarik garis turun.","Sembilan benda."],
+["10","Sepuluh","🔟","sepuluh","S-E-P-U-L-U-H","Tulis angka 1 lalu angka 0 berdampingan.","Sepuluh benda."]
+];
+
+let mode="",idx=0;
+
+function home(){document.getElementById("home").style.display="block";document.getElementById("lesson").style.display="none"}
+function openLetters(){mode="letters";idx=0;show()}
+function openNumbers(){mode="numbers";idx=0;show()}
+function data(){return mode==="letters"?letters[idx]:numbers[idx]}
+function show(){
+ document.getElementById("home").style.display="none";document.getElementById("lesson").style.display="block";
+ let d=data(), isL=mode==="letters";
+ document.getElementById("sectionTitle").textContent=isL?"🔤 Huruf A–Z":"🔢 Angka 1–10";
+ document.getElementById("char").textContent=d[0];document.getElementById("char").className="heroChar "+(isL?"":"heroNum");
+ document.getElementById("title").textContent=isL?d[0]+" — "+d[1]:d[0]+" — "+d[1];
+ document.getElementById("example").textContent=isL?d[2]: "🔢";
+ document.getElementById("pronounce").textContent=d[3];
+ document.getElementById("howSay").textContent="Ucapkan: “"+d[3]+"”.";
+ document.getElementById("howSpell").textContent=d[4];
+ document.getElementById("howWrite").textContent=d[5];
+ document.getElementById("howExample").textContent=d[6];
+ document.getElementById("trace").textContent=d[0];
+ document.getElementById("counter").textContent=(idx+1)+" / "+(isL?26:10);
+ let sp=document.getElementById("spelling");sp.innerHTML="";
+ (isL?d[0]:d[4]).split("").forEach(x=>{if(x.trim()){let s=document.createElement("span");s.textContent=x;sp.appendChild(s)}});
 }
-function render(){
- answered=false;updateStats();document.getElementById("nextBtn").disabled=true;document.getElementById("feedback").textContent="";
- const bar=mode==="numbers"?index*10:(index+1)/26*100;document.getElementById("bar").style.width=bar+"%";
- const na=document.getElementById("numberArea"),la=document.getElementById("letterArea");
- if(mode==="numbers"){
-  document.getElementById("gameTitle").textContent="🔢 Belajar Angka 1–10";document.getElementById("gameSub").textContent="Hitung benda lalu pilih angka yang benar.";
-  na.classList.remove("hidden");la.classList.add("hidden");document.getElementById("target").textContent=index;
-  let box=document.getElementById("objects");box.innerHTML="";
-  for(let i=0;i<index;i++){let s=document.createElement("span");s.className="obj";s.textContent=numEmoji[index-1];s.style.animationDelay=i*.03+"s";box.appendChild(s)}
-  document.getElementById("question").textContent="Ada berapa benda? 🤔";
-  let set=new Set([index]);while(set.size<4)set.add(Math.floor(Math.random()*10)+1);makeAnswers([...set]);
- }else{
-  document.getElementById("gameTitle").textContent="🔤 Belajar Huruf A–Z";document.getElementById("gameSub").textContent="Kenali huruf dan kata.";
-  na.classList.add("hidden");la.classList.remove("hidden");let x=letters[index];
-  document.getElementById("letter").textContent=x[0];document.getElementById("picture").textContent=x[2];document.getElementById("word").textContent=x[0]+" untuk "+x[1];
-  document.getElementById("question").textContent="Huruf apakah ini? 🤔";
-  let set=new Set([x[0]]);while(set.size<4)set.add(letters[Math.floor(Math.random()*26)][0]);makeAnswers([...set]);
- }
- setTimeout(speakCurrent,300);
-}
-function makeAnswers(values){
- let box=document.getElementById("answers");box.innerHTML="";
- shuffle(values).forEach(v=>{let b=document.createElement("button");b.className="answer";b.textContent=v;b.onclick=()=>check(v,b);box.appendChild(b)})
-}
-function check(v,btn){
- if(answered)return;answered=true;
- let correct=mode==="numbers"?String(index)===String(v):letters[index][0]===v;
- if(correct){btn.classList.add("correct");score+=10;document.getElementById("feedback").textContent="🎉 Benar! Kamu hebat!";speak("Benar! Hebat!")}
- else{btn.classList.add("wrong");lives--;let ans=mode==="numbers"?index:letters[index][0];document.getElementById("feedback").textContent="😊 Belum tepat. Jawabannya "+ans+".";document.querySelectorAll(".answer").forEach(b=>{if(b.textContent==ans)b.classList.add("correct")});speak("Belum tepat. Jawabannya "+ans)}
- updateStats();document.getElementById("nextBtn").disabled=false;
-}
-function nextQuestion(){
- if(!answered)return;
- if(lives<=0){finish();return}
- if((mode==="numbers"&&index>=10)||(mode==="letters"&&index>=25)){finish();return}
- index++;render();
-}
-function finish(){
- let total=mode==="numbers"?10:26;
- showModal("🏆","Luar Biasa!",`Kamu menyelesaikan ${mode==="numbers"?"Angka 1–10":"Huruf A–Z"}! Skormu ${score} ⭐ dari maksimal ${total*10}.`);
- speak("Selamat! Kamu menyelesaikan permainan. Skor kamu "+score);
-}
-function showModal(icon,title,text){document.getElementById("modalIcon").textContent=icon;document.getElementById("modalTitle").textContent=title;document.getElementById("modalText").textContent=text;document.getElementById("modalbg").style.display="flex"}
-function closeModal(){document.getElementById("modalbg").style.display="none";if(mode)goHome()}
+function speak(text){if("speechSynthesis"in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang="id-ID";u.rate=.78;u.pitch=1.08;speechSynthesis.speak(u)}}
+function listen(){let d=data();speak((mode==="letters"?"Huruf ":"Angka ")+d[0]+". "+d[1]+". Cara mengucapkannya "+d[3]+". Cara mengeja: "+d[4])}
+function next(){if(idx<(mode==="letters"?25:9)){idx++;show()}else speak("Ini adalah halaman terakhir.")}
+function prev(){if(idx>0){idx--;show()}else speak("Ini adalah halaman pertama.")}
 </script>
 </body>
 </html>
