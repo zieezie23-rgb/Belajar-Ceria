@@ -263,6 +263,14 @@
 <div class="start-screen" id="startScreen">
   <div class="start-card">
     <h1 class="start-title display">⭐ Belajar Huruf & Angka ⭐</h1>
+
+<div id="additionHomeButton" style="margin-top:12px;">
+  <button onclick="openAddition()"
+    style="padding:16px 24px;border-radius:20px;font-size:1.2rem;font-weight:bold;">
+    ➕ Belajar Penjumlahan
+  </button>
+</div>
+
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
@@ -1120,11 +1128,11 @@ window.checkAdditionAnswer = function(value){
 
 <!-- Addition Feature V10 -->
 <style>
-#additionScreen{position:fixed;inset:0;background:#fff;z-index:5000;display:none;padding:20px;overflow:auto}
+#additionScreen{position:fixed;inset:0;background:linear-gradient(180deg,#fff8d6,#e8f7ff);z-index:5000;display:none;padding:20px;overflow:auto}
 .addbox{max-width:900px;margin:auto;text-align:center}
 .addq{font-size:48px;font-weight:bold;margin:20px}
 .addpopup{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:6000}
-.addcard{background:#fff;padding:20px;border-radius:20px;text-align:center}
+.addcard{background:#fff;padding:20px;border-radius:20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.15)}
 </style>
 <div id="additionScreen">
  <div class="addbox">
@@ -1185,7 +1193,7 @@ window.checkAdditionAnswer = function(value){
  }
  setTimeout(()=>{
    let btn=document.createElement('button');
-   btn.innerHTML='➕ Belajar Penjumlahan';
+   btn.innerHTML='➕ Belajar Penjumlahan'; btn.style.fontSize='1.2rem';
    btn.className='pillbtn green';
    btn.onclick=openAddition;
    document.querySelector('.topbar')?.appendChild(btn);
