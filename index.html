@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#6c63ff">
+<title>Belajar Ceria — Game Edukasi</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(135deg,#eef2ff,#fff7ed);color:#25243a;min-height:100vh}
+.app{max-width:650px;margin:auto;padding:16px 14px 30px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.brand{font-size:20px;font-weight:950}.brand span{color:#6c63ff}
+.pills{display:flex;gap:7px}.pill{background:#fff;border-radius:18px;padding:7px 10px;font-weight:850;box-shadow:0 4px 14px #0001}
+.card{background:#ffffffee;border-radius:28px;padding:18px;box-shadow:0 12px 35px #4c45a51a;border:1px solid white}
+h1{text-align:center;font-size:26px;margin:6px 0}.sub{text-align:center;color:#77758a;margin:0 0 18px}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.game{border:0;border-radius:24px;padding:22px 12px;cursor:pointer;background:#f5f4ff;box-shadow:0 6px 0 #dedbf8;font-size:18px;font-weight:900;color:#403b78}
+.game:active{transform:translateY(4px);box-shadow:0 2px 0 #dedbf8}
+.game .ico{font-size:46px;display:block;margin-bottom:8px}
+.game small{display:block;font-size:12px;color:#777;margin-top:4px}
+.hidden{display:none}
+.back{border:0;background:#ecebff;color:#5149b9;border-radius:16px;padding:10px 13px;font-weight:850;margin-bottom:10px}
+.progress{height:9px;background:#eeeef7;border-radius:20px;overflow:hidden;margin:4px 0 17px}.bar{height:100%;background:linear-gradient(90deg,#6c63ff,#ff7ab6);width:10%;transition:.35s}
+.number{font-size:96px;line-height:1;text-align:center;font-weight:1000;color:#6c63ff;text-shadow:0 6px 0 #e6e3ff}
+.objects{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;min-height:62px;max-width:390px;margin:7px auto 12px}.obj{font-size:29px;animation:pop .22s both}
+@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+.question{text-align:center;font-weight:900;font-size:18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}
+.answer{border:0;border-radius:20px;padding:16px;background:#f5f4ff;box-shadow:0 5px 0 #dedbf8;color:#403b78;font-size:26px;font-weight:950}.answer:active{transform:translateY(4px);box-shadow:0 1px 0 #dedbf8}.correct{background:#d9fbe7!important;color:#08753d!important;box-shadow:0 5px 0 #9de8bd!important}.wrong{background:#ffe0e4!important;color:#b4233d!important;box-shadow:0 5px 0 #f4aab5!important}
+.feedback{text-align:center;min-height:29px;margin:12px 0;font-weight:900;font-size:17px}.actions{display:flex;gap:8px}.btn{flex:1;border:0;border-radius:17px;padding:12px;font-weight:900;font-size:14px;cursor:pointer}.sound{background:#fff0f6;color:#b52e70}.next{background:#6c63ff;color:#fff}.restart{background:#ecebff;color:#5149b9}
+.letter{font-size:105px;text-align:center;font-weight:1000;color:#ff6b9a;text-shadow:0 6px 0 #ffd9e7}.word{text-align:center;font-size:21px;font-weight:950;margin:5px}.picture{text-align:center;font-size:60px;margin:8px}
+.modalbg{position:fixed;inset:0;background:#24213ecc;display:none;align-items:center;justify-content:center;padding:20px;z-index:9}.modal{background:#fff;border-radius:30px;padding:28px;text-align:center;max-width:400px;width:100%}.modal .big{font-size:70px}.modal h2{margin:3px 0;font-size:28px}.modal p{color:#666}
+@media(max-width:390px){.game{padding:18px 8px}.game .ico{font-size:39px}.number{font-size:82px}.letter{font-size:88px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="top">
+  <div class="brand">🌈 <span>Belajar</span> Ceria</div>
+  <div class="pills"><div class="pill">⭐ <b id="score">0</b></div><div class="pill">❤️ <b id="lives">3</b></div></div>
+ </div>
+
+ <section id="home" class="card">
+  <h1>🎮 Yuk Belajar!</h1>
+  <p class="sub">Pilih permainan yang ingin kamu mainkan.</p>
+  <div class="menu">
+   <button class="game" onclick="startNumbers()"><span class="ico">🔢</span>Angka 1–10<small>Hitung dan pilih angka</small></button>
+   <button class="game" onclick="startLetters()"><span class="ico">🔤</span>Huruf A–Z<small>Kenali huruf dan kata</small></button>
+   <button class="game" onclick="comingSoon('🎨 Warna')"><span class="ico">🎨</span>Warna<small>Segera hadir</small></button>
+   <button class="game" onclick="comingSoon('🐶 Hewan')"><span class="ico">🐶</span>Hewan<small>Segera hadir</small></button>
+  </div>
+ </section>
+
+ <section id="game" class="card hidden">
+  <button class="back" onclick="goHome()">⬅️ Menu Utama</button>
+  <div class="progress"><div id="bar" class="bar"></div></div>
+  <h1 id="gameTitle">🔢 Belajar Angka</h1>
+  <p id="gameSub" class="sub">Hitung benda lalu pilih jawaban.</p>
+
+  <div id="numberArea">
+   <div id="target" class="number">1</div><div id="objects" class="objects"></div>
+  </div>
+  <div id="letterArea" class="hidden">
+   <div id="letter" class="letter">A</div><div id="picture" class="picture">🍎</div><div id="word" class="word">A untuk Apel</div>
+  </div>
+
+  <div id="question" class="question">Ada berapa benda? 🤔</div>
+  <div id="answers" class="answers"></div>
+  <div id="feedback" class="feedback"></div>
+  <div class="actions">
+   <button class="btn sound" onclick="speakCurrent()">🔊 Dengarkan</button>
+   <button class="btn restart" onclick="restartGame()">🔄 Ulangi</button>
+   <button id="nextBtn" class="btn next" onclick="nextQuestion()" disabled>➡️ Lanjut</button>
+  </div>
+ </section>
+</div>
+
+<div id="modalbg" class="modalbg"><div class="modal"><div id="modalIcon" class="big">🏆</div><h2 id="modalTitle">Hebat!</h2><p id="modalText"></p><button class="btn next" onclick="closeModal()">👍 Oke</button></div></div>
+
+<script>
+let mode="",index=1,score=0,lives=3,answered=false;
+const numEmoji=["🍎","⭐","🐟","🦋","🍓","🌼","🚗","🍭","🐸","🎈"];
+const letters=[
+["A","Apel","🍎"],["B","Bola","⚽"],["C","Ceri","🍒"],["D","Domba","🐑"],["E","Elang","🦅"],["F","Foto","📷"],
+["G","Gajah","🐘"],["H","Harimau","🐯"],["I","Ikan","🐟"],["J","Jeruk","🍊"],["K","Kucing","🐱"],["L","Lemon","🍋"],
+["M","Mangga","🥭"],["N","Nanas","🍍"],["O","Obor","🔦"],["P","Pisang","🍌"],["Q","Quran","📖"],["R","Roti","🍞"],
+["S","Sapi","🐄"],["T","Topi","🎩"],["U","Ular","🐍"],["V","Vas","🏺"],["W","Wortel","🥕"],["X","Xylophone","🎵"],
+["Y","Yoyo","🪀"],["Z","Zebra","🦓"]
+];
+
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function speak(t){if("speechSynthesis" in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="id-ID";u.rate=.82;u.pitch=1.1;speechSynthesis.speak(u)}}
+function updateStats(){document.getElementById("score").textContent=score;document.getElementById("lives").textContent=lives}
+function goHome(){document.getElementById("game").classList.add("hidden");document.getElementById("home").classList.remove("hidden");}
+function startNumbers(){mode="numbers";index=1;score=0;lives=3;document.getElementById("home").classList.add("hidden");document.getElementById("game").classList.remove("hidden");render()}
+function startLetters(){mode="letters";index=0;score=0;lives=3;document.getElementById("home").classList.add("hidden");document.getElementById("game").classList.remove("hidden");render()}
+function restartGame(){mode==="numbers"?startNumbers():startLetters()}
+function comingSoon(name){showModal("🚧","Segera Hadir",name+" akan kita tambahkan setelah Angka dan Huruf selesai.")}
+function speakCurrent(){
+ if(mode==="numbers") speak("Angka "+index+". Ada "+index+" benda.");
+ else {let x=letters[index];speak("Huruf "+x[0]+". "+x[0]+" untuk "+x[1]);}
+}
+function render(){
+ answered=false;updateStats();document.getElementById("nextBtn").disabled=true;document.getElementById("feedback").textContent="";
+ const bar=mode==="numbers"?index*10:(index+1)/26*100;document.getElementById("bar").style.width=bar+"%";
+ const na=document.getElementById("numberArea"),la=document.getElementById("letterArea");
+ if(mode==="numbers"){
+  document.getElementById("gameTitle").textContent="🔢 Belajar Angka 1–10";document.getElementById("gameSub").textContent="Hitung benda lalu pilih angka yang benar.";
+  na.classList.remove("hidden");la.classList.add("hidden");document.getElementById("target").textContent=index;
+  let box=document.getElementById("objects");box.innerHTML="";
+  for(let i=0;i<index;i++){let s=document.createElement("span");s.className="obj";s.textContent=numEmoji[index-1];s.style.animationDelay=i*.03+"s";box.appendChild(s)}
+  document.getElementById("question").textContent="Ada berapa benda? 🤔";
+  let set=new Set([index]);while(set.size<4)set.add(Math.floor(Math.random()*10)+1);makeAnswers([...set]);
+ }else{
+  document.getElementById("gameTitle").textContent="🔤 Belajar Huruf A–Z";document.getElementById("gameSub").textContent="Kenali huruf dan kata.";
+  na.classList.add("hidden");la.classList.remove("hidden");let x=letters[index];
+  document.getElementById("letter").textContent=x[0];document.getElementById("picture").textContent=x[2];document.getElementById("word").textContent=x[0]+" untuk "+x[1];
+  document.getElementById("question").textContent="Huruf apakah ini? 🤔";
+  let set=new Set([x[0]]);while(set.size<4)set.add(letters[Math.floor(Math.random()*26)][0]);makeAnswers([...set]);
+ }
+ setTimeout(speakCurrent,300);
+}
+function makeAnswers(values){
+ let box=document.getElementById("answers");box.innerHTML="";
+ shuffle(values).forEach(v=>{let b=document.createElement("button");b.className="answer";b.textContent=v;b.onclick=()=>check(v,b);box.appendChild(b)})
+}
+function check(v,btn){
+ if(answered)return;answered=true;
+ let correct=mode==="numbers"?String(index)===String(v):letters[index][0]===v;
+ if(correct){btn.classList.add("correct");score+=10;document.getElementById("feedback").textContent="🎉 Benar! Kamu hebat!";speak("Benar! Hebat!")}
+ else{btn.classList.add("wrong");lives--;let ans=mode==="numbers"?index:letters[index][0];document.getElementById("feedback").textContent="😊 Belum tepat. Jawabannya "+ans+".";document.querySelectorAll(".answer").forEach(b=>{if(b.textContent==ans)b.classList.add("correct")});speak("Belum tepat. Jawabannya "+ans)}
+ updateStats();document.getElementById("nextBtn").disabled=false;
+}
+function nextQuestion(){
+ if(!answered)return;
+ if(lives<=0){finish();return}
+ if((mode==="numbers"&&index>=10)||(mode==="letters"&&index>=25)){finish();return}
+ index++;render();
+}
+function finish(){
+ let total=mode==="numbers"?10:26;
+ showModal("🏆","Luar Biasa!",`Kamu menyelesaikan ${mode==="numbers"?"Angka 1–10":"Huruf A–Z"}! Skormu ${score} ⭐ dari maksimal ${total*10}.`);
+ speak("Selamat! Kamu menyelesaikan permainan. Skor kamu "+score);
+}
+function showModal(icon,title,text){document.getElementById("modalIcon").textContent=icon;document.getElementById("modalTitle").textContent=title;document.getElementById("modalText").textContent=text;document.getElementById("modalbg").style.display="flex"}
+function closeModal(){document.getElementById("modalbg").style.display="none";if(mode)goHome()}
+</script>
+</body>
+</html>
