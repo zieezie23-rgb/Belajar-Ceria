@@ -1,119 +1,688 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#229fe8">
-<title>Belajar Ceria — Huruf & Angka</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belajar Huruf & Angka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}
-body{font-family:"Arial Rounded MT Bold",Arial,sans-serif;background:#19a6ed;color:#3b2874;touch-action:manipulation}
-button{font:inherit;border:0;cursor:pointer}
-.app{width:100vw;height:100dvh;overflow:hidden;position:relative;background:linear-gradient(#20a9ef 0 14%,#d8f7ff 55%,#91d86b)}
-.bg{position:absolute;inset:0;background:
-radial-gradient(circle at 10% 25%,#fff 0 2%,transparent 2.5%),
-radial-gradient(circle at 87% 20%,#fff 0 1.8%,transparent 2.3%),
-linear-gradient(180deg,transparent 0 62%,#74c45c 62% 100%)}
-.top{position:absolute;z-index:5;top:1.2%;left:1%;right:1%;height:10%;display:flex;gap:1%;align-items:center}
-.top button,.title{border:3px solid #fff;border-radius:22px;box-shadow:0 4px 0 #9d5a27,0 5px 10px #0003;color:white;font-weight:900;text-shadow:0 2px #693d36;display:flex;align-items:center;justify-content:center;height:82%}
-.back{width:13%;background:linear-gradient(#ff719d,#ef2c70);font-size:clamp(11px,1.7vw,28px)}
-.points{width:10%;background:linear-gradient(#ffe35c,#ffae19);font-size:clamp(13px,2vw,28px);text-shadow:none;color:#4a2b2b}
-.title{flex:1;background:linear-gradient(#9257ec,#5724c7);border-color:#ffe35c;font-size:clamp(17px,2.8vw,40px)}
-.voice{width:22%;background:linear-gradient(#ff709e,#eb2771);font-size:clamp(11px,1.6vw,26px)}
-.main{position:absolute;z-index:3;left:1%;right:1%;top:13%;bottom:13%;display:grid;grid-template-columns:19% 60% 19%;gap:1%}
-.panel,.center{background:#fffefc;border:4px solid white;box-shadow:0 4px 12px #3b73a744;border-radius:25px;overflow:hidden}
-.panel{padding:2%;text-align:center}.center{border-color:#f0c54b;position:relative}
-.ribbon{background:linear-gradient(#b27bfa,#7840d0);color:#fff;border-radius:12px;padding:7px;font-size:clamp(11px,1.5vw,22px);font-weight:900}
-.kid{font-size:clamp(40px,6vw,90px);margin:4% 0}
-.speaker{width:clamp(55px,7vw,100px);aspect-ratio:1;border-radius:50%;background:linear-gradient(#b36dff,#7430d2);border:4px solid white;box-shadow:0 4px 8px #0003;font-size:clamp(25px,3.8vw,55px)}
-.pronounce{font-size:clamp(17px,2.5vw,36px);font-weight:900;color:#5323a6;margin-top:3%}
-.slow{font-size:clamp(9px,1.1vw,15px)}
-.center canvas{position:absolute;inset:1.5%;width:97%;height:97%;touch-action:none}
-.clear{position:absolute;z-index:4;bottom:2%;left:50%;transform:translateX(-50%);background:linear-gradient(#8be968,#3ba72a);color:#fff;border:3px solid white;border-radius:18px;padding:7px 18px;font-weight:900;font-size:clamp(10px,1.3vw,18px);box-shadow:0 3px 0 #28761c}
-.info{position:absolute;z-index:4;left:50%;bottom:10%;transform:translateX(-50%);white-space:nowrap;background:#ffffffdf;border-radius:12px;padding:5px 10px;font-size:clamp(8px,1vw,14px);font-weight:900}
-.card{border:2px solid #c5e5ff;border-radius:14px;padding:4%;margin-bottom:5%}
-.card h3{margin:-2% -2% 4%;padding:5px;background:#2994df;color:#fff;border-radius:10px;font-size:clamp(11px,1.35vw,20px)}
-.example{font-size:clamp(38px,5.5vw,82px)}.word{font-size:clamp(18px,2.4vw,34px);color:#e52d31;font-weight:900}
-.spell{display:flex;justify-content:center;gap:3px;flex-wrap:wrap}.spell b{background:#e9f5ff;padding:3px 5px;border-radius:5px;font-size:clamp(11px,1.4vw,21px)}
-.quote{font-size:clamp(13px,1.6vw,24px);color:#df4e27;font-weight:900}.tip{font-size:clamp(9px,1.1vw,15px);font-weight:800}
-.bottom{position:absolute;z-index:6;left:2%;right:2%;bottom:1%;height:10.5%;display:grid;grid-template-columns:18% 18% 18% 18% 18%;justify-content:space-between}
-.nav{border:3px solid white;border-radius:20px;box-shadow:0 4px 0 #a76b1c;color:white;font-weight:900;text-shadow:0 2px #804500;font-size:clamp(9px,1.4vw,21px)}
-.prev,.next{background:linear-gradient(#ffdd63,#f4a81c)}.letters{background:linear-gradient(#a45dff,#6829d2)}.numbers{background:linear-gradient(#3dbdff,#1387df)}.fav{background:linear-gradient(#7bdb53,#3ba02d)}
-@media(orientation:portrait){
- .top{height:8%;}.back{width:18%}.points{width:14%}.voice{width:24%}.title{font-size:clamp(13px,4.8vw,25px)}
- .main{top:10%;bottom:11%;display:block}.panel{display:none}.center{position:absolute;inset:0}
- .bottom{height:9%;bottom:1%}.nav{border-width:2px;border-radius:13px;font-size:clamp(8px,2.3vw,14px)}
-}
+  :root{
+    --sky1:#6EC6FF; --sky2:#8FD9FF;
+    --grass1:#7ED957; --grass2:#5BC246;
+    --pink:#FF5B93; --pink-dark:#E8437E;
+    --purple:#9B6BFF; --purple-dark:#7E4CE0;
+    --orange:#FFA23A; --orange-dark:#F08000;
+    --green:#3EC46D; --green-dark:#2FA859;
+    --blue:#2E9EF5; --blue-dark:#1C7FD1;
+    --yellow:#FFCB3C;
+    --card:#FFFDF7;
+    --ink:#2B2140;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:'Nunito',sans-serif; color:var(--ink);
+    background: linear-gradient(180deg,var(--sky1) 0%, var(--sky2) 55%, var(--grass1) 55%, var(--grass2) 100%);
+    min-height:100vh; padding:14px; overflow-x:hidden;
+  }
+  .display{font-family:'Baloo 2',cursive;}
+  .stage{
+    max-width:1300px; margin:0 auto; background:rgba(255,255,255,0.0);
+  }
+  /* HEADER */
+  .topbar{ display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .pillbtn{
+    border:none; border-radius:40px; padding:12px 20px; font-family:'Baloo 2';
+    font-weight:700; font-size:16px; color:#fff; cursor:pointer;
+    box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
+    display:flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .pillbtn:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
+  .pillbtn.pink{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); }
+  .pillbtn.orange{ background:linear-gradient(180deg,var(--orange),var(--orange-dark)); }
+  .pillbtn.blue{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
+  .pillbtn.green{ background:linear-gradient(180deg,var(--green),var(--green-dark)); }
+  .pillbtn.purple{ background:linear-gradient(180deg,var(--purple),var(--purple-dark)); }
+  .pillbtn.gray{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
+  .pillbtn:disabled{ opacity:.45; cursor:default; }
+
+  .title-wrap{
+    flex:1; text-align:center; min-width:220px;
+    background:linear-gradient(180deg,#FFB25E,#F08000);
+    border-radius:40px; padding:10px 22px; box-shadow:0 5px 0 rgba(0,0,0,0.18);
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .title-wrap h1{
+    margin:0; font-size:26px; color:#fff; -webkit-text-stroke:2px #B85A00;
+    letter-spacing:1px;
+  }
+
+  .voice-avatar{
+    width:44px; height:44px; border-radius:50%; background:#FFE1B0; display:flex;
+    align-items:center; justify-content:center; font-size:24px; border:3px solid #fff;
+  }
+
+  /* TABS */
+  .tabs{ display:flex; gap:10px; margin-bottom:12px; }
+  .tab{
+    flex:1; text-align:center; padding:10px; border-radius:16px; font-family:'Baloo 2';
+    font-weight:700; font-size:16px; cursor:pointer; border:3px solid transparent;
+    background:rgba(255,255,255,0.55); color:#4a3d63;
+  }
+  .tab.active.huruf{ background:#fff; border-color:var(--pink); color:var(--pink-dark); }
+  .tab.active.angka{ background:#fff; border-color:var(--blue); color:var(--blue-dark); }
+
+  /* CHIP STRIP */
+  .chipstrip{
+    display:flex; gap:8px; overflow-x:auto; padding:6px 2px 12px; margin-bottom:6px;
+    scrollbar-width:thin;
+  }
+  .chip{
+    flex:0 0 auto; width:42px; height:42px; border-radius:12px; border:none;
+    font-family:'Baloo 2'; font-weight:700; font-size:18px; color:#fff; cursor:pointer;
+    background:linear-gradient(180deg,#B497FF,#8C63E8); box-shadow:0 3px 0 rgba(0,0,0,0.18);
+  }
+  .chip.current{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); transform:scale(1.08); }
+
+  /* MAIN GRID */
+  .maingrid{ display:grid; grid-template-columns: 2.1fr 1fr; gap:16px; }
+  @media (max-width:880px){ .maingrid{ grid-template-columns: 1fr; } }
+
+  .tracepanel{
+    background:var(--card); border-radius:26px; padding:16px;
+    box-shadow:0 8px 0 rgba(0,0,0,0.10); position:relative;
+  }
+
+  .canvaswrap{
+    position:relative; width:100%; aspect-ratio: 16 / 9; max-height:420px;
+    border:2px dashed #f0c9dd; border-radius:18px; overflow:hidden; background:#fffefb;
+    touch-action:none;
+  }
+  .canvaswrap.angka{ aspect-ratio: 1 / 1; max-height:500px; }
+  .canvaswrap svg{ position:absolute; inset:0; width:100%; height:100%; }
+  .canvaswrap canvas{ position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; }
+  .startdot{
+    position:absolute; width:26px; height:26px; border-radius:50%; background:var(--pink);
+    color:#fff; font-family:'Baloo 2'; font-weight:800; font-size:13px; display:flex;
+    align-items:center; justify-content:center; box-shadow:0 2px 0 rgba(0,0,0,0.25); z-index:3;
+    top:8px; left:8px; pointer-events:none;
+  }
+
+  /* SIDEBAR */
+  .sidebar{ display:flex; flex-direction:column; gap:12px; }
+  .siderow{ display:flex; gap:12px; }
+  .siderow .card{ flex:1; min-width:0; }
+  .card{ background:var(--card); border-radius:22px; padding:14px; box-shadow:0 6px 0 rgba(0,0,0,0.10); }
+  .card h3{
+    margin:0 0 10px; font-family:'Baloo 2'; font-size:15px; color:#fff; display:inline-block;
+    padding:7px 16px; border-radius:16px; box-shadow:0 3px 0 rgba(0,0,0,0.15);
+  }
+  .card.contoh h3{ background:linear-gradient(180deg,var(--green),var(--green-dark)); }
+  .card.ucap h3{ background:linear-gradient(180deg,var(--orange),var(--orange-dark)); }
+  .card.petunjuk h3{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
+
+  .contoh-visual{
+    text-align:center; font-size:46px; line-height:1; margin:6px 0 8px;
+    background:#FFF6DC; border-radius:16px; padding:12px 4px;
+  }
+  .contoh-word{ text-align:center; font-family:'Baloo 2'; font-size:20px; font-weight:800; }
+  .contoh-word .hl{ color:var(--pink-dark); }
+
+  .ucap-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .ucap-row > div:not(.ucap-face){ flex:1; min-width:0; }
+  .ucap-face{ font-size:30px; }
+  .ucap-text{ font-family:'Baloo 2'; font-size:18px; font-weight:800; color:var(--orange-dark); }
+  .ucap-sub{ font-size:11px; color:#8a7e9c; margin-top:2px; }
+
+  @media (max-width:560px){
+    .siderow{ flex-direction:column; }
+  }
+
+  .petunjuk-text{ font-size:14px; line-height:1.5; color:#453a5c; }
+
+  /* BOTTOM NAV */
+  .bottomnav{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+  .bottomnav .pillbtn{ flex:1; justify-content:center; min-width:130px; }
+
+  .panel-toolbar{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    gap:10px; margin-bottom:10px;
+  }
+  .speak-hint{ font-size:12px; color:#8a7e9c; font-weight:700; }
+  .toolbar-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+  .colorpicker{
+    display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.9); padding:6px 10px; border-radius:16px; box-shadow:0 3px 0 rgba(0,0,0,0.12);
+  }
+  .swatch{
+    width:24px; height:24px; border-radius:50%; border:3px solid #fff; cursor:pointer;
+    box-shadow:0 0 0 2px rgba(0,0,0,0.15); padding:0;
+  }
+  .swatch.active{ box-shadow:0 0 0 3px #2B2140; transform:scale(1.1); }
+  .swatch.custom{
+    display:flex; align-items:center; justify-content:center; background:conic-gradient(red,yellow,lime,cyan,blue,magenta,red);
+    position:relative; overflow:hidden;
+  }
+  .swatch.custom input[type=color]{
+    position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px);
+    opacity:0; cursor:pointer; border:none; padding:0;
+  }
+  .speakbtn{
+    width:40px; height:40px; border-radius:50%;
+    border:none; background:linear-gradient(180deg,var(--orange),var(--orange-dark)); color:#fff;
+    font-size:18px; cursor:pointer; box-shadow:0 4px 0 rgba(0,0,0,0.2);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .speakbtn:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.2); }
+
+  .speakbtn-full{
+    width:100%; margin-top:10px; border:none; border-radius:14px; padding:9px;
+    font-family:'Baloo 2'; font-weight:700; font-size:14px; color:#fff; cursor:pointer;
+    background:linear-gradient(180deg,var(--orange),var(--orange-dark)); box-shadow:0 4px 0 rgba(0,0,0,0.18);
+  }
+  .speakbtn-full:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
+
+  /* CELEBRATION POPUP */
+  .celebrate-overlay{
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    z-index:999; opacity:0; pointer-events:none; transition:opacity .25s;
+    background:rgba(43,33,64,0.25);
+  }
+  .celebrate-overlay.show{ opacity:1; pointer-events:auto; }
+  .celebrate-box{
+    background:linear-gradient(180deg,#FFE9A8,#FFC94D);
+    border-radius:32px; padding:34px 40px; text-align:center;
+    box-shadow:0 10px 0 rgba(0,0,0,0.2); transform:scale(0.4) rotate(-8deg); opacity:0;
+    border:6px solid #fff;
+  }
+  .celebrate-overlay.show .celebrate-box{
+    animation: celebratePop .6s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  @keyframes celebratePop{
+    0%{ transform:scale(0.3) rotate(-10deg); opacity:0; }
+    60%{ transform:scale(1.15) rotate(3deg); opacity:1; }
+    100%{ transform:scale(1) rotate(0deg); opacity:1; }
+  }
+  .celebrate-emoji{ font-size:56px; animation: celebrateBounce 0.7s ease-in-out infinite; }
+  @keyframes celebrateBounce{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-14px) rotate(-6deg); }
+  }
+  .celebrate-title{
+    font-family:'Baloo 2',cursive; font-size:30px; font-weight:800; color:var(--pink-dark);
+    -webkit-text-stroke:1.5px #fff; margin:6px 0 2px;
+  }
+  .celebrate-sub{ font-family:'Baloo 2',cursive; font-size:18px; font-weight:700; color:#7E4CE0; }
+  .confetti-layer{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:998; }
+  .confetti-piece{
+    position:absolute; top:-40px; font-size:22px; opacity:0;
+    animation-name: confettiFall; animation-timing-function: ease-in; animation-fill-mode:forwards;
+  }
+  @keyframes confettiFall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:1; }
+    100%{ transform:translateY(110vh) rotate(360deg); opacity:0.9; }
+  }
 </style>
 </head>
-<body><div class="app"><div class="bg"></div>
-<header class="top">
-<button class="back" onclick="toast('Kembali')">⬅ Kembali</button>
-<div class="points">⭐ <span id="points">25</span></div>
-<div class="title">🌟 BELAJAR <span id="modeName">HURUF</span> 🌟</div>
-<button class="voice" onclick="speak()">🎙️ Suara Anak</button>
-</header>
-<section class="main">
-<aside class="panel">
-<div class="ribbon">Dengar Huruf</div><div class="kid">👦🏻🎤</div>
-<button class="speaker" onclick="speak()">🔊</button>
-<div id="pronounce" class="pronounce">Aaaa...</div><div class="slow">(diucapkan pelan)</div>
-</aside>
-<main class="center"><canvas id="board"></canvas><div class="info">① ② ③ Ikuti nomor dan arah panah, lalu tulis dengan jari.</div><button class="clear" onclick="clearBoard()">🧽 Bersihkan</button></main>
-<aside class="panel">
-<div class="card"><h3>Contoh Kata</h3><div class="example" id="emoji">🍎</div><div class="word" id="word">Apel</div></div>
-<div class="card"><h3 style="background:#ed4f83">Cara Mengeja</h3><div id="spell" class="spell"></div></div>
-<div class="card"><h3 style="background:#f2ac20">Cara Mengucapkan</h3><div class="quote" id="quote">“Aaaa...”</div></div>
-<div class="card"><h3 style="background:#9b62dc">Petunjuk</h3><div class="tip">Mulai dari ①, lanjutkan ②, lalu ③.</div></div>
-</aside></section>
-<nav class="bottom">
-<button class="nav prev" onclick="prev()">⬅ Sebelumnya</button>
-<button class="nav letters" onclick="mode='letters';i=0;render()">🔤 Huruf A–Z</button>
-<button class="nav numbers" onclick="mode='numbers';i=0;render()">🔢 Angka 1–10</button>
-<button class="nav fav" onclick="fav()">⭐ Favorit</button>
-<button class="nav next" onclick="next()">Berikutnya ➡</button>
-</nav></div>
+<body>
+<div class="stage">
+
+  <div class="topbar">
+    <button class="pillbtn pink" id="btnKembali">⟵ Kembali</button>
+    <div class="title-wrap">
+      <span style="font-size:22px;">⭐</span>
+      <h1 class="display" id="mainTitle">BELAJAR HURUF</h1>
+      <span style="font-size:22px;">⭐</span>
+    </div>
+    <button class="pillbtn orange" id="btnSuara">🔊 Suara Anak</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active huruf" id="tabHuruf">🔤 Huruf (A–Z)</div>
+    <div class="tab angka" id="tabAngka">🔢 Angka (0–9)</div>
+  </div>
+
+  <div class="chipstrip" id="chipStrip"></div>
+
+  <div class="maingrid">
+    <div class="tracepanel">
+      <div class="panel-toolbar">
+        <div class="speak-hint">✏️ Gambar dengan jari / mouse</div>
+        <div class="toolbar-actions">
+          <div class="colorpicker" id="colorPicker">
+            <button class="swatch active" data-color="#0B1F4E" style="background:#0B1F4E" title="Biru Dongker"></button>
+            <button class="swatch" data-color="#E8437E" style="background:#E8437E" title="Pink"></button>
+            <button class="swatch" data-color="#2FA859" style="background:#2FA859" title="Hijau"></button>
+            <button class="swatch" data-color="#F08000" style="background:#F08000" title="Oranye"></button>
+            <label class="swatch custom" title="Pilih warna lain">
+              <input type="color" id="colorCustom" value="#0B1F4E">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="canvaswrap" id="wrapMain">
+        <svg viewBox="0 0 600 300" id="svgMain"></svg>
+        <canvas id="canvasMain"></canvas>
+        <div class="startdot">1</div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="siderow">
+        <div class="card contoh">
+          <h3>Contoh Kata</h3>
+          <div class="contoh-visual" id="contohVisual">🍎</div>
+          <div class="contoh-word" id="contohWord">A<span></span>pel</div>
+        </div>
+        <div class="card ucap">
+          <h3>Cara Mengucapkan</h3>
+          <div class="ucap-row">
+            <div class="ucap-face">🧒</div>
+            <div>
+              <div class="ucap-text" id="ucapText">"Aaa..."</div>
+              <div class="ucap-sub">(diucapkan pelan)</div>
+            </div>
+          </div>
+          <button class="speakbtn-full" id="btnSpeakPanel">🔊 Putar Suara</button>
+        </div>
+      </div>
+      <div class="card petunjuk">
+        <h3>Petunjuk</h3>
+        <div class="petunjuk-text">Lihat garis putus-putus, lalu tulis mengikuti bentuknya dengan jari atau mouse mulai dari titik merah.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottomnav">
+    <button class="pillbtn orange" id="btnPrev">⟵ Sebelumnya</button>
+    <button class="pillbtn pink" id="btnClear">🗑️ Bersihkan</button>
+    <button class="pillbtn green" id="btnNext">Berikutnya ⟶</button>
+  </div>
+
+</div>
+
+<div class="celebrate-overlay" id="celebrateOverlay">
+  <div class="celebrate-box">
+    <div class="celebrate-emoji">🎉🥳🎉</div>
+    <div class="celebrate-title">Yeay, Kamu Pintar!</div>
+    <div class="celebrate-sub">Coretanmu bagus sekali ✨</div>
+  </div>
+</div>
+<div class="confetti-layer" id="confettiLayer"></div>
+
 <script>
-const L=[["A", "a", "Apel", "🍎", "A-P-E-L"], ["B", "b", "Bola", "⚽", "B-O-L-A"], ["C", "c", "Ceri", "🍒", "C-E-R-I"], ["D", "d", "Domba", "🐑", "D-O-M-B-A"], ["E", "e", "Elang", "🦅", "E-L-A-N-G"], ["F", "f", "Flamingo", "🦩", "F-L-A-M-I-N-G-O"], ["G", "g", "Gajah", "🐘", "G-A-J-A-H"], ["H", "h", "Harimau", "🐯", "H-A-R-I-M-A-U"], ["I", "i", "Ikan", "🐟", "I-K-A-N"], ["J", "j", "Jeruk", "🍊", "J-E-R-U-K"], ["K", "k", "Kucing", "🐱", "K-U-C-I-N-G"], ["L", "l", "Lemon", "🍋", "L-E-M-O-N"], ["M", "m", "Mangga", "🥭", "M-A-N-G-G-A"], ["N", "n", "Nanas", "🍍", "N-A-N-A-S"], ["O", "o", "Obor", "🔦", "O-B-O-R"], ["P", "p", "Pisang", "🍌", "P-I-S-A-N-G"], ["Q", "q", "Quran", "📖", "Q-U-R-A-N"], ["R", "r", "Roti", "🍞", "R-O-T-I"], ["S", "s", "Sapi", "🐄", "S-A-P-I"], ["T", "t", "Topi", "🎩", "T-O-P-I"], ["U", "u", "Ular", "🐍", "U-L-A-R"], ["V", "v", "Vas", "🏺", "V-A-S"], ["W", "w", "Wortel", "🥕", "W-O-R-T-E-L"], ["X", "x", "Xilofon", "🎵", "X-I-L-O-F-O-N"], ["Y", "y", "Yoyo", "🪀", "Y-O-Y-O"], ["Z", "z", "Zebra", "🦓", "Z-E-B-R-A"]];
-const N=[["1", "Satu", "1", "S-A-T-U"], ["2", "Dua", "2", "D-U-A"], ["3", "Tiga", "3", "T-I-G-A"], ["4", "Empat", "4", "E-M-P-A-T"], ["5", "Lima", "5", "L-I-M-A"], ["6", "Enam", "6", "E-N-A-M"], ["7", "Tujuh", "7", "T-U-J-U-H"], ["8", "Delapan", "8", "D-E-L-A-P-A-N"], ["9", "Sembilan", "9", "S-E-M-B-I-L-A-N"], ["10", "Sepuluh", "10", "S-E-P-U-L-U-H"]];
-let mode='letters',i=0,draw=false,favorites=new Set();
-const data=()=>mode==='letters'?L[i]:N[i], board=document.getElementById('board'),ctx=board.getContext('2d');
+// ---------- DATA ----------
+const LETTERS = [
+  {ch:'A', word:'Apel', emoji:'🍎', say:'Aaa...'},
+  {ch:'B', word:'Bola', emoji:'⚽', say:'Beh...'},
+  {ch:'C', word:'Cangkir', emoji:'☕', say:'Ceh...'},
+  {ch:'D', word:'Dadu', emoji:'🎲', say:'Deh...'},
+  {ch:'E', word:'Es Krim', emoji:'🍦', say:'Eh...'},
+  {ch:'F', word:'Foto', emoji:'📷', say:'Ef...'},
+  {ch:'G', word:'Gajah', emoji:'🐘', say:'Geh...'},
+  {ch:'H', word:'Hati', emoji:'❤️', say:'Ha...'},
+  {ch:'I', word:'Ikan', emoji:'🐟', say:'Ii...'},
+  {ch:'J', word:'Jeruk', emoji:'🍊', say:'Jeh...'},
+  {ch:'K', word:'Kucing', emoji:'🐱', say:'Ka...'},
+  {ch:'L', word:'Lebah', emoji:'🐝', say:'El...'},
+  {ch:'M', word:'Matahari', emoji:'☀️', say:'Em...'},
+  {ch:'N', word:'Nanas', emoji:'🍍', say:'En...'},
+  {ch:'O', word:'Ombak', emoji:'🌊', say:'Oo...'},
+  {ch:'P', word:'Pisang', emoji:'🍌', say:'Peh...'},
+  {ch:'Q', word:'Kuas', emoji:'🖌️', say:'Ki...'},
+  {ch:'R', word:'Rumah', emoji:'🏠', say:'Er...'},
+  {ch:'S', word:'Singa', emoji:'🦁', say:'Es...'},
+  {ch:'T', word:'Topi', emoji:'🎩', say:'Teh...'},
+  {ch:'U', word:'Ular', emoji:'🐍', say:'Uu...'},
+  {ch:'V', word:'Vas Bunga', emoji:'🏺', say:'Vee...'},
+  {ch:'W', word:'Wortel', emoji:'🥕', say:'Weh...'},
+  {ch:'X', word:'Xilofon', emoji:'🎼', say:'Eks...'},
+  {ch:'Y', word:'Yoyo', emoji:'🪀', say:'Ye...'},
+  {ch:'Z', word:'Zebra', emoji:'🦓', say:'Zet...'},
+];
+const NUMBERS = [
+  {d:'0', word:'Nol', emoji:''},
+  {d:'1', word:'Satu', emoji:'🍎'},
+  {d:'2', word:'Dua', emoji:'🍎🍎'},
+  {d:'3', word:'Tiga', emoji:'🍎🍎🍎'},
+  {d:'4', word:'Empat', emoji:'🍎🍎🍎🍎'},
+  {d:'5', word:'Lima', emoji:'🍎🍎🍎🍎🍎'},
+  {d:'6', word:'Enam', emoji:'🍎🍎🍎🍎🍎🍎'},
+  {d:'7', word:'Tujuh', emoji:'🍎🍎🍎🍎🍎🍎🍎'},
+  {d:'8', word:'Delapan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎'},
+  {d:'9', word:'Sembilan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎🍎'},
+];
+
+let mode = 'huruf'; // or 'angka'
+let index = 0;
+
+// ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
+const DASH = '11,8'; // satu gaya garis putus-putus dipakai di semua glyph
+
+// Huruf: dua glyph besar berdampingan dalam satu kotak lebar, dipisah garis tipis.
+function renderHurufPair(svgEl, upper, lower){
+  svgEl.setAttribute('viewBox','0 0 640 360');
+  svgEl.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  const line = document.createElementNS(ns,'line');
+  line.setAttribute('x1','320'); line.setAttribute('y1','15');
+  line.setAttribute('x2','320'); line.setAttribute('y2','345');
+  line.setAttribute('stroke','#eadff5'); line.setAttribute('stroke-width','3');
+  line.setAttribute('stroke-dasharray', DASH);
+  svgEl.appendChild(line);
+
+  [[upper,160],[lower,480]].forEach(([text,x]) => {
+    const t = document.createElementNS(ns,'text');
+    t.setAttribute('x', String(x)); t.setAttribute('y','255');
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family',"'Baloo 2', sans-serif");
+    t.setAttribute('font-weight','800');
+    t.setAttribute('font-size','340');
+    t.setAttribute('fill','#ffffff');
+    t.setAttribute('stroke', '#2B2140');
+    t.setAttribute('stroke-width','3');
+    t.setAttribute('stroke-dasharray', DASH);
+    t.textContent = text;
+    svgEl.appendChild(t);
+  });
+}
+// Angka: digit di atas, tulisan di bawah dalam satu kotak, dipisah garis tipis.
+// Tulisan otomatis mengecil supaya kata panjang (mis. "Sembilan") tidak terpotong.
+function renderAngkaPair(svgEl, digit, word){
+  svgEl.setAttribute('viewBox','0 0 520 520');
+  svgEl.innerHTML = '';
+  const ns = 'http://www.w3.org/2000/svg';
+
+  const digitText = document.createElementNS(ns,'text');
+  digitText.setAttribute('x','260'); digitText.setAttribute('y','255');
+  digitText.setAttribute('text-anchor','middle');
+  digitText.setAttribute('font-family',"'Baloo 2', sans-serif");
+  digitText.setAttribute('font-weight','800');
+  digitText.setAttribute('font-size','320');
+  digitText.setAttribute('fill','#ffffff');
+  digitText.setAttribute('stroke', '#2B2140');
+  digitText.setAttribute('stroke-width','3');
+  digitText.setAttribute('stroke-dasharray', DASH);
+  digitText.textContent = digit;
+  svgEl.appendChild(digitText);
+
+  const line = document.createElementNS(ns,'line');
+  line.setAttribute('x1','25'); line.setAttribute('y1','335');
+  line.setAttribute('x2','495'); line.setAttribute('y2','335');
+  line.setAttribute('stroke','#eadff5'); line.setAttribute('stroke-width','3');
+  line.setAttribute('stroke-dasharray', DASH);
+  svgEl.appendChild(line);
+
+  const maxWidth = 480;
+  let fontSize = 190;
+  const estWidth = () => word.length * fontSize * 0.62;
+  while(estWidth() > maxWidth && fontSize > 50){ fontSize -= 4; }
+  const wordText = document.createElementNS(ns,'text');
+  wordText.setAttribute('x','260'); wordText.setAttribute('y', String(400 + fontSize*0.55));
+  wordText.setAttribute('text-anchor','middle');
+  wordText.setAttribute('font-family',"'Baloo 2', sans-serif");
+  wordText.setAttribute('font-weight','800');
+  wordText.setAttribute('font-size', String(fontSize));
+  wordText.setAttribute('fill','#ffffff');
+  wordText.setAttribute('stroke', '#2B2140');
+  wordText.setAttribute('stroke-width','3');
+  wordText.setAttribute('stroke-dasharray', DASH);
+  wordText.textContent = word;
+  svgEl.appendChild(wordText);
+}
+
+// ---------- CANVAS DRAWING ----------
+function setupCanvas(canvas){
+  const ctx = canvas.getContext('2d');
+  let currentColor = '#0B1F4E';
+  function applyStyle(){
+    ctx.strokeStyle = currentColor;
+    ctx.lineWidth = 24;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  }
+  function resize(){
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width; canvas.height = rect.height;
+    applyStyle(); // resizing clears the canvas AND resets context style, so re-apply it
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  let drawing = false;
+
+  function pos(e){
+    const rect = canvas.getBoundingClientRect();
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return {x:cx, y:cy};
+  }
+  let onStrokeEnd = null;
+  function start(e){ drawing = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); }
+  function move(e){ if(!drawing) return; const p = pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); e.preventDefault(); }
+  function end(){ if(drawing && onStrokeEnd) onStrokeEnd(); drawing = false; }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+
+  return {
+    ctx, canvas,
+    clear: () => ctx.clearRect(0,0,canvas.width,canvas.height),
+    resize,
+    setColor: (c) => { currentColor = c; ctx.strokeStyle = c; },
+    setOnStrokeEnd: (fn) => { onStrokeEnd = fn; }
+  };
+}
+
+const canvasMain = setupCanvas(document.getElementById('canvasMain'));
+
+// ---------- TRACE-COVERAGE MASK & CELEBRATION ----------
+const maskCanvas = document.createElement('canvas');
+const maskCtx = maskCanvas.getContext('2d');
+let targetPoints = [];   // koordinat pola yang harus diikuti, untuk cek cakupan
+let celebrated = false;  // sudah rayakan huruf/angka ini?
+
+function buildMask(){
+  const canvas = canvasMain.canvas;
+  maskCanvas.width = canvas.width;
+  maskCanvas.height = canvas.height;
+  maskCtx.clearRect(0,0,maskCanvas.width,maskCanvas.height);
+  maskCtx.lineWidth = 34;
+  maskCtx.strokeStyle = '#fff';
+  maskCtx.textAlign = 'center';
+  maskCtx.textBaseline = 'alphabetic';
+
+  if(mode === 'huruf'){
+    const scale = canvas.width / 640;
+    maskCtx.lineWidth = 34 * scale;
+    maskCtx.font = `800 ${340*scale}px 'Baloo 2', sans-serif`;
+    const item = LETTERS[index];
+    maskCtx.strokeText(item.ch, 160*scale, 255*scale);
+    maskCtx.strokeText(item.ch.toLowerCase(), 480*scale, 255*scale);
+  } else {
+    const scale = canvas.width / 520;
+    maskCtx.lineWidth = 34 * scale;
+    maskCtx.font = `800 ${320*scale}px 'Baloo 2', sans-serif`;
+    const item = NUMBERS[index];
+    maskCtx.strokeText(item.d, 260*scale, 255*scale);
+
+    const maxWidth = 480;
+    let fontSize = 190;
+    const estWidth = () => item.word.length * fontSize * 0.62;
+    while(estWidth() > maxWidth && fontSize > 50){ fontSize -= 4; }
+    maskCtx.font = `800 ${fontSize*scale}px 'Baloo 2', sans-serif`;
+    maskCtx.strokeText(item.word, 260*scale, (400 + fontSize*0.55)*scale);
+  }
+
+  // ambil titik-titik sampel dari pola (stride biar ringan)
+  targetPoints = [];
+  const data = maskCtx.getImageData(0,0,maskCanvas.width,maskCanvas.height).data;
+  const stride = 6;
+  for(let y=0; y<maskCanvas.height; y+=stride){
+    for(let x=0; x<maskCanvas.width; x+=stride){
+      const a = data[(y*maskCanvas.width + x)*4 + 3];
+      if(a > 100) targetPoints.push(x,y);
+    }
+  }
+  celebrated = false;
+}
+
+function checkCoverage(){
+  if(celebrated || targetPoints.length === 0) return;
+  const canvas = canvasMain.canvas;
+  const drawData = canvasMain.ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  let matched = 0;
+  const total = targetPoints.length / 2;
+  for(let i=0; i<targetPoints.length; i+=2){
+    const x = targetPoints[i], y = targetPoints[i+1];
+    if(drawData[(y*canvas.width + x)*4 + 3] > 40) matched++;
+  }
+  const ratio = total > 0 ? matched/total : 0;
+  if(ratio >= 0.5){
+    celebrated = true;
+    celebrate();
+    updateNextButton();
+  }
+}
+canvasMain.setOnStrokeEnd(checkCoverage);
+window.addEventListener('resize', () => { buildMask(); });
+
+function spawnConfetti(){
+  const layer = document.getElementById('confettiLayer');
+  const emojis = ['🎉','⭐','🎈','✨','🌟','🎊'];
+  const colors = ['#FF5B93','#9B6BFF','#FFA23A','#3EC46D','#2E9EF5','#FFCB3C'];
+  for(let i=0; i<26; i++){
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.color = colors[Math.floor(Math.random()*colors.length)];
+    el.style.fontSize = (16 + Math.random()*18) + 'px';
+    const duration = 1.6 + Math.random()*1.2;
+    el.style.animationDuration = duration + 's';
+    el.style.animationDelay = (Math.random()*0.3) + 's';
+    layer.appendChild(el);
+    setTimeout(() => el.remove(), (duration+0.3)*1000);
+  }
+}
+
+function celebrate(){
+  const overlay = document.getElementById('celebrateOverlay');
+  overlay.classList.add('show');
+  spawnConfetti();
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance('Yeay, kamu pintar!');
+    u.lang = 'id-ID';
+    u.rate = 1;
+    u.pitch = 1.3;
+    speechSynthesis.speak(u);
+  }catch(e){ /* speech unavailable */ }
+  setTimeout(() => { overlay.classList.remove('show'); }, 2200);
+}
+
+// ---------- RENDER STATE ----------
 function render(){
- const d=data(), letter=mode==='letters'; document.getElementById('modeName').textContent=letter?'HURUF':'ANGKA';
- document.getElementById('pronounce').textContent=letter?d[0]+'aaa...':'Angka '+d[0];
- document.getElementById('emoji').textContent=d[3]; document.getElementById('word').textContent=d[2];
- document.getElementById('quote').textContent='“'+(letter?d[0]+'...':d[1])+'”';
- document.getElementById('spell').innerHTML=d[4].split('-').map(x=>'<b>'+x+'</b>').join('');
- resize(); setTimeout(speak,180);
+  const svgMain = document.getElementById('svgMain');
+  const wrapMain = document.getElementById('wrapMain');
+  canvasMain.clear();
+  canvasMain.resize();
+
+  document.getElementById('mainTitle').textContent = mode === 'huruf' ? 'BELAJAR HURUF' : 'BELAJAR ANGKA';
+  document.getElementById('tabHuruf').classList.toggle('active', mode==='huruf');
+  document.getElementById('tabAngka').classList.toggle('active', mode==='angka');
+
+  if(mode === 'huruf'){
+    wrapMain.classList.remove('angka');
+    const item = LETTERS[index];
+    renderHurufPair(svgMain, item.ch, item.ch.toLowerCase());
+    document.getElementById('contohVisual').textContent = item.emoji;
+    document.getElementById('contohWord').innerHTML =
+      '<span class="hl">' + item.ch + '</span>' + item.word.slice(1);
+    document.getElementById('ucapText').textContent = '"' + item.say + '"';
+  } else {
+    wrapMain.classList.add('angka');
+    const item = NUMBERS[index];
+    renderAngkaPair(svgMain, item.d, item.word);
+    document.getElementById('contohVisual').textContent = item.emoji || '—';
+    document.getElementById('contohWord').innerHTML =
+      '<span class="hl">' + item.d + '</span> = ' + item.word;
+    document.getElementById('ucapText').textContent = '"' + item.word + '..."';
+  }
+
+  document.getElementById('btnPrev').disabled = (index === 0);
+
+  renderChips();
+  buildMask();
+  updateNextButton();
 }
-function resize(){let r=board.getBoundingClientRect(),q=devicePixelRatio||1;board.width=r.width*q;board.height=r.height*q;ctx.setTransform(q,0,0,q,0,0);guide()}
-function guide(){
- const d=data(),letter=mode==='letters',w=board.clientWidth,h=board.clientHeight;ctx.clearRect(0,0,w,h);
- let fs=letter?Math.min(h*.65,w*.58):(String(d[0]).length>1?Math.min(h*.52,w*.45):Math.min(h*.70,w*.48));
- ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='900 '+fs+'px Arial';
- // Separate uppercase and lowercase guides.
- if(letter){
-   ctx.setLineDash([16,13]);ctx.lineWidth=6;ctx.strokeStyle='#171717';
-   ctx.strokeText(d[0],w*.40,h*.43);ctx.strokeText(d[1],w*.65,h*.61);
-   ctx.setLineDash([]);
-   arrow(w*.26,h*.68,w*.39,h*.18,'#ef2773','1');
-   arrow(w*.52,h*.18,w*.52,h*.40,'#268be8','2');
-   arrow(w*.55,h*.72,w*.76,h*.58,'#56b52f','3');
- }else{
-   ctx.setLineDash([16,13]);ctx.lineWidth=6;ctx.strokeStyle='#171717';ctx.strokeText(d[0],w/2,h*.46);ctx.setLineDash([]);
-   arrow(w*.35,h*.72,w*.50,h*.23,'#ef2773','1');arrow(w*.55,h*.23,w*.68,h*.58,'#268be8','2');
- }
+
+function updateNextButton(){
+  const list = mode === 'huruf' ? LETTERS : NUMBERS;
+  const isLast = (index === list.length - 1);
+  document.getElementById('btnNext').disabled = isLast || !celebrated;
 }
-function arrow(x1,y1,x2,y2,c,n){ctx.save();ctx.strokeStyle=c;ctx.fillStyle=c;ctx.lineWidth=6;ctx.setLineDash([11,11]);ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();ctx.setLineDash([]);let a=Math.atan2(y2-y1,x2-x1),s=18;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-s*Math.cos(a-.5),y2-s*Math.sin(a-.5));ctx.lineTo(x2-s*Math.cos(a+.5),y2-s*Math.sin(a+.5));ctx.closePath();ctx.fill();ctx.beginPath();ctx.arc(x1+(x2-x1)*.5,y1+(y2-y1)*.5,19,0,7);ctx.fill();ctx.fillStyle='white';ctx.font='900 18px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(n,x1+(x2-x1)*.5,y1+(y2-y1)*.5);ctx.restore()}
-function pos(e){let r=board.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
-board.addEventListener('pointerdown',e=>{draw=true;board.setPointerCapture(e.pointerId);let p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y)});
-board.addEventListener('pointermove',e=>{if(!draw)return;let p=pos(e);ctx.strokeStyle='#7336d6';ctx.lineWidth=Math.max(6,board.clientWidth/100);ctx.lineCap='round';ctx.lineJoin='round';ctx.lineTo(p.x,p.y);ctx.stroke()});
-['pointerup','pointercancel'].forEach(v=>board.addEventListener(v,()=>draw=false));
-function clearBoard(){guide();toast('🧽 Bersih! Ayo coba lagi!')}
-function next(){let m=mode==='letters'?L.length-1:N.length-1;if(i<m){i++;render()}else toast('🌟 Sudah yang terakhir!')}
-function prev(){if(i>0){i--;render()}else toast('🌟 Ini yang pertama!')}
-function fav(){let k=mode+i;favorites.has(k)?(favorites.delete(k),toast('☆ Dihapus')):(favorites.add(k),toast('⭐ Favorit disimpan'))}
-function speak(){if(!speechSynthesis)return;let d=data(),text=mode==='letters'?`Hai teman! Ini huruf ${d[0]}. ${d[0]} untuk ${d[2]}. Yuk eja pelan-pelan: ${d[4].replaceAll('- ', ', ')}`:`Hai teman! Ini angka ${d[0]}. Namanya ${d[1]}.`;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang='id-ID';u.rate=.45;u.pitch=1.7;let vs=speechSynthesis.getVoices();u.voice=vs.find(v=>/id[-_]ID/i.test(v.lang))||vs.find(v=>/indones/i.test(v.name))||null;speechSynthesis.speak(u)}
-function toast(t){let z=document.createElement('div');z.textContent=t;Object.assign(z.style,{position:'fixed',zIndex:99,left:'50%',top:'14%',transform:'translateX(-50%)',background:'#6636d6',color:'#fff',padding:'9px 18px',borderRadius:'20px',fontWeight:900});document.body.appendChild(z);setTimeout(()=>z.remove(),1100)}
-addEventListener('resize',resize);render();
-</script></body></html>
+
+function renderChips(){
+  const strip = document.getElementById('chipStrip');
+  strip.innerHTML = '';
+  const list = mode === 'huruf' ? LETTERS : NUMBERS;
+  list.forEach((item, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === index ? ' current' : '');
+    b.textContent = mode === 'huruf' ? item.ch : item.d;
+    b.onclick = () => { index = i; render(); };
+    strip.appendChild(b);
+  });
+}
+
+// ---------- SPEECH ----------
+function speakCurrent(){
+  try{
+    const text = mode === 'huruf'
+      ? LETTERS[index].ch + '. ' + LETTERS[index].say + '. Contohnya, ' + LETTERS[index].word
+      : NUMBERS[index].d + '. ' + NUMBERS[index].word;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'id-ID';
+    u.rate = 0.85;
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }catch(e){ /* speech unavailable */ }
+}
+
+// ---------- EVENTS ----------
+document.getElementById('tabHuruf').onclick = () => { mode='huruf'; index=0; render(); };
+document.getElementById('tabAngka').onclick = () => { mode='angka'; index=0; render(); };
+document.getElementById('btnPrev').onclick = () => { if(index>0){ index--; render(); } };
+document.getElementById('btnNext').onclick = () => {
+  const list = mode === 'huruf' ? LETTERS : NUMBERS;
+  if(index < list.length-1){ index++; render(); }
+};
+document.getElementById('btnClear').onclick = () => { canvasMain.clear(); celebrated = false; updateNextButton(); };
+document.getElementById('btnKembali').onclick = () => { mode='huruf'; index=0; render(); };
+document.getElementById('btnSuara').onclick = speakCurrent;
+document.getElementById('btnSpeakPanel').onclick = speakCurrent;
+document.querySelectorAll('#colorPicker .swatch[data-color]').forEach(btn => {
+  btn.onclick = () => {
+    const c = btn.dataset.color;
+    canvasMain.setColor(c);
+    document.querySelectorAll('#colorPicker .swatch').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('colorCustom').value = c;
+  };
+});
+document.getElementById('colorCustom').addEventListener('input', (e) => {
+  canvasMain.setColor(e.target.value);
+  document.querySelectorAll('#colorPicker .swatch').forEach(s => s.classList.remove('active'));
+});
+
+// ---------- INIT ----------
+render();
+</script>
+</body>
+</html>
