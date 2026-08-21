@@ -45,6 +45,10 @@
   .pillbtn.purple{ background:linear-gradient(180deg,var(--purple),var(--purple-dark)); }
   .pillbtn.gray{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
   .pillbtn:disabled{ opacity:.45; cursor:default; }
+  .pillbtn.homebtn{
+    width:48px; height:48px; padding:0; border-radius:50%;
+    font-size:22px; flex:0 0 auto; justify-content:center;
+  }
 
   .title-wrap{
     flex:1; text-align:center; min-width:220px;
@@ -607,7 +611,7 @@
 <div class="stage" id="stage" style="display:none;">
 
   <div class="topbar">
-    <button class="pillbtn pink" id="btnKembali">⟵ Kembali</button>
+    <button class="pillbtn pink homebtn" id="btnKembali" aria-label="Beranda" title="Beranda">🏠</button>
     <div class="title-wrap">
       <span style="font-size:22px;">⭐</span>
       <h1 class="display" id="mainTitle">BELAJAR HURUF</h1>
@@ -696,8 +700,8 @@
 
 <div class="celebrate-overlay" id="actionOverlay" style="z-index:1001;">
   <div class="celebrate-box">
-    <div class="celebrate-title">Hebat! 🎉</div>
-    <div class="celebrate-sub">Mau menulis lagi atau lanjut?</div>
+    <div class="celebrate-title" id="actionTitle">Hebat! 🎉</div>
+    <div class="celebrate-sub" id="actionSub">Mau menulis lagi atau lanjut?</div>
     <div style="display:flex;gap:10px;justify-content:center;margin-top:15px;">
       <button class="pillbtn orange" id="btnTryAgain">🔄 Coba Lagi</button>
       <button class="pillbtn green" id="btnGoNext">➡️ Berikutnya</button>
@@ -1450,12 +1454,12 @@ function celebrate(){
   overlay.classList.add('show');
   spawnConfetti();
   const name = document.getElementById('childName').value.trim();
-  const message = name ? `Yeay, ${name} kamu sangat pintar!` : 'Yeay, kamu pintar!';
+  const message = name ? I18N[language].smartName(name) : T('smart');
   document.getElementById('celebrateTitle').textContent = message;
   try{
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(message);
-    u.lang = 'id-ID';
+    u.lang = language==='en' ? 'en-US' : 'id-ID';
     u.rate = 1;
     u.pitch = 1.3;
     speechSynthesis.speak(u);
@@ -1483,7 +1487,9 @@ const I18N = {
     speak:'🔊 Putar Suara', hint:'Gerakkan tangan atau mouse mengikuti bentuk', helpTitle:'Petunjuk', close:'Tutup',
     prev:'⟵ Sebelumnya', clear:'🗑️ Bersihkan', next:'Berikutnya ⟶',
     celebration:'Yeay, Kamu Pintar!', celebrationSub:'Coretanmu bagus sekali ✨',
-    tryAgain:'🔄 Coba Lagi', continue:'➡️ Berikutnya'
+    tryAgain:'🔄 Coba Lagi', continue:'➡️ Berikutnya',
+    actionTitle:'Hebat! 🎉', actionSub:'Mau menulis lagi atau lanjut?',
+    smart:'Yeay, kamu pintar!', smartName:name=>`Yeay, ${name} kamu sangat pintar!`
   },
   en: {
     startTitle:'Learn Letters & Numbers',
@@ -1498,7 +1504,9 @@ const I18N = {
     speak:'🔊 Play Sound', hint:'Move your hand or mouse along the shape', helpTitle:'Instructions', close:'Close',
     prev:'⟵ Previous', clear:'🗑️ Clear', next:'Next ⟶',
     celebration:'Yay, You’re Smart!', celebrationSub:'Your drawing looks great ✨',
-    tryAgain:'🔄 Try Again', continue:'➡️ Next'
+    tryAgain:'🔄 Try Again', continue:'➡️ Next',
+    actionTitle:'Great! 🎉', actionSub:'Want to write again or continue?',
+    smart:'Yay, you\u2019re smart!', smartName:name=>`Yay, ${name} you\u2019re so smart!`
   }
 };
 const T = k => I18N[language][k] || k;
@@ -1520,7 +1528,8 @@ function applyLanguage(){
 
   const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=T(key); };
   set('btnStartHuruf','huruf'); set('btnStartAngka','angka'); set('btnStartAddition','tambah'); set('btnStartSubtraction','kurang');
-  set('btnKembali','back'); set('btnHandGuide','guide'); set('btnSpeakPanel','speak');
+  const kb=document.getElementById('btnKembali'); if(kb){ const homeLabel = language==='en'?'Home':'Beranda'; kb.setAttribute('aria-label',homeLabel); kb.setAttribute('title',homeLabel); }
+  set('btnHandGuide','guide'); set('btnSpeakPanel','speak');
   set('btnPrev','prev'); set('btnClear','clear'); set('btnNext','next');
   const ls=document.getElementById('btnLanguageStart'); if(ls) ls.textContent=T('language');
   const lm=document.getElementById('btnLanguage'); if(lm) lm.textContent=T('language');
@@ -1534,6 +1543,9 @@ function applyLanguage(){
   const cs=document.querySelector('#celebrateOverlay .celebrate-sub'); if(cs) cs.textContent=T('celebrationSub');
   const ta=document.getElementById('btnTryAgain'); if(ta) ta.textContent=T('tryAgain');
   const gn=document.getElementById('btnGoNext'); if(gn) gn.textContent=T('continue');
+  const at=document.getElementById('actionTitle'); if(at) at.textContent=T('actionTitle');
+  const as=document.getElementById('actionSub'); if(as) as.textContent=T('actionSub');
+  if(typeof window.applyAddSubLanguage==='function') window.applyAddSubLanguage();
   if(document.getElementById('stage').style.display !== 'none') render();
 }
 function toggleLanguage(){
@@ -1985,10 +1997,10 @@ window.checkAdditionAnswer = function(value){
 </style>
 <div id="additionScreen">
  <div class="addbox">
-  <h1 class="display">➕ Belajar Penjumlahan</h1>
+  <h1 class="display" id="addTitle">➕ Belajar Penjumlahan</h1>
   <div class="addprogress" id="addProgress"></div>
   <div class="addq" id="addQuestion"></div>
-  <p class="addhint">🔢 Tekan angka jawabannya:</p>
+  <p class="addhint" id="addHint">🔢 Tekan angka jawabannya:</p>
   <div class="addanswer-display" id="addAnswerDisplay">_</div>
   <div class="addkeypad" id="addKeypad">
     <button class="addkey" data-d="1">1</button>
@@ -2004,8 +2016,8 @@ window.checkAdditionAnswer = function(value){
     <button class="addkey back" id="addBackspace">⌫</button>
   </div>
   <div class="addbtn-row">
-   <button class="pillbtn green" onclick="checkAddAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';">⟵ Keluar</button>
+   <button class="pillbtn green" id="addCheckBtn" onclick="checkAddAnswer()">✅ Periksa</button>
+   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';">🏠</button>
   </div>
  </div>
 </div>
@@ -2041,7 +2053,7 @@ window.checkAdditionAnswer = function(value){
  window.renderAdd=function(){
    let q=addQuestions[addIndex];
    document.getElementById('addQuestion').textContent=`${q.a} + ${q.b} = ?`;
-   document.getElementById('addProgress').textContent=`Soal ke-${addIndex+1}`;
+   document.getElementById('addProgress').textContent = language==='en' ? `Question ${addIndex+1}` : `Soal ke-${addIndex+1}`;
    addTyped='';
    updateAddDisplay();
  }
@@ -2049,6 +2061,7 @@ window.checkAdditionAnswer = function(value){
    addQuestions=[makeAddQuestion(0)];
    addIndex=0;
    document.getElementById('additionScreen').style.display='block';
+   if(typeof window.applyAddSubLanguage==='function') window.applyAddSubLanguage();
    renderAdd();
  }
  window.checkAddAnswer=function(){
@@ -2056,13 +2069,33 @@ window.checkAdditionAnswer = function(value){
    let ok=Number(addTyped)===q.ans;
    let p=document.getElementById('addPopup');
    document.getElementById('addPopupEmoji').textContent=ok?'🎉':'😥';
-   document.getElementById('addPopupTitle').textContent=ok?'Hebat, Jawaban Benar!':'Yah, Jawaban Salah!';
+   document.getElementById('addPopupTitle').textContent = ok
+     ? (language==='en' ? 'Great, Correct Answer!' : 'Hebat, Jawaban Benar!')
+     : (language==='en' ? 'Oops, Wrong Answer!' : 'Yah, Jawaban Salah!');
+   document.getElementById('addRetryBtn').textContent = language==='en' ? '🔄 Try Again' : '🔄 Coba Lagi';
+   document.getElementById('addNextBtn').textContent = language==='en' ? '➡️ Next' : '➡️ Berikutnya';
    document.getElementById('addRetryBtn').style.display=ok?'none':'';
    document.getElementById('addNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
-   let u=new SpeechSynthesisUtterance(ok?'Hebat, jawaban benar':'Jawaban salah');
+   let u=new SpeechSynthesisUtterance(ok ? (language==='en'?'Great, correct answer':'Hebat, jawaban benar') : (language==='en'?'Wrong answer':'Jawaban salah'));
    u.lang=language==='en'?'en-US':'id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    window._lastAddOk=ok;
+ }
+ window.applyAddSubLanguage=function(){
+   const en = language==='en';
+   const setText=(id,idText,enText)=>{ const el=document.getElementById(id); if(el) el.textContent = en?enText:idText; };
+   setText('addTitle','➕ Belajar Penjumlahan','➕ Learning Addition');
+   setText('addHint','🔢 Tekan angka jawabannya:','🔢 Press the number for your answer:');
+   setText('addCheckBtn','✅ Periksa','✅ Check');
+   setText('addRetryBtn','🔄 Coba Lagi','🔄 Try Again');
+   setText('addNextBtn','➡️ Berikutnya','➡️ Next');
+   setText('subTitle','➖ Belajar Pengurangan','➖ Learning Subtraction');
+   setText('subHint','🔢 Tekan angka jawabannya:','🔢 Press the number for your answer:');
+   setText('subCheckBtn','✅ Periksa','✅ Check');
+   setText('subRetryBtn','🔄 Coba Lagi','🔄 Try Again');
+   setText('subNextBtn','➡️ Berikutnya','➡️ Next');
+   if(document.getElementById('additionScreen').style.display!=='none' && addQuestions.length) renderAdd();
+   if(document.getElementById('subtractionScreen').style.display!=='none' && window.subQuestions && window.subQuestions.length) renderSub();
  }
  window.retryAdd=function(){
    document.getElementById('addPopup').classList.remove('show');
@@ -2093,10 +2126,10 @@ window.checkAdditionAnswer = function(value){
 </style>
 <div id="subtractionScreen">
  <div class="addbox subbox">
-  <h1 class="display">➖ Belajar Pengurangan</h1>
+  <h1 class="display" id="subTitle">➖ Belajar Pengurangan</h1>
   <div class="addprogress" id="subProgress"></div>
   <div class="addq" id="subQuestion"></div>
-  <p class="addhint">🔢 Tekan angka jawabannya:</p>
+  <p class="addhint" id="subHint">🔢 Tekan angka jawabannya:</p>
   <div class="addanswer-display" id="subAnswerDisplay">_</div>
   <div class="addkeypad" id="subKeypad">
     <button class="addkey subkey" data-d="1">1</button>
@@ -2112,8 +2145,8 @@ window.checkAdditionAnswer = function(value){
     <button class="addkey back" id="subBackspace">⌫</button>
   </div>
   <div class="addbtn-row">
-   <button class="pillbtn orange" onclick="checkSubAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';">⟵ Keluar</button>
+   <button class="pillbtn orange" id="subCheckBtn" onclick="checkSubAnswer()">✅ Periksa</button>
+   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';">🏠</button>
   </div>
  </div>
 </div>
@@ -2148,7 +2181,7 @@ window.checkAdditionAnswer = function(value){
  window.renderSub=function(){
    let q=subQuestions[subIndex];
    document.getElementById('subQuestion').textContent=`${q.a} - ${q.b} = ?`;
-   document.getElementById('subProgress').textContent=`Soal ke-${subIndex+1}`;
+   document.getElementById('subProgress').textContent = language==='en' ? `Question ${subIndex+1}` : `Soal ke-${subIndex+1}`;
    subTyped='';
    updateSubDisplay();
  }
@@ -2156,6 +2189,7 @@ window.checkAdditionAnswer = function(value){
    subQuestions=[makeSubQuestion(0)];
    subIndex=0;
    document.getElementById('subtractionScreen').style.display='block';
+   if(typeof window.applyAddSubLanguage==='function') window.applyAddSubLanguage();
    renderSub();
  }
  window.checkSubAnswer=function(){
@@ -2163,11 +2197,15 @@ window.checkAdditionAnswer = function(value){
    let ok=Number(subTyped)===q.ans;
    let p=document.getElementById('subPopup');
    document.getElementById('subPopupEmoji').textContent=ok?'🎉':'😥';
-   document.getElementById('subPopupTitle').textContent=ok?'Hebat, Jawaban Benar!':'Yah, Jawaban Salah!';
+   document.getElementById('subPopupTitle').textContent = ok
+     ? (language==='en' ? 'Great, Correct Answer!' : 'Hebat, Jawaban Benar!')
+     : (language==='en' ? 'Oops, Wrong Answer!' : 'Yah, Jawaban Salah!');
+   document.getElementById('subRetryBtn').textContent = language==='en' ? '🔄 Try Again' : '🔄 Coba Lagi';
+   document.getElementById('subNextBtn').textContent = language==='en' ? '➡️ Next' : '➡️ Berikutnya';
    document.getElementById('subRetryBtn').style.display=ok?'none':'';
    document.getElementById('subNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
-   let u=new SpeechSynthesisUtterance(ok?'Hebat, jawaban benar':'Jawaban salah');
+   let u=new SpeechSynthesisUtterance(ok ? (language==='en'?'Great, correct answer':'Hebat, jawaban benar') : (language==='en'?'Wrong answer':'Jawaban salah'));
    u.lang=language==='en'?'en-US':'id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    window._lastSubOk=ok;
  }
