@@ -324,7 +324,7 @@
             <div class="ucap-face">🧒</div>
             <div>
               <div class="ucap-text" id="ucapText">"Aaa..."</div>
-              <div class="ucap-sub">(diucapkan pelan)</div>
+              <div class="ucap-sub" id="syllableText">(diucapkan pelan)</div>
             </div>
           </div>
           <button class="speakbtn-full" id="btnSpeakPanel">🔊 Putar Suara</button>
@@ -354,47 +354,59 @@
 </div>
 <div class="confetti-layer" id="confettiLayer"></div>
 
+
+<div class="celebrate-overlay" id="actionOverlay" style="z-index:1001;">
+  <div class="celebrate-box">
+    <div class="celebrate-title">Hebat! 🎉</div>
+    <div class="celebrate-sub">Mau menulis lagi atau lanjut?</div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:15px;">
+      <button class="pillbtn orange" id="btnTryAgain">🔄 Coba Lagi</button>
+      <button class="pillbtn green" id="btnGoNext">➡️ Berikutnya</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ---------- DATA ----------
 const LETTERS = [
-  {ch:'A', word:'Apel', emoji:'🍎', say:'Aaa...'},
-  {ch:'B', word:'Bola', emoji:'⚽', say:'Beh...'},
-  {ch:'C', word:'Cangkir', emoji:'☕', say:'Ceh...'},
-  {ch:'D', word:'Dadu', emoji:'🎲', say:'Deh...'},
-  {ch:'E', word:'Es Krim', emoji:'🍦', say:'Eh...'},
-  {ch:'F', word:'Foto', emoji:'📷', say:'Ef...'},
+  {ch:'A', word:'Ayam', emoji:'🐔', say:'Aaa...'},
+  {ch:'B', word:'Bebek', emoji:'🦆', say:'Beh...'},
+  {ch:'C', word:'Cicak', emoji:'🦎', say:'Ceh...'},
+  {ch:'D', word:'Domba', emoji:'🐑', say:'Deh...'},
+  {ch:'E', word:'Elang', emoji:'🦅', say:'Eh...'},
+  {ch:'F', word:'Flamingo', emoji:'🦩', say:'Ef...'},
   {ch:'G', word:'Gajah', emoji:'🐘', say:'Geh...'},
-  {ch:'H', word:'Hati', emoji:'❤️', say:'Ha...'},
+  {ch:'H', word:'Harimau', emoji:'🐯', say:'Ha...'},
   {ch:'I', word:'Ikan', emoji:'🐟', say:'Ii...'},
-  {ch:'J', word:'Jeruk', emoji:'🍊', say:'Jeh...'},
+  {ch:'J', word:'Jerapah', emoji:'🦒', say:'Jeh...'},
   {ch:'K', word:'Kucing', emoji:'🐱', say:'Ka...'},
   {ch:'L', word:'Lebah', emoji:'🐝', say:'El...'},
-  {ch:'M', word:'Matahari', emoji:'☀️', say:'Em...'},
-  {ch:'N', word:'Nanas', emoji:'🍍', say:'En...'},
-  {ch:'O', word:'Ombak', emoji:'🌊', say:'Oo...'},
-  {ch:'P', word:'Pisang', emoji:'🍌', say:'Peh...'},
+  {ch:'M', word:'Monyet', emoji:'🐒', say:'Em...'},
+  {ch:'N', word:'Nyamuk', emoji:'🦟', say:'En...'},
+  {ch:'O', word:'Onta', emoji:'🐫', say:'Oo...'},
+  {ch:'P', word:'Penyu', emoji:'🐢', say:'Peh...'},
   {ch:'Q', word:'Queen', emoji:'👑', say:'Ki...'},
-  {ch:'R', word:'Rumah', emoji:'🏠', say:'Er...'},
+  {ch:'R', word:'Rusa', emoji:'🦌', say:'Er...'},
   {ch:'S', word:'Singa', emoji:'🦁', say:'Es...'},
-  {ch:'T', word:'Topi', emoji:'🎩', say:'Teh...'},
+  {ch:'T', word:'Tikus', emoji:'🐭', say:'Teh...'},
   {ch:'U', word:'Ular', emoji:'🐍', say:'Uu...'},
   {ch:'V', word:'Vas Bunga', emoji:'🏺', say:'Vee...'},
   {ch:'W', word:'Wortel', emoji:'🥕', say:'Weh...'},
   {ch:'X', word:'Xilofon', emoji:'🎼', say:'Eks...'},
-  {ch:'Y', word:'Yoyo', emoji:'🪀', say:'Ye...'},
+  {ch:'Y', word:'Yak', emoji:'🐂', say:'Ye...'},
   {ch:'Z', word:'Zebra', emoji:'🦓', say:'Zet...'},
 ];
 const NUMBERS = [
-  {d:'0', word:'Nol', emoji:''},
-  {d:'1', word:'Satu', emoji:'🍎'},
-  {d:'2', word:'Dua', emoji:'🍎🍎'},
-  {d:'3', word:'Tiga', emoji:'🍎🍎🍎'},
-  {d:'4', word:'Empat', emoji:'🍎🍎🍎🍎'},
-  {d:'5', word:'Lima', emoji:'🍎🍎🍎🍎🍎'},
-  {d:'6', word:'Enam', emoji:'🍎🍎🍎🍎🍎🍎'},
-  {d:'7', word:'Tujuh', emoji:'🍎🍎🍎🍎🍎🍎🍎'},
-  {d:'8', word:'Delapan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎'},
-  {d:'9', word:'Sembilan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎🍎'},
+  {d:'0', word:'Nol', emoji:'', syllable:'n-o-l, nol'},
+  {d:'1', word:'Satu', emoji:'🍎', syllable:'s-a sa, t-u tu, satu'},
+  {d:'2', word:'Dua', emoji:'🍎🍎', syllable:'d-u du, a, dua'},
+  {d:'3', word:'Tiga', emoji:'🍎🍎🍎', syllable:'t-i ti, g-a ga, tiga'},
+  {d:'4', word:'Empat', emoji:'🍎🍎🍎🍎', syllable:'em, pat, empat'},
+  {d:'5', word:'Lima', emoji:'🍎🍎🍎🍎🍎', syllable:'l-i li, m-a ma, lima'},
+  {d:'6', word:'Enam', emoji:'🍎🍎🍎🍎🍎🍎', syllable:'e, nam, enam'},
+  {d:'7', word:'Tujuh', emoji:'🍎🍎🍎🍎🍎🍎🍎', syllable:'tu, juh, tujuh'},
+  {d:'8', word:'Delapan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'de, la, pan, delapan'},
+  {d:'9', word:'Sembilan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'sem, bi, lan, sembilan'},
 ];
 
 let mode = 'huruf'; // or 'angka'
@@ -805,7 +817,12 @@ function celebrate(){
     u.pitch = 1.3;
     speechSynthesis.speak(u);
   }catch(e){ /* speech unavailable */ }
-  setTimeout(() => { overlay.classList.remove('show'); }, 2200);
+  setTimeout(() => {
+    overlay.classList.remove('show');
+    if(mode === 'angka'){
+      document.getElementById('actionOverlay').classList.add('show');
+    }
+  }, 2200);
 }
 
 // ---------- RENDER STATE ----------
@@ -833,6 +850,7 @@ function render(){
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.d + '</span> = ' + item.word;
     document.getElementById('ucapText').textContent = '"' + item.word + '..."';
+    document.getElementById('syllableText').textContent = item.syllable || '(diucapkan pelan)';
   }
 
   document.getElementById('btnPrev').disabled = (index === 0);
@@ -867,7 +885,7 @@ function speakCurrent(){
   try{
     const text = mode === 'huruf'
       ? LETTERS[index].ch + '. ' + LETTERS[index].say + '. Contohnya, ' + LETTERS[index].word
-      : NUMBERS[index].d + '. ' + NUMBERS[index].word;
+      : NUMBERS[index].d + '. ' + (NUMBERS[index].syllable || NUMBERS[index].word) + '. ' + NUMBERS[index].word;
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'id-ID';
     u.rate = 0.85;
@@ -926,3 +944,19 @@ document.getElementById('childName').addEventListener('input', updateStartSub);
 </script>
 </body>
 </html>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const tryBtn=document.getElementById('btnTryAgain');
+ const nextBtn=document.getElementById('btnGoNext');
+ if(tryBtn) tryBtn.onclick=()=>{
+   canvasMain.clear(); celebrated=false; updateNextButton();
+   document.getElementById('actionOverlay').classList.remove('show');
+ };
+ if(nextBtn) nextBtn.onclick=()=>{
+   const list=(mode==='huruf'?LETTERS:NUMBERS);
+   if(index<list.length-1){index++; render();}
+   document.getElementById('actionOverlay').classList.remove('show');
+ };
+});
+</script>
