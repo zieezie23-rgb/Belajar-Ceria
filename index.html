@@ -543,6 +543,24 @@
   }
 
 </style>
+
+<style id="progress-style">
+#matchProgress{
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  z-index:8;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(15,23,42,.12);
+  border-radius:12px;
+  padding:7px 11px;
+  font-weight:800;
+  font-size:13px;
+  color:#0f172a;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  pointer-events:none;
+}
+</style>
 </head>
 <body>
 
@@ -1702,6 +1720,115 @@ try{
   if(savedLanguage==='id'||savedLanguage==='en') language=savedLanguage;
 }catch(e){}
 applyLanguage();
+</script>
+
+<script id="popup-progress-i18n">
+(function(){
+  const popupTexts = {
+    id: {
+      title: 'Petunjuk',
+      close: 'Tutup',
+      body: 'Gunakan jari atau mouse untuk menulis mengikuti bentuk contoh. Semakin mirip tulisan Anda dengan contoh, semakin tinggi persentase kecocokannya.'
+    },
+    en: {
+      title: 'Instructions',
+      close: 'Close',
+      body: 'Use your finger or mouse to write by following the example shape. The closer your writing is to the example, the higher the match percentage.'
+    }
+  };
+
+  function getLang(){
+    return (window.currentLang || window.language || document.documentElement.lang || 'id').toLowerCase().startsWith('en') ? 'en' : 'id';
+  }
+
+  function updatePopupLanguage(){
+    const lang = getLang();
+    const t = popupTexts[lang];
+
+    const title = document.querySelector('#helpModal h2, #helpPopup h2, .helpModal h2');
+    const body = document.querySelector('#helpModal .modal-body, #helpPopup .modal-body, .helpModal .modal-body, #helpModal p, #helpPopup p');
+    const close = document.querySelector('#helpModal .close, #helpPopup .close, .helpModal .close, #helpModal button, #helpPopup button');
+
+    if(title) title.textContent = t.title;
+    if(body) body.textContent = t.body;
+    if(close && /tutup|close|×/i.test(close.textContent)) close.textContent = t.close;
+  }
+
+  function updateProgress(value){
+    const el = document.getElementById('matchProgress');
+    if(!el) return;
+    const lang = getLang();
+    const n = Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
+    el.textContent = lang === 'en' ? `Match: ${n}%` : `Kecocokan: ${n}%`;
+  }
+
+  window.updateHelpPopupLanguage = updatePopupLanguage;
+  window.updateMatchProgress = updateProgress;
+
+  // Tangkap perubahan bahasa yang dilakukan aplikasi yang sudah ada.
+  const oldSet = window.setLanguage;
+  if(typeof oldSet === 'function'){
+    window.setLanguage = function(){
+      const r = oldSet.apply(this, arguments);
+      setTimeout(updatePopupLanguage, 0);
+      setTimeout(function(){ updateProgress(window.lastMatchPercent || 0); }, 0);
+      return r;
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    updatePopupLanguage();
+    updateProgress(0);
+  });
+})();
+</script>
+
+<script id="progress-hooks">
+(function(){
+  function readAndShow(){
+    // Coba beberapa nama variabel/elemen yang lazim dipakai oleh aplikasi.
+    const candidates = [
+      window.matchPercent, window.matchPercentage, window.similarity,
+      window.similarityPercent, window.accuracy, window.score
+    ];
+    for(const v of candidates){
+      if(typeof v === 'number' && isFinite(v)){
+        window.lastMatchPercent = v;
+        if(window.updateMatchProgress) window.updateMatchProgress(v);
+        return;
+      }
+    }
+
+    const selectors = [
+      '#matchPercent','#matchPercentage','#similarity','#similarityPercent',
+      '.match-percent','.matchPercentage','.similarity-percent'
+    ];
+    for(const s of selectors){
+      const el = document.querySelector(s);
+      if(el){
+        const m = el.textContent.match(/(\d+(?:[.,]\d+)?)\s*%/);
+        if(m){
+          const v = parseFloat(m[1].replace(',','.'));
+          window.lastMatchPercent = v;
+          if(window.updateMatchProgress) window.updateMatchProgress(v);
+          return;
+        }
+      }
+    }
+  }
+
+  // Poll ringan agar indikator mengikuti hasil perhitungan aplikasi yang sudah ada.
+  setInterval(readAndShow, 250);
+})();
+</script>
+
+<script id="language-observer">
+(function(){
+  const obs = new MutationObserver(function(){
+    if(window.updateHelpPopupLanguage) window.updateHelpPopupLanguage();
+  });
+  obs.observe(document.documentElement, {subtree:true, childList:true, characterData:true});
+})();
 </script>
 </body>
 </html>
