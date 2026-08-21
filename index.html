@@ -138,7 +138,34 @@
     .siderow{ flex-direction:column; }
   }
 
-  .petunjuk-text{ font-size:14px; line-height:1.5; color:#453a5c; }
+  .petunjuk-help{
+    display:contents;
+  }
+  .helpbtn{
+    position:absolute; top:10px; right:10px; z-index:20;
+    width:42px; height:42px; border:3px solid #fff; border-radius:50%;
+    background:linear-gradient(180deg,var(--blue),var(--blue-dark)); color:#fff;
+    font-family:'Baloo 2'; font-size:24px; line-height:1; font-weight:800; cursor:pointer;
+    box-shadow:0 4px 0 rgba(0,0,0,0.18); transition:transform .1s, box-shadow .1s;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .helpbtn:active{ transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,0.18); }
+
+  .help-overlay{
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    z-index:1100; opacity:0; pointer-events:none; transition:opacity .2s;
+    background:rgba(43,33,64,.38); padding:20px;
+  }
+  .help-overlay.show{ opacity:1; pointer-events:auto; }
+  .help-box{
+    width:min(520px,100%); background:var(--card); border-radius:28px;
+    padding:24px; text-align:center; box-shadow:0 10px 0 rgba(0,0,0,.18);
+    border:5px solid #fff; transform:scale(.9); transition:transform .2s;
+  }
+  .help-overlay.show .help-box{ transform:scale(1); }
+  .help-icon{ font-size:44px; margin-bottom:4px; }
+  .help-title{ font-family:'Baloo 2'; font-size:25px; font-weight:800; color:var(--blue-dark); margin:0 0 10px; }
+  .help-text{ font-size:16px; line-height:1.55; color:#453a5c; font-weight:700; margin:0 0 18px; }
 
   /* START / MENU SCREEN */
   .start-screen{
@@ -522,7 +549,10 @@
 <div class="start-screen" id="startScreen">
   <div class="floaty-layer" id="floatyLayer"></div>
   <div class="start-card">
-    <h1 class="start-title display"><span class="twinkle">⭐</span> Belajar Huruf & Angka <span class="twinkle">⭐</span></h1>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
+      <button class="pillbtn blue" id="btnLanguageStart" type="button">🇮🇩 Indonesia</button>
+    </div>
+    <h1 class="start-title display"><span class="twinkle">⭐</span> <span id="startTitleText">Belajar Huruf & Angka</span> <span class="twinkle">⭐</span></h1>
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
@@ -545,7 +575,7 @@
       <h1 class="display" id="mainTitle">BELAJAR HURUF</h1>
       <span style="font-size:22px;">⭐</span>
     </div>
-    <button class="pillbtn orange" id="btnSuara">🔊 Suara Anak</button>
+    <button class="pillbtn orange" id="btnLanguage">🇮🇩 Indonesia</button>
   </div>
 
   <div class="chipstrip" id="chipStrip"></div>
@@ -571,6 +601,9 @@
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
         <canvas id="canvasMain"></canvas>
         <div class="startdot">1</div>
+        <div class="petunjuk-help">
+          <button class="helpbtn" id="btnHelp" type="button" aria-label="Petunjuk">?</button>
+        </div>
       </div>
     </div>
 
@@ -593,10 +626,6 @@
           <button class="speakbtn-full" id="btnSpeakPanel">🔊 Putar Suara</button>
         </div>
       </div>
-      <div class="card petunjuk">
-        <h3>Petunjuk</h3>
-        <div class="petunjuk-text" id="petunjukText">Gerakkan tangan atau mouse mengikuti bentuk</div>
-      </div>
     </div>
   </div>
 
@@ -618,6 +647,15 @@
 <div class="confetti-layer" id="confettiLayer"></div>
 
 
+<div class="help-overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+  <div class="help-box">
+    <div class="help-icon">❓</div>
+    <h2 class="help-title" id="helpTitle">Petunjuk</h2>
+    <p class="help-text" id="helpText">Gerakkan tangan atau mouse mengikuti bentuk.</p>
+    <button class="pillbtn blue" id="btnCloseHelp" type="button">Tutup</button>
+  </div>
+</div>
+
 <div class="celebrate-overlay" id="actionOverlay" style="z-index:1001;">
   <div class="celebrate-box">
     <div class="celebrate-title">Hebat! 🎉</div>
@@ -632,49 +670,50 @@
 <script>
 // ---------- DATA ----------
 const LETTERS = [
-  {ch:'A', word:'Ayam', emoji:'🐔', say:'Aaa...'},
-  {ch:'B', word:'Bebek', emoji:'🦆', say:'Beh...'},
-  {ch:'C', word:'Cicak', emoji:'🦎', say:'Ceh...'},
-  {ch:'D', word:'Domba', emoji:'🐑', say:'Deh...'},
-  {ch:'E', word:'Elang', emoji:'🦅', say:'Eh...'},
-  {ch:'F', word:'Flamingo', emoji:'🦩', say:'Ef...'},
-  {ch:'G', word:'Gajah', emoji:'🐘', say:'Geh...'},
-  {ch:'H', word:'Harimau', emoji:'🐯', say:'Ha...'},
-  {ch:'I', word:'Ikan', emoji:'🐟', say:'Ii...'},
-  {ch:'J', word:'Jerapah', emoji:'🦒', say:'Jeh...'},
-  {ch:'K', word:'Kucing', emoji:'🐱', say:'Ka...'},
-  {ch:'L', word:'Lebah', emoji:'🐝', say:'El...'},
-  {ch:'M', word:'Monyet', emoji:'🐒', say:'Em...'},
-  {ch:'N', word:'Nyamuk', emoji:'🦟', say:'En...'},
-  {ch:'O', word:'Onta', emoji:'🐫', say:'Oo...'},
-  {ch:'P', word:'Penyu', emoji:'🐢', say:'Peh...'},
-  {ch:'Q', word:'Queen', emoji:'👑', say:'Ki...'},
-  {ch:'R', word:'Rusa', emoji:'🦌', say:'Er...'},
-  {ch:'S', word:'Singa', emoji:'🦁', say:'Es...'},
-  {ch:'T', word:'Tikus', emoji:'🐭', say:'Teh...'},
-  {ch:'U', word:'Ular', emoji:'🐍', say:'Uu...'},
-  {ch:'V', word:'Vas Bunga', emoji:'🏺', say:'Vee...'},
-  {ch:'W', word:'Wortel', emoji:'🥕', say:'Weh...'},
-  {ch:'X', word:'Xilofon', emoji:'🎼', say:'Eks...'},
-  {ch:'Y', word:'Yak', emoji:'🐂', say:'Ye...'},
-  {ch:'Z', word:'Zebra', emoji:'🦓', say:'Zet...'},
+  {ch:'A', word:'Ayam', wordEN:'Ant', emoji:'🐜', say:'Aaa...', sayEN:'Ay...'},
+  {ch:'B', word:'Bebek', wordEN:'Bear', emoji:'🐻', say:'Beh...', sayEN:'Buh...'},
+  {ch:'C', word:'Cicak', wordEN:'Cat', emoji:'🐱', say:'Ceh...', sayEN:'Kuh...'},
+  {ch:'D', word:'Domba', wordEN:'Dog', emoji:'🐶', say:'Deh...', sayEN:'Duh...'},
+  {ch:'E', word:'Elang', wordEN:'Elephant', emoji:'🐘', say:'Eh...', sayEN:'Eh...'},
+  {ch:'F', word:'Flamingo', wordEN:'Fox', emoji:'🦊', say:'Ef...', sayEN:'Fuh...'},
+  {ch:'G', word:'Gajah', wordEN:'Giraffe', emoji:'🦒', say:'Geh...', sayEN:'Juh...'},
+  {ch:'H', word:'Harimau', wordEN:'Horse', emoji:'🐴', say:'Ha...', sayEN:'Huh...'},
+  {ch:'I', word:'Ikan', wordEN:'Iguana', emoji:'🦎', say:'Ii...', sayEN:'Eye...'},
+  {ch:'J', word:'Jerapah', wordEN:'Jaguar', emoji:'🐆', say:'Jeh...', sayEN:'Juh...'},
+  {ch:'K', word:'Kucing', wordEN:'Kangaroo', emoji:'🦘', say:'Ka...', sayEN:'Kuh...'},
+  {ch:'L', word:'Lebah', wordEN:'Lion', emoji:'🦁', say:'El...', sayEN:'Luh...'},
+  {ch:'M', word:'Monyet', wordEN:'Monkey', emoji:'🐒', say:'Em...', sayEN:'Muh...'},
+  {ch:'N', word:'Nyamuk', wordEN:'Narwhal', emoji:'🐋', say:'En...', sayEN:'Nahr...'},
+  {ch:'O', word:'Onta', wordEN:'Owl', emoji:'🦉', say:'Oo...', sayEN:'Oh...'},
+  {ch:'P', word:'Penyu', wordEN:'Penguin', emoji:'🐧', say:'Peh...', sayEN:'Puh...'},
+  {ch:'Q', word:'Queen', wordEN:'Quail', emoji:'🐦', say:'Ki...', sayEN:'Kwail...'},
+  {ch:'R', word:'Rusa', wordEN:'Rabbit', emoji:'🐰', say:'Er...', sayEN:'Ruh...'},
+  {ch:'S', word:'Singa', wordEN:'Snake', emoji:'🐍', say:'Es...', sayEN:'Sss...'},
+  {ch:'T', word:'Tikus', wordEN:'Tiger', emoji:'🐯', say:'Teh...', sayEN:'Tih...'},
+  {ch:'U', word:'Ular', wordEN:'Urchin', emoji:'🦔', say:'Uu...', sayEN:'Uh...'},
+  {ch:'V', word:'Vas Bunga', wordEN:'Vulture', emoji:'🦅', say:'Vee...', sayEN:'Vee...'},
+  {ch:'W', word:'Wortel', wordEN:'Wolf', emoji:'🐺', say:'Weh...', sayEN:'Wuh...'},
+  {ch:'X', word:'Xilofon', wordEN:'X-ray Tetra', emoji:'🐟', say:'Eks...', sayEN:'Eks...'},
+  {ch:'Y', word:'Yak', wordEN:'Yak', emoji:'🐂', say:'Ye...', sayEN:'Yuh...'},
+  {ch:'Z', word:'Zebra', wordEN:'Zebra', emoji:'🦓', say:'Zet...', sayEN:'Zee...'},
 ];
 const NUMBERS = [
-  {d:'0', word:'Nol', emoji:'', syllable:'n-o-l, nol'},
-  {d:'1', word:'Satu', emoji:'🍎', syllable:'s-a sa, t-u tu, satu'},
-  {d:'2', word:'Dua', emoji:'🍎🍎', syllable:'d-u du, a, dua'},
-  {d:'3', word:'Tiga', emoji:'🍎🍎🍎', syllable:'t-i ti, g-a ga, tiga'},
-  {d:'4', word:'Empat', emoji:'🍎🍎🍎🍎', syllable:'em, pat, empat'},
-  {d:'5', word:'Lima', emoji:'🍎🍎🍎🍎🍎', syllable:'l-i li, m-a ma, lima'},
-  {d:'6', word:'Enam', emoji:'🍎🍎🍎🍎🍎🍎', syllable:'e, nam, enam'},
-  {d:'7', word:'Tujuh', emoji:'🍎🍎🍎🍎🍎🍎🍎', syllable:'tu, juh, tujuh'},
-  {d:'8', word:'Delapan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'de, la, pan, delapan'},
-  {d:'9', word:'Sembilan', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'sem, bi, lan, sembilan'},
+  {d:'0', word:'Nol', wordEN:'Zero', emoji:'', syllable:'n-o-l, nol', syllableEN:'z-e-r-o, zero'},
+  {d:'1', word:'Satu', wordEN:'One', emoji:'🍎', syllable:'s-a sa, t-u tu, satu', syllableEN:'o-n-e, one'},
+  {d:'2', word:'Dua', wordEN:'Two', emoji:'🍎🍎', syllable:'d-u du, a, dua', syllableEN:'t-w-o, two'},
+  {d:'3', word:'Tiga', wordEN:'Three', emoji:'🍎🍎🍎', syllable:'t-i ti, g-a ga, tiga', syllableEN:'t-h-r-ee, three'},
+  {d:'4', word:'Empat', wordEN:'Four', emoji:'🍎🍎🍎🍎', syllable:'em, pat, empat', syllableEN:'f-o-u-r, four'},
+  {d:'5', word:'Lima', wordEN:'Five', emoji:'🍎🍎🍎🍎🍎', syllable:'l-i li, m-a ma, lima', syllableEN:'f-i-v-e, five'},
+  {d:'6', word:'Enam', wordEN:'Six', emoji:'🍎🍎🍎🍎🍎🍎', syllable:'e, nam, enam', syllableEN:'s-i-x, six'},
+  {d:'7', word:'Tujuh', wordEN:'Seven', emoji:'🍎🍎🍎🍎🍎🍎🍎', syllable:'tu, juh, tujuh', syllableEN:'s-e-v-e-n, seven'},
+  {d:'8', word:'Delapan', wordEN:'Eight', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'de, la, pan, delapan', syllableEN:'e-i-g-h-t, eight'},
+  {d:'9', word:'Sembilan', wordEN:'Nine', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'sem, bi, lan, sembilan', syllableEN:'n-i-n-e, nine'},
 ];
 
 let mode = 'huruf'; // or 'angka'
 let index = 0;
 let childGender = 'boy';
+let language = 'id'; // 'id' = Indonesia, 'en' = English
 
 // ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
 const DASH = '14,10';
@@ -1392,35 +1431,106 @@ function celebrate(){
 }
 
 // ---------- RENDER STATE ----------
+const I18N = {
+  id: {
+    startTitle:'Belajar Huruf & Angka',
+    startSub:'Yuk pilih mau belajar apa dulu?',
+    namePlaceholder:'Tulis nama anak di sini (opsional)',
+    huruf:'Belajar Huruf (A–Z)', angka:'Belajar Angka (0–9)',
+    tambah:'Belajar Penjumlahan', kurang:'Belajar Pengurangan',
+    language:'🇮🇩 Indonesia', back:'⟵ Kembali',
+    titleHuruf:'BELAJAR HURUF', titleAngka:'BELAJAR ANGKA',
+    contoh:'Contoh Kata', hitung:'Hitunglah', cara:'Cara Mengucapkan',
+    guide:'👆 Lihat Contoh Gerakan', draw:'✏️ Gambar dengan jari / mouse',
+    speak:'🔊 Putar Suara', hint:'Gerakkan tangan atau mouse mengikuti bentuk', helpTitle:'Petunjuk', close:'Tutup',
+    prev:'⟵ Sebelumnya', clear:'🗑️ Bersihkan', next:'Berikutnya ⟶',
+    celebration:'Yeay, Kamu Pintar!', celebrationSub:'Coretanmu bagus sekali ✨',
+    tryAgain:'🔄 Coba Lagi', continue:'➡️ Berikutnya'
+  },
+  en: {
+    startTitle:'Learn Letters & Numbers',
+    startSub:'Let’s choose what to learn first!',
+    namePlaceholder:'Write the child’s name here (optional)',
+    huruf:'Learn Letters (A–Z)', angka:'Learn Numbers (0–9)',
+    tambah:'Learn Addition', kurang:'Learn Subtraction',
+    language:'🇬🇧 English', back:'⟵ Back',
+    titleHuruf:'LEARN LETTERS', titleAngka:'LEARN NUMBERS',
+    contoh:'Example Word', hitung:'Count', cara:'How to Say It',
+    guide:'👆 Show Writing Guide', draw:'✏️ Draw with your finger / mouse',
+    speak:'🔊 Play Sound', hint:'Move your hand or mouse along the shape', helpTitle:'Instructions', close:'Close',
+    prev:'⟵ Previous', clear:'🗑️ Clear', next:'Next ⟶',
+    celebration:'Yay, You’re Smart!', celebrationSub:'Your drawing looks great ✨',
+    tryAgain:'🔄 Try Again', continue:'➡️ Next'
+  }
+};
+const T = k => I18N[language][k] || k;
+const currentWord = item => language === 'en' ? item.wordEN : item.word;
+const currentSay = item => language === 'en' ? item.sayEN : item.say;
+const currentSyllable = item => language === 'en' ? item.syllableEN : item.syllable;
+
+function applyLanguage(){
+  const startTitle = document.getElementById('startTitleText');
+  if(startTitle) startTitle.textContent = T('startTitle');
+  const startSub = document.getElementById('startSub');
+  const name = document.getElementById('childName')?.value.trim();
+  if(startSub) startSub.textContent = name
+    ? (language==='en' ? `Let’s choose, ${name}, what do you want to learn?` : `Yuk pilih, ${name} mau belajar apa?`)
+    : T('startSub');
+
+  const inp=document.getElementById('childName');
+  if(inp) inp.placeholder=T('namePlaceholder');
+
+  const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=T(key); };
+  set('btnStartHuruf','huruf'); set('btnStartAngka','angka'); set('btnStartAddition','tambah'); set('btnStartSubtraction','kurang');
+  set('btnKembali','back'); set('btnHandGuide','guide'); set('btnSpeakPanel','speak');
+  set('btnPrev','prev'); set('btnClear','clear'); set('btnNext','next');
+  const ls=document.getElementById('btnLanguageStart'); if(ls) ls.textContent=T('language');
+  const lm=document.getElementById('btnLanguage'); if(lm) lm.textContent=T('language');
+  const ph=document.getElementById('panelTitle'); if(ph) ph.textContent=mode==='huruf'?T('contoh'):T('hitung');
+  const uh=document.querySelector('.card.ucap h3'); if(uh) uh.textContent=T('cara');
+  const ht=document.getElementById('helpTitle'); if(ht) ht.textContent=T('helpTitle');
+  const hc=document.getElementById('btnCloseHelp'); if(hc) hc.textContent=T('close');
+  const hb=document.getElementById('btnHelp'); if(hb) hb.setAttribute('aria-label',T('helpTitle'));
+  const hint=document.querySelector('.speak-hint'); if(hint) hint.textContent=T('draw');
+  const ct=document.getElementById('celebrateTitle'); if(ct) ct.textContent=T('celebration');
+  const cs=document.querySelector('#celebrateOverlay .celebrate-sub'); if(cs) cs.textContent=T('celebrationSub');
+  const ta=document.getElementById('btnTryAgain'); if(ta) ta.textContent=T('tryAgain');
+  const gn=document.getElementById('btnGoNext'); if(gn) gn.textContent=T('continue');
+  if(document.getElementById('stage').style.display !== 'none') render();
+}
+function toggleLanguage(){
+  language = language === 'id' ? 'en' : 'id';
+  try{ localStorage.setItem('learningLanguage', language); }catch(e){}
+  applyLanguage();
+}
+
 function render(){
   const svgMain = document.getElementById('svgMain');
   const wrapMain = document.getElementById('wrapMain');
   canvasMain.clear();
   canvasMain.resize();
 
-  document.getElementById('mainTitle').textContent = mode === 'huruf' ? 'BELAJAR HURUF' : 'BELAJAR ANGKA';
+  document.getElementById('mainTitle').textContent = mode === 'huruf' ? T('titleHuruf') : T('titleAngka');
 
   if(mode === 'huruf'){
     wrapMain.classList.remove('angka');
     const item = LETTERS[index];
     renderHurufPair(svgMain, item.ch, item.ch.toLowerCase());
-    document.getElementById('panelTitle').textContent='Contoh Kata';
+    document.getElementById('panelTitle').textContent=T('contoh');
     document.getElementById('contohVisual').textContent = item.emoji;
     document.getElementById('contohWord').innerHTML =
-      '<span class="hl">' + item.ch + '</span>' + item.word.slice(1);
-    document.getElementById('ucapText').textContent = '"' + item.say + '"';
-    document.getElementById('petunjukText').textContent = 'Gerakkan tangan atau mouse mengikuti bentuk';
+      '<span class="hl">' + item.ch + '</span>' + currentWord(item).slice(1);
+    document.getElementById('ucapText').textContent = '"' + currentSay(item) + '"';
   } else {
     wrapMain.classList.add('angka');
     const item = NUMBERS[index];
-    renderAngkaPair(svgMain, item.d, item.word);
-    document.getElementById('panelTitle').textContent='Hitunglah';
+    renderAngkaPair(svgMain, item.d, currentWord(item));
+    document.getElementById('panelTitle').textContent=T('hitung');
     document.getElementById('contohVisual').textContent = item.emoji || '—';
     document.getElementById('contohWord').innerHTML =
-      '<span class="hl">' + item.d + '</span> = ' + item.word;
-    document.getElementById('ucapText').textContent = '"' + item.word + '..."';
-    document.getElementById('syllableText').textContent = item.syllable || '(diucapkan pelan)';
-    document.getElementById('petunjukText').textContent = 'Gerakkan tangan atau mouse mengikuti bentuk';
+      '<span class="hl">' + item.d + '</span> = ' + currentWord(item);
+    document.getElementById('ucapText').textContent = '"' + currentWord(item) + '..."';
+    document.getElementById('syllableText').textContent = currentSyllable(item) || (language==='en'?'(say it slowly)':'(diucapkan pelan)');
   }
 
   document.getElementById('btnPrev').disabled = (index === 0);
@@ -1472,7 +1582,7 @@ function playAnimalSound(){
   if(!sound) return;
 
   const u = new SpeechSynthesisUtterance(sound);
-  u.lang='id-ID';
+  u.lang=language==='en'?'en-US':'id-ID';
   u.rate=0.9;
   u.pitch=1.2;
   speechSynthesis.cancel();
@@ -1482,11 +1592,8 @@ function playAnimalSound(){
 // ---------- SPEECH ----------
 
 function updateVoiceButton(){
-  const btn = document.getElementById('btnSuara');
-  if(!btn) return;
-  btn.textContent = childGender === 'boy'
-    ? '👦 Anak Laki-laki'
-    : '👧 Anak Perempuan';
+  // Dipertahankan untuk kompatibilitas kode lama; pengaturan suara anak
+  // sekarang digantikan oleh tombol pergantian bahasa.
 }
 
 
@@ -1494,51 +1601,35 @@ function speakCurrent(){
   try{
     let text='';
     if(mode === 'huruf'){
-      text = LETTERS[index].ch + ' untuk ' + LETTERS[index].word;
+      const item=LETTERS[index];
+      text = language==='en'
+        ? `${item.ch} for ${item.wordEN}`
+        : `${item.ch} untuk ${item.word}`;
     }else{
-      const item = NUMBERS[index];
-      const spellMap = {
-        'Nol':'Nol. n-o-l. nol',
-        'Satu':'Satu. s-a. sa. t-u. tu. satu',
-        'Dua':'Dua. d-u. du. a. dua',
-        'Tiga':'Tiga. t-i. ti. g-a. ga. tiga',
-        'Empat':'Empat. em. pat. empat',
-        'Lima':'Lima. l-i. li. m-a. ma. lima',
-        'Enam':'Enam. e. nam. enam',
-        'Tujuh':'Tujuh. tu. juh. tujuh',
-        'Delapan':'Delapan. de. la. pan. delapan',
+      const item=NUMBERS[index];
+      const spellMapID = {
+        'Nol':'Nol. n-o-l. nol','Satu':'Satu. s-a. sa. t-u. tu. satu','Dua':'Dua. d-u. du. a. dua',
+        'Tiga':'Tiga. t-i. ti. g-a. ga. tiga','Empat':'Empat. em. pat. empat','Lima':'Lima. l-i. li. m-a. lima',
+        'Enam':'Enam. e. nam. enam','Tujuh':'Tujuh. tu. juh. tujuh','Delapan':'Delapan. de. la. pan. delapan',
         'Sembilan':'Sembilan. sem. bi. lan. sembilan'
       };
-      text = spellMap[item.word] || item.word;
+      const spellMapEN = {
+        'Zero':'Zero. z-e-r-o. zero','One':'One. o-n-e. one','Two':'Two. t-w-o. two',
+        'Three':'Three. t-h-r-e-e. three','Four':'Four. f-o-u-r. four','Five':'Five. f-i-v-e. five',
+        'Six':'Six. s-i-x. six','Seven':'Seven. s-e-v-e-n. seven','Eight':'Eight. e-i-g-h-t. eight',
+        'Nine':'Nine. n-i-n-e. nine'
+      };
+      text = language==='en' ? (spellMapEN[item.wordEN] || item.wordEN) : (spellMapID[item.word] || item.word);
     }
-
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'id-ID';
+    u.lang = language==='en' ? 'en-US' : 'id-ID';
     u.rate = 0.8;
     u.pitch = childGender === 'girl' ? 1.22 : 1.08;
     u.volume = 1;
-
     const voices = speechSynthesis.getVoices();
-    let selectedVoice = null;
-
-    if(childGender === 'girl'){
-      selectedVoice = voices.find(v =>
-        v.lang && v.lang.startsWith('id') &&
-        /female|woman|girl/i.test(v.name)
-      );
-    } else {
-      selectedVoice = voices.find(v =>
-        v.lang && v.lang.startsWith('id') &&
-        /male|man|boy/i.test(v.name)
-      );
-    }
-
-    if(!selectedVoice){
-      selectedVoice = voices.find(v => v.lang && v.lang.startsWith('id'));
-    }
-
+    const prefix=language==='en'?'en':'id';
+    let selectedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
     if(selectedVoice) u.voice = selectedVoice;
-
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
   }catch(e){}
@@ -1555,12 +1646,21 @@ document.getElementById('btnKembali').onclick = () => {
   document.getElementById('stage').style.display = 'none';
   document.getElementById('startScreen').style.display = '';
 };
-document.getElementById('btnSuara').onclick = () => {
-  childGender = childGender === 'boy' ? 'girl' : 'boy';
-  updateVoiceButton();
-  speakCurrent();
-};
+document.getElementById('btnLanguage').onclick = toggleLanguage;
+document.getElementById('btnLanguageStart').onclick = toggleLanguage;
 document.getElementById('btnSpeakPanel').onclick = speakCurrent;
+const helpOverlay=document.getElementById('helpOverlay');
+const closeHelp=()=>{ if(helpOverlay) helpOverlay.classList.remove('show'); };
+document.getElementById('btnHelp').onclick=()=>{
+  const ht=document.getElementById('helpTitle');
+  const hx=document.getElementById('helpText');
+  if(ht) ht.textContent=T('helpTitle');
+  if(hx) hx.textContent=T('hint');
+  helpOverlay.classList.add('show');
+};
+document.getElementById('btnCloseHelp').onclick=closeHelp;
+helpOverlay.addEventListener('click',e=>{ if(e.target===helpOverlay) closeHelp(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeHelp(); });
 document.querySelectorAll('#colorPicker .swatch[data-color]').forEach(btn => {
   btn.onclick = () => {
     const c = btn.dataset.color;
@@ -1597,6 +1697,11 @@ function updateStartSub(){
   document.getElementById('startSub').textContent = name ? `Yuk pilih, ${name} mau belajar apa?` : 'Yuk pilih mau belajar apa dulu?';
 }
 document.getElementById('childName').addEventListener('input', updateStartSub);
+try{
+  const savedLanguage=localStorage.getItem('learningLanguage');
+  if(savedLanguage==='id'||savedLanguage==='en') language=savedLanguage;
+}catch(e){}
+applyLanguage();
 </script>
 </body>
 </html>
@@ -1626,8 +1731,8 @@ const ADDITION_QUESTIONS = Array.from({length:20},()=>{
 });
 
 function speakWrong(){
-  const u=new SpeechSynthesisUtterance('Jawaban salah!');
-  u.lang='id-ID';
+  const u=new SpeechSynthesisUtterance(language==='en'?'Wrong answer!':'Jawaban salah!');
+  u.lang=language==='en'?'en-US':'id-ID';
   u.rate=0.9;
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
@@ -1809,7 +1914,7 @@ window.checkAdditionAnswer = function(value){
    document.getElementById('addNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
    let u=new SpeechSynthesisUtterance(ok?'Hebat, jawaban benar':'Jawaban salah');
-   u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+   u.lang=language==='en'?'en-US':'id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    window._lastAddOk=ok;
  }
  window.retryAdd=function(){
@@ -1916,7 +2021,7 @@ window.checkAdditionAnswer = function(value){
    document.getElementById('subNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
    let u=new SpeechSynthesisUtterance(ok?'Hebat, jawaban benar':'Jawaban salah');
-   u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+   u.lang=language==='en'?'en-US':'id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    window._lastSubOk=ok;
  }
  window.retrySub=function(){
