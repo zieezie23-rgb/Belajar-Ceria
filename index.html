@@ -1,172 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#6C63FF">
-<title>Belajar Ceria — Angka & Huruf</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#6c35d9">
+<title>Belajar Ceria — Huruf & Angka</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:linear-gradient(135deg,#eef2ff,#fff8ec);font-family:Arial,system-ui,sans-serif;color:#25243a}
-.app{max-width:760px;margin:auto;padding:14px 12px 30px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.logo{font-size:22px;font-weight:900}.logo b{color:#6c63ff}
-.homeBtn{border:0;border-radius:15px;padding:10px 14px;background:white;font-weight:800;box-shadow:0 4px 15px #0001}
-.card{background:#fffffff2;border-radius:30px;padding:18px;box-shadow:0 15px 40px #4c45a51a}
-.menu{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
-.menu button{border:0;border-radius:25px;background:#f4f2ff;padding:24px 12px;font-size:20px;font-weight:900;color:#49419a;box-shadow:0 6px 0 #ddd9f7}
-.menu button:active{transform:translateY(4px);box-shadow:0 2px 0 #ddd9f7}
-.menu .emoji{font-size:58px;display:block;margin-bottom:10px}
-h1{text-align:center;font-size:27px;margin:5px 0}.intro{text-align:center;color:#777;margin:0}
-.lesson{display:none}
-.nav{display:flex;gap:8px;margin-bottom:12px}
-.nav button,.speak,.modeBtn{border:0;border-radius:15px;padding:10px 13px;background:#ecebff;color:#5149b9;font-weight:900}
-.nav .grow{flex:1;text-align:center;font-weight:900;padding:10px}
-.hero{text-align:center;background:linear-gradient(180deg,#faf9ff,#fff);border-radius:26px;padding:12px 10px 18px}
-.heroChar{font-size:clamp(110px,25vw,190px);line-height:.95;font-weight:1000;color:#6c63ff;text-shadow:0 9px 0 #e4e1ff;margin:5px 0 8px}
-.heroNum{font-size:clamp(120px,28vw,210px)}
-.title{font-size:clamp(28px,7vw,48px);font-weight:1000;margin:5px 0}
-.example{font-size:clamp(24px,6vw,40px);font-weight:900;color:#ff5f98;margin:6px}
-.pronounce{font-size:clamp(22px,5vw,32px);font-weight:900;margin:10px 0}
-.pronounce span{color:#6c63ff}
-.spelling{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
-.spelling span{background:#fff1f6;color:#c53172;border-radius:14px;padding:8px 12px;font-size:22px;font-weight:900}
-.instructions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.info{background:#f7f7fb;border-radius:20px;padding:14px;text-align:left}
-.info b{display:block;color:#5149b9;margin-bottom:5px;font-size:14px}.info p{margin:0;font-size:17px;font-weight:700}
-.controls{display:flex;gap:9px;margin-top:14px}.controls button{flex:1;border:0;border-radius:18px;padding:14px;font-size:15px;font-weight:900}
-.prev{background:#ecebff;color:#5149b9}.sound{background:#fff0f6;color:#b52e70}.next{background:#6c63ff;color:white}
-.counter{text-align:center;font-weight:900;color:#777;margin-top:10px}
-.bigObjects{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;font-size:42px;max-width:560px;margin:10px auto}
-.write{position:relative;margin:12px auto;max-width:460px;height:115px;border-radius:18px;background:repeating-linear-gradient(to bottom,#fff 0,#fff 37px,#d9d9e8 38px,#fff 39px);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.write .trace{font-size:80px;font-weight:1000;color:#c9c8d8;font-family:cursive}
-.write:after{content:"✍️ Ikuti arah tulisan dengan jari";position:absolute;bottom:6px;right:9px;font-size:11px;color:#888;background:#ffffffcc;padding:2px 5px;border-radius:8px}
-.tip{margin:10px 0 0;text-align:center;color:#666;font-weight:700}
-@media(max-width:430px){.instructions{grid-template-columns:1fr}.menu button{padding:20px 8px}.spelling span{font-size:19px}}
+body{margin:0;font-family:Arial,system-ui,sans-serif;background:linear-gradient(145deg,#f3efff,#fff8ea);color:#20233b}
+button{font:inherit;cursor:pointer;border:0}
+.app{max-width:980px;margin:auto;padding:12px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.logo{font-size:22px;font-weight:1000;color:#6234c7}.logo span{color:#ff6a9e}
+.headerBtns{display:flex;gap:8px}.round{width:44px;height:44px;border-radius:50%;background:white;box-shadow:0 4px 14px #0002;font-size:21px}
+.screen{background:#ffffffed;border-radius:28px;padding:14px;box-shadow:0 14px 40px #4b36901a;border:1px solid #fff}
+.hidden{display:none!important}
+h1{text-align:center;margin:5px 0 2px;font-size:30px}.lead{text-align:center;color:#73758a;margin:0 0 16px}
+.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:700px;margin:0 auto}
+.menu button{padding:28px 14px;border-radius:25px;background:#f3efff;color:#4d32a2;font-weight:1000;box-shadow:0 7px 0 #ddd2fa;font-size:22px}
+.menu button:active{transform:translateY(5px);box-shadow:0 2px 0 #ddd2fa}.menu .emoji{display:block;font-size:60px;margin-bottom:8px}
+.lessonTop{display:flex;align-items:center;gap:8px}.back{background:#ece8ff;color:#5533a6;border-radius:15px;padding:10px 13px;font-weight:900}.lessonName{flex:1;text-align:center;font-size:20px;font-weight:1000;color:#5735b1}
+.lesson{display:grid;grid-template-columns:170px minmax(320px,1fr) 190px;gap:12px;align-items:stretch;margin-top:10px}
+.panel{border-radius:22px;padding:14px;background:#f8f7ff;border:2px solid #e8e0ff;text-align:center}
+.panel h3{margin:2px 0 10px;color:#5533a6;font-size:16px}
+.mascot{font-size:78px;line-height:1;margin:12px 0}
+.bigLabel{font-size:48px;font-weight:1000;color:#6334cf}
+.quote{font-size:15px;font-weight:900;color:#777;margin-top:4px}
+.exampleEmoji{font-size:75px;margin:5px}.exampleWord{font-size:25px;font-weight:1000}
+.center{background:white;border-radius:24px;border:3px solid #e8e0ff;padding:10px;display:flex;flex-direction:column}
+#traceCanvas{width:100%;height:470px;display:block;border-radius:18px;background:linear-gradient(#fff,#fbfaff);touch-action:none}
+.traceTitle{text-align:center;font-size:18px;font-weight:1000;color:#5533a6;margin:5px}
+.tip{text-align:center;background:#edf6ff;color:#275ca8;border-radius:14px;padding:9px;font-weight:800;font-size:14px;margin-top:7px}
+.controls{display:flex;gap:7px;margin-top:8px}.controls button{flex:1;padding:12px;border-radius:15px;font-weight:950}
+.sound{background:#ffebf3;color:#bd3470}.clear{background:#fff2d9;color:#a86a00}.prev{background:#ece8ff;color:#5533a6}.next{background:#6c35d9;color:#fff}
+.spelling{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:7px 0}.spelling span{padding:6px 8px;background:#fff1c9;border-radius:10px;font-weight:1000}
+.info{text-align:left;background:#fff;border-radius:14px;padding:10px;margin-top:8px}.info b{display:block;color:#5533a6;font-size:12px;margin-bottom:3px}.info p{margin:0;font-size:14px;font-weight:750;line-height:1.3}
+.progress{height:8px;background:#eceaf4;border-radius:20px;margin:9px 0}.progress i{display:block;height:100%;background:linear-gradient(90deg,#7139dc,#ff6ca5);border-radius:20px;width:4%;transition:.25s}
+.numberObjects{font-size:30px;line-height:1.2}
+.footer{text-align:center;color:#888;font-size:12px;margin-top:12px}
+@media(max-width:780px){
+ .lesson{grid-template-columns:1fr 1fr}.center{grid-column:1/-1;grid-row:1}.left{grid-column:1;grid-row:2}.right{grid-column:2;grid-row:2}
+ #traceCanvas{height:min(58vw,470px)}
+}
+@media(max-width:500px){
+ .app{padding:8px}.screen{border-radius:22px;padding:10px}.menu{gap:10px}.menu button{font-size:17px;padding:22px 8px}.menu .emoji{font-size:48px}
+ .lesson{display:flex;flex-direction:column}.center{order:0}.left{order:1}.right{order:2}.lessonName{font-size:16px}
+ #traceCanvas{height:76vw;min-height:300px}.bigLabel{font-size:42px}
+}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="top">
-    <div class="logo">🌈 <b>Belajar</b> Ceria</div>
-    <button class="homeBtn" onclick="home()">🏠 Menu</button>
-  </div>
+<header>
+ <div class="logo">🌈 Belajar <span>Ceria</span></div>
+ <div class="headerBtns"><button class="round" onclick="speakPage()" aria-label="Dengarkan">🔊</button></div>
+</header>
 
-  <section id="home" class="card">
-    <h1>Belajar Angka & Huruf</h1>
-    <p class="intro">Baca, dengarkan, ucapkan, eja, dan belajar cara menulisnya.</p>
-    <div class="menu">
-      <button onclick="openNumbers()"><span class="emoji">🔢</span>Angka 1–10</button>
-      <button onclick="openLetters()"><span class="emoji">🔤</span>Huruf A–Z</button>
-    </div>
-  </section>
+<section id="home" class="screen">
+ <h1>Belajar Huruf & Angka</h1>
+ <p class="lead">Lihat • Dengarkan • Eja • Ikuti garis • Coba sendiri ✍️</p>
+ <div class="menu">
+  <button onclick="start('letters')"><span class="emoji">🔤</span>Belajar Huruf A–Z</button>
+  <button onclick="start('numbers')"><span class="emoji">🔢</span>Belajar Angka 1–10</button>
+ </div>
+ <p class="footer">Materi dibuat seperti buku belajar interaktif untuk anak.</p>
+</section>
 
-  <section id="lesson" class="card lesson">
-    <div class="nav">
-      <button onclick="home()">⬅️</button>
-      <div class="grow" id="sectionTitle"></div>
-    </div>
-    <div class="hero">
-      <div id="char" class="heroChar">A</div>
-      <div id="title" class="title">A — Apel</div>
-      <div id="example" class="example">🍎</div>
+<section id="lessonScreen" class="screen hidden">
+ <div class="lessonTop"><button class="back" onclick="goHome()">⬅️ Menu</button><div class="lessonName" id="lessonName"></div><button class="round" onclick="speakPage()">🔊</button></div>
+ <div class="progress"><i id="progress"></i></div>
 
-      <div class="pronounce">🔊 Cara mengucapkan: <span id="pronounce"></span></div>
+ <div class="lesson">
+  <aside class="panel left">
+   <h3 id="soundTitle">Dengar Huruf</h3>
+   <div class="mascot" id="mascot">🐣</div>
+   <button class="sound" style="width:100%;padding:12px;border-radius:15px;font-weight:1000" onclick="speakPage()">🔊 Dengarkan</button>
+   <div class="bigLabel" id="bigLabel">A</div>
+   <div class="quote" id="quote">“Aaaa...”</div>
+  </aside>
 
-      <div class="spelling" id="spelling"></div>
+  <main class="center">
+   <div class="traceTitle">✍️ Ikuti garisnya dengan jari</div>
+   <canvas id="traceCanvas"></canvas>
+   <div class="tip">⭐ Usahakan coretan mengikuti garis putus-putus. Tidak apa-apa kalau belum sempurna!</div>
+   <div class="controls">
+    <button class="clear" onclick="clearTrace()">🧽 Bersihkan</button>
+    <button class="prev" onclick="previous()">⬅️</button>
+    <button class="next" onclick="next()">➡️ Berikutnya</button>
+   </div>
+  </main>
 
-      <div class="write">
-        <div class="trace" id="trace">A</div>
-      </div>
-      <div class="tip">✍️ Perhatikan bentuk huruf/angka, lalu ikuti garisnya dengan jari atau pensil.</div>
-
-      <div class="instructions">
-        <div class="info"><b>👄 CARA MENGUCAPKAN</b><p id="howSay"></p></div>
-        <div class="info"><b>🔤 CARA MENGEJA</b><p id="howSpell"></p></div>
-        <div class="info"><b>✍️ CARA MENULIS</b><p id="howWrite"></p></div>
-        <div class="info"><b>💡 CONTOH</b><p id="howExample"></p></div>
-      </div>
-    </div>
-
-    <div class="controls">
-      <button class="prev" onclick="prev()">⬅️ Sebelumnya</button>
-      <button class="sound" onclick="listen()">🔊 Dengarkan</button>
-      <button class="next" onclick="next()">Berikutnya ➡️</button>
-    </div>
-    <div class="counter" id="counter"></div>
-  </section>
+  <aside class="panel right">
+   <h3 id="exampleTitle">Contoh Kata</h3>
+   <div class="exampleEmoji" id="exampleEmoji">🍎</div>
+   <div class="exampleWord" id="exampleWord">A - Apel</div>
+   <div class="info"><b>👄 CARA MENGUCAPKAN</b><p id="say"></p></div>
+   <div class="info"><b>🔤 CARA MENGEJA</b><div class="spelling" id="spelling"></div></div>
+   <div class="info"><b>✍️ CARA MENULIS</b><p id="write"></p></div>
+   <div class="info" id="numberInfo"><b>🔢 HITUNG BERSAMA</b><p id="count"></p></div>
+  </aside>
+ </div>
+ <div class="footer" id="counter"></div>
+</section>
 </div>
 
 <script>
 const letters=[
-["A","Apel","🍎","a","A-P-E-L","Mulai dari atas, turun ke kiri dan kanan, lalu buat garis mendatar di tengah.","A seperti pada kata Apel."],
-["B","Bola","⚽","be","B-O-L-A","Tarik garis tegak, lalu buat dua lengkungan ke kanan.","B seperti pada kata Bola."],
-["C","Ceri","🍒","ce","C-E-R-I","Buat lengkungan terbuka ke arah kanan.","C seperti pada kata Ceri."],
-["D","Domba","🐑","de","D-O-M-B-A","Buat garis tegak, lalu satu lengkungan besar ke kanan.","D seperti pada kata Domba."],
-["E","Elang","🦅","e","E-L-A-N-G","Buat garis tegak, lalu tiga garis mendatar.","E seperti pada kata Elang."],
-["F","Foto","📷","ef","F-O-T-O","Buat garis tegak dan dua garis mendatar di bagian atas dan tengah.","F seperti pada kata Foto."],
-["G","Gajah","🐘","ge","G-A-J-A-H","Mulai seperti C, lalu tambahkan garis kecil ke dalam.","G seperti pada kata Gajah."],
-["H","Harimau","🐯","ha","H-A-R-I-M-A-U","Buat dua garis tegak, lalu hubungkan dengan garis mendatar.","H seperti pada kata Harimau."],
-["I","Ikan","🐟","i","I-K-A-N","Buat satu garis tegak; pada huruf kapital tambahkan garis atas dan bawah.","I seperti pada kata Ikan."],
-["J","Jeruk","🍊","je","J-E-R-U-K","Buat garis mendatar di atas lalu lengkungkan garis ke bawah.","J seperti pada kata Jeruk."],
-["K","Kucing","🐱","ka","K-U-C-I-N-G","Buat garis tegak, lalu dua garis miring dari tengah.","K seperti pada kata Kucing."],
-["L","Lemon","🍋","el","L-E-M-O-N","Buat garis tegak dari atas ke bawah lalu garis mendatar ke kanan.","L seperti pada kata Lemon."],
-["M","Mangga","🥭","em","M-A-N-G-G-A","Buat dua garis tegak dengan dua garis miring bertemu di tengah.","M seperti pada kata Mangga."],
-["N","Nanas","🍍","en","N-A-N-A-S","Buat garis tegak kiri, garis miring ke kanan bawah, lalu garis tegak kanan.","N seperti pada kata Nanas."],
-["O","Obor","🔦","o","O-B-O-R","Buat satu lingkaran tertutup.","O seperti pada kata Obor."],
-["P","Pisang","🍌","pe","P-I-S-A-N-G","Buat garis tegak dan satu lengkungan di bagian atas.","P seperti pada kata Pisang."],
-["Q","Quran","📖","kiu","Q-U-R-A-N","Buat lingkaran seperti O, lalu tambahkan garis kecil di bagian bawah.","Q seperti pada kata Quran."],
-["R","Roti","🍞","er","R-O-T-I","Buat P terlebih dahulu, lalu tambahkan garis miring dari tengah.","R seperti pada kata Roti."],
-["S","Sapi","🐄","es","S-A-P-I","Buat dua lengkungan yang membentuk seperti huruf S.","S seperti pada kata Sapi."],
-["T","Topi","🎩","te","T-O-P-I","Buat garis mendatar, lalu tarik garis tegak dari tengah.","T seperti pada kata Topi."],
-["U","Ular","🐍","u","U-L-A-R","Tarik dua garis turun lalu lengkungkan bagian bawah.","U seperti pada kata Ular."],
-["V","Vas","🏺","ve","V-A-S","Buat dua garis miring yang bertemu di bawah.","V seperti pada kata Vas."],
-["W","Wortel","🥕","we","W-O-R-T-E-L","Buat empat garis miring yang membentuk dua lembah.","W seperti pada kata Wortel."],
-["X","Xylophone","🎵","eks","X-Y-L-O-P-H-O-N-E","Buat dua garis miring yang saling menyilang.","X seperti pada kata Xylophone."],
-["Y","Yoyo","🪀","ye","Y-O-Y-O","Buat dua garis miring bertemu, lalu tarik garis turun dari tengah.","Y seperti pada kata Yoyo."],
-["Z","Zebra","🦓","zet","Z-E-B-R-A","Buat garis mendatar atas, garis miring, lalu garis mendatar bawah.","Z seperti pada kata Zebra."]
+["A","Apel","🍎","a","A-P-E-L","Mulai dari atas, turun ke kiri, lalu naik ke kanan. Setelah itu buat garis mendatar di tengah.","🐣","Aaaa..."],
+["B","Bola","⚽","be","B-O-L-A","Tarik garis tegak dari atas ke bawah, lalu buat dua lengkungan ke kanan.","🐼","Bee..."],
+["C","Ceri","🍒","ce","C-E-R-I","Buat satu lengkungan besar terbuka ke kanan.","🐱","Ceee..."],
+["D","Domba","🐑","de","D-O-M-B-A","Tarik garis tegak, kemudian buat satu lengkungan besar ke kanan.","🐑","Deee..."],
+["E","Elang","🦅","e","E-L-A-N-G","Tarik garis tegak, lalu tiga garis mendatar.","🦅","Eeee..."],
+["F","Foto","📷","ef","F-O-T-O","Tarik garis tegak, lalu dua garis mendatar di atas dan tengah.","🐸","Efff..."],
+["G","Gajah","🐘","ge","G-A-J-A-H","Buat lengkungan seperti C, lalu tambahkan garis kecil ke dalam.","🐘","Geee..."],
+["H","Harimau","🐯","ha","H-A-R-I-M-A-U","Buat dua garis tegak, lalu hubungkan dengan garis mendatar di tengah.","🐯","Haaa..."],
+["I","Ikan","🐟","i","I-K-A-N","Tarik garis tegak; untuk huruf kapital tambahkan garis atas dan bawah.","🐟","Iiii..."],
+["J","Jeruk","🍊","je","J-E-R-U-K","Buat garis mendatar di atas, lalu lengkungkan garis ke bawah.","🐵","Jeee..."],
+["K","Kucing","🐱","ka","K-U-C-I-N-G","Buat garis tegak, lalu dua garis miring dari bagian tengah.","🐱","Kaaa..."],
+["L","Lemon","🍋","el","L-E-M-O-N","Tarik garis tegak lalu garis mendatar ke kanan.","🦁","Ellll..."],
+["M","Mangga","🥭","em","M-A-N-G-G-A","Buat dua garis tegak dengan dua garis miring bertemu di tengah.","🐒","Emmm..."],
+["N","Nanas","🍍","en","N-A-N-A-S","Buat garis tegak kiri, garis miring, lalu garis tegak kanan.","🐰","Ennn..."],
+["O","Obor","🔦","o","O-B-O-R","Buat satu lingkaran tertutup.","🐙","Oooo..."],
+["P","Pisang","🍌","pe","P-I-S-A-N-G","Buat garis tegak dan lengkungan di bagian atas.","🐧","Peee..."],
+["Q","Quran","📖","kiu","Q-U-R-A-N","Buat lingkaran seperti O, lalu tambahkan garis kecil.","🦉","Kiuuu..."],
+["R","Roti","🍞","er","R-O-T-I","Buat bentuk P, lalu tambahkan garis miring dari tengah.","🐻","Errr..."],
+["S","Sapi","🐄","es","S-A-P-I","Buat dua lengkungan yang menyambung seperti S.","🐮","Esss..."],
+["T","Topi","🎩","te","T-O-P-I","Buat garis mendatar, lalu garis tegak dari tengah.","🐢","Teee..."],
+["U","Ular","🐍","u","U-L-A-R","Tarik dua garis turun dan lengkungkan bagian bawah.","🐍","Uuuu..."],
+["V","Vas","🏺","ve","V-A-S","Buat dua garis miring yang bertemu di bawah.","🦊","Veee..."],
+["W","Wortel","🥕","we","W-O-R-T-E-L","Buat empat garis miring yang membentuk dua lembah.","🐰","Weee..."],
+["X","Xylophone","🎵","eks","X-Y-L-O-P-H-O-N-E","Buat dua garis miring yang saling menyilang.","🎵","Eks!"],
+["Y","Yoyo","🪀","ye","Y-O-Y-O","Buat dua garis miring bertemu, lalu tarik garis turun.","🐶","Yeee..."],
+["Z","Zebra","🦓","zet","Z-E-B-R-A","Buat garis mendatar atas, garis miring, lalu garis mendatar bawah.","🦓","Zet!"]
 ];
-
 const numbers=[
-["1","Satu","1","satu","S-A-T-U","Mulai dari atas, buat garis miring kecil lalu tarik garis tegak ke bawah.","Satu benda."],
-["2","Dua","2","dua","D-U-A","Buat lengkungan di atas, garis miring ke bawah, lalu garis mendatar.","Dua benda."],
-["3","Tiga","3","tiga","T-I-G-A","Buat dua lengkungan yang tersambung seperti angka 3.","Tiga benda."],
-["4","Empat","4","empat","E-M-P-A-T","Buat garis tegak, garis mendatar, lalu garis miring turun.","Empat benda."],
-["5","Lima","5","lima","L-I-M-A","Buat garis mendatar, turun, lalu lengkungan ke kanan.","Lima benda."],
-["6","Enam","6","enam","E-N-A-M","Buat lengkungan ke bawah hingga membentuk lingkaran kecil.","Enam benda."],
-["7","Tujuh","7","tujuh","T-U-J-U-H","Buat garis mendatar lalu garis miring turun.","Tujuh benda."],
-["8","Delapan","8","delapan","D-E-L-A-P-A-N","Buat dua lingkaran kecil yang bertumpuk.","Delapan benda."],
-["9","Sembilan","9","sembilan","S-E-M-B-I-L-A-N","Buat lingkaran di atas lalu tarik garis turun.","Sembilan benda."],
-["10","Sepuluh","🔟","sepuluh","S-E-P-U-L-U-H","Tulis angka 1 lalu angka 0 berdampingan.","Sepuluh benda."]
+["1","Satu","🔢","satu","S-A-T-U","Mulai dari atas, buat garis miring kecil lalu tarik garis tegak ke bawah."],
+["2","Dua","🔢","dua","D-U-A","Buat lengkungan di atas, tarik garis miring, lalu garis mendatar."],
+["3","Tiga","🔢","tiga","T-I-G-A","Buat dua lengkungan yang tersambung seperti angka 3."],
+["4","Empat","🔢","empat","E-M-P-A-T","Buat garis tegak, garis mendatar, lalu garis miring."],
+["5","Lima","🔢","lima","L-I-M-A","Buat garis mendatar, turun, lalu lengkungan ke kanan."],
+["6","Enam","🔢","enam","E-N-A-M","Buat lengkungan ke bawah hingga membentuk lingkaran kecil."],
+["7","Tujuh","🔢","tujuh","T-U-J-U-H","Buat garis mendatar lalu garis miring turun."],
+["8","Delapan","🔢","delapan","D-E-L-A-P-A-N","Buat dua lingkaran kecil yang bertumpuk."],
+["9","Sembilan","🔢","sembilan","S-E-M-B-I-L-A-N","Buat lingkaran di atas lalu tarik garis turun."],
+["10","Sepuluh","🔢","sepuluh","S-E-P-U-L-U-H","Tulis angka 1 lalu angka 0 berdampingan."]
 ];
+let mode="letters",idx=0,canvas,ctx,dpr=1;
 
-let mode="",idx=0;
-
-function home(){document.getElementById("home").style.display="block";document.getElementById("lesson").style.display="none"}
-function openLetters(){mode="letters";idx=0;show()}
-function openNumbers(){mode="numbers";idx=0;show()}
-function data(){return mode==="letters"?letters[idx]:numbers[idx]}
-function show(){
- document.getElementById("home").style.display="none";document.getElementById("lesson").style.display="block";
- let d=data(), isL=mode==="letters";
- document.getElementById("sectionTitle").textContent=isL?"🔤 Huruf A–Z":"🔢 Angka 1–10";
- document.getElementById("char").textContent=d[0];document.getElementById("char").className="heroChar "+(isL?"":"heroNum");
- document.getElementById("title").textContent=isL?d[0]+" — "+d[1]:d[0]+" — "+d[1];
- document.getElementById("example").textContent=isL?d[2]: "🔢";
- document.getElementById("pronounce").textContent=d[3];
- document.getElementById("howSay").textContent="Ucapkan: “"+d[3]+"”.";
- document.getElementById("howSpell").textContent=d[4];
- document.getElementById("howWrite").textContent=d[5];
- document.getElementById("howExample").textContent=d[6];
- document.getElementById("trace").textContent=d[0];
- document.getElementById("counter").textContent=(idx+1)+" / "+(isL?26:10);
- let sp=document.getElementById("spelling");sp.innerHTML="";
- (isL?d[0]:d[4]).split("").forEach(x=>{if(x.trim()){let s=document.createElement("span");s.textContent=x;sp.appendChild(s)}});
+function start(m){mode=m;idx=0;document.getElementById("home").classList.add("hidden");document.getElementById("lessonScreen").classList.remove("hidden");resizeCanvas();render()}
+function goHome(){document.getElementById("lessonScreen").classList.add("hidden");document.getElementById("home").classList.remove("hidden")}
+function current(){return mode==="letters"?letters[idx]:numbers[idx]}
+function resizeCanvas(){
+ canvas=document.getElementById("traceCanvas");dpr=window.devicePixelRatio||1;
+ const r=canvas.getBoundingClientRect();canvas.width=r.width*dpr;canvas.height=r.height*dpr;ctx=canvas.getContext("2d");ctx.setTransform(dpr,0,0,dpr,0,0);drawGuide()
 }
-function speak(text){if("speechSynthesis"in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang="id-ID";u.rate=.78;u.pitch=1.08;speechSynthesis.speak(u)}}
-function listen(){let d=data();speak((mode==="letters"?"Huruf ":"Angka ")+d[0]+". "+d[1]+". Cara mengucapkannya "+d[3]+". Cara mengeja: "+d[4])}
-function next(){if(idx<(mode==="letters"?25:9)){idx++;show()}else speak("Ini adalah halaman terakhir.")}
-function prev(){if(idx>0){idx--;show()}else speak("Ini adalah halaman pertama.")}
+function guideText(){return current()[0]}
+function drawGuide(){
+ if(!ctx)return;const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);
+ ctx.save();ctx.textAlign="center";ctx.textBaseline="middle";
+ let val=guideText(), fs=mode==="numbers"?(val.length>1?Math.min(w*.55,210):Math.min(w*.68,250)):Math.min(w*.72,300);
+ ctx.font="1000 "+fs+"px Arial";
+ ctx.lineWidth=12;ctx.strokeStyle="#d8d4e8";ctx.setLineDash([12,14]);ctx.strokeText(val,w/2,h/2-8);
+ ctx.setLineDash([]);ctx.font="900 14px Arial";ctx.fillStyle="#8c879e";ctx.fillText("Ikuti garis putus-putus",w/2,h-20);
+ ctx.restore();
+}
+function pos(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+function draw(e){
+ e.preventDefault();const p=pos(e);ctx.lineCap="round";ctx.lineJoin="round";ctx.strokeStyle="#7139dc";ctx.lineWidth=10;ctx.lineTo(p.x,p.y);ctx.stroke()
+}
+canvas=document.getElementById("traceCanvas");
+canvas.addEventListener("pointerdown",e=>{canvas.setPointerCapture(e.pointerId);const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);draw(e)});
+canvas.addEventListener("pointermove",e=>{if(e.buttons)draw(e)});
+function clearTrace(){drawGuide()}
+function speak(text){
+ if(!("speechSynthesis"in window))return;
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);u.lang="id-ID";u.rate=.52;u.pitch=1.32;u.volume=1;
+ const vs=speechSynthesis.getVoices();const v=vs.find(x=>/id[-_]ID/i.test(x.lang))||vs.find(x=>/indonesian|bahasa/i.test(x.name));
+ if(v)u.voice=v;speechSynthesis.speak(u)
+}
+function speakPage(){
+ const d=current();
+ if(mode==="letters")speak("Hai teman! Ini huruf "+d[0]+". Bunyi hurufnya "+d[3]+". Contohnya "+d[0]+" untuk "+d[1]+". Kita eja pelan-pelan: "+d[4].replaceAll("-","... "));
+ else speak("Hai teman! Ini angka "+d[0]+", namanya "+d[1]+". Kita eja pelan-pelan: "+d[4].replaceAll("-","... "));
+}
+function render(){
+ const d=current(),isL=mode==="letters";
+ document.getElementById("lessonName").textContent=isL?"🔤 BELAJAR HURUF":"🔢 BELAJAR ANGKA";
+ document.getElementById("soundTitle").textContent=isL?"Dengar Huruf":"Dengar Angka";
+ document.getElementById("mascot").textContent=isL?d[6]:"🐘";
+ document.getElementById("bigLabel").textContent=d[0];
+ document.getElementById("quote").textContent=isL?"“"+d[7]+"”":"“"+d[3]+"...”";
+ document.getElementById("exampleTitle").textContent=isL?"Contoh Kata":"Angka";
+ document.getElementById("exampleEmoji").textContent=isL?d[2]:"🔢";
+ document.getElementById("exampleWord").textContent=isL?d[0]+" — "+d[1]:d[0]+" — "+d[1];
+ document.getElementById("say").textContent=isL?"Ucapkan perlahan: "+d[3]+".":"Ucapkan: "+d[3]+".";
+ const sp=document.getElementById("spelling");sp.innerHTML="";d[4].split("-").forEach(x=>{const s=document.createElement("span");s.textContent=x;sp.appendChild(s)});
+ document.getElementById("write").textContent=d[5];
+ document.getElementById("numberInfo").style.display=isL?"none":"block";
+ if(!isL){
+  document.getElementById("count").textContent="Ayo hitung "+d[0]+" benda bersama-sama!  "+Array(Number(d[0])).fill("⭐").join(" ");
+ }
+ document.getElementById("counter").textContent=(idx+1)+" / "+(isL?26:10);
+ document.getElementById("progress").style.width=((idx+1)/(isL?26:10)*100)+"%";
+ setTimeout(resizeCanvas,20)
+}
+function next(){if(idx<(mode==="letters"?25:9)){idx++;render()}else speak("Hore! Ini halaman terakhir.")}
+function previous(){if(idx>0){idx--;render()}else speak("Ini halaman pertama.")}
+window.addEventListener("resize",resizeCanvas);
+render();
 </script>
 </body>
 </html>
