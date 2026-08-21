@@ -358,79 +358,177 @@ let mode = 'huruf'; // or 'angka'
 let index = 0;
 
 // ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
-const DASH = '11,8'; // satu gaya garis putus-putus dipakai di semua glyph
+const DASH = '14,10';
 
-// Huruf: dua glyph besar berdampingan dalam satu kotak lebar, dipisah garis tipis.
+// Melacak SILUET LUAR SAJA dari teks (mengabaikan lubang di dalam huruf seperti A/O/B/e/6/8/9)
+// supaya garis putus-putus tidak bertumpuk. Dilakukan dengan merender ke kanvas tersembunyi
+// lalu menelusuri tepi luarnya (boundary tracing), bukan memakai stroke pada glyph font langsung.
+function traceOutlineContours(entries, fontWeight, viewBoxW, viewBoxH){
+  const SCALE = 3;
+  const w = Math.round(viewBoxW*SCALE), h = Math.round(viewBoxH*SCALE);
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const cx = c.getContext('2d');
+  cx.fillStyle = '#000';
+  cx.textAlign = 'center';
+  cx.textBaseline = 'alphabetic';
+  entries.forEach(e => {
+    cx.font = `${fontWeight} ${e.fontSize*SCALE}px 'Baloo 2', sans-serif`;
+    cx.fillText(e.text, e.x*SCALE, e.y*SCALE);
+  });
+
+  const data = cx.getImageData(0,0,w,h).data;
+  const isFg = (x,y) => (x<0||y<0||x>=w||y>=h) ? false : data[(y*w+x)*4+3] > 120;
+  const visited = new Uint8Array(w*h);
+  const starts = [];
+
+  for(let y=0; y<h; y++){
+    for(let x=0; x<w; x++){
+      const idx = y*w+x;
+      if(visited[idx]) continue;
+      if(!isFg(x,y)){ visited[idx]=1; continue; }
+      let sx=x, sy=y;
+      const stack=[[x,y]]; visited[idx]=1;
+      while(stack.length){
+        const [px,py] = stack.pop();
+        if(py<sy || (py===sy && px<sx)){ sx=px; sy=py; }
+        const nb=[[px+1,py],[px-1,py],[px,py+1],[px,py-1]];
+        for(const [nx,ny] of nb){
+          if(nx<0||ny<0||nx>=w||ny>=h) continue;
+          const nidx=ny*w+nx;
+          if(visited[nidx]) continue;
+          visited[nidx]=1;
+          if(isFg(nx,ny)) stack.push([nx,ny]);
+        }
+      }
+      starts.push([sx,sy]);
+    }
+  }
+
+  const dirs = [[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
+  function traceBoundary(sx,sy){
+    const start=[sx,sy];
+    let curr=start, prev=[sx-1,sy];
+    const pts=[curr];
+    let steps=0; const maxSteps=w*h;
+    do{
+      const dx=prev[0]-curr[0], dy=prev[1]-curr[1];
+      let dirIdx = dirs.findIndex(d=>d[0]===dx&&d[1]===dy);
+      if(dirIdx<0) dirIdx=6;
+      let moved=false;
+      for(let k=1;k<=8;k++){
+        const idx=(dirIdx+k)%8;
+        const nx=curr[0]+dirs[idx][0], ny=curr[1]+dirs[idx][1];
+        if(isFg(nx,ny)){
+          const backIdx=(dirIdx+k-1)%8;
+          prev=[curr[0]+dirs[backIdx][0], curr[1]+dirs[backIdx][1]];
+          curr=[nx,ny];
+          moved=true;
+          break;
+        }
+      }
+      if(!moved) break;
+      pts.push(curr);
+      steps++;
+    } while(!(curr[0]===start[0]&&curr[1]===start[1]) && steps<maxSteps);
+    return pts;
+  }
+
+  const rawContours = starts.map(([sx,sy]) => traceBoundary(sx,sy)).filter(p => p.length > 8);
+  const MIN_DIST = 3.2 * SCALE;
+  return rawContours.map(pts => {
+    const out=[]; let last=null;
+    for(const [x,y] of pts){
+      if(!last || Math.hypot(x-last[0], y-last[1]) >= MIN_DIST){
+        out.push([x/SCALE, y/SCALE]);
+        last=[x,y];
+      }
+    }
+    return out.length >= 3 ? out : null;
+  }).filter(Boolean);
+}
+
+function appendDashedOutline(svgEl, ns, contours){
+  contours.forEach(pts => {
+    let d = `M ${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)} `;
+    for(let i=1;i<pts.length;i++) d += `L ${pts[i][0].toFixed(1)},${pts[i][1].toFixed(1)} `;
+    d += 'Z';
+    const path = document.createElementNS(ns,'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke','#2B2140');
+    path.setAttribute('stroke-width','2.2');
+    path.setAttribute('stroke-linecap','round');
+    path.setAttribute('stroke-linejoin','round');
+    path.setAttribute('stroke-dasharray', DASH);
+    svgEl.appendChild(path);
+  });
+}
+
+// Huruf: dua glyph besar berdampingan dalam satu kotak lebar.
 function renderHurufPair(svgEl, upper, lower){
   svgEl.setAttribute('viewBox','0 0 640 360');
   svgEl.innerHTML = '';
   const ns = 'http://www.w3.org/2000/svg';
-
-  const line = document.createElementNS(ns,'line');
-  line.setAttribute('x1','320'); line.setAttribute('y1','15');
-  line.setAttribute('x2','320'); line.setAttribute('y2','345');
-  line.setAttribute('stroke','#eadff5'); line.setAttribute('stroke-width','3');
-  line.setAttribute('stroke-dasharray', DASH);
-  svgEl.appendChild(line);
+  const fontSize = 330, fontWeight = 700;
 
   [[upper,160],[lower,480]].forEach(([text,x]) => {
     const t = document.createElementNS(ns,'text');
     t.setAttribute('x', String(x)); t.setAttribute('y','255');
     t.setAttribute('text-anchor','middle');
     t.setAttribute('font-family',"'Baloo 2', sans-serif");
-    t.setAttribute('font-weight','800');
-    t.setAttribute('font-size','340');
+    t.setAttribute('font-weight', String(fontWeight));
+    t.setAttribute('font-size', String(fontSize));
     t.setAttribute('fill','#ffffff');
-    t.setAttribute('stroke', '#2B2140');
-    t.setAttribute('stroke-width','3');
-    t.setAttribute('stroke-dasharray', DASH);
     t.textContent = text;
     svgEl.appendChild(t);
   });
+
+  const contours = traceOutlineContours(
+    [{text:upper,x:160,y:255,fontSize},{text:lower,x:480,y:255,fontSize}],
+    fontWeight, 640, 360
+  );
+  appendDashedOutline(svgEl, ns, contours);
 }
-// Angka: digit di atas, tulisan di bawah dalam satu kotak, dipisah garis tipis.
+// Angka: digit di atas, tulisan di bawah dalam satu kotak.
 // Tulisan otomatis mengecil supaya kata panjang (mis. "Sembilan") tidak terpotong.
 function renderAngkaPair(svgEl, digit, word){
   svgEl.setAttribute('viewBox','0 0 520 520');
   svgEl.innerHTML = '';
   const ns = 'http://www.w3.org/2000/svg';
+  const fontWeight = 700;
+  const digitFontSize = 300, digitY = 245;
 
   const digitText = document.createElementNS(ns,'text');
-  digitText.setAttribute('x','260'); digitText.setAttribute('y','255');
+  digitText.setAttribute('x','260'); digitText.setAttribute('y', String(digitY));
   digitText.setAttribute('text-anchor','middle');
   digitText.setAttribute('font-family',"'Baloo 2', sans-serif");
-  digitText.setAttribute('font-weight','800');
-  digitText.setAttribute('font-size','320');
+  digitText.setAttribute('font-weight', String(fontWeight));
+  digitText.setAttribute('font-size', String(digitFontSize));
   digitText.setAttribute('fill','#ffffff');
-  digitText.setAttribute('stroke', '#2B2140');
-  digitText.setAttribute('stroke-width','3');
-  digitText.setAttribute('stroke-dasharray', DASH);
   digitText.textContent = digit;
   svgEl.appendChild(digitText);
-
-  const line = document.createElementNS(ns,'line');
-  line.setAttribute('x1','25'); line.setAttribute('y1','335');
-  line.setAttribute('x2','495'); line.setAttribute('y2','335');
-  line.setAttribute('stroke','#eadff5'); line.setAttribute('stroke-width','3');
-  line.setAttribute('stroke-dasharray', DASH);
-  svgEl.appendChild(line);
 
   const maxWidth = 480;
   let fontSize = 190;
   const estWidth = () => word.length * fontSize * 0.62;
   while(estWidth() > maxWidth && fontSize > 50){ fontSize -= 4; }
+  const wordY = 400 + fontSize*0.55;
   const wordText = document.createElementNS(ns,'text');
-  wordText.setAttribute('x','260'); wordText.setAttribute('y', String(400 + fontSize*0.55));
+  wordText.setAttribute('x','260'); wordText.setAttribute('y', String(wordY));
   wordText.setAttribute('text-anchor','middle');
   wordText.setAttribute('font-family',"'Baloo 2', sans-serif");
-  wordText.setAttribute('font-weight','800');
+  wordText.setAttribute('font-weight', String(fontWeight));
   wordText.setAttribute('font-size', String(fontSize));
   wordText.setAttribute('fill','#ffffff');
-  wordText.setAttribute('stroke', '#2B2140');
-  wordText.setAttribute('stroke-width','3');
-  wordText.setAttribute('stroke-dasharray', DASH);
   wordText.textContent = word;
   svgEl.appendChild(wordText);
+
+  const contours = traceOutlineContours(
+    [{text:digit,x:260,y:digitY,fontSize:digitFontSize}, {text:word,x:260,y:wordY,fontSize}],
+    fontWeight, 520, 520
+  );
+  appendDashedOutline(svgEl, ns, contours);
 }
 
 // ---------- CANVAS DRAWING ----------
@@ -500,22 +598,22 @@ function buildMask(){
   if(mode === 'huruf'){
     const scale = canvas.width / 640;
     maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `800 ${340*scale}px 'Baloo 2', sans-serif`;
+    maskCtx.font = `700 ${330*scale}px 'Baloo 2', sans-serif`;
     const item = LETTERS[index];
     maskCtx.strokeText(item.ch, 160*scale, 255*scale);
     maskCtx.strokeText(item.ch.toLowerCase(), 480*scale, 255*scale);
   } else {
     const scale = canvas.width / 520;
     maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `800 ${320*scale}px 'Baloo 2', sans-serif`;
+    maskCtx.font = `700 ${300*scale}px 'Baloo 2', sans-serif`;
     const item = NUMBERS[index];
-    maskCtx.strokeText(item.d, 260*scale, 255*scale);
+    maskCtx.strokeText(item.d, 260*scale, 245*scale);
 
     const maxWidth = 480;
     let fontSize = 190;
     const estWidth = () => item.word.length * fontSize * 0.62;
     while(estWidth() > maxWidth && fontSize > 50){ fontSize -= 4; }
-    maskCtx.font = `800 ${fontSize*scale}px 'Baloo 2', sans-serif`;
+    maskCtx.font = `700 ${fontSize*scale}px 'Baloo 2', sans-serif`;
     maskCtx.strokeText(item.word, 260*scale, (400 + fontSize*0.55)*scale);
   }
 
@@ -682,7 +780,11 @@ document.getElementById('colorCustom').addEventListener('input', (e) => {
 });
 
 // ---------- INIT ----------
-render();
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(render).catch(render);
+} else {
+  render();
+}
 </script>
 </body>
 </html>
