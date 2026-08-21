@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Belajar Huruf & Angka</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
     --sky1:#6EC6FF; --sky2:#8FD9FF;
@@ -144,16 +144,232 @@
   .start-screen{
     min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; gap:22px; padding:20px;
+    position:relative; overflow:hidden;
   }
   .start-card{
-    background:var(--card); border-radius:32px; padding:38px 28px; box-shadow:0 10px 0 rgba(0,0,0,0.12);
-    max-width:480px; width:100%;
+    padding:38px 28px;
+    max-width:650px; width:100%;
+    position:relative; z-index:1;
+  }
+
+  /* Huruf & angka beterbangan di latar halaman muka. pointer-events:none supaya
+     sekalipun tampil di depan (z-index lebih tinggi dari .start-card), klik/tap
+     tetap tembus ke tombol dan input di bawahnya -- jadi cuma hiasan, tidak
+     menghalangi interaksi. */
+  .floaty-layer{
+    position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:2;
+  }
+  .floaty-item{
+    position:absolute; bottom:-60px; font-family:'Baloo 2',cursive; font-weight:800;
+    user-select:none; will-change:transform,opacity; opacity:0;
+    animation-name:floatyRise; animation-timing-function:ease-in-out; animation-iteration-count:infinite;
+    text-shadow:0 3px 0 rgba(0,0,0,0.08);
+  }
+  @keyframes floatyRise{
+    0%{ transform:translate(0,0) rotate(0deg); opacity:0; }
+    8%{ opacity:var(--floaty-op, 0.8); }
+    30%{ transform:translate(24px,-32vh) rotate(12deg); }
+    55%{ transform:translate(-20px,-58vh) rotate(-10deg); }
+    80%{ transform:translate(18px,-84vh) rotate(8deg); opacity:var(--floaty-op, 0.8); }
+    100%{ transform:translate(0,-108vh) rotate(0deg); opacity:0; }
+  }
+  @media (max-width:560px){
+    .floaty-item{ font-size:22px !important; }
+  }
+
+  /* Hewan-hewan beterbangan/berjalan di halaman muka, dengan efek 3D semu:
+     perspective + translateZ/rotateY/rotateX bikin badan hewan terlihat
+     berputar & maju-mundur (mendekat/menjauh dari layar), ditambah
+     drop-shadow sebagai bayangan tanah supaya kesan kedalamannya kuat --
+     tanpa perlu model poligon 3D sungguhan yang berat untuk web anak-anak.
+     pointer-events:none supaya tidak menghalangi klik ke tombol/input. */
+  .floaty-layer{
+    perspective:1000px; perspective-origin:50% 55%;
+  }
+  .animal-item{
+    position:absolute; font-size:34px; user-select:none; pointer-events:none;
+    will-change:transform,opacity; opacity:0; transform-style:preserve-3d;
+    filter:drop-shadow(0 8px 6px rgba(0,0,0,0.3));
+  }
+  .animal-item.bird{
+    top:var(--y,10%); left:-60px;
+    animation-name:birdFly3D; animation-timing-function:linear; animation-iteration-count:infinite;
+  }
+  .animal-item.ground{
+    bottom:var(--y,4%); left:-60px;
+    animation-name:groundWalk3D; animation-timing-function:linear; animation-iteration-count:infinite;
+    filter:none; /* bayangan dipindah ke .critter supaya menempel di bawah kaki, bukan di kotak pembungkus */
+  }
+  @keyframes birdFly3D{
+    0%{ transform:translate3d(0,0,-60px) rotateY(-18deg) rotateZ(0deg); opacity:0; }
+    6%{ opacity:0.9; }
+    20%{ transform:translate3d(20vw,-22px,20px) rotateY(10deg) rotateZ(-6deg); }
+    40%{ transform:translate3d(40vw,6px,-40px) rotateY(-14deg) rotateZ(5deg); }
+    60%{ transform:translate3d(60vw,-16px,30px) rotateY(12deg) rotateZ(-5deg); }
+    80%{ transform:translate3d(80vw,8px,-20px) rotateY(-10deg) rotateZ(4deg); opacity:0.9; }
+    94%{ opacity:0.9; }
+    100%{ transform:translate3d(calc(100vw + 80px),0,0) rotateY(0deg) rotateZ(0deg); opacity:0; }
+  }
+  @keyframes groundWalk3D{
+    0%{ transform:translate3d(0,0,-30px) scale(0.92); opacity:0; }
+    5%{ opacity:0.9; }
+    25%{ transform:translate3d(25vw,0,14px) scale(1.06); }
+    50%{ transform:translate3d(50vw,0,-14px) scale(0.96); }
+    75%{ transform:translate3d(75vw,0,14px) scale(1.06); }
+    94%{ opacity:0.9; }
+    100%{ transform:translate3d(calc(100vw + 80px),0,0) scale(1); opacity:0; }
+  }
+
+  /* ---- KARAKTER HEWAN BADAN PENUH (kucing/anjing/kelinci/rubah) ----
+     Dibangun dari beberapa <div> (badan, kepala, telinga, ekor, 2 kaki)
+     bukan emoji, supaya kakinya benar-benar bisa dianimasikan mengayun
+     bergantian (seperti gaya berjalan) selagi si hewan bergerak
+     melintasi layar lewat animasi groundWalk3D di elemen pembungkusnya.
+
+     Versi ini dibuat lebih realistis: badan pakai gradasi warna (gelap di
+     bawah, terang di atas) + tambalan bulu perut, 4 kaki (bukan 2) dengan
+     pola trot diagonal (depan-kanan & belakang-kiri melangkah bersamaan,
+     lalu gantian) seperti hewan berkaki empat sungguhan, tiap kaki dua ruas
+     (paha + betis) supaya lututnya kelihatan menekuk, dan wajah diberi
+     mata + hidung (+ kumis untuk kucing/rubah). */
+  .critter{
+    position:relative; width:82px; height:56px;
+    animation:critterBob 0.5s ease-in-out infinite;
+    transform-style:preserve-3d;
+  }
+  @keyframes critterBob{
+    0%,50%,100%{ transform:translateY(0); }
+    25%,75%{ transform:translateY(-3px); }
+  }
+  .c-body{
+    position:absolute; left:14px; top:14px; width:48px; height:25px;
+    border-radius:50% 50% 46% 46% / 60% 60% 40% 40%;
+    background:linear-gradient(180deg, var(--fur) 0%, var(--fur) 55%, var(--fur-dark) 100%);
+    box-shadow:inset 0 -3px 4px rgba(0,0,0,0.15);
+  }
+  .c-belly{
+    position:absolute; left:22px; top:24px; width:30px; height:13px;
+    border-radius:50%; background:var(--belly, rgba(255,255,255,0.5));
+    opacity:0.85;
+  }
+  .c-head{
+    position:absolute; right:2px; top:-2px; width:27px; height:25px;
+    border-radius:50% 50% 42% 42%;
+    background:linear-gradient(165deg, var(--fur) 0%, var(--fur-dark) 100%);
+    box-shadow:inset -3px -2px 4px rgba(0,0,0,0.1);
+  }
+  .c-snout{
+    position:absolute; right:-6px; top:12px; width:12px; height:9px;
+    border-radius:50% 50% 60% 60%; background:var(--fur);
+    box-shadow:inset -2px -2px 3px rgba(0,0,0,0.12);
+  }
+  .c-nose{
+    position:absolute; right:-6px; top:14px; width:4px; height:3px;
+    border-radius:50%; background:#3b2b22;
+  }
+  .c-eye{
+    position:absolute; right:6px; top:8px; width:3px; height:3px;
+    border-radius:50%; background:#2b2140;
+  }
+  .c-whisker{
+    position:absolute; right:-2px; width:12px; height:1px; background:rgba(60,45,35,0.55);
+  }
+  .c-whisker.w1{ top:12px; }
+  .c-whisker.w2{ top:16px; }
+  .critter:not(.cat):not(.fox) .c-whisker{ display:none; }
+  .c-ear{
+    position:absolute; width:9px; height:14px; background:var(--fur);
+    border-radius:60% 60% 20% 20%; top:-9px;
+  }
+  .c-ear-l{ right:18px; transform:rotate(-10deg); }
+  .c-ear-r{ right:5px; transform:rotate(10deg); }
+  .critter.cat .c-ear{ border-radius:0; clip-path:polygon(0 100%, 50% 0, 100% 100%); background:var(--fur); height:13px; }
+  .critter.fox .c-ear{ border-radius:0; clip-path:polygon(0 100%, 50% 0, 100% 100%); height:16px; background:var(--fur-dark); }
+  .critter.dog .c-ear{ border-radius:30% 30% 50% 50%; height:19px; top:-3px; background:var(--fur-dark); }
+  .critter.rabbit .c-ear{ width:6px; height:27px; top:-23px; border-radius:50%; }
+  .c-tail{
+    position:absolute; left:-16px; top:18px; width:24px; height:8px;
+    border-radius:6px; background:linear-gradient(90deg, var(--fur-dark), var(--fur));
+    transform-origin:100% 50%; animation:tailWag 0.5s ease-in-out infinite;
+  }
+  .critter.fox .c-tail{ width:32px; height:13px; background:linear-gradient(90deg, var(--fur-dark), var(--fur)); }
+  .critter.rabbit .c-tail{ width:10px; height:10px; border-radius:50%; left:-5px; }
+  @keyframes tailWag{
+    0%,100%{ transform:rotate(-8deg); }
+    50%{ transform:rotate(20deg); }
+  }
+
+  /* Kaki: 4 buah, tiap kaki dua ruas (paha .c-leg + betis .c-paw) supaya
+     lututnya menekuk saat melangkah. Pola trot diagonal: kaki depan-kanan
+     & belakang-kiri (kelas "a") melangkah bersamaan, lalu gantian dengan
+     depan-kiri & belakang-kanan (kelas "b") -- gaya jalan hewan berkaki
+     empat yang sesungguhnya, bukan cuma dua kaki gantian sederhana. */
+  .c-leg{
+    position:absolute; bottom:-14px; width:7px; height:15px; border-radius:3px 3px 2px 2px;
+    background:var(--fur-dark); transform-origin:50% 0%;
+  }
+  .c-paw{
+    position:absolute; top:100%; left:0; width:7px; height:11px; border-radius:2px 2px 5px 5px;
+    background:var(--fur-dark); transform-origin:50% 0%; filter:brightness(0.92);
+  }
+  .c-leg.front-a{ right:22px; animation:legSwingA 0.5s ease-in-out infinite; }
+  .c-leg.front-b{ right:11px; animation:legSwingB 0.5s ease-in-out infinite; }
+  .c-leg.back-a{  left:8px;   animation:legSwingB 0.5s ease-in-out infinite; }
+  .c-leg.back-b{  left:19px;  animation:legSwingA 0.5s ease-in-out infinite; }
+  .c-leg.front-a .c-paw{ animation:pawSwingA 0.5s ease-in-out infinite; }
+  .c-leg.front-b .c-paw{ animation:pawSwingB 0.5s ease-in-out infinite; }
+  .c-leg.back-a .c-paw{  animation:pawSwingB 0.5s ease-in-out infinite; }
+  .c-leg.back-b .c-paw{  animation:pawSwingA 0.5s ease-in-out infinite; }
+  @keyframes legSwingA{
+    0%,100%{ transform:rotate(24deg); }
+    50%{ transform:rotate(-24deg); }
+  }
+  @keyframes legSwingB{
+    0%,100%{ transform:rotate(-24deg); }
+    50%{ transform:rotate(24deg); }
+  }
+  @keyframes pawSwingA{
+    0%,100%{ transform:rotate(-8deg); }
+    25%{ transform:rotate(30deg); }
+    50%{ transform:rotate(-8deg); }
+    75%{ transform:rotate(-36deg); }
+  }
+  @keyframes pawSwingB{
+    0%,100%{ transform:rotate(8deg); }
+    25%{ transform:rotate(-30deg); }
+    50%{ transform:rotate(8deg); }
+    75%{ transform:rotate(36deg); }
+  }
+  .c-shadow{
+    position:absolute; bottom:-16px; left:18px; width:48px; height:8px;
+    border-radius:50%; background:rgba(0,0,0,0.22); filter:blur(1.5px);
+    animation:shadowPulse 0.5s ease-in-out infinite;
+  }
+  @keyframes shadowPulse{
+    0%,100%{ transform:scaleX(0.85); opacity:0.22; }
+    50%{ transform:scaleX(1); opacity:0.3; }
   }
   .start-title{
-    font-family:'Baloo 2',cursive; font-size:28px; color:#fff; -webkit-text-stroke:2px #B85A00;
-    margin:0 0 8px; letter-spacing:1px;
+    font-family:'Baloo 2',cursive;
+    font-size:clamp(24px,5vw,40px);
+    color:#fff;
+    -webkit-text-stroke:2.5px #B85A00;
+    margin:0 0 8px;
+    letter-spacing:1px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    animation:waveTitle 3s ease-in-out infinite;
+    transform-origin:center;
   }
-  .start-sub{ font-size:15px; color:#6a5d82; margin:0 0 18px; font-weight:800; }
+  @keyframes waveTitle{
+    0%{transform:translateY(0) rotate(0deg);}
+    25%{transform:translateY(-4px) rotate(-1deg);}
+    50%{transform:translateY(0) rotate(0deg);}
+    75%{transform:translateY(4px) rotate(1deg);}
+    100%{transform:translateY(0) rotate(0deg);}
+  }
+  .start-sub{ font-size:15px; color:#fff; margin:0 0 18px; font-weight:800; text-shadow:0 2px 0 rgba(0,0,0,0.18); }
   .start-name-row{ margin-bottom:22px; }
   .start-name-input{
     width:100%; box-sizing:border-box; border:3px solid #F3D9C4; border-radius:18px;
@@ -162,16 +378,46 @@
   }
   .start-name-input:focus{ border-color:var(--pink); }
   .start-name-input::placeholder{ color:#b5a9c7; font-family:'Nunito',sans-serif; font-weight:700; }
-  .start-options{ display:flex; flex-direction:column; gap:14px; }
+  .start-options{ display:flex; flex-direction:column; gap:12px; }
+
+  /* Tombol menu: rapi & minimalis tapi tetap "hidup" -- warna gradasi
+     penuh per kategori (bukan transparan pudar), sedikit kilau di bagian
+     atas, bayangan lembut yang membesar saat disentuh/hover supaya terasa
+     interaktif dan menarik, bukan datar. */
   .start-btn{
-    border:none; border-radius:24px; padding:20px; font-family:'Baloo 2'; font-weight:800; font-size:20px;
-    color:#fff; cursor:pointer; box-shadow:0 6px 0 rgba(0,0,0,0.18); display:flex; align-items:center;
-    justify-content:center; gap:12px; transition:transform .08s;
+    border:none; border-radius:20px; padding:17px 22px;
+    font-family:'Baloo 2'; font-weight:800; font-size:19px; letter-spacing:0.3px;
+    color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:14px;
+    position:relative; overflow:hidden;
+    box-shadow:0 6px 0 rgba(0,0,0,0.16), 0 10px 18px rgba(0,0,0,0.16);
+    transition:transform .12s ease, box-shadow .12s ease;
+    max-width:320px; width:100%; margin:0 auto;
   }
-  .start-btn:active{ transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,0.18); }
-  .start-btn.huruf{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); }
-  .start-btn.angka{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
-  .start-emoji{ font-size:28px; }
+  .start-btn::after{
+    content:''; position:absolute; inset:0; border-radius:inherit;
+    background:linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 55%);
+    pointer-events:none;
+  }
+  .start-btn:hover{ transform:translateY(-3px); box-shadow:0 9px 0 rgba(0,0,0,0.16), 0 16px 22px rgba(0,0,0,0.2); }
+  .start-btn:active{ transform:translateY(3px); box-shadow:0 3px 0 rgba(0,0,0,0.16), 0 4px 10px rgba(0,0,0,0.16); }
+  .start-btn.huruf{ background:linear-gradient(135deg,var(--pink),var(--pink-dark)); }
+  .start-btn.angka{ background:linear-gradient(135deg,var(--blue),var(--blue-dark)); }
+  .start-btn.tambah{ background:linear-gradient(135deg,var(--green),var(--green-dark)); }
+  .start-btn.kurang{ background:linear-gradient(135deg,var(--orange),var(--orange-dark)); }
+  .start-emoji{
+    font-size:22px; display:inline-flex; align-items:center; justify-content:center;
+    width:42px; height:42px; background:rgba(255,255,255,0.28); border-radius:50%; flex-shrink:0;
+    box-shadow:inset 0 2px 3px rgba(255,255,255,0.4), 0 2px 5px rgba(0,0,0,0.12);
+    animation: startIconWiggle 2.6s ease-in-out infinite; position:relative; z-index:1;
+  }
+  .start-btn.angka .start-emoji{ animation-delay:.15s; }
+  .start-btn.tambah .start-emoji{ animation-delay:.3s; }
+  .start-btn.kurang .start-emoji{ animation-delay:.45s; }
+  @keyframes startIconWiggle{
+    0%,100%{ transform:rotate(0deg) scale(1); }
+    50%{ transform:rotate(-6deg) scale(1.06); }
+  }
+  .start-title .twinkle{ display:inline-block; animation: startIconWiggle 1.8s ease-in-out infinite; }
 
   /* BOTTOM NAV */
   .bottomnav{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
@@ -256,28 +502,36 @@
     0%{ transform:translateY(0) rotate(0deg); opacity:1; }
     100%{ transform:translateY(110vh) rotate(360deg); opacity:0.9; }
   }
+
+  .animal-item.bee{
+    animation-name:beeFly !important;
+  }
+  @keyframes beeFly{
+    0%{ transform:translate3d(0,0,0) scaleX(1); opacity:0; }
+    10%{ opacity:1; }
+    25%{ transform:translate3d(25vw,-15px,0) scaleX(1); }
+    50%{ transform:translate3d(50vw,10px,0) scaleX(1); }
+    75%{ transform:translate3d(75vw,-10px,0) scaleX(1); }
+    100%{ transform:translate3d(calc(100vw + 80px),0,0) scaleX(1); opacity:0; }
+  }
+
 </style>
 </head>
 <body>
 
 <div class="start-screen" id="startScreen">
+  <div class="floaty-layer" id="floatyLayer"></div>
   <div class="start-card">
-    <h1 class="start-title display">⭐ Belajar Huruf & Angka ⭐</h1>
-
-<div id="additionHomeButton" style="margin-top:12px;">
-  <button onclick="openAddition()"
-    style="padding:16px 24px;border-radius:20px;font-size:1.2rem;font-weight:bold;">
-    ➕ Belajar Penjumlahan
-  </button>
-</div>
-
+    <h1 class="start-title display"><span class="twinkle">⭐</span> Belajar Huruf & Angka <span class="twinkle">⭐</span></h1>
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
     </div>
     <div class="start-options">
-      <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🔤</span> Belajar Huruf (A–Z)</button>
-      <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🔢</span> Belajar Angka (0–9)</button>
+      <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
+      <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
+      <button class="start-btn tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Belajar Penjumlahan</button>
+      <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Belajar Pengurangan</button>
     </div>
   </div>
 </div>
@@ -301,6 +555,7 @@
       <div class="panel-toolbar">
         <div class="speak-hint">✏️ Gambar dengan jari / mouse</div>
         <div class="toolbar-actions">
+          <button class="pillbtn purple" id="btnHandGuide" style="padding:8px 16px;font-size:13px;">👆 Lihat Contoh Gerakan</button>
           <div class="colorpicker" id="colorPicker">
             <button class="swatch active" data-color="#0B1F4E" style="background:#0B1F4E" title="Biru Dongker"></button>
             <button class="swatch" data-color="#E8437E" style="background:#E8437E" title="Pink"></button>
@@ -340,7 +595,7 @@
       </div>
       <div class="card petunjuk">
         <h3>Petunjuk</h3>
-        <div class="petunjuk-text">Lihat garis putus-putus, lalu tulis mengikuti bentuknya dengan jari atau mouse mulai dari titik merah.</div>
+        <div class="petunjuk-text" id="petunjukText">Gerakkan tangan atau mouse mengikuti bentuk</div>
       </div>
     </div>
   </div>
@@ -439,7 +694,7 @@ function traceOutlineContours(entries, fontWeight, viewBoxW, viewBoxH){
   cx.textAlign = 'center';
   cx.textBaseline = 'alphabetic';
   entries.forEach(e => {
-    cx.font = `${fontWeight} ${e.fontSize*SCALE}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
+    cx.font = `${fontWeight} ${e.fontSize*SCALE}px 'Fredoka', sans-serif`;
     cx.fillText(e.text, e.x*SCALE, e.y*SCALE);
   });
 
@@ -577,11 +832,311 @@ function appendDashedOutline(svgEl, ns, contours){
   });
 }
 
+// ---------- JALUR PANDUAN TANGAN: GARIS TENGAH (SKELETON) HURUF/ANGKA ----------
+// Alih-alih menyusuri tepi luar glyph, jalur animasi tangan menyusuri "tulang
+// tengah" (centerline) tiap goresan -- seperti kalau kita betulan menulis di
+// tengah lebar pena, bukan menjiplak dua sisi tepinya. Caranya: render glyph ke
+// kanvas tersembunyi (raster hitam-putih), tipiskan jadi setebal 1 piksel lewat
+// algoritma Zhang-Suen thinning, lalu susun piksel skeleton itu jadi satu jalur
+// gerak yang menyambung (dengan penelusuran graf, boleh bolak-balik di
+// percabangan) supaya bisa dipakai sebagai satu <animateMotion> saja.
+
+function rasterizeGlyphBBox(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH, SCALE){
+  const w = Math.round(viewBoxW*SCALE), h = Math.round(viewBoxH*SCALE);
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const cx = c.getContext('2d');
+  cx.fillStyle = '#000';
+  cx.textAlign = 'center';
+  cx.textBaseline = 'alphabetic';
+  cx.font = `${fontWeight} ${fontSize*SCALE}px 'Fredoka', sans-serif`;
+  cx.fillText(ch, x*SCALE, y*SCALE);
+  const data = cx.getImageData(0,0,w,h).data;
+  let minX=w, minY=h, maxX=-1, maxY=-1;
+  for(let yy=0; yy<h; yy++){
+    for(let xx=0; xx<w; xx++){
+      if(data[(yy*w+xx)*4+3] > 120){
+        if(xx<minX)minX=xx; if(xx>maxX)maxX=xx;
+        if(yy<minY)minY=yy; if(yy>maxY)maxY=yy;
+      }
+    }
+  }
+  if(maxX<0) return null;
+  const pad = 3;
+  minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad);
+  maxX=Math.min(w-1,maxX+pad); maxY=Math.min(h-1,maxY+pad);
+  const bw=maxX-minX+1, bh=maxY-minY+1;
+  const bin = new Uint8Array(bw*bh);
+  for(let yy=0; yy<bh; yy++){
+    for(let xx=0; xx<bw; xx++){
+      bin[yy*bw+xx] = data[((yy+minY)*w+(xx+minX))*4+3] > 120 ? 1 : 0;
+    }
+  }
+  return { bin, w:bw, h:bh, offX:minX, offY:minY, SCALE };
+}
+
+// Algoritma penipisan citra biner Zhang-Suen: mengikis lapisan terluar bentuk
+// berulang kali sampai tersisa "rangka" setebal 1 piksel di tengah tiap goresan.
+// Dioptimalkan pakai padding 1px (supaya tak perlu cek batas tiap piksel) dan
+// daftar piksel aktif yang menyusut tiap putaran (bukan pindai seluruh kotak
+// tiap kali) -- di percobaan ini mempercepat proses sekitar 3-6x lipat.
+function zhangSuenThin(bin, w, h){
+  const W=w+2, H=h+2;
+  const img = new Uint8Array(W*H);
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++) img[(y+1)*W+(x+1)] = bin[y*w+x];
+  let active = [];
+  for(let i=0;i<W*H;i++) if(img[i]) active.push(i);
+  const o2=-W, o3=-W+1, o4=1, o5=W+1, o6=W, o7=W-1, o8=-1, o9=-W-1;
+  let changed = true, guard=0;
+  while(changed && guard<200){
+    guard++; changed=false;
+    for(let step=0; step<2; step++){
+      const toRemove = [];
+      for(let k=0;k<active.length;k++){
+        const idx = active[k];
+        if(!img[idx]) continue;
+        const p2=img[idx+o2],p3=img[idx+o3],p4=img[idx+o4],p5=img[idx+o5],
+              p6=img[idx+o6],p7=img[idx+o7],p8=img[idx+o8],p9=img[idx+o9];
+        const B = p2+p3+p4+p5+p6+p7+p8+p9;
+        if(B<2||B>6) continue;
+        let A=0;
+        if(p2===0&&p3===1)A++; if(p3===0&&p4===1)A++; if(p4===0&&p5===1)A++; if(p5===0&&p6===1)A++;
+        if(p6===0&&p7===1)A++; if(p7===0&&p8===1)A++; if(p8===0&&p9===1)A++; if(p9===0&&p2===1)A++;
+        if(A!==1) continue;
+        if(step===0){ if(p2*p4*p6!==0 || p4*p6*p8!==0) continue; }
+        else { if(p2*p4*p8!==0 || p2*p6*p8!==0) continue; }
+        toRemove.push(idx);
+      }
+      if(toRemove.length){
+        changed=true;
+        for(const idx of toRemove) img[idx]=0;
+        active = active.filter(idx=>img[idx]);
+      }
+    }
+  }
+  const out = new Uint8Array(w*h);
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++) out[y*w+x] = img[(y+1)*W+(x+1)];
+  return out;
+}
+
+// Mengubah piksel skeleton jadi graf titik-tetangga (8-arah).
+function buildSkeletonGraph(img, w, h){
+  const pts = []; const idxOf = new Map();
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++) if(img[y*w+x]){ idxOf.set(y*w+x, pts.length); pts.push([x,y]); }
+  const adj = pts.map(()=>[]);
+  const dirs=[[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
+  pts.forEach(([x,y],i) => {
+    dirs.forEach(([dx,dy]) => {
+      const key = (y+dy)*w+(x+dx);
+      if(idxOf.has(key)) adj[i].push(idxOf.get(key));
+    });
+  });
+  return { pts, adj };
+}
+
+// Membuang "duri" liar pendek hasil penipisan (spur kecil di percabangan)
+// supaya jalur tidak mondar-mandir ke cabang sepele yang bukan bagian bentuk.
+function pruneSkeletonSpurs(pts, adj, minLen){
+  const alive = pts.map(()=>true);
+  const degree = (i) => adj[i].filter(j=>alive[j]).length;
+  let changed = true;
+  while(changed){
+    changed = false;
+    for(let i=0;i<pts.length;i++){
+      if(!alive[i] || degree(i)!==1) continue;
+      let path=[i], prev=-1, cur=i;
+      for(let steps=0; steps<minLen+2; steps++){
+        const nbrs = adj[cur].filter(j=>alive[j] && j!==prev);
+        if(nbrs.length!==1) break;
+        prev=cur; cur=nbrs[0]; path.push(cur);
+        if(degree(cur)>=3) break;
+      }
+      if(path.length<=minLen && degree(cur)>=3){
+        path.slice(0,-1).forEach(idx => { alive[idx]=false; });
+        changed = true;
+      }
+    }
+  }
+  return alive;
+}
+
+// Menyusuri semua SISI graf (bukan cuma titik) jadi satu jalur menyambung lewat
+// DFS dengan mundur-balik (backtrack) -- supaya percabangan/lengkung tertutup
+// tetap tercakup penuh tanpa perlu angkat "pena" di tengah huruf.
+function traverseSkeletonComponent(startIdx, adj, alive, visitedEdge){
+  const edgeKey = (a,b) => a<b ? a+'_'+b : b+'_'+a;
+  const frame = (node) => ({ node, nbrs: adj[node].filter(j=>alive[j]), ptr:0 });
+  const path = [startIdx];
+  const st = [frame(startIdx)];
+  while(st.length){
+    const top = st[st.length-1];
+    if(top.ptr >= top.nbrs.length){ st.pop(); if(st.length) path.push(st[st.length-1].node); continue; }
+    const next = top.nbrs[top.ptr]; top.ptr++;
+    const key = edgeKey(top.node, next);
+    if(visitedEdge.has(key)) continue;
+    visitedEdge.add(key);
+    path.push(next);
+    st.push(frame(next));
+  }
+  return path;
+}
+
+// Ambil satu atau beberapa jalur skeleton (dalam koordinat asli, bukan piksel
+// hasil supersampling) untuk sebuah glyph. Biasanya cuma 1 komponen (huruf kita
+// semuanya satu goresan yang saling terhubung), tapi kalau ada beberapa bagian
+// terpisah, tiap bagian jadi subpath ("angkat pena") sendiri.
+function buildSkeletonSubpaths(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH){
+  // SCALE dinaikkan (1.6 -> 3) supaya raster glyph lebih halus: thinning
+  // Zhang-Suen bekerja piksel-per-piksel, jadi raster kasar bikin skeleton
+  // "bertangga" (staircase) dan jalur tangan terasa kurang presisi mengikuti
+  // lekukan huruf yang sebenarnya melengkung mulus.
+  const SCALE = 3;
+  const raster = rasterizeGlyphBBox(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH, SCALE);
+  if(!raster) return [];
+  const thin = zhangSuenThin(raster.bin, raster.w, raster.h);
+  const { pts, adj } = buildSkeletonGraph(thin, raster.w, raster.h);
+  if(!pts.length) return [];
+  const alive = pruneSkeletonSpurs(pts, adj, 8);
+
+  const seen = new Uint8Array(pts.length);
+  const comps = [];
+  for(let i=0;i<pts.length;i++){
+    if(!alive[i] || seen[i]) continue;
+    const stack=[i]; seen[i]=1; const comp=[i];
+    while(stack.length){
+      const c = stack.pop();
+      adj[c].forEach(n => { if(alive[n] && !seen[n]){ seen[n]=1; stack.push(n); comp.push(n); } });
+    }
+    comps.push(comp);
+  }
+
+  const visitedEdge = new Set();
+  const subpaths = [];
+  comps.filter(c => c.length >= 3).forEach(comp => {
+    let start = comp.find(i => adj[i].filter(j=>alive[j]).length === 1);
+    if(start === undefined) start = comp[0];
+    const tour = traverseSkeletonComponent(start, adj, alive, visitedEdge);
+    subpaths.push(tour.map(idx => pts[idx]));
+  });
+
+  // kembalikan ke koordinat SVG asli
+  const raw = subpaths.map(sp => sp.map(([px,py]) => [(px+raster.offX)/raster.SCALE, (py+raster.offY)/raster.SCALE]));
+
+  // Haluskan tiap jalur dengan moving-average (jendela 5) untuk membuang
+  // "gerigi" piksel sisa thinning, sehingga lintasan lebih mengikuti garis
+  // tengah goresan yang sesungguhnya (bukan pola tangga piksel).
+  function smoothPath(real){
+    if(real.length < 5) return real;
+    const win = 2; // radius jendela (total 2*win+1 titik)
+    const out = real.map((p, i) => {
+      let sx=0, sy=0, n=0;
+      for(let k=-win; k<=win; k++){
+        const j = i+k;
+        if(j<0 || j>=real.length) continue;
+        sx += real[j][0]; sy += real[j][1]; n++;
+      }
+      return [sx/n, sy/n];
+    });
+    // jaga titik ujung tetap presisi di ujung goresan asli
+    out[0] = real[0];
+    out[out.length-1] = real[real.length-1];
+    return out;
+  }
+
+  // sederhanakan jarak antar titik supaya jumlah titik jalur tetap ringan
+  const MIN_DIST = 1.2;
+  return raw.map(real => {
+    const smoothed = smoothPath(real);
+    const out = []; let last = null;
+    for(const p of smoothed){
+      if(!last || Math.hypot(p[0]-last[0], p[1]-last[1]) >= MIN_DIST){ out.push(p); last = p; }
+    }
+    if(out.length && out[out.length-1] !== smoothed[smoothed.length-1]) out.push(smoothed[smoothed.length-1]);
+    return out.length >= 2 ? out : null;
+  }).filter(Boolean);
+}
+
+// Membangun path SVG "d" dari garis-tengah huruf/angka yang sedang ditampilkan.
+// Dipakai kurva quadratic Bezier lewat titik tengah tiap segmen (teknik
+// "smooth polyline") supaya jalur tangan meluncur mulus mengikuti lengkungan
+// huruf, bukan patah-patah seperti garis lurus.
+function buildGuidePathD(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH){
+  const subpaths = buildSkeletonSubpaths(ch, x, y, fontSize, fontWeight, viewBoxW, viewBoxH);
+  if(!subpaths.length) return null;
+  let d = '';
+  subpaths.forEach(pts => {
+    if(pts.length === 2){
+      d += `M ${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)} L ${pts[1][0].toFixed(1)},${pts[1][1].toFixed(1)} `;
+      return;
+    }
+    d += `M ${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)} `;
+    for(let i=1;i<pts.length-1;i++){
+      const mx = (pts[i][0]+pts[i+1][0])/2, my = (pts[i][1]+pts[i+1][1])/2;
+      d += `Q ${pts[i][0].toFixed(1)},${pts[i][1].toFixed(1)} ${mx.toFixed(1)},${my.toFixed(1)} `;
+    }
+    d += `L ${pts[pts.length-1][0].toFixed(1)},${pts[pts.length-1][1].toFixed(1)} `;
+  });
+  return d.trim() || null;
+}
+
+// Menambahkan ikon tangan 👆 yang berjalan mengikuti lintasan tepi huruf/angka
+// memakai <animateMotion> SVG bawaan browser (tanpa perlu JS per-frame).
+function appendHandGuide(svgEl, ns, dString){
+  if(!dString) return;
+  // Kecepatan jari disesuaikan dari TOTAL PANJANG jalur (bukan jumlah subpath),
+  // supaya huruf yang jalurnya panjang (banyak lengkung/percabangan, mis. B, 8)
+  // tidak terasa terburu-buru dibanding huruf sederhana (mis. I, 1).
+  const nums = dString.match(/-?\d+\.?\d*/g)?.map(Number) || [];
+  let totalLen = 0;
+  for(let i=2;i+1<nums.length;i+=2){
+    // lompat "angkat pena" antar subpath tidak dihitung sebagai gerakan menulis;
+    // di sini semua titik sudah berurutan linier jadi cukup jumlahkan jarak berturutan
+    const dx = nums[i]-nums[i-2], dy = nums[i+1]-nums[i-1];
+    totalLen += Math.hypot(dx,dy);
+  }
+  const dur = Math.max(2.5, Math.min(14, totalLen/140)).toFixed(1) + 's';
+  const g = document.createElementNS(ns,'g');
+  g.setAttribute('id','handGuide');
+  g.style.display = 'none';
+  const glow = document.createElementNS(ns,'circle');
+  glow.setAttribute('r','16');
+  glow.setAttribute('fill','#FFCB3C');
+  glow.setAttribute('opacity','0.85');
+  const hand = document.createElementNS(ns,'text');
+  hand.setAttribute('font-size','46');
+  hand.setAttribute('text-anchor','middle');
+  hand.setAttribute('dominant-baseline','central');
+  hand.textContent = '👆';
+  const anim1 = document.createElementNS(ns,'animateMotion');
+  anim1.setAttribute('dur',dur);
+  anim1.setAttribute('repeatCount','indefinite');
+  anim1.setAttribute('path', dString);
+  const anim2 = document.createElementNS(ns,'animateMotion');
+  anim2.setAttribute('dur',dur);
+  anim2.setAttribute('repeatCount','indefinite');
+  anim2.setAttribute('path', dString);
+  glow.appendChild(anim1);
+  hand.appendChild(anim2);
+  g.appendChild(glow);
+  g.appendChild(hand);
+  svgEl.appendChild(g);
+}
+
+let handGuideOn = false;
+function setHandGuideVisible(v){
+  handGuideOn = v;
+  const g = document.getElementById('handGuide');
+  if(g) g.style.display = v ? '' : 'none';
+  const btn = document.getElementById('btnHandGuide');
+  if(btn) btn.textContent = v ? '⏸️ Sembunyikan Contoh' : '👆 Lihat Contoh Gerakan';
+}
+document.getElementById('btnHandGuide').onclick = () => setHandGuideVisible(!handGuideOn);
+
 // Kanvas kecil khusus untuk mengukur lebar tiap huruf (dipakai untuk memberi jarak spasi)
 const measureCanvas = document.createElement('canvas');
 const measureCtx = measureCanvas.getContext('2d');
 function charWidth(ch, fontSize, fontWeight){
-  measureCtx.font = `${fontWeight} ${fontSize}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
+  measureCtx.font = `${fontWeight} ${fontSize}px 'Fredoka', sans-serif`;
   return measureCtx.measureText(ch).width;
 }
 
@@ -617,7 +1172,7 @@ function renderHurufPair(svgEl, upper, lower){
     const t = document.createElementNS(ns,'text');
     t.setAttribute('x', String(x)); t.setAttribute('y','255');
     t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-family',"'Comic Sans MS', 'Comic Sans', cursive, sans-serif");
+    t.setAttribute('font-family',"'Fredoka', sans-serif");
     t.setAttribute('font-weight', String(fontWeight));
     t.setAttribute('font-size', String(fontSize));
     t.setAttribute('fill','none');
@@ -630,6 +1185,7 @@ function renderHurufPair(svgEl, upper, lower){
     fontWeight, 640, 360
   );
   appendDashedOutline(svgEl, ns, contours);
+  appendHandGuide(svgEl, ns, buildGuidePathD(upper, 160, 255, fontSize, fontWeight, 640, 360));
 }
 // Angka: digit di atas, tulisan di bawah dalam satu kotak.
 // Tulisan otomatis mengecil supaya kata panjang (mis. "Sembilan") tidak terpotong.
@@ -643,7 +1199,7 @@ function renderAngkaPair(svgEl, digit, word){
   const digitText = document.createElementNS(ns,'text');
   digitText.setAttribute('x','260'); digitText.setAttribute('y', String(digitY));
   digitText.setAttribute('text-anchor','middle');
-  digitText.setAttribute('font-family',"'Comic Sans MS', 'Comic Sans', cursive, sans-serif");
+  digitText.setAttribute('font-family',"'Fredoka', sans-serif");
   digitText.setAttribute('font-weight', String(fontWeight));
   digitText.setAttribute('font-size', String(digitFontSize));
   digitText.setAttribute('fill','none');
@@ -657,7 +1213,7 @@ function renderAngkaPair(svgEl, digit, word){
     const t = document.createElementNS(ns,'text');
     t.setAttribute('x', String(centers[i])); t.setAttribute('y', String(wordY));
     t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-family',"'Comic Sans MS', 'Comic Sans', cursive, sans-serif");
+    t.setAttribute('font-family',"'Fredoka', sans-serif");
     t.setAttribute('font-weight', String(fontWeight));
     t.setAttribute('font-size', String(fontSize));
     t.setAttribute('fill','none');
@@ -671,6 +1227,7 @@ function renderAngkaPair(svgEl, digit, word){
     fontWeight, 520, 520
   );
   appendDashedOutline(svgEl, ns, contours);
+  appendHandGuide(svgEl, ns, buildGuidePathD(digit, 260, digitY, digitFontSize, fontWeight, 520, 520));
 }
 
 // ---------- CANVAS DRAWING ----------
@@ -740,20 +1297,20 @@ function buildMask(){
   if(mode === 'huruf'){
     const scale = canvas.width / 640;
     maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `700 ${330*scale}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
+    maskCtx.font = `700 ${330*scale}px 'Fredoka', sans-serif`;
     const item = LETTERS[index];
     maskCtx.strokeText(item.ch, 160*scale, 255*scale);
     maskCtx.strokeText(item.ch.toLowerCase(), 480*scale, 255*scale);
   } else {
     const scale = canvas.width / 520;
     maskCtx.lineWidth = 34 * scale;
-    maskCtx.font = `700 ${300*scale}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
+    maskCtx.font = `700 ${300*scale}px 'Fredoka', sans-serif`;
     const item = NUMBERS[index];
     maskCtx.strokeText(item.d, 260*scale, 245*scale);
 
     const { fontSize, centers } = layoutNumberWord(item.word, 700, 260, 480);
     const wordY = 400 + fontSize*0.55;
-    maskCtx.font = `700 ${fontSize*scale}px 'Comic Sans MS', 'Comic Sans', cursive, sans-serif`;
+    maskCtx.font = `700 ${fontSize*scale}px 'Fredoka', sans-serif`;
     [...item.word].forEach((ch,i) => {
       maskCtx.strokeText(ch, centers[i]*scale, wordY*scale);
     });
@@ -852,6 +1409,7 @@ function render(){
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.ch + '</span>' + item.word.slice(1);
     document.getElementById('ucapText').textContent = '"' + item.say + '"';
+    document.getElementById('petunjukText').textContent = 'Gerakkan tangan atau mouse mengikuti bentuk';
   } else {
     wrapMain.classList.add('angka');
     const item = NUMBERS[index];
@@ -862,6 +1420,7 @@ function render(){
       '<span class="hl">' + item.d + '</span> = ' + item.word;
     document.getElementById('ucapText').textContent = '"' + item.word + '..."';
     document.getElementById('syllableText').textContent = item.syllable || '(diucapkan pelan)';
+    document.getElementById('petunjukText').textContent = 'Gerakkan tangan atau mouse mengikuti bentuk';
   }
 
   document.getElementById('btnPrev').disabled = (index === 0);
@@ -870,6 +1429,7 @@ function render(){
   buildMask();
   updateNextButton();
   speakCurrent();
+  setHandGuideVisible(handGuideOn);
 }
 
 function updateNextButton(){
@@ -1029,6 +1589,8 @@ function startApp(selectedMode){
 }
 document.getElementById('btnStartHuruf').onclick = () => startApp('huruf');
 document.getElementById('btnStartAngka').onclick = () => startApp('angka');
+document.getElementById('btnStartAddition').onclick = () => openAddition();
+document.getElementById('btnStartSubtraction').onclick = () => openSubtraction();
 
 function updateStartSub(){
   const name = document.getElementById('childName').value.trim();
@@ -1128,75 +1690,354 @@ window.checkAdditionAnswer = function(value){
 
 <!-- Addition Feature V10 -->
 <style>
-#additionScreen{position:fixed;inset:0;background:linear-gradient(180deg,#fff8d6,#e8f7ff);z-index:5000;display:none;padding:20px;overflow:auto}
-.addbox{max-width:900px;margin:auto;text-align:center}
-.addq{font-size:48px;font-weight:bold;margin:20px}
-.addpopup{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:6000}
-.addcard{background:#fff;padding:20px;border-radius:20px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+#additionScreen{
+  position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
+  background: linear-gradient(180deg,var(--sky1) 0%, var(--sky2) 55%, var(--grass1) 55%, var(--grass2) 100%);
+}
+.addbox{
+  max-width:480px; margin:40px auto; text-align:center;
+  background:var(--card); border-radius:32px; padding:34px 28px;
+  box-shadow:0 10px 0 rgba(0,0,0,0.12);
+}
+.addbox h1{
+  font-family:'Baloo 2',cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px #2FA859;
+  margin:0 0 6px; letter-spacing:1px;
+}
+.addprogress{ font-size:14px; font-weight:800; color:#6a5d82; margin-bottom:14px; }
+.addq{
+  font-family:'Baloo 2',cursive; font-size:44px; font-weight:800; color:var(--ink);
+  background:#FFF6DC; border-radius:18px; padding:18px 8px; margin:6px 0 16px;
+}
+.addhint{ font-size:14px; color:#8a7e9c; font-weight:700; margin:0 0 10px; }
+.addanswer-display{
+  font-family:'Baloo 2',cursive; font-size:40px; font-weight:800; color:var(--ink);
+  background:#FFFDF7; border:3px solid #F3D9C4; border-radius:18px; padding:10px;
+  margin-bottom:14px; min-height:56px; letter-spacing:4px;
+}
+.addkeypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+.addkey{
+  border:none; border-radius:16px; padding:16px 0; font-family:'Baloo 2'; font-weight:800; font-size:24px;
+  color:#fff; cursor:pointer; box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
+  background:linear-gradient(180deg,var(--purple),var(--purple-dark));
+}
+.addkey:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
+.addkey.zero{ grid-column:2; }
+.addkey.back{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
+.addinput{
+  width:100%; box-sizing:border-box; border:3px solid #F3D9C4; border-radius:18px;
+  padding:12px 16px; font-family:'Baloo 2',cursive; font-size:24px; color:var(--ink);
+  background:#FFFDF7; text-align:center; outline:none; margin-bottom:16px;
+}
+.addinput:focus{ border-color:var(--green); }
+.addbtn-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
 </style>
 <div id="additionScreen">
  <div class="addbox">
-  <h1>➕ Belajar Penjumlahan</h1>
-  <div id="addProgress"></div>
+  <h1 class="display">➕ Belajar Penjumlahan</h1>
+  <div class="addprogress" id="addProgress"></div>
   <div class="addq" id="addQuestion"></div>
-  <p>Tulis atau ketik jawaban:</p>
-  <input id="addAnswer" type="number" style="font-size:32px;padding:10px">
-  <div style="margin-top:10px">
-   <button onclick="checkAddAnswer()">Periksa</button>
-   <button onclick="nextAddQuestion()">Berikutnya</button>
-   <button onclick="document.getElementById('additionScreen').style.display='none'">Keluar</button>
+  <p class="addhint">🔢 Tekan angka jawabannya:</p>
+  <div class="addanswer-display" id="addAnswerDisplay">_</div>
+  <div class="addkeypad" id="addKeypad">
+    <button class="addkey" data-d="1">1</button>
+    <button class="addkey" data-d="2">2</button>
+    <button class="addkey" data-d="3">3</button>
+    <button class="addkey" data-d="4">4</button>
+    <button class="addkey" data-d="5">5</button>
+    <button class="addkey" data-d="6">6</button>
+    <button class="addkey" data-d="7">7</button>
+    <button class="addkey" data-d="8">8</button>
+    <button class="addkey" data-d="9">9</button>
+    <button class="addkey zero" data-d="0">0</button>
+    <button class="addkey back" id="addBackspace">⌫</button>
+  </div>
+  <div class="addbtn-row">
+   <button class="pillbtn green" onclick="checkAddAnswer()">✅ Periksa</button>
+   <button class="pillbtn gray" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';">⟵ Keluar</button>
   </div>
  </div>
 </div>
-<div id="addPopup" class="addpopup">
- <div class="addcard">
-  <h2 id="addPopupTitle"></h2>
-  <button onclick="retryAdd()">Coba Lagi</button>
-  <button onclick="nextAddQuestion()">Berikutnya</button>
+<div id="addPopup" class="celebrate-overlay" style="z-index:6000;">
+ <div class="celebrate-box">
+  <div class="celebrate-emoji" id="addPopupEmoji">🎉</div>
+  <div class="celebrate-title" id="addPopupTitle">Jawaban Benar!</div>
+  <div class="addbtn-row" style="margin-top:15px;">
+   <button class="pillbtn orange" id="addRetryBtn" onclick="retryAdd()">🔄 Coba Lagi</button>
+   <button class="pillbtn green" id="addNextBtn" onclick="nextAddQuestion()">➡️ Berikutnya</button>
+  </div>
  </div>
 </div>
 <script>
 (function(){
- window.addQuestions=Array.from({length:20},()=>{
-   let a=Math.floor(Math.random()*20)+1,b=Math.floor(Math.random()*20)+1;
-   return {a,b,ans:a+b};
- });
+ window.addQuestions=[];
  window.addIndex=0;
+ window.makeAddQuestion=function(idx){
+   let level=Math.floor(idx/20);
+   let max=10*(level+1); // 1-10, lalu 1-20, 1-30, 1-40, dst
+   let a=Math.floor(Math.random()*max)+1,b=Math.floor(Math.random()*max)+1;
+   return {a,b,ans:a+b};
+ };
+ window.addScratchCanvas=null;
+ window.addTyped='';
+ window.updateAddDisplay=function(){
+   document.getElementById('addAnswerDisplay').textContent = addTyped || '_';
+ }
+ document.querySelectorAll('#addKeypad .addkey[data-d]').forEach(btn=>{
+   btn.onclick=()=>{ if(addTyped.length<3) addTyped+=btn.dataset.d; updateAddDisplay(); };
+ });
+ document.getElementById('addBackspace').onclick=()=>{ addTyped=addTyped.slice(0,-1); updateAddDisplay(); };
  window.renderAdd=function(){
    let q=addQuestions[addIndex];
    document.getElementById('addQuestion').textContent=`${q.a} + ${q.b} = ?`;
-   document.getElementById('addProgress').textContent=`Soal ${addIndex+1} dari 20`;
-   document.getElementById('addAnswer').value='';
+   document.getElementById('addProgress').textContent=`Soal ke-${addIndex+1}`;
+   addTyped='';
+   updateAddDisplay();
  }
  window.openAddition=function(){
+   addQuestions=[makeAddQuestion(0)];
+   addIndex=0;
    document.getElementById('additionScreen').style.display='block';
    renderAdd();
  }
  window.checkAddAnswer=function(){
    let q=addQuestions[addIndex];
-   let ok=Number(document.getElementById('addAnswer').value)===q.ans;
+   let ok=Number(addTyped)===q.ans;
    let p=document.getElementById('addPopup');
-   document.getElementById('addPopupTitle').textContent=ok?'🎉 Jawaban Benar!':'❌ Jawaban Salah!';
-   p.style.display='flex';
+   document.getElementById('addPopupEmoji').textContent=ok?'🎉':'😥';
+   document.getElementById('addPopupTitle').textContent=ok?'Hebat, Jawaban Benar!':'Yah, Jawaban Salah!';
+   document.getElementById('addRetryBtn').style.display=ok?'none':'';
+   document.getElementById('addNextBtn').style.display=ok?'':'none';
+   p.classList.add('show');
    let u=new SpeechSynthesisUtterance(ok?'Hebat, jawaban benar':'Jawaban salah');
    u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    window._lastAddOk=ok;
  }
  window.retryAdd=function(){
-   document.getElementById('addPopup').style.display='none';
-   document.getElementById('addAnswer').focus();
+   document.getElementById('addPopup').classList.remove('show');
+   addTyped='';
+   updateAddDisplay();
  }
  window.nextAddQuestion=function(){
-   document.getElementById('addPopup').style.display='none';
-   if(window._lastAddOk && addIndex<19) addIndex++;
+   document.getElementById('addPopup').classList.remove('show');
+   addIndex++;
+   addQuestions.push(makeAddQuestion(addIndex));
    renderAdd();
  }
- setTimeout(()=>{
-   let btn=document.createElement('button');
-   btn.innerHTML='➕ Belajar Penjumlahan'; btn.style.fontSize='1.2rem';
-   btn.className='pillbtn green';
-   btn.onclick=openAddition;
-   document.querySelector('.topbar')?.appendChild(btn);
- },1000);
+})();
+</script>
+
+<!-- Subtraction Feature -->
+<style>
+#subtractionScreen{
+  position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
+  background: linear-gradient(180deg,var(--sky1) 0%, var(--sky2) 55%, var(--grass1) 55%, var(--grass2) 100%);
+}
+.subbox h1{
+  font-family:'Baloo 2',cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px var(--orange-dark);
+  margin:0 0 6px; letter-spacing:1px;
+}
+.subkey{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
+.addinput:focus.sub{ border-color:var(--orange); }
+</style>
+<div id="subtractionScreen">
+ <div class="addbox subbox">
+  <h1 class="display">➖ Belajar Pengurangan</h1>
+  <div class="addprogress" id="subProgress"></div>
+  <div class="addq" id="subQuestion"></div>
+  <p class="addhint">🔢 Tekan angka jawabannya:</p>
+  <div class="addanswer-display" id="subAnswerDisplay">_</div>
+  <div class="addkeypad" id="subKeypad">
+    <button class="addkey subkey" data-d="1">1</button>
+    <button class="addkey subkey" data-d="2">2</button>
+    <button class="addkey subkey" data-d="3">3</button>
+    <button class="addkey subkey" data-d="4">4</button>
+    <button class="addkey subkey" data-d="5">5</button>
+    <button class="addkey subkey" data-d="6">6</button>
+    <button class="addkey subkey" data-d="7">7</button>
+    <button class="addkey subkey" data-d="8">8</button>
+    <button class="addkey subkey" data-d="9">9</button>
+    <button class="addkey subkey zero" data-d="0">0</button>
+    <button class="addkey back" id="subBackspace">⌫</button>
+  </div>
+  <div class="addbtn-row">
+   <button class="pillbtn orange" onclick="checkSubAnswer()">✅ Periksa</button>
+   <button class="pillbtn gray" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';">⟵ Keluar</button>
+  </div>
+ </div>
+</div>
+<div id="subPopup" class="celebrate-overlay" style="z-index:6000;">
+ <div class="celebrate-box">
+  <div class="celebrate-emoji" id="subPopupEmoji">🎉</div>
+  <div class="celebrate-title" id="subPopupTitle">Jawaban Benar!</div>
+  <div class="addbtn-row" style="margin-top:15px;">
+   <button class="pillbtn orange" id="subRetryBtn" onclick="retrySub()">🔄 Coba Lagi</button>
+   <button class="pillbtn green" id="subNextBtn" onclick="nextSubQuestion()">➡️ Berikutnya</button>
+  </div>
+ </div>
+</div>
+<script>
+(function(){
+ window.subQuestions=[];
+ window.subIndex=0;
+ window.makeSubQuestion=function(idx){
+   let level=Math.floor(idx/20);
+   let max=10*(level+1); // 1-10, lalu 1-20, 1-30, 1-40, dst
+   let a=Math.floor(Math.random()*max)+1,b=Math.floor(Math.random()*(a+1)); // b<=a supaya hasil tidak negatif
+   return {a,b,ans:a-b};
+ };
+ window.subTyped='';
+ window.updateSubDisplay=function(){
+   document.getElementById('subAnswerDisplay').textContent = subTyped || '_';
+ }
+ document.querySelectorAll('#subKeypad .addkey[data-d]').forEach(btn=>{
+   btn.onclick=()=>{ if(subTyped.length<3) subTyped+=btn.dataset.d; updateSubDisplay(); };
+ });
+ document.getElementById('subBackspace').onclick=()=>{ subTyped=subTyped.slice(0,-1); updateSubDisplay(); };
+ window.renderSub=function(){
+   let q=subQuestions[subIndex];
+   document.getElementById('subQuestion').textContent=`${q.a} - ${q.b} = ?`;
+   document.getElementById('subProgress').textContent=`Soal ke-${subIndex+1}`;
+   subTyped='';
+   updateSubDisplay();
+ }
+ window.openSubtraction=function(){
+   subQuestions=[makeSubQuestion(0)];
+   subIndex=0;
+   document.getElementById('subtractionScreen').style.display='block';
+   renderSub();
+ }
+ window.checkSubAnswer=function(){
+   let q=subQuestions[subIndex];
+   let ok=Number(subTyped)===q.ans;
+   let p=document.getElementById('subPopup');
+   document.getElementById('subPopupEmoji').textContent=ok?'🎉':'😥';
+   document.getElementById('subPopupTitle').textContent=ok?'Hebat, Jawaban Benar!':'Yah, Jawaban Salah!';
+   document.getElementById('subRetryBtn').style.display=ok?'none':'';
+   document.getElementById('subNextBtn').style.display=ok?'':'none';
+   p.classList.add('show');
+   let u=new SpeechSynthesisUtterance(ok?'Hebat, jawaban benar':'Jawaban salah');
+   u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+   window._lastSubOk=ok;
+ }
+ window.retrySub=function(){
+   document.getElementById('subPopup').classList.remove('show');
+   subTyped='';
+   updateSubDisplay();
+ }
+ window.nextSubQuestion=function(){
+   document.getElementById('subPopup').classList.remove('show');
+   subIndex++;
+   subQuestions.push(makeSubQuestion(subIndex));
+   renderSub();
+ }
+})();
+</script>
+
+<!-- Huruf & angka beterbangan di halaman muka -->
+<script>
+(function(){
+  const layer = document.getElementById('floatyLayer');
+  if(!layer) return;
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+  const COLORS = ['#FF5B93','#9B6BFF','#FFA23A','#3EC46D','#2E9EF5','#FFCB3C','#E8437E'];
+  // Jumlah item disesuaikan lebar layar supaya tetap ramai tapi enak dilihat di HP kecil
+  const COUNT = window.innerWidth < 560 ? 8 : window.innerWidth < 900 ? 12 : 16;
+
+  function spawn(i){
+    const el = document.createElement('span');
+    el.className = 'floaty-item';
+    el.textContent = CHARS[Math.floor(Math.random()*CHARS.length)];
+    el.style.left = (Math.random()*94 + 2) + '%';
+    // Tiga kelompok ukuran (kecil/sedang/besar) supaya variasinya terlihat jelas,
+    // bukan cuma acak sempit di rentang yang mirip.
+    const sizeGroup = Math.random();
+    let size;
+    if(sizeGroup < 0.4) size = Math.floor(Math.random()*14) + 16;      // kecil: 16-30px
+    else if(sizeGroup < 0.8) size = Math.floor(Math.random()*20) + 32; // sedang: 32-52px
+    else size = Math.floor(Math.random()*30) + 54;                    // besar: 54-84px
+    el.style.fontSize = size + 'px';
+    el.style.color = COLORS[Math.floor(Math.random()*COLORS.length)];
+    // Item lebih besar dibuat sedikit lebih transparan supaya tidak terlalu
+    // menutupi tombol saat melintas di depannya.
+    el.style.setProperty('--floaty-op', size > 54 ? '0.5' : '0.85');
+    const dur = (Math.random()*12 + 13).toFixed(1); // 13s - 25s per putaran
+    const delay = (-(Math.random()*dur)).toFixed(1); // mulai di titik acak dalam siklus, biar tidak muncul serentak
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = delay + 's';
+    layer.appendChild(el);
+  }
+  for(let i=0;i<COUNT;i++) spawn(i);
+})();
+</script>
+
+<!-- Hewan-hewan beterbangan/berjalan di halaman muka -->
+<script>
+(function(){
+  const layer = document.getElementById('floatyLayer');
+  if(!layer) return;
+  const BIRDS = ['🐦','🐤','🦋','🐝','🦜'];
+  const GROUND_TYPES = ['cat','dog','rabbit','fox'];
+  const FUR = {
+    cat:    { fur:'#B7BEC7', dark:'#8E97A3', belly:'#EDEFF2' },
+    dog:    { fur:'#C9975E', dark:'#9C7040', belly:'#F1DFC2' },
+    rabbit: { fur:'#FBFBFB', dark:'#D9D9D9', belly:'#FFFFFF' },
+    fox:    { fur:'#F3862B', dark:'#C96A15', belly:'#FFF3E4' }
+  };
+  const isSmall = window.innerWidth < 560;
+  const BIRD_COUNT = isSmall ? 3 : 5;
+  const GROUND_COUNT = isSmall ? 2 : 4;
+
+  function spawnBird(){
+    const el = document.createElement('span');
+    el.className = 'animal-item bird';
+    el.textContent = BIRDS[Math.floor(Math.random()*BIRDS.length)];
+    el.style.setProperty('--y', (Math.random()*30 + 6) + '%');
+    el.style.fontSize = (Math.floor(Math.random()*18) + 28) + 'px';
+    const dur = (Math.random()*10 + 16).toFixed(1); // 16s - 26s melintasi layar
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
+    layer.appendChild(el);
+  }
+  function spawnGround(){
+    const el = document.createElement('div');
+    el.className = 'animal-item ground';
+    el.style.setProperty('--y', (Math.random()*10 + 2) + '%');
+    const dur = (Math.random()*14 + 20).toFixed(1); // 20s - 34s, lebih pelan dari burung
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
+
+    const type = GROUND_TYPES[Math.floor(Math.random()*GROUND_TYPES.length)];
+    const c = FUR[type];
+    const scale = (Math.random()*0.5 + 0.8).toFixed(2); // variasi ukuran badan
+    const critter = document.createElement('div');
+    critter.className = 'critter ' + type;
+    critter.style.setProperty('--fur', c.fur);
+    critter.style.setProperty('--fur-dark', c.dark);
+    critter.style.setProperty('--belly', c.belly);
+    critter.style.transform = `scale(${scale})`;
+    critter.innerHTML =
+      '<div class="c-shadow"></div>' +
+      '<div class="c-tail"></div>' +
+      '<div class="c-body">' +
+        '<div class="c-leg back-a"><div class="c-paw"></div></div>' +
+        '<div class="c-leg back-b"><div class="c-paw"></div></div>' +
+        '<div class="c-leg front-a"><div class="c-paw"></div></div>' +
+        '<div class="c-leg front-b"><div class="c-paw"></div></div>' +
+        '<div class="c-belly"></div>' +
+      '</div>' +
+      '<div class="c-head">' +
+        '<div class="c-ear c-ear-l"></div>' +
+        '<div class="c-ear c-ear-r"></div>' +
+        '<div class="c-snout"></div>' +
+        '<div class="c-nose"></div>' +
+        '<div class="c-eye"></div>' +
+        '<div class="c-whisker w1"></div>' +
+        '<div class="c-whisker w2"></div>' +
+      '</div>';
+    el.appendChild(critter);
+    layer.appendChild(el);
+  }
+  for(let i=0;i<BIRD_COUNT;i++) spawnBird();
+  for(let i=0;i<GROUND_COUNT;i++) spawnGround();
 })();
 </script>
