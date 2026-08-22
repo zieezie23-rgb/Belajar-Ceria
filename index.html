@@ -1963,6 +1963,67 @@ document.addEventListener('DOMContentLoaded', function(){
 })();
 </script>
 
+
+<script id="v8-refactor">
+(function(){
+const $=id=>document.getElementById(id);
+window.AppMode={HOME:'home',HURUF:'huruf',ANGKA:'angka',ADD:'practice-add',SUB:'practice-subtract',WORD:'practice-word'};
+window.tracingCache=window.tracingCache||new Map();
+window.getTracingCache=(k,b)=>{if(!tracingCache.has(k))tracingCache.set(k,b());return tracingCache.get(k);};
+
+window.showScreen=function(mode){
+ const start=$('startScreen'),stage=$('stage'),menu=$('practiceMenu');
+ if(start) start.style.display=mode===AppMode.HOME?'flex':'none';
+ if(stage) stage.style.display=mode===AppMode.HOME?'none':'block';
+ if(menu) menu.style.display='none';
+ window.currentMode=mode;
+};
+
+window.MathEngine={
+ mode:'add',
+ setMode(m){this.mode=m;},
+ generate(){
+   const a=Math.floor(Math.random()*10), b=Math.floor(Math.random()*10);
+   return this.mode==='sub'?{a:a+b,b,answer:a}:{a,b,answer:a+b};
+ }
+};
+
+window.PracticeMode={
+ activate(mode){
+   showScreen(mode);
+   if(mode===AppMode.ADD) MathEngine.setMode('add');
+   if(mode===AppMode.SUB) MathEngine.setMode('sub');
+   if(mode===AppMode.WORD){
+      const w=(window.LETTERS&&LETTERS[0]?.word)||'AYAM';
+      window.activeWordTrace=WordPractice.build(w);
+   }
+ }
+};
+
+window.WordPractice={
+ build(word){ return String(word).split('');}
+};
+
+function disableLegacyEffects(){
+ ['confettiLayer','celebrateOverlay'].forEach(id=>{const e=$(id); if(e) e.remove();});
+ const st=document.createElement('style');
+ st.textContent='.confetti-layer,.confetti-piece{display:none!important}';
+ document.head.appendChild(st);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+ disableLegacyEffects();
+ const bind=(id,fn)=>{const el=$(id); if(el&&!el.dataset.refactorBound){el.dataset.refactorBound='1'; el.onclick=fn;}};
+ bind('btnKembali',()=>showScreen(AppMode.HOME));
+ bind('btnStartHuruf',()=>showScreen(AppMode.HURUF));
+ bind('btnStartAngka',()=>showScreen(AppMode.ANGKA));
+ bind('btnStartPractice',()=>{$('practiceMenu').style.display='block';});
+ bind('btnPracticeAddition',()=>PracticeMode.activate(AppMode.ADD));
+ bind('btnPracticeSubtraction',()=>PracticeMode.activate(AppMode.SUB));
+ bind('btnPracticeWord',()=>PracticeMode.activate(AppMode.WORD));
+ });
+})();
+</script>
+
 </body>
 </html>
 
