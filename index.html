@@ -715,6 +715,212 @@
   }
 </style>
 
+
+<style id="storybook-main-screen">
+/* ===== HALAMAN UTAMA GAYA ILUSTRASI BUKU CERITA ===== */
+.start-screen{
+  min-height:100svh!important;
+  width:100%;
+  padding:0 14px 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  position:relative!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 52% 42%,rgba(255,255,255,.22),transparent 26%),
+    linear-gradient(180deg,#159BEA 0%,#42B9F4 45%,#8CDAFF 72%,#B8EAFF 100%)!important;
+}
+.start-screen::before{
+  content:"";
+  position:absolute;
+  left:-8%;right:-8%;bottom:-8%;
+  height:35%;
+  z-index:0;
+  background:
+    radial-gradient(ellipse at 10% 80%,#77D74B 0 26%,transparent 27%),
+    radial-gradient(ellipse at 42% 95%,#63CA3F 0 34%,transparent 35%),
+    radial-gradient(ellipse at 78% 82%,#79D64B 0 28%,transparent 29%),
+    linear-gradient(180deg,#77D84E 0%,#54BE3B 100%);
+  border-radius:50% 50% 0 0/35% 35% 0 0;
+  box-shadow:inset 0 18px 28px rgba(255,255,255,.14);
+}
+.start-screen::after{
+  content:"";
+  position:absolute;
+  left:50%;bottom:-10%;z-index:0;
+  width:22%;height:28%;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg,#E7B56A,#F5D28D,#DDA65B);
+  clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);
+  opacity:.95;
+  filter:drop-shadow(0 -2px 2px rgba(100,70,25,.10));
+}
+.start-card{
+  max-width:1120px!important;
+  width:100%!important;
+  min-height:100svh;
+  padding:34px 20px 14px!important;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  position:relative!important;
+  z-index:2!important;
+}
+.start-top-controls{
+  position:absolute!important;
+  top:14px!important;
+  right:14px!important;
+}
+.start-top-controls .pillbtn{
+  background:rgba(255,255,255,.18)!important;
+  border:2px solid rgba(255,255,255,.72)!important;
+  box-shadow:0 4px 10px rgba(0,65,130,.16)!important;
+  backdrop-filter:blur(5px);
+  color:#fff!important;
+}
+.start-top-controls .menu-music-control{
+  background:rgba(255,255,255,.18)!important;
+  border-color:rgba(255,255,255,.72)!important;
+  backdrop-filter:blur(5px);
+}
+
+/* Judul besar seperti logo anak-anak */
+.start-title{
+  margin:28px auto 8px!important;
+  gap:clamp(5px,1.4vw,16px)!important;
+  font-size:clamp(34px,7.3vw,78px)!important;
+  line-height:.96!important;
+  font-weight:900!important;
+  color:#FFD83D!important;
+  -webkit-text-stroke:2.5px #FFF!important;
+  text-shadow:
+    0 4px 0 #0F6CC5,
+    0 8px 0 #0958A8,
+    0 12px 0 #06498E,
+    0 17px 22px rgba(0,52,120,.28)!important;
+  animation:none!important;
+}
+.start-title .title-star{
+  color:#FFE66B!important;
+  -webkit-text-stroke:0!important;
+  text-shadow:0 3px 0 #D18B00,0 6px 10px rgba(80,50,0,.2)!important;
+  animation:titleStarBounce 1.8s ease-in-out infinite!important;
+}
+.start-title #startTitleText{
+  display:inline-block;
+}
+
+/* Ubah subtitle menjadi kalimat ringan di bawah logo, seperti prompt anak */
+.start-sub{
+  margin:4px 0 8px!important;
+  font-size:clamp(14px,2.4vw,21px)!important;
+  color:#fff!important;
+  text-shadow:0 3px 0 rgba(0,75,140,.25)!important;
+}
+
+/* Kotak nama lebih seperti name-tag di bagian bawah */
+.start-name-row{
+  width:min(360px,72vw)!important;
+  margin:auto auto 2px!important;
+  order:5;
+}
+.start-name-input{
+  height:46px!important;
+  border:3px solid #F6D8A7!important;
+  border-radius:22px!important;
+  background:rgba(255,253,247,.96)!important;
+  box-shadow:0 5px 0 rgba(104,71,35,.16),0 10px 18px rgba(0,70,120,.12)!important;
+  font-size:16px!important;
+}
+
+/* Menu besar: ilustrasi menjadi fokus utama */
+.main-menu-options{
+  order:4;
+  flex:1 1 auto;
+  align-items:center!important;
+  gap:clamp(70px,15vw,190px)!important;
+  margin:0 auto!important;
+}
+.menu-main-btn{
+  min-width:260px!important;
+  gap:2px!important;
+}
+.menu-main-btn .menu-anim-icon{
+  width:260px!important;
+  height:230px!important;
+  flex-basis:230px!important;
+  transform:scale(1)!important;
+}
+.menu-main-btn .book-icon,
+.menu-main-btn .pencil-icon{
+  transform:scale(2.35)!important;
+}
+.menu-main-btn strong{
+  margin-top:2px!important;
+  font-size:clamp(24px,3.8vw,38px)!important;
+  color:#fff!important;
+  -webkit-text-stroke:2px #1554A0!important;
+  text-shadow:0 4px 0 #0C3F83,0 7px 12px rgba(0,45,110,.28)!important;
+}
+.menu-main-btn.belajar-menu strong,
+.menu-main-btn.latihan-menu strong{
+  color:#fff!important;
+}
+
+/* Hapus sublabel agar seperti gambar acuan */
+.menu-main-btn small{display:none!important;}
+
+/* Dekorasi bunga sederhana di sudut bawah */
+.start-card::before,.start-card::after{
+  position:absolute;
+  bottom:6px;
+  font-size:clamp(28px,5vw,54px);
+  z-index:-1;
+  filter:drop-shadow(0 4px 3px rgba(0,70,60,.16));
+  opacity:.95;
+}
+.start-card::before{content:"🌸 🌼";left:1%;}
+.start-card::after{content:"🌼 🌸";right:1%;}
+
+@media(max-width:700px){
+  .start-card{padding-top:30px!important;}
+  .start-title{font-size:clamp(29px,8vw,52px)!important;margin-top:32px!important;}
+  .main-menu-options{gap:clamp(18px,8vw,65px)!important;}
+  .menu-main-btn{min-width:145px!important;}
+  .menu-main-btn .menu-anim-icon{
+    width:170px!important;height:155px!important;flex-basis:155px!important;
+  }
+  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(1.65)!important;}
+  .menu-main-btn strong{font-size:24px!important;}
+  .start-name-row{width:min(300px,72vw)!important;}
+}
+@media(max-width:430px){
+  .start-screen{padding:0 8px 10px!important;}
+  .start-card{padding:25px 5px 8px!important;}
+  .start-top-controls{top:8px!important;right:8px!important;}
+  .start-title{
+    margin-top:38px!important;
+    font-size:clamp(24px,8.3vw,34px)!important;
+    gap:3px!important;
+    -webkit-text-stroke:1.5px #fff!important;
+  }
+  .start-sub{font-size:13px!important;}
+  .main-menu-options{gap:8px!important;}
+  .menu-main-btn{min-width:135px!important;}
+  .menu-main-btn .menu-anim-icon{
+    width:145px!important;height:140px!important;flex-basis:140px!important;
+  }
+  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(1.42)!important;}
+  .menu-main-btn strong{
+    font-size:21px!important;
+    -webkit-text-stroke:1.5px #1554A0!important;
+  }
+  .start-name-row{width:min(260px,72vw)!important;}
+}
+</style>
+
 </head>
 <body>
 
@@ -2474,6 +2680,29 @@ applyLanguage();
   window.addEventListener('load', syncWritingPanels);
 })();
 </script>
+
+
+<script>
+(function(){
+  function addStorybookDecor(){
+    const layer=document.getElementById('floatyLayer');
+    if(!layer || document.getElementById('storybookDecor')) return;
+    const d=document.createElement('div');
+    d.id='storybookDecor';
+    d.innerHTML='<span>✦</span><span>✦</span><span>✦</span>';
+    d.style.cssText='position:absolute;inset:0;pointer-events:none;';
+    [...d.children].forEach((s,i)=>{
+      s.style.cssText=`position:absolute;color:#FFE45C;font-size:${18+i*5}px;left:${18+i*31}%;top:${18+i*10}%;text-shadow:0 2px 4px rgba(80,60,0,.18);animation:storySpark 1.8s ease-in-out ${i*.45}s infinite;`;
+    });
+    layer.appendChild(d);
+  }
+  addStorybookDecor();
+  window.addEventListener('load',addStorybookDecor);
+})();
+</script>
+<style>
+@keyframes storySpark{0%,100%{transform:scale(.75) rotate(0);opacity:.45}50%{transform:scale(1.15) rotate(12deg);opacity:1}}
+</style>
 
 </body>
 </html>
