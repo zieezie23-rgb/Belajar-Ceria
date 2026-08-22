@@ -408,7 +408,7 @@
   <div class="credit-tag">Creat by: Zie</div>
 </div>
 
-<div id="practiceMenu" style="display:none;padding:20px;text-align:center">
+<div id="practiceMenu" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;padding-top:120px;text-align:center">
   <button class="start-btn tambah" id="btnPracticeAddition">➕ Penjumlahan</button><br><br>
   <button class="start-btn kurang" id="btnPracticeSubtraction">➖ Pengurangan</button><br><br>
   <button class="start-btn huruf" id="btnPracticeWord">✍️ Menulis Kata</button>
@@ -1834,6 +1834,22 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+ const btn=document.getElementById('btnStartPractice');
+ const menu=document.getElementById('practiceMenu');
+ if(btn&&menu){
+   btn.onclick=function(e){
+     e.preventDefault();
+     menu.style.display='block';
+   };
+   menu.addEventListener('click',function(ev){
+     if(ev.target===menu) menu.style.display='none';
+   });
+ }
+});
+</script>
 </body>
 </html>
 
