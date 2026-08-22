@@ -363,6 +363,27 @@
     100%{ transform:translateY(110vh) rotate(360deg); opacity:0.9; }
   }
 
+
+/* ===== HOME SCREEN BARU ===== */
+.game-home{min-height:100vh;padding:20px;background:linear-gradient(180deg,#42b5ff 0%,#8be3ff 50%,#98e865 50%,#6fd64c 100%);}
+.home-topbar{display:flex;justify-content:space-between;align-items:flex-start}
+.lang-group{display:flex;gap:12px}
+.flag-btn,.vibration-btn{border:none;border-radius:18px;padding:10px 14px;color:#fff;font-weight:800;box-shadow:0 5px 0 rgba(0,0,0,.2)}
+.flag-btn{background:#ff4e7a}.flag-btn.blue{background:#2d8cff}.vibration-btn{background:#45c94d}
+.flag-btn span{display:block;font-size:12px}
+.rainbow-wrap{display:flex;justify-content:center}
+.rainbow{width:90%;height:220px;border-radius:300px 300px 0 0;background:conic-gradient(from 180deg,red,orange,yellow,lime,cyan,blue,violet,red);mask:radial-gradient(circle at bottom center,transparent 0 55%,#000 56%)}
+.hero-title{text-align:center;margin-top:-80px}
+.title-line{font-size:56px;font-weight:900}.title-yellow{color:#ffca28}.title-pink{color:#ff5c9b}.title-blue{color:#3495ff}
+.hero-subtitle{display:inline-block;background:#8a4f1f;color:#fff;padding:10px 25px;border-radius:20px;font-weight:800}
+.hero-characters{display:flex;justify-content:center;align-items:flex-end;gap:20px}
+.main-menu{display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.main-btn{border:none;border-radius:28px;padding:22px 30px;color:#fff;font-size:28px;font-weight:900}
+.main-btn.pink{background:#ff4e8f}.main-btn.blue{background:#2590ff}
+.bottom-menu{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.mini-btn{width:110px;height:110px;border:none;border-radius:24px;color:#fff;font-weight:900;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.orange{background:#ffa726}.purple{background:#9c4dff}.green{background:#55c843}.blue{background:#3495ff}
+
 </style>
 
 <style id="progress-style">
@@ -386,28 +407,48 @@
 </head>
 <body>
 
-<div class="start-screen" id="startScreen">
-  <div class="sky-clouds" id="skyClouds"></div>
-  <div class="grass-sway-layer" id="grassSwayLayer"></div>
-  <div class="floaty-layer" id="floatyLayer" aria-hidden="true"></div>
-  <div class="start-card">
-    <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-      <button class="pillbtn blue" id="btnLanguageStart" type="button">🇮🇩 Indonesia</button>
+
+<div class="start-screen game-home" id="startScreen">
+  <div class="home-topbar">
+    <div class="lang-group">
+      <button class="flag-btn" id="btnLanguageStart">🇮🇩<span>INDONESIA</span></button>
+      <button class="flag-btn blue" type="button">🇬🇧<span>ENGLISH</span></button>
     </div>
-    <h1 class="start-title display"><span class="twinkle">⭐</span> <span id="startTitleText">Belajar Huruf & Angka</span> <span class="twinkle">⭐</span></h1>
-    <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
-    <div class="start-name-row">
-      <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
-    </div>
-    <div class="start-options">
-      <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
-      <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
-      <button class="start-btn tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Belajar Penjumlahan</button>
-      <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Belajar Pengurangan</button>
-    </div>
+    <button class="vibration-btn" id="btnVibration">⚙️ GETAR ON</button>
   </div>
+
+  <div class="rainbow-wrap"><div class="rainbow"></div></div>
+
+  <div class="hero-title">
+    <div class="title-line title-yellow">BELAJAR</div>
+    <div class="title-line">
+      <span class="title-pink">HURUF</span>
+      <span class="title-yellow">&</span>
+      <span class="title-blue">ANGKA</span>
+    </div>
+    <div class="hero-subtitle">Belajar Seru, Pintar Itu Asyik!</div>
+  </div>
+
+  <div class="hero-characters">
+    <div style="font-size:220px">🧒</div>
+    <div style="font-size:180px">🐘</div>
+  </div>
+
+  <div class="main-menu">
+    <button class="main-btn pink" id="btnStartHuruf">📚 BELAJAR HURUF</button>
+    <button class="main-btn blue" id="btnStartAngka">🔢 BELAJAR ANGKA</button>
+  </div>
+
+  <div class="bottom-menu">
+    <button class="mini-btn orange">📖<span>LATIHAN</span></button>
+    <button class="mini-btn purple">🎮<span>BERMAIN</span></button>
+    <button class="mini-btn green">🏆<span>PRESTASI</span></button>
+    <button class="mini-btn blue">🔊<span>SUARA</span></button>
+  </div>
+
   <div class="credit-tag">Creat by: Zie</div>
 </div>
+
 
 <div class="stage" id="stage" style="display:none;">
 
