@@ -105,6 +105,26 @@
   .canvaswrap.angka{ aspect-ratio: 1 / 1; max-height:500px; }
   .canvaswrap svg{ position:absolute; inset:0; width:100%; height:100%; }
   .canvaswrap canvas{ position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; }
+
+  /* MODE BELAJAR HURUF: kanvas dibuat bersih, hanya menampilkan bentuk huruf solid. */
+  .canvaswrap.learn-letter{
+    aspect-ratio:16 / 9; max-height:520px; border:0; border-radius:22px; background:#fff;
+  }
+  .canvaswrap.learn-letter .learn-canvas-title{
+    position:absolute; left:50%; top:18px; transform:translateX(-50%); z-index:6;
+    background:linear-gradient(180deg,#FF4D8D,#E83B78); color:#fff;
+    font-family:'Baloo 2','Trebuchet MS',sans-serif; font-weight:800; font-size:22px;
+    padding:7px 28px; border-radius:18px; box-shadow:0 4px 0 rgba(0,0,0,.12);
+    white-space:nowrap; pointer-events:none;
+  }
+  .canvaswrap.learn-letter #canvasMain,
+  .canvaswrap.learn-letter #matchAreaCanvas,
+  .canvaswrap.learn-letter #matchProgress{ display:none !important; }
+  .canvaswrap.learn-letter svg{ z-index:2; }
+  .tracepanel.learn-panel .panel-toolbar{ display:none; }
+  .tracepanel.learn-panel{ padding:10px; }
+  .learn-letter .learn-canvas-title + svg{ top:0; }
+  .bottomnav.learn-nav #btnClear{ display:none; }
   #matchAreaCanvas{ pointer-events:none; cursor:default; }
   .startdot{ display:none !important; }
 
@@ -446,6 +466,7 @@
         </div>
       </div>
       <div class="canvaswrap" id="wrapMain">
+        <div class="learn-canvas-title" id="learnCanvasTitle" style="display:none">Bentuk Huruf</div>
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
         <canvas id="matchAreaCanvas"></canvas>
         <canvas id="canvasMain"></canvas>
@@ -475,7 +496,7 @@
     </div>
   </div>
 
-  <div class="bottomnav">
+  <div class="bottomnav" id="bottomNav">
     <button class="pillbtn orange" id="btnPrev">⟵ Sebelumnya</button>
     <button class="pillbtn pink" id="btnClear">🗑️ Bersihkan</button>
     <button class="pillbtn green" id="btnNext">Berikutnya ⟶</button>
@@ -1137,21 +1158,34 @@ function renderHurufPair(svgEl, upper, lower){
   const ns = 'http://www.w3.org/2000/svg';
   const fontSize = 330, fontWeight = 700;
 
-  [[upper,160],[lower,480]].forEach(([text,x]) => {
+  // Setiap halaman huruf mendapat kombinasi warna berbeda.
+  // Huruf besar dan kecil memakai warna pasangan agar mudah dibedakan anak.
+  const palette = [
+    ['#FF2638','#22C55E'], ['#FF7A00','#2563EB'], ['#A855F7','#F43F5E'],
+    ['#06B6D4','#F59E0B'], ['#10B981','#EC4899'], ['#3B82F6','#F97316'],
+    ['#8B5CF6','#14B8A6'], ['#EF4444','#84CC16'], ['#F59E0B','#6366F1'],
+    ['#EC4899','#06B6D4'], ['#22C55E','#F97316'], ['#2563EB','#A855F7'],
+    ['#F43F5E','#10B981']
+  ];
+  const pair = palette[index % palette.length];
+
+  [[upper,160,pair[0]],[lower,480,pair[1]]].forEach(([text,x,color]) => {
     const t = document.createElementNS(ns,'text');
-    t.setAttribute('x', String(x)); t.setAttribute('y','255');
+    t.setAttribute('x', String(x)); t.setAttribute('y','275');
     t.setAttribute('text-anchor','middle');
     t.setAttribute('font-family',"Arial,Helvetica,sans-serif");
     t.setAttribute('font-weight', String(fontWeight));
     t.setAttribute('font-size', String(fontSize));
-    t.setAttribute('fill','none');
+    t.setAttribute('fill', writingMode ? 'none' : color);
+    t.setAttribute('stroke', writingMode ? 'none' : color);
     t.textContent = text;
     svgEl.appendChild(t);
   });
 
-  // Garis panduan huruf (dashed outline) disembunyikan — hanya area kecocokan
-  // ungu transparan di matchAreaCanvas yang ditampilkan sebagai penuntun.
-  appendHandGuide(svgEl, ns, buildGuidePathD(upper, 160, 255, fontSize, fontWeight, 640, 360));
+  // Pada mode Belajar Huruf hanya bentuk solid yang ditampilkan.
+  if(writingMode){
+    appendHandGuide(svgEl, ns, buildGuidePathD(upper, 160, 275, fontSize, fontWeight, 640, 360));
+  }
 }
 // Angka: digit di atas, tulisan di bawah dalam satu kotak.
 // Tulisan otomatis mengecil supaya kata panjang (mis. "Sembilan") tidak terpotong.
@@ -1479,8 +1513,20 @@ function toggleLanguage(){
 function render(){
   const svgMain = document.getElementById('svgMain');
   const wrapMain = document.getElementById('wrapMain');
+  const tracePanel = document.querySelector('.tracepanel');
+  const bottomNav = document.getElementById('bottomNav');
+  const learnTitle = document.getElementById('learnCanvasTitle');
   canvasMain.clear();
   canvasMain.resize();
+
+  const cleanLetterLearning = (mode === 'huruf' && !writingMode);
+  wrapMain.classList.toggle('learn-letter', cleanLetterLearning);
+  if(tracePanel) tracePanel.classList.toggle('learn-panel', cleanLetterLearning);
+  if(bottomNav) bottomNav.classList.toggle('learn-nav', cleanLetterLearning);
+  if(learnTitle){
+    learnTitle.style.display = cleanLetterLearning ? 'block' : 'none';
+    learnTitle.textContent = language === 'en' ? 'Letter Shape' : 'Bentuk Huruf';
+  }
 
   document.getElementById('mainTitle').textContent = writingMode
     ? (mode === 'huruf' ? (language==='en' ? 'WRITE LETTERS' : 'MENULIS HURUF') : (language==='en' ? 'WRITE NUMBERS' : 'MENULIS ANGKA'))
@@ -1515,7 +1561,12 @@ function render(){
   if(mode === 'huruf' && !writingMode) speakLetterAndExample();
   else if(writingMode && mode === 'huruf') { /* mode menulis tidak otomatis menyebut contoh */ }
   else if(mode === 'angka' && !writingMode) speakCurrent();
-  setHandGuideVisible(handGuideOn);
+  if(cleanLetterLearning){
+    setHandGuideVisible(false);
+    handGuideOn = false;
+  } else {
+    setHandGuideVisible(handGuideOn);
+  }
   const modeHint = document.getElementById('modeHint');
   if(modeHint) modeHint.textContent = writingMode
     ? (language==='en' ? '✍️ Trace the example with your finger / mouse' : '✍️ Ikuti contoh huruf/angka dengan jari / mouse')
@@ -1529,7 +1580,8 @@ function render(){
 function updateNextButton(){
   const list = mode === 'huruf' ? LETTERS : NUMBERS;
   const isLast = (index === list.length - 1);
-  document.getElementById('btnNext').disabled = isLast || !celebrated;
+  // Belajar bebas berpindah halaman; mode Menulis tetap harus menyelesaikan latihan.
+  document.getElementById('btnNext').disabled = isLast || (writingMode && !celebrated);
 }
 
 function renderChips(){
