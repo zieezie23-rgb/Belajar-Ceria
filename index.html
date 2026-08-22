@@ -1512,7 +1512,9 @@ function render(){
   renderChips();
   buildMask();
   updateNextButton();
-  speakCurrent();
+  if(mode === 'huruf' && !writingMode) speakLetterAndExample();
+  else if(writingMode && mode === 'huruf') { /* mode menulis tidak otomatis menyebut contoh */ }
+  else if(mode === 'angka' && !writingMode) speakCurrent();
   setHandGuideVisible(handGuideOn);
   const modeHint = document.getElementById('modeHint');
   if(modeHint) modeHint.textContent = writingMode
@@ -1579,19 +1581,19 @@ function updateVoiceButton(){
 }
 
 
-function speakCurrent(){
+function speakCurrent(onlyLetter=false){
   try{
     let text='';
     if(mode === 'huruf'){
       const item=LETTERS[index];
-      text = language==='en'
-        ? `${item.ch} for ${item.wordEN}`
-        : `${item.ch} untuk ${item.word}`;
+      // Tombol "Putar Suara" hanya menyebutkan huruf.
+      // Saat halaman dibuka/berpindah, gunakan speakLetterAndExample().
+      text = language==='en' ? item.ch : item.ch;
     }else{
       const item=NUMBERS[index];
       const spellMapID = {
         'Nol':'Nol. n-o-l. nol','Satu':'Satu. s-a. sa. t-u. tu. satu','Dua':'Dua. d-u. du. a. dua',
-        'Tiga':'Tiga. t-i. ti. g-a. ga. tiga','Empat':'Empat. em. pat. empat','Lima':'Lima. l-i. li. m-a. lima',
+        'Tiga':'Tiga. t-i. ti. g-a. ga. tiga','Empat':'Empat. em. pat. empat','Lima':'Lima. l-i. li. m-a. ma. lima',
         'Enam':'Enam. e. nam. enam','Tujuh':'Tujuh. tu. juh. tujuh','Delapan':'Delapan. de. la. pan. delapan',
         'Sembilan':'Sembilan. sem. bi. lan. sembilan'
       };
@@ -1614,6 +1616,41 @@ function speakCurrent(){
     if(selectedVoice) u.voice = selectedVoice;
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+// Saat halaman huruf dibuka atau berpindah: sebutkan huruf, beri jeda,
+// lalu sebutkan contoh katanya. Contoh: "A ... Ayam".
+function speakLetterAndExample(){
+  if(mode !== 'huruf') return;
+  try{
+    const item=LETTERS[index];
+    const letter = item.ch;
+    const word = language==='en' ? item.wordEN : item.word;
+    const lang = language==='en' ? 'en-US' : 'id-ID';
+    const voices = speechSynthesis.getVoices();
+    const prefix=language==='en'?'en':'id';
+    const selectedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+
+    speechSynthesis.cancel();
+
+    const u1 = new SpeechSynthesisUtterance(letter);
+    u1.lang = lang;
+    u1.rate = 0.8;
+    u1.pitch = childGender === 'girl' ? 1.22 : 1.08;
+    u1.volume = 1;
+    if(selectedVoice) u1.voice = selectedVoice;
+
+    const u2 = new SpeechSynthesisUtterance(word);
+    u2.lang = lang;
+    u2.rate = 0.8;
+    u2.pitch = childGender === 'girl' ? 1.22 : 1.08;
+    u2.volume = 1;
+    if(selectedVoice) u2.voice = selectedVoice;
+
+    // Jeda singkat setelah penyebutan huruf.
+    u1.onend = () => setTimeout(() => speechSynthesis.speak(u2), 650);
+    speechSynthesis.speak(u1);
   }catch(e){}
 }
 
