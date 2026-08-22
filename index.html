@@ -1880,6 +1880,89 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
+
+<script id="v6-audited-runtime">
+(function(){
+  if(window.__V6_PATCH_APPLIED__) return;
+  window.__V6_PATCH_APPLIED__ = true;
+
+  // Unified app state
+  window.AppState = {
+    screen:'home',
+    mode:'huruf',
+    language:'id',
+    sound:true,
+    vibration:true,
+    tracingCache:new Map()
+  };
+
+  // Navigation manager
+  window.showScreen = function(screen){
+    AppState.screen = screen;
+    document.querySelectorAll('[data-screen]').forEach(el=>{
+      el.style.display = (el.dataset.screen===screen?'':'none');
+    });
+  };
+
+  // Unified math engine
+  window.MathEngine = {
+    mode:'add',
+    generate(max=10){
+      const a=Math.floor(Math.random()*max);
+      const b=Math.floor(Math.random()*max);
+      return {
+        a,b,
+        answer:this.mode==='add'?a+b:a-b
+      };
+    }
+  };
+
+  // Word practice mode
+  window.WordPractice = {
+    words:{
+      id:['AYAM','BEBEK','GAJAH','KUCING'],
+      en:['ANT','BEAR','CAT','DOG']
+    },
+    getWord(){
+      const lang=AppState.language||'id';
+      const list=this.words[lang]||this.words.id;
+      return list[Math.floor(Math.random()*list.length)];
+    }
+  };
+
+  // Speech wrapper
+  window.speakText = function(text){
+    if(!AppState.sound) return;
+    try{
+      if(window.speechSynthesis){
+        speechSynthesis.cancel();
+        const u=new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(u);
+      }
+    }catch(e){}
+  };
+
+  // Tracing cache helper
+  window.getTracingCache = function(key, builder){
+    if(AppState.tracingCache.has(key)){
+      return AppState.tracingCache.get(key);
+    }
+    const value = builder();
+    AppState.tracingCache.set(key, value);
+    return value;
+  };
+
+  // Performance: throttle resize
+  let resizeTimer;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(()=>{},150);
+  }, {passive:true});
+
+  console.log('V6 audited runtime loaded');
+})();
+</script>
+
 </body>
 </html>
 
