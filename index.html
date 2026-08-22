@@ -383,13 +383,6 @@
 }
 </style>
 
-
-<style id="v5-practice-modal-style">
-.practice-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;justify-content:center;align-items:center;z-index:99999}
-.practice-card{background:#fff;width:min(90%,420px);padding:24px;border-radius:24px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.25)}
-.practice-btn,.practice-close{display:block;width:100%;padding:14px;margin:8px 0;border-radius:14px}
-</style>
-
 </head>
 <body>
 
@@ -409,16 +402,11 @@
     <div class="start-options">
       <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
       <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
-      <button class="start-btn tambah" id="btnStartPractice"><span class="start-emoji">📝</span> Latihan</button>
+      <button class="start-btn tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Belajar Penjumlahan</button>
+      <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Belajar Pengurangan</button>
     </div>
   </div>
   <div class="credit-tag">Creat by: Zie</div>
-</div>
-
-<div id="practiceMenu" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;padding-top:120px;text-align:center">
-  <button class="start-btn tambah" id="btnPracticeAddition">➕ Penjumlahan</button><br><br>
-  <button class="start-btn kurang" id="btnPracticeSubtraction">➖ Pengurangan</button><br><br>
-  <button class="start-btn huruf" id="btnPracticeWord">✍️ Menulis Kata</button>
 </div>
 
 <div class="stage" id="stage" style="display:none;">
@@ -1789,241 +1777,6 @@ applyLanguage();
   obs.observe(document.documentElement, {subtree:true, childList:true, characterData:true});
 })();
 </script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const btnLatihan = document.getElementById('btnStartPractice');
-  const menu = document.getElementById('practiceMenu');
-
-  if(btnLatihan && menu){
-    btnLatihan.addEventListener('click', function(){
-      menu.style.display = 'block';
-    });
-  }
-
-  const a = document.getElementById('btnPracticeAddition');
-  const s = document.getElementById('btnPracticeSubtraction');
-
-  if(a){
-    a.addEventListener('click', function(){
-      const old = document.getElementById('btnStartAddition');
-      if(old) old.click();
-    });
-  }
-
-  if(s){
-    s.addEventListener('click', function(){
-      const old = document.getElementById('btnStartSubtraction');
-      if(old) old.click();
-    });
-  }
-});
-</script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
- const latihan=document.getElementById('btnStartPractice');
- const menu=document.getElementById('practiceMenu');
-
- if(latihan && menu){
-   latihan.onclick=function(e){
-      e.preventDefault();
-      document.querySelectorAll('.screen,.stage,.menu-panel').forEach(x=>{});
-      menu.style.display='block';
-   };
- }
-
- const huruf=document.getElementById('btnStartHuruf');
- const angka=document.getElementById('btnStartAngka');
- if(huruf){huruf.addEventListener('click',()=>{if(menu)menu.style.display='none';});}
- if(angka){angka.addEventListener('click',()=>{if(menu)menu.style.display='none';});}
-});
-</script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded',function(){
- const btn=document.getElementById('btnStartPractice');
- const menu=document.getElementById('practiceMenu');
- if(btn&&menu){
-   btn.onclick=function(e){
-     e.preventDefault();
-     menu.style.display='block';
-   };
-   menu.addEventListener('click',function(ev){
-     if(ev.target===menu) menu.style.display='none';
-   });
- }
-});
-</script>
-
-<script id="v5-practice-fix">
-function openWordPractice(){
-  alert('Mode Menulis Kata aktif. Silakan integrasikan dengan layar latihan kata yang sudah ada.');
-}
-document.addEventListener('DOMContentLoaded', function(){
- const add=document.getElementById('btnPracticeAddition');
- const sub=document.getElementById('btnPracticeSubtraction');
- const word=document.getElementById('btnPracticeWord');
- if(add && typeof openAddition==='function'){ add.onclick=()=>openAddition(); }
- if(sub && typeof openSubtraction==='function'){ sub.onclick=()=>openSubtraction(); }
- if(word){ word.onclick=()=>openWordPractice(); }
-});
-</script>
-
-
-<!-- INDEX_V6_FINAL_CLEAN -->
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  console.log('V6 Clean Patch Loaded');
-});
-</script>
-
-
-<script id="v6-audited-runtime">
-(function(){
-  if(window.__V6_PATCH_APPLIED__) return;
-  window.__V6_PATCH_APPLIED__ = true;
-
-  // Unified app state
-  window.AppState = {
-    screen:'home',
-    mode:'huruf',
-    language:'id',
-    sound:true,
-    vibration:true,
-    tracingCache:new Map()
-  };
-
-  // Navigation manager
-  window.showScreen = function(screen){
-    AppState.screen = screen;
-    document.querySelectorAll('[data-screen]').forEach(el=>{
-      el.style.display = (el.dataset.screen===screen?'':'none');
-    });
-  };
-
-  // Unified math engine
-  window.MathEngine = {
-    mode:'add',
-    generate(max=10){
-      const a=Math.floor(Math.random()*max);
-      const b=Math.floor(Math.random()*max);
-      return {
-        a,b,
-        answer:this.mode==='add'?a+b:a-b
-      };
-    }
-  };
-
-  // Word practice mode
-  window.WordPractice = {
-    words:{
-      id:['AYAM','BEBEK','GAJAH','KUCING'],
-      en:['ANT','BEAR','CAT','DOG']
-    },
-    getWord(){
-      const lang=AppState.language||'id';
-      const list=this.words[lang]||this.words.id;
-      return list[Math.floor(Math.random()*list.length)];
-    }
-  };
-
-  // Speech wrapper
-  window.speakText = function(text){
-    if(!AppState.sound) return;
-    try{
-      if(window.speechSynthesis){
-        speechSynthesis.cancel();
-        const u=new SpeechSynthesisUtterance(text);
-        speechSynthesis.speak(u);
-      }
-    }catch(e){}
-  };
-
-  // Tracing cache helper
-  window.getTracingCache = function(key, builder){
-    if(AppState.tracingCache.has(key)){
-      return AppState.tracingCache.get(key);
-    }
-    const value = builder();
-    AppState.tracingCache.set(key, value);
-    return value;
-  };
-
-  // Performance: throttle resize
-  let resizeTimer;
-  window.addEventListener('resize', ()=>{
-    clearTimeout(resizeTimer);
-    resizeTimer=setTimeout(()=>{},150);
-  }, {passive:true});
-
-  console.log('V6 audited runtime loaded');
-})();
-</script>
-
-
-<script id="v8-refactor">
-(function(){
-const $=id=>document.getElementById(id);
-window.AppMode={HOME:'home',HURUF:'huruf',ANGKA:'angka',ADD:'practice-add',SUB:'practice-subtract',WORD:'practice-word'};
-window.tracingCache=window.tracingCache||new Map();
-window.getTracingCache=(k,b)=>{if(!tracingCache.has(k))tracingCache.set(k,b());return tracingCache.get(k);};
-
-window.showScreen=function(mode){
- const start=$('startScreen'),stage=$('stage'),menu=$('practiceMenu');
- if(start) start.style.display=mode===AppMode.HOME?'flex':'none';
- if(stage) stage.style.display=mode===AppMode.HOME?'none':'block';
- if(menu) menu.style.display='none';
- window.currentMode=mode;
-};
-
-window.MathEngine={
- mode:'add',
- setMode(m){this.mode=m;},
- generate(){
-   const a=Math.floor(Math.random()*10), b=Math.floor(Math.random()*10);
-   return this.mode==='sub'?{a:a+b,b,answer:a}:{a,b,answer:a+b};
- }
-};
-
-window.PracticeMode={
- activate(mode){
-   showScreen(mode);
-   if(mode===AppMode.ADD) MathEngine.setMode('add');
-   if(mode===AppMode.SUB) MathEngine.setMode('sub');
-   if(mode===AppMode.WORD){
-      const w=(window.LETTERS&&LETTERS[0]?.word)||'AYAM';
-      window.activeWordTrace=WordPractice.build(w);
-   }
- }
-};
-
-window.WordPractice={
- build(word){ return String(word).split('');}
-};
-
-function disableLegacyEffects(){
- ['confettiLayer','celebrateOverlay'].forEach(id=>{const e=$(id); if(e) e.remove();});
- const st=document.createElement('style');
- st.textContent='.confetti-layer,.confetti-piece{display:none!important}';
- document.head.appendChild(st);
-}
-document.addEventListener('DOMContentLoaded',()=>{
- disableLegacyEffects();
- const bind=(id,fn)=>{const el=$(id); if(el&&!el.dataset.refactorBound){el.dataset.refactorBound='1'; el.onclick=fn;}};
- bind('btnKembali',()=>showScreen(AppMode.HOME));
- bind('btnStartHuruf',()=>showScreen(AppMode.HURUF));
- bind('btnStartAngka',()=>showScreen(AppMode.ANGKA));
- bind('btnStartPractice',()=>{$('practiceMenu').style.display='block';});
- bind('btnPracticeAddition',()=>PracticeMode.activate(AppMode.ADD));
- bind('btnPracticeSubtraction',()=>PracticeMode.activate(AppMode.SUB));
- bind('btnPracticeWord',()=>PracticeMode.activate(AppMode.WORD));
- });
-})();
-</script>
-
 </body>
 </html>
 
@@ -2437,5 +2190,3 @@ window.checkAdditionAnswer = function(value){
   }
 })();
 </script>
-
-<!-- INDEX_V5_FINAL_FIXED -->
