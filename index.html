@@ -980,10 +980,23 @@
 .start-title-img{
   display:block;
   width:100%;
-  max-width:min(560px,88vw);
+  max-width:min(560px,calc(100% - 36px));
   height:auto;
   margin:0 auto;
   filter:drop-shadow(0 6px 10px rgba(0,45,110,.25));
+}
+
+/* Pastikan ornamen/bintang di ujung kiri-kanan logo tidak terpotong. */
+#startScreen .start-title{
+  width:100%;
+  max-width:100%;
+  padding-inline:18px;
+  box-sizing:border-box;
+  overflow:visible !important;
+}
+#startScreen .start-title-img{
+  box-sizing:border-box;
+  max-width:min(560px,100%);
 }
 </style>
 
