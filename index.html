@@ -23,12 +23,14 @@
   html,body{ height:100%; }
   body{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
-    background: linear-gradient(180deg,#63BDF7 0%, #8FD9FF 52%, #BFEAFF 100%);
-    height:100%; padding:14px; overflow:hidden;
+    background:
+      radial-gradient(circle at 52% 42%,rgba(255,255,255,.22),transparent 26%),
+      linear-gradient(180deg,#159BEA 0%,#42B9F4 45%,#8CDAFF 72%,#B8EAFF 100%);
+    height:100%; padding:0; overflow:hidden;
   }
   .display{font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;}
   .stage{
-    max-width:1300px; margin:0 auto; background:rgba(255,255,255,0.0);
+    max-width:1300px; margin:0 auto; padding:14px; background:rgba(255,255,255,0.0);
   }
   /* HEADER */
   .topbar{ display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
@@ -2326,6 +2328,7 @@ document.getElementById('btnKembali').onclick = () => {
   document.getElementById('stage').style.display = 'none';
   writingMode = false;
   document.getElementById('startScreen').style.display = '';
+  showMainMenu();
 };
 document.getElementById('btnLanguage').onclick = toggleLanguage;
 document.getElementById('btnLanguageStart').onclick = toggleLanguage;
@@ -2532,7 +2535,7 @@ function startApp(selectedMode, isWriting=false){
   mode = selectedMode;
   writingMode = !!isWriting;
   index = 0;
-  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('startScreen').style.setProperty('display','none','important');
   document.getElementById('stage').style.display = '';
   if(document.fonts && document.fonts.ready){
     document.fonts.ready.then(render).catch(render);
@@ -2542,7 +2545,7 @@ function startApp(selectedMode, isWriting=false){
 }
 function showMainMenu(){
   ensureMenuMusic();
-  document.getElementById('mainMenuOptions').style.display='grid';
+  document.getElementById('mainMenuOptions').style.display='';
   document.getElementById('belajarMenu').style.display='none';
   document.getElementById('latihanMenu').style.display='none';
 
@@ -2908,7 +2911,7 @@ window.checkAdditionAnswer = function(value){
   </div>
   <div class="addbtn-row">
    <button class="pillbtn green" id="addCheckBtn" onclick="checkAddAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';">🏠</button>
+   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showMainMenu();">🏠</button>
   </div>
  </div>
 </div>
@@ -3037,7 +3040,7 @@ window.checkAdditionAnswer = function(value){
   </div>
   <div class="addbtn-row">
    <button class="pillbtn orange" id="subCheckBtn" onclick="checkSubAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';">🏠</button>
+   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showMainMenu();">🏠</button>
   </div>
  </div>
 </div>
