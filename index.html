@@ -138,19 +138,6 @@
     .siderow{ flex-direction:column; }
   }
 
-  .petunjuk-help{
-    display:contents;
-  }
-  .helpbtn{
-    position:absolute; top:10px; right:10px; z-index:20;
-    width:42px; height:42px; border:3px solid #fff; border-radius:50%;
-    background:linear-gradient(180deg,var(--blue),var(--blue-dark)); color:#fff;
-    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:24px; line-height:1; font-weight:800; cursor:pointer;
-    box-shadow:0 4px 0 rgba(0,0,0,0.18); transition:transform .1s, box-shadow .1s;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .helpbtn:active{ transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,0.18); }
-
   .help-overlay{
     position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
     z-index:1100; opacity:0; pointer-events:none; transition:opacity .2s;
@@ -562,30 +549,6 @@
 }
 </style>
 
-<style id="help-header-style">
-.canvas-header-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin:0 2px 6px;
-  min-height:34px;
-}
-.canvas-instruction{
-  font-weight:800;
-  font-size:14px;
-  color:#4a3d63;
-}
-.canvas-header-row .petunjuk-help{
-  position:static !important;
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-}
-.canvas-header-row .helpbtn{
-  position:static !important;
-}
-</style>
 </head>
 <body>
 
@@ -629,6 +592,7 @@
         <div class="speak-hint">✏️ Gambar dengan jari / mouse</div>
         <div class="toolbar-actions">
           <button class="pillbtn purple" id="btnHandGuide" style="padding:8px 16px;font-size:13px;">👆 Lihat Contoh Gerakan</button>
+          <button class="pillbtn blue" id="btnHelp" type="button" style="padding:8px 16px;font-size:13px;" aria-label="Petunjuk">❓ Petunjuk</button>
           <div class="colorpicker" id="colorPicker">
             <button class="swatch active" data-color="#0B1F4E" style="background:#0B1F4E" title="Biru Dongker"></button>
             <button class="swatch" data-color="#E8437E" style="background:#E8437E" title="Pink"></button>
@@ -639,10 +603,6 @@
             </label>
           </div>
         </div>
-      </div>
-      <div class="canvas-header-row">
-        <div class="canvas-instruction">Gambar dengan jari / mouse</div>
-        <div class="petunjuk-help"><button class="helpbtn" id="btnHelp" type="button" aria-label="Petunjuk">?</button></div>
       </div>
       <div class="canvaswrap" id="wrapMain">
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
@@ -1295,7 +1255,7 @@ function setHandGuideVisible(v){
   const g = document.getElementById('handGuide');
   if(g) g.style.display = v ? '' : 'none';
   const btn = document.getElementById('btnHandGuide');
-  if(btn) btn.textContent = v ? '⏸️ Sembunyikan Contoh' : '👆 Lihat Contoh Gerakan';
+  if(btn) btn.textContent = v ? T('guideHide') : T('guide');
 }
 document.getElementById('btnHandGuide').onclick = () => setHandGuideVisible(!handGuideOn);
 
@@ -1358,7 +1318,7 @@ function renderAngkaPair(svgEl, digit, word){
   svgEl.innerHTML = '';
   const ns = 'http://www.w3.org/2000/svg';
   const fontWeight = 700;
-  const digitFontSize = 300, digitY = 245;
+  const digitFontSize = 300, digitY = 230;
 
   const digitText = document.createElementNS(ns,'text');
   digitText.setAttribute('x','260'); digitText.setAttribute('y', String(digitY));
@@ -1371,7 +1331,10 @@ function renderAngkaPair(svgEl, digit, word){
   svgEl.appendChild(digitText);
 
   const { fontSize, centers } = layoutNumberWord(word, fontWeight, 260, 480);
-  const wordY = 400 + fontSize*0.55;
+  // Jarak ke baris kata dibuat proporsional terhadap ukuran hurufnya sendiri
+  // (bukan angka tetap) supaya digit dan kata selalu terlihat rapat, persis
+  // atas-bawah, berapapun panjang katanya.
+  const wordY = digitY + 25 + fontSize*0.75;
   const wordEntries = [];
   [...word].forEach((ch, i) => {
     const t = document.createElementNS(ns,'text');
@@ -1497,10 +1460,10 @@ function buildMask(){
     const offX = (canvas.width - BASE_W*scale) / 2;
     const offY = (canvas.height - BASE_H*scale) / 2;
     const item = NUMBERS[index];
-    drawGlyph(item.d, offX + 260*scale, offY + 245*scale, 300*scale, 34*scale);
+    drawGlyph(item.d, offX + 260*scale, offY + 230*scale, 300*scale, 34*scale);
 
     const { fontSize, centers } = layoutNumberWord(item.word, 700, 260, 480);
-    const wordY = 400 + fontSize*0.55;
+    const wordY = 230 + 25 + fontSize*0.75;
     [...item.word].forEach((ch,i) => {
       drawGlyph(ch, offX + centers[i]*scale, offY + wordY*scale, fontSize*scale, 34*scale);
     });
@@ -1596,8 +1559,9 @@ const I18N = {
     language:'🇮🇩 Indonesia', back:'⟵ Kembali',
     titleHuruf:'BELAJAR HURUF', titleAngka:'BELAJAR ANGKA',
     contoh:'Contoh Kata', hitung:'Hitunglah', cara:'Cara Mengucapkan',
-    guide:'👆 Lihat Contoh Gerakan', draw:'✏️ Gambar dengan jari / mouse',
-    speak:'🔊 Putar Suara', hint:'Gerakkan tangan atau mouse mengikuti bentuk', helpTitle:'Petunjuk', close:'Tutup',
+    guide:'👆 Lihat Contoh Gerakan', guideHide:'⏸️ Sembunyikan Contoh', draw:'✏️ Gambar dengan jari / mouse',
+    speak:'🔊 Putar Suara', hint:'Gerakkan tangan atau mouse mengikuti bentuk',
+    helpTitle:'Petunjuk', helpBtn:'❓ Petunjuk', close:'Tutup',
     prev:'⟵ Sebelumnya', clear:'🗑️ Bersihkan', next:'Berikutnya ⟶',
     celebration:'Yeay, Kamu Pintar!', celebrationSub:'Coretanmu bagus sekali ✨',
     tryAgain:'🔄 Coba Lagi', continue:'➡️ Berikutnya',
@@ -1613,8 +1577,8 @@ const I18N = {
     language:'🇬🇧 English', back:'⟵ Back',
     titleHuruf:'LEARN LETTERS', titleAngka:'LEARN NUMBERS',
     contoh:'Example Word', hitung:'Count', cara:'How to Say It',
-    guide:'👆 Show Writing Guide', draw:'✏️ Draw with your finger / mouse',
-    speak:'🔊 Play Sound', hint:'Move your hand or mouse along the shape', helpTitle:'Instructions', close:'Close',
+    guide:'👆 Show Writing Guide', guideHide:'⏸️ Hide Example', draw:'✏️ Draw with your finger / mouse',
+    speak:'🔊 Play Sound', hint:'Move your hand or mouse along the shape', helpTitle:'Instructions', helpBtn:'❓ Help', close:'Close',
     prev:'⟵ Previous', clear:'🗑️ Clear', next:'Next ⟶',
     celebration:'Yay, You’re Smart!', celebrationSub:'Your drawing looks great ✨',
     tryAgain:'🔄 Try Again', continue:'➡️ Next',
@@ -1651,7 +1615,7 @@ function applyLanguage(){
   const uh=document.querySelector('.card.ucap h3'); if(uh) uh.textContent=T('cara');
   const ht=document.getElementById('helpTitle'); if(ht) ht.textContent=T('helpTitle');
   const hc=document.getElementById('btnCloseHelp'); if(hc) hc.textContent=T('close');
-  const hb=document.getElementById('btnHelp'); if(hb) hb.setAttribute('aria-label',T('helpTitle'));
+  const hb=document.getElementById('btnHelp'); if(hb){ hb.setAttribute('aria-label',T('helpTitle')); hb.textContent=T('helpBtn'); }
   const hint=document.querySelector('.speak-hint'); if(hint) hint.textContent=T('draw');
   const ct=document.getElementById('celebrateTitle'); if(ct) ct.textContent=T('celebration');
   const cs=document.querySelector('#celebrateOverlay .celebrate-sub'); if(cs) cs.textContent=T('celebrationSub');
