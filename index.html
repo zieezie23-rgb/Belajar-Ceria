@@ -463,17 +463,82 @@
 
 
 <style id="main-menu-style">
-/* Menu utama tanpa kartu/shape: fokus pada tulisan besar dan ikon 3D. */
-.main-menu-options{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:24px;width:100%;}
-.menu-main-btn{border:0;background:transparent!important;padding:8px 12px;display:flex;align-items:center;justify-content:center;gap:14px;cursor:pointer;font-family:'Nunito','Segoe UI',sans-serif;transition:transform .15s ease,filter .15s ease;}
-.menu-main-btn:active{transform:scale(.96);}
-.menu-main-btn span{font-size:52px;line-height:1;filter:drop-shadow(0 3px 0 rgba(63,45,120,.35)) drop-shadow(0 7px 7px rgba(30,80,130,.18));}
-.menu-main-btn strong{font-family:'Baloo 2','Trebuchet MS',sans-serif;font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:1px;line-height:1;color:#fff;text-shadow:0 2px 0 #5638A2,0 4px 0 #4B3191,0 7px 0 rgba(49,35,100,.34),0 11px 18px rgba(30,80,130,.18);}
-.menu-main-btn.belajar-menu strong{color:#FF5B93;text-shadow:0 2px 0 #B92F66,0 4px 0 #9D2758,0 7px 0 rgba(130,25,70,.30),0 11px 18px rgba(130,25,70,.18);}
-.menu-main-btn.latihan-menu strong{color:#FFA23A;text-shadow:0 2px 0 #C46300,0 4px 0 #A85100,0 7px 0 rgba(130,70,0,.30),0 11px 18px rgba(130,70,0,.18);}
+/* Menu utama: icon besar, nama menu kecil di bawahnya, tanpa shape/kartu. */
+.main-menu-options{
+  display:flex;
+  flex-direction:row;
+  align-items:flex-start;
+  justify-content:center;
+  gap:clamp(48px,12vw,110px);
+  margin:8px auto 0;
+  width:100%;
+}
+.menu-main-btn{
+  border:0;
+  background:transparent!important;
+  padding:0;
+  min-width:150px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:4px;
+  cursor:pointer;
+  font-family:'Nunito','Segoe UI',sans-serif;
+  transition:transform .15s ease,filter .15s ease;
+}
+.menu-main-btn:active{transform:scale(.95);}
+.menu-main-btn .menu-anim-icon{
+  width:150px;
+  height:125px;
+  flex:0 0 125px;
+  transform:scale(1.15);
+  transform-origin:center bottom;
+}
+.menu-main-btn strong{
+  display:block;
+  margin-top:8px;
+  font-family:'Baloo 2','Trebuchet MS',sans-serif;
+  font-size:clamp(22px,5vw,30px);
+  font-weight:800;
+  letter-spacing:.5px;
+  line-height:1;
+}
+.menu-main-btn.belajar-menu strong{
+  color:#FF5B93;
+  text-shadow:0 2px 0 #B92F66,0 4px 0 #9D2758,0 7px 0 rgba(130,25,70,.28);
+}
+.menu-main-btn.latihan-menu strong{
+  color:#FFA23A;
+  text-shadow:0 2px 0 #C46300,0 4px 0 #A85100,0 7px 0 rgba(130,70,0,.28);
+}
 .menu-main-btn small{display:none;}
-.menu-main-btn:hover{transform:translateY(-3px) scale(1.03);filter:brightness(1.04);}
-@media(max-width:520px){.main-menu-options{gap:12px;margin-top:20px}.menu-main-btn span{font-size:44px}.menu-main-btn strong{font-size:34px;}}
+.menu-main-btn:hover{
+  transform:translateY(-4px) scale(1.03);
+  filter:brightness(1.05);
+}
+@media(max-width:560px){
+  .main-menu-options{
+    gap:clamp(22px,8vw,55px);
+    margin-top:4px;
+  }
+  .menu-main-btn{min-width:125px;}
+  .menu-main-btn .menu-anim-icon{
+    width:125px;
+    height:110px;
+    flex-basis:110px;
+    transform:scale(1.08);
+  }
+  .menu-main-btn strong{font-size:23px;margin-top:5px;}
+}
+@media(max-width:380px){
+  .main-menu-options{gap:12px;}
+  .menu-main-btn{min-width:115px;}
+  .menu-main-btn .menu-anim-icon{
+    width:112px;height:100px;flex-basis:100px;transform:scale(1);
+  }
+  .menu-main-btn strong{font-size:21px;}
+}
 </style>
 
 
@@ -633,6 +698,20 @@
 
   @media(max-width:520px){
     .menu-anim-icon{width:62px;flex-basis:62px;transform:scale(.9);}
+  }
+</style>
+
+
+<style id="large-main-icons">
+  .menu-main-btn .book-icon{transform:scale(1.55);transform-origin:center bottom;}
+  .menu-main-btn .pencil-icon{transform:scale(1.55);transform-origin:center bottom;}
+  @media(max-width:560px){
+    .menu-main-btn .book-icon{transform:scale(1.35);}
+    .menu-main-btn .pencil-icon{transform:scale(1.35);}
+  }
+  @media(max-width:380px){
+    .menu-main-btn .book-icon{transform:scale(1.18);}
+    .menu-main-btn .pencil-icon{transform:scale(1.18);}
   }
 </style>
 
