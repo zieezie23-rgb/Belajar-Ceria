@@ -420,6 +420,18 @@
 @media(max-width:520px){.main-menu-options{grid-template-columns:1fr 1fr;gap:12px}.menu-main-btn{min-height:132px;padding:16px 8px}.menu-main-btn span{font-size:36px}.menu-main-btn strong{font-size:19px}.menu-main-btn small{font-size:11px}}
 </style>
 
+
+<style id="submenu-text-style">
+/* Sub-menu dibuat berupa tulisan sederhana, tanpa shape/kartu. */
+.sub-menu{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:24px;width:100%;}
+.sub-menu-item{border:0;background:transparent!important;box-shadow:none!important;padding:4px 8px;margin:0;cursor:pointer;font-family:'Nunito','Segoe UI',sans-serif;font-size:21px;font-weight:900;letter-spacing:.1px;display:flex;align-items:center;justify-content:center;gap:9px;transition:transform .15s ease,opacity .15s ease;}
+.sub-menu-item:hover{transform:scale(1.04);opacity:.85;}
+.sub-menu-item:active{transform:scale(.97);}
+.sub-menu-item.huruf{color:#e8437e!important}.sub-menu-item.angka{color:#1c7fd1!important}.sub-menu-item.menulisHuruf{color:#b92f66!important}.sub-menu-item.menulisAngka{color:#155ca0!important}.sub-menu-item.tambah{color:#229653!important}.sub-menu-item.kurang{color:#e27b10!important}
+.sub-menu-title{order:99;align-self:center;border:0;background:transparent!important;color:#475569!important;font-family:'Nunito','Segoe UI',sans-serif;font-size:16px;font-weight:900;padding:14px 4px 4px;margin-top:8px;cursor:pointer;box-shadow:none!important;}
+.sub-menu-title:hover{color:#2563eb!important;text-decoration:underline;}
+.sub-menu .start-emoji{font-size:24px;line-height:1;}
+</style>
 </head>
 <body>
 
@@ -442,17 +454,17 @@
     </div>
 
     <div class="sub-menu" id="belajarMenu" style="display:none;">
-      <button class="sub-menu-title" type="button" id="backMainFromBelajar">← Menu Utama</button>
-      <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
-      <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
+      <button class="sub-menu-item huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
+      <button class="sub-menu-item angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
+      <button class="sub-menu-title" type="button" id="backMainFromBelajar">← Kembali ke Menu Utama</button>
     </div>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
-      <button class="sub-menu-title" type="button" id="backMainFromLatihan">← Menu Utama</button>
-      <button class="start-btn menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf (A–Z)</button>
-      <button class="start-btn menulisAngka" id="btnStartMenulisAngka"><span class="start-emoji">✍️</span> Menulis Angka (0–9)</button>
-      <button class="start-btn tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Penjumlahan</button>
-      <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Pengurangan</button>
+      <button class="sub-menu-item menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf (A–Z)</button>
+      <button class="sub-menu-item menulisAngka" id="btnStartMenulisAngka"><span class="start-emoji">✍️</span> Menulis Angka (0–9)</button>
+      <button class="sub-menu-item tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Penjumlahan</button>
+      <button class="sub-menu-item kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Pengurangan</button>
+      <button class="sub-menu-title" type="button" id="backMainFromLatihan">← Kembali ke Menu Utama</button>
     </div>
   </div>
   <div class="credit-tag">Creat by: Zie</div>
