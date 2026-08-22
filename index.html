@@ -1813,6 +1813,27 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 </script>
 
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+ const latihan=document.getElementById('btnStartPractice');
+ const menu=document.getElementById('practiceMenu');
+
+ if(latihan && menu){
+   latihan.onclick=function(e){
+      e.preventDefault();
+      document.querySelectorAll('.screen,.stage,.menu-panel').forEach(x=>{});
+      menu.style.display='block';
+   };
+ }
+
+ const huruf=document.getElementById('btnStartHuruf');
+ const angka=document.getElementById('btnStartAngka');
+ if(huruf){huruf.addEventListener('click',()=>{if(menu)menu.style.display='none';});}
+ if(angka){angka.addEventListener('click',()=>{if(menu)menu.style.display='none';});}
+});
+</script>
+
 </body>
 </html>
 
