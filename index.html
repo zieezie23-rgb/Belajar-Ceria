@@ -383,6 +383,13 @@
 }
 </style>
 
+
+<style id="v5-practice-modal-style">
+.practice-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;justify-content:center;align-items:center;z-index:99999}
+.practice-card{background:#fff;width:min(90%,420px);padding:24px;border-radius:24px;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.25)}
+.practice-btn,.practice-close{display:block;width:100%;padding:14px;margin:8px 0;border-radius:14px}
+</style>
+
 </head>
 <body>
 
@@ -1850,6 +1857,29 @@ document.addEventListener('DOMContentLoaded',function(){
  }
 });
 </script>
+
+<script id="v5-practice-fix">
+function openWordPractice(){
+  alert('Mode Menulis Kata aktif. Silakan integrasikan dengan layar latihan kata yang sudah ada.');
+}
+document.addEventListener('DOMContentLoaded', function(){
+ const add=document.getElementById('btnPracticeAddition');
+ const sub=document.getElementById('btnPracticeSubtraction');
+ const word=document.getElementById('btnPracticeWord');
+ if(add && typeof openAddition==='function'){ add.onclick=()=>openAddition(); }
+ if(sub && typeof openSubtraction==='function'){ sub.onclick=()=>openSubtraction(); }
+ if(word){ word.onclick=()=>openWordPractice(); }
+});
+</script>
+
+
+<!-- INDEX_V6_FINAL_CLEAN -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  console.log('V6 Clean Patch Loaded');
+});
+</script>
+
 </body>
 </html>
 
@@ -2263,3 +2293,5 @@ window.checkAdditionAnswer = function(value){
   }
 })();
 </script>
+
+<!-- INDEX_V5_FINAL_FIXED -->
