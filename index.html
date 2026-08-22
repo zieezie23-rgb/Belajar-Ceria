@@ -225,26 +225,43 @@
     50%{ transform:rotate(7deg); }
   }
   .start-title{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    max-width:100%;
+    margin:0 auto 10px;
     font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;
-    font-size:clamp(30px,7vw,56px);
-    line-height:1.08;
+    font-size:clamp(22px,6vw,42px);
+    line-height:1;
     font-weight:800;
     color:#fff;
-    /* efek 3D bertingkat agar terlihat seperti tulisan timbul */
+    letter-spacing:.2px;
+    white-space:nowrap;
+    overflow:visible;
+    text-overflow:clip;
+    /* efek 3D bertingkat agar judul terasa timbul */
     text-shadow:
       0 2px 0 #5B3AA8,
       0 4px 0 #51339A,
       0 6px 0 #472D8C,
       0 9px 0 rgba(56,39,110,.38),
       0 14px 22px rgba(36,103,160,.22);
-    margin:0 auto 10px;
-    letter-spacing:.4px;
-    white-space:normal;
-    overflow:visible;
-    text-overflow:clip;
-    max-width:100%;
     animation:waveTitle 3s ease-in-out infinite;
     transform-origin:center;
+  }
+  .start-title #startTitleText{
+    display:inline-block;
+    white-space:nowrap;
+    flex:0 1 auto;
+  }
+  .start-title .twinkle{
+    flex:0 0 auto;
+    font-size:.72em;
+  }
+  @media(max-width:420px){
+    .start-title{font-size:21px;gap:6px;letter-spacing:0;}
   }
   @keyframes waveTitle{
     0%{transform:translateY(0) rotate(0deg);}
@@ -425,6 +442,8 @@
 .menu-main-btn:active{transform:scale(.96);}
 .menu-main-btn span{font-size:52px;line-height:1;filter:drop-shadow(0 3px 0 rgba(63,45,120,.35)) drop-shadow(0 7px 7px rgba(30,80,130,.18));}
 .menu-main-btn strong{font-family:'Baloo 2','Trebuchet MS',sans-serif;font-size:clamp(30px,7vw,46px);font-weight:800;letter-spacing:1px;line-height:1;color:#fff;text-shadow:0 2px 0 #5638A2,0 4px 0 #4B3191,0 7px 0 rgba(49,35,100,.34),0 11px 18px rgba(30,80,130,.18);}
+.menu-main-btn.belajar-menu strong{color:#FF5B93;text-shadow:0 2px 0 #B92F66,0 4px 0 #9D2758,0 7px 0 rgba(130,25,70,.30),0 11px 18px rgba(130,25,70,.18);}
+.menu-main-btn.latihan-menu strong{color:#FFA23A;text-shadow:0 2px 0 #C46300,0 4px 0 #A85100,0 7px 0 rgba(130,70,0,.30),0 11px 18px rgba(130,70,0,.18);}
 .menu-main-btn small{display:none;}
 .menu-main-btn:hover{transform:translateY(-3px) scale(1.03);filter:brightness(1.04);}
 @media(max-width:520px){.main-menu-options{gap:12px;margin-top:20px}.menu-main-btn span{font-size:44px}.menu-main-btn strong{font-size:34px;}}
@@ -1813,63 +1832,170 @@ document.getElementById('colorCustom').addEventListener('input', (e) => {
 });
 
 // ---------- MUSIK SEMANGAT BELAJAR ----------
+// Musik latar anak-anak: melodi ceria + akor lembut + bass + ketukan ringan.
+// Dibuat dengan Web Audio API sehingga tidak membutuhkan file MP3 tambahan.
 let menuMusicOn = true;
 let menuMusicCtx = null;
 let menuMusicTimer = null;
 let menuMusicMaster = null;
+let menuMusicStep = 0;
+let menuMusicNextTime = 0;
+
+const CHILD_SONG = {
+  bpm: 112,
+  // 16 bar, C mayor. Setiap bar = 4 ketuk.
+  chords: [
+    ['C3','E3','G3'], ['G2','B2','D3'], ['A2','C3','E3'], ['F2','A2','C3'],
+    ['C3','E3','G3'], ['G2','B2','D3'], ['F2','A2','C3'], ['G2','B2','D3'],
+    ['C3','E3','G3'], ['F2','A2','C3'], ['A2','C3','E3'], ['G2','B2','D3'],
+    ['F2','A2','C3'], ['G2','B2','D3'], ['C3','E3','G3'], ['C3','E3','G3']
+  ],
+  melody: [
+    'C5','D5','E5','G5',  'G5','E5','D5','C5',
+    'E5','E5','F5','G5',  'G5','F5','E5','D5',
+    'C5','E5','G5','A5',  'G5','E5','D5','C5',
+    'D5','F5','E5','D5',  'C5','C5','C5',null,
+    'C5','D5','E5','G5',  'A5','G5','E5','D5',
+    'E5','F5','G5','A5',  'G5','F5','E5','D5',
+    'C5','E5','G5','G5',  'A5','G5','E5','C5',
+    'D5','E5','F5','D5',  'C5','C5','C5',null
+  ]
+};
+
+const NOTE_FREQ = {
+  C3:130.81,D3:146.83,E3:164.81,F3:174.61,G3:196.00,A3:220.00,B3:246.94,
+  C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392.00,A4:440.00,B4:493.88,
+  C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99,A5:880.00,B5:987.77,
+  C6:1046.50,D6:1174.66,E6:1318.51,F6:1396.91,G6:1567.98,A6:1760.00,B6:1975.53,
+  C2:65.41,D2:73.42,E2:82.41,F2:87.31,G2:98.00,A2:110.00,B2:123.47
+};
+
+function makeTone(freq, when, duration, volume, type='sine', filterFreq=2600){
+  if(!menuMusicCtx || !menuMusicMaster || !freq) return;
+  const osc=menuMusicCtx.createOscillator();
+  const gain=menuMusicCtx.createGain();
+  const filter=menuMusicCtx.createBiquadFilter();
+  osc.type=type; osc.frequency.setValueAtTime(freq,when);
+  filter.type='lowpass'; filter.frequency.setValueAtTime(filterFreq,when); filter.Q.value=.45;
+  gain.gain.setValueAtTime(0.0001,when);
+  gain.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),when+.018);
+  gain.gain.setValueAtTime(Math.max(.0002,volume),when+Math.max(.025,duration*.62));
+  gain.gain.exponentialRampToValueAtTime(0.0001,when+duration);
+  osc.connect(filter); filter.connect(gain); gain.connect(menuMusicMaster);
+  osc.start(when); osc.stop(when+duration+.03);
+}
+
+function makeKick(when){
+  if(!menuMusicCtx || !menuMusicMaster) return;
+  const osc=menuMusicCtx.createOscillator(), gain=menuMusicCtx.createGain();
+  osc.type='sine'; osc.frequency.setValueAtTime(120,when); osc.frequency.exponentialRampToValueAtTime(55,when+.11);
+  gain.gain.setValueAtTime(.0001,when); gain.gain.exponentialRampToValueAtTime(.065,when+.008); gain.gain.exponentialRampToValueAtTime(.0001,when+.13);
+  osc.connect(gain); gain.connect(menuMusicMaster); osc.start(when); osc.stop(when+.15);
+}
+
+function makeShaker(when){
+  if(!menuMusicCtx || !menuMusicMaster) return;
+  const buffer=menuMusicCtx.createBuffer(1,menuMusicCtx.sampleRate*.055,menuMusicCtx.sampleRate);
+  const data=buffer.getChannelData(0);
+  for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,2);
+  const src=menuMusicCtx.createBufferSource(), gain=menuMusicCtx.createGain(), filter=menuMusicCtx.createBiquadFilter();
+  src.buffer=buffer; filter.type='highpass'; filter.frequency.value=3200;
+  gain.gain.setValueAtTime(.0001,when); gain.gain.exponentialRampToValueAtTime(.022,when+.006); gain.gain.exponentialRampToValueAtTime(.0001,when+.05);
+  src.connect(filter); filter.connect(gain); gain.connect(menuMusicMaster); src.start(when);
+}
 
 function ensureMenuMusic(){
   if(!menuMusicOn) return;
   if(!menuMusicCtx){
-    const AC = window.AudioContext || window.webkitAudioContext;
+    const AC=window.AudioContext||window.webkitAudioContext;
     if(!AC) return;
-    menuMusicCtx = new AC();
-    menuMusicMaster = menuMusicCtx.createGain();
-    menuMusicMaster.gain.value = 0.055;
+    menuMusicCtx=new AC();
+    menuMusicMaster=menuMusicCtx.createGain();
+    menuMusicMaster.gain.value=.72; // musik tetap lembut sebagai latar
     menuMusicMaster.connect(menuMusicCtx.destination);
   }
-  if(menuMusicCtx.state === 'suspended') menuMusicCtx.resume().catch(()=>{});
+  if(menuMusicCtx.state==='suspended') menuMusicCtx.resume().catch(()=>{});
   if(!menuMusicTimer) startMenuMusicLoop();
+}
+
+function scheduleChildSongBar(){
+  if(!menuMusicCtx || !menuMusicOn) return;
+  const beat=60/CHILD_SONG.bpm;
+  const bar=CHILD_SONG.chords[menuMusicStep % CHILD_SONG.chords.length];
+  const barIndex=menuMusicStep % CHILD_SONG.chords.length;
+  const now=Math.max(menuMusicCtx.currentTime+.03,menuMusicNextTime||menuMusicCtx.currentTime+.03);
+
+  // Akor lembut: pad tipis dan nada bass di ketuk pertama.
+  bar.forEach((note,i)=>makeTone(NOTE_FREQ[note],now,beat*3.7,.018,'sine',1800));
+  const bassRoot=bar[0].replace('3','2').replace('2','2');
+  const bassFreq=NOTE_FREQ[bassRoot]||NOTE_FREQ['C2'];
+  makeTone(bassFreq,now,beat*.82,.028,'triangle',900);
+  makeTone(bassFreq,now+beat*2,beat*.65,.019,'triangle',900);
+
+  // Melodi utama, 4 not per bar.
+  for(let j=0;j<4;j++){
+    const idx=barIndex*4+j;
+    const note=CHILD_SONG.melody[idx];
+    if(note) makeTone(NOTE_FREQ[note],now+j*beat,beat*.78,.052,'triangle',3200);
+    if(j===0 || j===2) makeShaker(now+j*beat);
+    if(j===0) makeKick(now+j*beat);
+  }
+
+  // Bunyi lonceng kecil di akhir beberapa bar agar terasa seperti lagu anak.
+  if(barIndex===3 || barIndex===7 || barIndex===11 || barIndex===15){
+    makeTone(NOTE_FREQ['C6'],now+beat*3.25,beat*.45,.026,'sine',5000);
+    makeTone(NOTE_FREQ['G5'],now+beat*3.55,beat*.55,.021,'sine',5000);
+  }
+
+  menuMusicStep++;
+  menuMusicNextTime=now+beat*4;
 }
 
 function startMenuMusicLoop(){
   if(!menuMusicCtx || menuMusicTimer || !menuMusicOn) return;
-  const notes = [261.63,293.66,329.63,392.00,329.63,293.66,261.63,329.63,392.00,440.00,392.00,329.63];
-  let i=0;
-  const playNote=()=>{
-    if(!menuMusicCtx || !menuMusicOn) return;
-    const now=menuMusicCtx.currentTime;
-    const osc=menuMusicCtx.createOscillator();
-    const gain=menuMusicCtx.createGain();
-    osc.type='sine';
-    osc.frequency.value=notes[i % notes.length];
-    gain.gain.setValueAtTime(0.0001,now);
-    gain.gain.exponentialRampToValueAtTime(0.11,now+0.025);
-    gain.gain.exponentialRampToValueAtTime(0.0001,now+0.32);
-    osc.connect(gain); gain.connect(menuMusicMaster);
-    osc.start(now); osc.stop(now+0.34);
-    i++;
-  };
-  playNote();
-  menuMusicTimer=setInterval(playNote,380);
+  menuMusicStep=0;
+  menuMusicNextTime=menuMusicCtx.currentTime+.05;
+  scheduleChildSongBar();
+  // Jadwalkan sedikit lebih awal supaya transisi antarb ar halus.
+  menuMusicTimer=setInterval(()=>{
+    if(!menuMusicCtx || !menuMusicOn){ stopMenuMusic(); return; }
+    const beat=60/CHILD_SONG.bpm;
+    if(menuMusicCtx.currentTime > menuMusicNextTime-beat*.75) scheduleChildSongBar();
+  },120);
 }
 
 function stopMenuMusic(){
-  if(menuMusicTimer){clearInterval(menuMusicTimer); menuMusicTimer=null;}
+  if(menuMusicTimer){clearInterval(menuMusicTimer);menuMusicTimer=null;}
+  if(menuMusicCtx){
+    menuMusicNextTime=0;
+    // Fade singkat agar musik tidak terputus kasar.
+    try{
+      const now=menuMusicCtx.currentTime;
+      menuMusicMaster.gain.cancelScheduledValues(now);
+      menuMusicMaster.gain.setValueAtTime(menuMusicMaster.gain.value,now);
+      menuMusicMaster.gain.exponentialRampToValueAtTime(.0001,now+.12);
+      setTimeout(()=>{
+        if(menuMusicMaster && menuMusicOn===false) menuMusicMaster.gain.value=.72;
+      },140);
+    }catch(e){}
+  }
 }
 
 function updateMenuMusicButton(){
   const btn=document.getElementById('menuMusicControl');
   const text=document.getElementById('menuMusicText');
-  if(!btn || !text) return;
+  if(!btn||!text) return;
   btn.classList.toggle('off',!menuMusicOn);
-  text.textContent=menuMusicOn ? 'Musik Semangat: ON' : 'Musik Semangat: OFF';
+  text.textContent=menuMusicOn?'Musik Ceria: ON':'Musik Ceria: OFF';
 }
 
 function toggleMenuMusic(e){
   if(e) e.stopPropagation();
   menuMusicOn=!menuMusicOn;
-  if(menuMusicOn) ensureMenuMusic(); else stopMenuMusic();
+  if(menuMusicOn){
+    if(menuMusicCtx && menuMusicMaster) menuMusicMaster.gain.value=.72;
+    ensureMenuMusic();
+  }else stopMenuMusic();
   updateMenuMusicButton();
 }
 
