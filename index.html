@@ -234,136 +234,78 @@
     100%{ transform:translate3d(calc(100vw + 80px),0,0) scale(1); opacity:0; }
   }
 
-  /* ---- KARAKTER HEWAN BADAN PENUH (kucing/anjing/kelinci/rubah) ----
-     Dibangun dari beberapa <div> (badan, kepala, telinga, ekor, 2 kaki)
-     bukan emoji, supaya kakinya benar-benar bisa dianimasikan mengayun
-     bergantian (seperti gaya berjalan) selagi si hewan bergerak
-     melintasi layar lewat animasi groundWalk3D di elemen pembungkusnya.
-
-     Versi ini dibuat lebih realistis: badan pakai gradasi warna (gelap di
-     bawah, terang di atas) + tambalan bulu perut, 4 kaki (bukan 2) dengan
-     pola trot diagonal (depan-kanan & belakang-kiri melangkah bersamaan,
-     lalu gantian) seperti hewan berkaki empat sungguhan, tiap kaki dua ruas
-     (paha + betis) supaya lututnya kelihatan menekuk, dan wajah diberi
-     mata + hidung (+ kumis untuk kucing/rubah). */
-  .critter{
-    position:relative; width:82px; height:56px;
-    animation:critterBob 0.5s ease-in-out infinite;
-    transform-style:preserve-3d;
+  /* ---- HEWAN BERJALAN (versi emoji, dibuat lebih hidup) ----
+     Sebelumnya badan hewan dibangun dari tumpukan <div> (badan/kepala/
+     kaki terpisah) yang hasilnya malah terlihat aneh/abstrak. Diganti
+     memakai emoji hewan yang sudah jelas bentuknya, lalu dibuat animatif
+     lewat kombinasi: lompat-lompat (bounce), oleng kiri-kanan (waddle),
+     squash & stretch saat mendarat, dan bayangan tanah yang berdenyut
+     mengikuti irama langkahnya. */
+  .critter-wrap{
+    position:relative; width:64px; height:56px;
+    display:flex; align-items:flex-end; justify-content:center;
   }
-  @keyframes critterBob{
-    0%,50%,100%{ transform:translateY(0); }
-    25%,75%{ transform:translateY(-3px); }
+  .critter-emoji{
+    position:relative; display:inline-block; line-height:1;
+    animation: critterBounce 0.6s ease-in-out infinite, critterWaddle 0.6s ease-in-out infinite;
+    transform-origin:50% 100%;
   }
-  .c-body{
-    position:absolute; left:14px; top:14px; width:48px; height:25px;
-    border-radius:50% 50% 46% 46% / 60% 60% 40% 40%;
-    background:linear-gradient(180deg, var(--fur) 0%, var(--fur) 55%, var(--fur-dark) 100%);
-    box-shadow:inset 0 -3px 4px rgba(0,0,0,0.15);
+  @keyframes critterBounce{
+    0%,100%{ transform:translateY(0) scaleX(1) scaleY(1); }
+    30%{ transform:translateY(-16px) scaleX(0.96) scaleY(1.04); }
+    55%{ transform:translateY(0) scaleX(1.1) scaleY(0.88); }
+    70%{ transform:translateY(-4px) scaleX(1) scaleY(1); }
   }
-  .c-belly{
-    position:absolute; left:22px; top:24px; width:30px; height:13px;
-    border-radius:50%; background:var(--belly, rgba(255,255,255,0.5));
-    opacity:0.85;
+  @keyframes critterWaddle{
+    0%,100%{ rotate:-8deg; }
+    50%{ rotate:8deg; }
   }
-  .c-head{
-    position:absolute; right:2px; top:-2px; width:27px; height:25px;
-    border-radius:50% 50% 42% 42%;
-    background:linear-gradient(165deg, var(--fur) 0%, var(--fur-dark) 100%);
-    box-shadow:inset -3px -2px 4px rgba(0,0,0,0.1);
-  }
-  .c-snout{
-    position:absolute; right:-6px; top:12px; width:12px; height:9px;
-    border-radius:50% 50% 60% 60%; background:var(--fur);
-    box-shadow:inset -2px -2px 3px rgba(0,0,0,0.12);
-  }
-  .c-nose{
-    position:absolute; right:-6px; top:14px; width:4px; height:3px;
-    border-radius:50%; background:#3b2b22;
-  }
-  .c-eye{
-    position:absolute; right:6px; top:8px; width:3px; height:3px;
-    border-radius:50%; background:#2b2140;
-  }
-  .c-whisker{
-    position:absolute; right:-2px; width:12px; height:1px; background:rgba(60,45,35,0.55);
-  }
-  .c-whisker.w1{ top:12px; }
-  .c-whisker.w2{ top:16px; }
-  .critter:not(.cat):not(.fox) .c-whisker{ display:none; }
-  .c-ear{
-    position:absolute; width:9px; height:14px; background:var(--fur);
-    border-radius:60% 60% 20% 20%; top:-9px;
-  }
-  .c-ear-l{ right:18px; transform:rotate(-10deg); }
-  .c-ear-r{ right:5px; transform:rotate(10deg); }
-  .critter.cat .c-ear{ border-radius:0; clip-path:polygon(0 100%, 50% 0, 100% 100%); background:var(--fur); height:13px; }
-  .critter.fox .c-ear{ border-radius:0; clip-path:polygon(0 100%, 50% 0, 100% 100%); height:16px; background:var(--fur-dark); }
-  .critter.dog .c-ear{ border-radius:30% 30% 50% 50%; height:19px; top:-3px; background:var(--fur-dark); }
-  .critter.rabbit .c-ear{ width:6px; height:27px; top:-23px; border-radius:50%; }
-  .c-tail{
-    position:absolute; left:-16px; top:18px; width:24px; height:8px;
-    border-radius:6px; background:linear-gradient(90deg, var(--fur-dark), var(--fur));
-    transform-origin:100% 50%; animation:tailWag 0.5s ease-in-out infinite;
-  }
-  .critter.fox .c-tail{ width:32px; height:13px; background:linear-gradient(90deg, var(--fur-dark), var(--fur)); }
-  .critter.rabbit .c-tail{ width:10px; height:10px; border-radius:50%; left:-5px; }
-  @keyframes tailWag{
-    0%,100%{ transform:rotate(-8deg); }
-    50%{ transform:rotate(20deg); }
-  }
-
-  /* Kaki: 4 buah, tiap kaki dua ruas (paha .c-leg + betis .c-paw) supaya
-     lututnya menekuk saat melangkah. Pola trot diagonal: kaki depan-kanan
-     & belakang-kiri (kelas "a") melangkah bersamaan, lalu gantian dengan
-     depan-kiri & belakang-kanan (kelas "b") -- gaya jalan hewan berkaki
-     empat yang sesungguhnya, bukan cuma dua kaki gantian sederhana. */
-  .c-leg{
-    position:absolute; bottom:-14px; width:7px; height:15px; border-radius:3px 3px 2px 2px;
-    background:var(--fur-dark); transform-origin:50% 0%;
-  }
-  .c-paw{
-    position:absolute; top:100%; left:0; width:7px; height:11px; border-radius:2px 2px 5px 5px;
-    background:var(--fur-dark); transform-origin:50% 0%; filter:brightness(0.92);
-  }
-  .c-leg.front-a{ right:22px; animation:legSwingA 0.5s ease-in-out infinite; }
-  .c-leg.front-b{ right:11px; animation:legSwingB 0.5s ease-in-out infinite; }
-  .c-leg.back-a{  left:8px;   animation:legSwingB 0.5s ease-in-out infinite; }
-  .c-leg.back-b{  left:19px;  animation:legSwingA 0.5s ease-in-out infinite; }
-  .c-leg.front-a .c-paw{ animation:pawSwingA 0.5s ease-in-out infinite; }
-  .c-leg.front-b .c-paw{ animation:pawSwingB 0.5s ease-in-out infinite; }
-  .c-leg.back-a .c-paw{  animation:pawSwingB 0.5s ease-in-out infinite; }
-  .c-leg.back-b .c-paw{  animation:pawSwingA 0.5s ease-in-out infinite; }
-  @keyframes legSwingA{
-    0%,100%{ transform:rotate(24deg); }
-    50%{ transform:rotate(-24deg); }
-  }
-  @keyframes legSwingB{
-    0%,100%{ transform:rotate(-24deg); }
-    50%{ transform:rotate(24deg); }
-  }
-  @keyframes pawSwingA{
-    0%,100%{ transform:rotate(-8deg); }
-    25%{ transform:rotate(30deg); }
-    50%{ transform:rotate(-8deg); }
-    75%{ transform:rotate(-36deg); }
-  }
-  @keyframes pawSwingB{
-    0%,100%{ transform:rotate(8deg); }
-    25%{ transform:rotate(-30deg); }
-    50%{ transform:rotate(8deg); }
-    75%{ transform:rotate(36deg); }
-  }
-  .c-shadow{
-    position:absolute; bottom:-16px; left:18px; width:48px; height:8px;
-    border-radius:50%; background:rgba(0,0,0,0.22); filter:blur(1.5px);
-    animation:shadowPulse 0.5s ease-in-out infinite;
+  .critter-shadow{
+    position:absolute; bottom:2px; left:50%; translate:-50% 0;
+    width:40px; height:9px; border-radius:50%;
+    background:rgba(0,0,0,0.25); filter:blur(1.5px);
+    animation:shadowPulse 0.6s ease-in-out infinite;
   }
   @keyframes shadowPulse{
-    0%,100%{ transform:scaleX(0.85); opacity:0.22; }
-    50%{ transform:scaleX(1); opacity:0.3; }
+    0%,100%{ transform:scaleX(0.7); opacity:0.18; }
+    55%{ transform:scaleX(1); opacity:0.3; }
   }
-  .start-title{
+  /* ---- AWAN TIPIS DI LANGIT ----
+     Awan dibuat dari bentuk pil polos + tonjolan lewat box-shadow (bukan
+     emoji) supaya terkesan tipis/samar, lalu diberi blur halus dan
+     opacity rendah. Melayang pelan dari kiri ke kanan. */
+  .sky-clouds{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .cloud{
+    position:absolute; border-radius:50px; background:rgba(255,255,255,0.55);
+    filter:blur(1.5px); animation-name:cloudDrift; animation-timing-function:linear; animation-iteration-count:infinite;
+    box-shadow:
+      -28% 30% 0 -8% rgba(255,255,255,0.5),
+      28% 25% 0 -10% rgba(255,255,255,0.5),
+      0 -35% 0 -15% rgba(255,255,255,0.45);
+  }
+  @keyframes cloudDrift{
+    0%{ transform:translateX(-25vw); }
+    100%{ transform:translateX(125vw); }
+  }
+
+  /* ---- RUMPUT BERGOYANG DI GARIS HORIZON ----
+     Sekumpulan helai rumput kecil (segitiga pipih) diletakkan tepat di
+     batas langit/rumput (55% tinggi layar), tiap helai berayun sendiri
+     dengan kecepatan & jeda acak supaya terlihat tertiup angin. */
+  .grass-sway-layer{
+    position:fixed; left:0; right:0; top:calc(55% - 22px); height:34px;
+    pointer-events:none; z-index:0; overflow:visible;
+  }
+  .grass-blade{
+    position:absolute; bottom:0; border-radius:3px 3px 0 0;
+    clip-path:polygon(50% 0%, 100% 100%, 0% 100%);
+    transform-origin:50% 100%;
+    animation-name:bladeSway; animation-timing-function:ease-in-out; animation-iteration-count:infinite;
+  }
+  @keyframes bladeSway{
+    0%,100%{ transform:rotate(-7deg); }
+    50%{ transform:rotate(7deg); }
+  }
     font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;
     font-size:clamp(24px,5vw,40px);
     color:#fff;
@@ -433,6 +375,13 @@
   }
   .start-title .twinkle{ display:inline-block; animation: startIconWiggle 1.8s ease-in-out infinite; }
 
+  .credit-tag{
+    position:fixed; left:14px; bottom:10px; z-index:3;
+    font-family:'Baloo 2','Trebuchet MS',sans-serif; font-weight:700; font-size:13px;
+    color:rgba(255,255,255,0.85); text-shadow:0 2px 3px rgba(0,0,0,0.25);
+    pointer-events:none; user-select:none;
+  }
+
   /* BOTTOM NAV */
   .bottomnav{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
   .bottomnav .pillbtn{ flex:1; justify-content:center; min-width:130px; }
@@ -443,6 +392,7 @@
   }
   .speak-hint{ font-size:12px; color:#8a7e9c; font-weight:700; }
   .toolbar-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .pillbtn.helpicon{ width:38px; height:38px; padding:0; border-radius:50%; font-size:20px; font-weight:900; flex:0 0 auto; justify-content:center; font-family:'Baloo 2','Trebuchet MS',sans-serif; }
 
   .colorpicker{
     display:flex; align-items:center; gap:8px;
@@ -553,6 +503,8 @@
 <body>
 
 <div class="start-screen" id="startScreen">
+  <div class="sky-clouds" id="skyClouds"></div>
+  <div class="grass-sway-layer" id="grassSwayLayer"></div>
   <div class="floaty-layer" id="floatyLayer"></div>
   <div class="start-card">
     <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
@@ -570,6 +522,7 @@
       <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Belajar Pengurangan</button>
     </div>
   </div>
+  <div class="credit-tag">Creat by: Zie</div>
 </div>
 
 <div class="stage" id="stage" style="display:none;">
@@ -592,7 +545,6 @@
         <div class="speak-hint">✏️ Gambar dengan jari / mouse</div>
         <div class="toolbar-actions">
           <button class="pillbtn purple" id="btnHandGuide" style="padding:8px 16px;font-size:13px;">👆 Lihat Contoh Gerakan</button>
-          <button class="pillbtn blue" id="btnHelp" type="button" style="padding:8px 16px;font-size:13px;" aria-label="Petunjuk">❓ Petunjuk</button>
           <div class="colorpicker" id="colorPicker">
             <button class="swatch active" data-color="#0B1F4E" style="background:#0B1F4E" title="Biru Dongker"></button>
             <button class="swatch" data-color="#E8437E" style="background:#E8437E" title="Pink"></button>
@@ -602,6 +554,7 @@
               <input type="color" id="colorCustom" value="#0B1F4E">
             </label>
           </div>
+          <button class="pillbtn blue helpicon" id="btnHelp" type="button" aria-label="Petunjuk" title="Petunjuk">?</button>
         </div>
       </div>
       <div class="canvaswrap" id="wrapMain">
@@ -1615,7 +1568,7 @@ function applyLanguage(){
   const uh=document.querySelector('.card.ucap h3'); if(uh) uh.textContent=T('cara');
   const ht=document.getElementById('helpTitle'); if(ht) ht.textContent=T('helpTitle');
   const hc=document.getElementById('btnCloseHelp'); if(hc) hc.textContent=T('close');
-  const hb=document.getElementById('btnHelp'); if(hb){ hb.setAttribute('aria-label',T('helpTitle')); hb.textContent=T('helpBtn'); }
+  const hb=document.getElementById('btnHelp'); if(hb){ hb.setAttribute('aria-label',T('helpTitle')); hb.setAttribute('title',T('helpTitle')); }
   const hint=document.querySelector('.speak-hint'); if(hint) hint.textContent=T('draw');
   const ct=document.getElementById('celebrateTitle'); if(ct) ct.textContent=T('celebration');
   const cs=document.querySelector('#celebrateOverlay .celebrate-sub'); if(cs) cs.textContent=T('celebrationSub');
@@ -2366,6 +2319,7 @@ window.checkAdditionAnswer = function(value){
     el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
     layer.appendChild(el);
   }
+  const GROUND_EMOJI = { cat:'🐱', dog:'🐶', rabbit:'🐰', fox:'🦊' };
   function spawnGround(){
     const el = document.createElement('div');
     el.className = 'animal-item ground';
@@ -2375,37 +2329,71 @@ window.checkAdditionAnswer = function(value){
     el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
 
     const type = GROUND_TYPES[Math.floor(Math.random()*GROUND_TYPES.length)];
-    const c = FUR[type];
     const scale = (Math.random()*0.5 + 0.8).toFixed(2); // variasi ukuran badan
-    const critter = document.createElement('div');
-    critter.className = 'critter ' + type;
-    critter.style.setProperty('--fur', c.fur);
-    critter.style.setProperty('--fur-dark', c.dark);
-    critter.style.setProperty('--belly', c.belly);
-    critter.style.transform = `scale(${scale})`;
-    critter.innerHTML =
-      '<div class="c-shadow"></div>' +
-      '<div class="c-tail"></div>' +
-      '<div class="c-body">' +
-        '<div class="c-leg back-a"><div class="c-paw"></div></div>' +
-        '<div class="c-leg back-b"><div class="c-paw"></div></div>' +
-        '<div class="c-leg front-a"><div class="c-paw"></div></div>' +
-        '<div class="c-leg front-b"><div class="c-paw"></div></div>' +
-        '<div class="c-belly"></div>' +
-      '</div>' +
-      '<div class="c-head">' +
-        '<div class="c-ear c-ear-l"></div>' +
-        '<div class="c-ear c-ear-r"></div>' +
-        '<div class="c-snout"></div>' +
-        '<div class="c-nose"></div>' +
-        '<div class="c-eye"></div>' +
-        '<div class="c-whisker w1"></div>' +
-        '<div class="c-whisker w2"></div>' +
-      '</div>';
-    el.appendChild(critter);
+    const bounceDur = (Math.random()*0.25 + 0.45).toFixed(2) + 's'; // variasi kecepatan lompat tiap hewan
+
+    const wrap = document.createElement('div');
+    wrap.className = 'critter-wrap';
+    wrap.style.transform = `scale(${scale})`;
+    wrap.innerHTML =
+      '<div class="critter-shadow"></div>' +
+      `<span class="critter-emoji">${GROUND_EMOJI[type]}</span>`;
+    wrap.querySelectorAll('.critter-emoji,.critter-shadow').forEach(node=>{
+      node.style.animationDuration = bounceDur;
+    });
+    el.appendChild(wrap);
     layer.appendChild(el);
   }
   for(let i=0;i<BIRD_COUNT;i++) spawnBird();
   for(let i=0;i<GROUND_COUNT;i++) spawnGround();
+})();
+</script>
+
+<!-- Awan tipis melayang di langit -->
+<script>
+(function(){
+  const layer = document.getElementById('skyClouds');
+  if(!layer) return;
+  const isSmall = window.innerWidth < 560;
+  const COUNT = isSmall ? 3 : 5;
+  for(let i=0;i<COUNT;i++){
+    const el = document.createElement('div');
+    el.className = 'cloud';
+    const w = Math.floor(Math.random()*80) + 90; // 90-170px
+    el.style.width = w + 'px';
+    el.style.height = (w*0.32) + 'px';
+    el.style.top = (Math.random()*32 + 4) + '%'; // hanya di area langit
+    el.style.opacity = (Math.random()*0.3 + 0.35).toFixed(2); // tipis/samar
+    const dur = (Math.random()*60 + 70).toFixed(1); // 70s-130s, pelan
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
+    layer.appendChild(el);
+  }
+})();
+</script>
+
+<!-- Rumput bergoyang tertiup angin di garis horizon -->
+<script>
+(function(){
+  const layer = document.getElementById('grassSwayLayer');
+  if(!layer) return;
+  const isSmall = window.innerWidth < 560;
+  const COUNT = isSmall ? 26 : 44;
+  for(let i=0;i<COUNT;i++){
+    const el = document.createElement('div');
+    el.className = 'grass-blade';
+    el.style.left = (Math.random()*100) + '%';
+    const w = Math.floor(Math.random()*5) + 5; // 5-10px
+    const h = Math.floor(Math.random()*14) + 18; // 18-32px
+    el.style.width = w + 'px';
+    el.style.height = h + 'px';
+    el.style.background = Math.random() < 0.5
+      ? 'linear-gradient(180deg, var(--grass1), var(--grass2))'
+      : 'linear-gradient(180deg, var(--grass2), var(--grass1))';
+    const dur = (Math.random()*1.4 + 1.6).toFixed(2); // 1.6s-3s per ayunan
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = (-(Math.random()*dur)).toFixed(2) + 's';
+    layer.appendChild(el);
+  }
 })();
 </script>
