@@ -57,8 +57,8 @@
     display:flex; align-items:center; justify-content:center; gap:10px;
   }
   .title-wrap h1{
-    margin:0; font-size:26px; color:#fff; -webkit-text-stroke:2px #B85A00;
-    letter-spacing:1px;
+    margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-size:27px; font-weight:900; color:#fff;
+    letter-spacing:.8px; line-height:1.1;
   }
 
   .voice-avatar{
@@ -111,9 +111,9 @@
     aspect-ratio:16 / 9; max-height:520px; border:0; border-radius:22px; background:#fff;
   }
   .canvaswrap.learn-letter .learn-canvas-title{
-    position:absolute; left:50%; top:18px; transform:translateX(-50%); z-index:6;
+    position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:6;
     background:none; color:#E83B78;
-    font-family:'Baloo 2','Trebuchet MS',sans-serif; font-weight:800; font-size:26px;
+    font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:900; font-size:24px; line-height:1.1;
     padding:0; border-radius:0; box-shadow:none;
     white-space:nowrap; pointer-events:none;
   }
@@ -1154,7 +1154,7 @@ function layoutNumberWord(word, fontWeight, centerX, maxWidth){
 
 // Huruf: dua glyph besar berdampingan dalam satu kotak lebar.
 function renderHurufPair(svgEl, upper, lower){
-  svgEl.setAttribute('viewBox','0 0 640 360');
+  svgEl.setAttribute('viewBox','0 0 640 400');
   svgEl.innerHTML = '';
   const ns = 'http://www.w3.org/2000/svg';
   const fontSize = 330, fontWeight = 700;
@@ -1172,7 +1172,7 @@ function renderHurufPair(svgEl, upper, lower){
 
   [[upper,160,pair[0]],[lower,480,pair[1]]].forEach(([text,x,color]) => {
     const t = document.createElementNS(ns,'text');
-    t.setAttribute('x', String(x)); t.setAttribute('y','275');
+    t.setAttribute('x', String(x)); t.setAttribute('y','320');
     t.setAttribute('text-anchor','middle');
     t.setAttribute('font-family',"Arial,Helvetica,sans-serif");
     t.setAttribute('font-weight', String(fontWeight));
@@ -1185,7 +1185,7 @@ function renderHurufPair(svgEl, upper, lower){
 
   // Pada mode Belajar Huruf hanya bentuk solid yang ditampilkan.
   if(writingMode){
-    appendHandGuide(svgEl, ns, buildGuidePathD(upper, 160, 275, fontSize, fontWeight, 640, 360));
+    appendHandGuide(svgEl, ns, buildGuidePathD(upper, 160, 320, fontSize, fontWeight, 640, 400));
   }
 }
 // Angka: digit di atas, tulisan di bawah dalam satu kotak.
