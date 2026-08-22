@@ -112,9 +112,9 @@
   }
   .canvaswrap.learn-letter .learn-canvas-title{
     position:absolute; left:50%; top:18px; transform:translateX(-50%); z-index:6;
-    background:linear-gradient(180deg,#FF4D8D,#E83B78); color:#fff;
-    font-family:'Baloo 2','Trebuchet MS',sans-serif; font-weight:800; font-size:22px;
-    padding:7px 28px; border-radius:18px; box-shadow:0 4px 0 rgba(0,0,0,.12);
+    background:none; color:#E83B78;
+    font-family:'Baloo 2','Trebuchet MS',sans-serif; font-weight:800; font-size:26px;
+    padding:0; border-radius:0; box-shadow:none;
     white-space:nowrap; pointer-events:none;
   }
   .canvaswrap.learn-letter #canvasMain,
@@ -134,12 +134,13 @@
   .siderow .card{ flex:1; min-width:0; }
   .card{ background:var(--card); border-radius:22px; padding:14px; box-shadow:0 6px 0 rgba(0,0,0,0.10); }
   .card h3{
-    margin:0 0 10px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:15px; color:#fff; display:inline-block;
-    padding:7px 16px; border-radius:16px; box-shadow:0 3px 0 rgba(0,0,0,0.15);
+    margin:0 0 10px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
+    font-size:18px; font-weight:800; color:#7E4CE0; display:block;
+    padding:0; border-radius:0; box-shadow:none; background:none;
   }
-  .card.contoh h3{ background:linear-gradient(180deg,var(--green),var(--green-dark)); }
-  .card.ucap h3{ background:linear-gradient(180deg,var(--orange),var(--orange-dark)); }
-  .card.petunjuk h3{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
+  .card.contoh h3{ color:#2FA859; }
+  .card.ucap h3{ color:#F08000; }
+  .card.petunjuk h3{ color:#2E9EF5; }
 
   .contoh-visual{
     text-align:center; font-size:46px; line-height:1; margin:6px 0 8px;
