@@ -20,10 +20,11 @@
     --ink:#2B2140;
   }
   *{box-sizing:border-box;}
+  html,body{ height:100%; }
   body{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
     background: linear-gradient(180deg,#63BDF7 0%, #8FD9FF 52%, #BFEAFF 100%);
-    min-height:100vh; padding:14px; overflow-x:hidden;
+    height:100%; padding:14px; overflow:hidden;
   }
   .display{font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;}
   .stage{
@@ -719,9 +720,10 @@
 <style id="storybook-main-screen">
 /* ===== HALAMAN UTAMA GAYA ILUSTRASI BUKU CERITA ===== */
 .start-screen{
-  min-height:100svh!important;
+  height:100%!important;
+  min-height:0!important;
   width:100%;
-  padding:0 14px 18px!important;
+  padding:0 14px 8px!important;
   display:flex!important;
   align-items:center!important;
   justify-content:flex-start!important;
@@ -748,12 +750,14 @@
 .start-card{
   max-width:1120px!important;
   width:100%!important;
-  min-height:100svh;
-  padding:34px 20px 14px!important;
+  height:100%;
+  max-height:100%;
+  padding:16px 20px 10px!important;
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:flex-start;
+  justify-content:space-between;
+  overflow-y:auto;
   position:relative!important;
   z-index:2!important;
 }
@@ -764,14 +768,14 @@
 }
 .start-top-controls .pillbtn{
   background:rgba(255,255,255,.18)!important;
-  border:2px solid rgba(255,255,255,.72)!important;
+  border:none!important;
   box-shadow:0 4px 10px rgba(0,65,130,.16)!important;
   backdrop-filter:blur(5px);
   color:#fff!important;
 }
 .start-top-controls .menu-music-control{
   background:rgba(255,255,255,.18)!important;
-  border-color:rgba(255,255,255,.72)!important;
+  border:none!important;
   backdrop-filter:blur(5px);
 }
 
@@ -817,7 +821,7 @@
 }
 .start-name-input{
   height:46px!important;
-  border:3px solid #F6D8A7!important;
+  border:none!important;
   border-radius:22px!important;
   background:rgba(255,253,247,.96)!important;
   box-shadow:0 5px 0 rgba(104,71,35,.16),0 10px 18px rgba(0,70,120,.12)!important;
@@ -896,6 +900,26 @@
     -webkit-text-stroke:1.5px #1554A0!important;
   }
   .start-name-row{width:min(260px,72vw)!important;}
+}
+@media(max-height:700px){
+  .start-title{margin:10px auto 4px!important;font-size:clamp(24px,6vw,44px)!important;}
+  .start-sub{margin:2px 0 4px!important;font-size:clamp(12px,2vw,15px)!important;}
+  .main-menu-options{gap:clamp(18px,8vw,60px)!important;}
+  .menu-main-btn .menu-anim-icon{
+    width:130px!important;height:115px!important;flex-basis:115px!important;
+  }
+  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(1.3)!important;}
+  .menu-main-btn strong{font-size:20px!important;}
+  .start-name-row{margin:2px auto 2px!important;}
+  .start-name-input{height:38px!important;font-size:14px!important;}
+}
+@media(max-height:520px){
+  .start-title{margin:4px auto 2px!important;font-size:clamp(18px,5vw,30px)!important;}
+  .menu-main-btn .menu-anim-icon{
+    width:90px!important;height:80px!important;flex-basis:80px!important;
+  }
+  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(.9)!important;}
+  .menu-main-btn strong{font-size:16px!important;}
 }
 </style>
 
