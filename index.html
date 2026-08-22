@@ -1782,6 +1782,37 @@ applyLanguage();
   obs.observe(document.documentElement, {subtree:true, childList:true, characterData:true});
 })();
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const btnLatihan = document.getElementById('btnStartPractice');
+  const menu = document.getElementById('practiceMenu');
+
+  if(btnLatihan && menu){
+    btnLatihan.addEventListener('click', function(){
+      menu.style.display = 'block';
+    });
+  }
+
+  const a = document.getElementById('btnPracticeAddition');
+  const s = document.getElementById('btnPracticeSubtraction');
+
+  if(a){
+    a.addEventListener('click', function(){
+      const old = document.getElementById('btnStartAddition');
+      if(old) old.click();
+    });
+  }
+
+  if(s){
+    s.addEventListener('click', function(){
+      const old = document.getElementById('btnStartSubtraction');
+      if(old) old.click();
+    });
+  }
+});
+</script>
+
 </body>
 </html>
 
