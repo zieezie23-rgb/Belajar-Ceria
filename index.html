@@ -133,7 +133,7 @@
     aspect-ratio:16 / 9; max-height:520px; border:0; border-radius:22px; background:#fff;
   }
   .canvaswrap.learn-number .learn-canvas-title{
-    position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:6;
+    position:absolute; left:50%; top:12px; transform:translateX(-50%); z-index:6;
     background:none; color:#2E9EF5;
     font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:900; font-size:24px; line-height:1.1;
     padding:0; border-radius:0; box-shadow:none;
@@ -145,7 +145,7 @@
   .canvaswrap.learn-number svg{ z-index:2; }
   .tracepanel.learn-number-panel .panel-toolbar{ display:none; }
   .tracepanel.learn-number-panel{ padding:10px; }
-  .learn-number .learn-canvas-title + svg{ top:0; }
+  .learn-number .learn-canvas-title + svg{ top:24px; height:calc(100% - 24px); }
   .bottomnav.learn-number-nav #btnClear{ display:none; }
 
 
@@ -1601,8 +1601,18 @@ function render(){
     document.getElementById('contohVisual').textContent = currentEmoji(item) || '—';
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.d + '</span> = ' + currentWord(item);
-    document.getElementById('ucapText').textContent = '"' + currentWord(item) + '..."';
-    document.getElementById('syllableText').textContent = currentSyllable(item) || (language==='en'?'(say it slowly)':'(diucapkan pelan)');
+    const numberSpellingID = {
+      'Nol':'n-o-l','Satu':'s-a-t-u','Dua':'d-u-a','Tiga':'t-i-g-a','Empat':'e-m-p-a-t',
+      'Lima':'l-i-m-a','Enam':'e-n-a-m','Tujuh':'t-u-j-u-h','Delapan':'d-e-l-a-p-a-n','Sembilan':'s-e-m-b-i-l-a-n'
+    };
+    const numberSpellingEN = {
+      'Zero':'z-e-r-o','One':'o-n-e','Two':'t-w-o','Three':'t-h-r-e-e','Four':'f-o-u-r',
+      'Five':'f-i-v-e','Six':'s-i-x','Seven':'s-e-v-e-n','Eight':'e-i-g-h-t','Nine':'n-i-n-e'
+    };
+    const word = currentWord(item);
+    const spelling = language==='en' ? (numberSpellingEN[item.wordEN] || '') : (numberSpellingID[item.word] || '');
+    document.getElementById('ucapText').textContent = `${item.d} ${spelling} ${word}`;
+    document.getElementById('syllableText').textContent = '';
   }
 
   document.getElementById('btnPrev').disabled = (index === 0);
@@ -1687,39 +1697,51 @@ function updateVoiceButton(){
 
 function speakCurrent(onlyLetter=false){
   try{
-    let text='';
     if(mode === 'huruf'){
       const item=LETTERS[index];
-      // Tombol "Putar Suara" hanya menyebutkan huruf.
-      // Saat halaman dibuka/berpindah, gunakan speakLetterAndExample().
-      text = language==='en' ? item.ch : item.ch;
-    }else{
-      const item=NUMBERS[index];
-      const spellMapID = {
-        'Nol':'Nol. n-o-l. nol','Satu':'Satu. s-a. sa. t-u. tu. satu','Dua':'Dua. d-u. du. a. dua',
-        'Tiga':'Tiga. t-i. ti. g-a. ga. tiga','Empat':'Empat. em. pat. empat','Lima':'Lima. l-i. li. m-a. ma. lima',
-        'Enam':'Enam. e. nam. enam','Tujuh':'Tujuh. tu. juh. tujuh','Delapan':'Delapan. de. la. pan. delapan',
-        'Sembilan':'Sembilan. sem. bi. lan. sembilan'
-      };
-      const spellMapEN = {
-        'Zero':'Zero. z-e-r-o. zero','One':'One. o-n-e. one','Two':'Two. t-w-o. two',
-        'Three':'Three. t-h-r-e-e. three','Four':'Four. f-o-u-r. four','Five':'Five. f-i-v-e. five',
-        'Six':'Six. s-i-x. six','Seven':'Seven. s-e-v-e-n. seven','Eight':'Eight. e-i-g-h-t. eight',
-        'Nine':'Nine. n-i-n-e. nine'
-      };
-      text = language==='en' ? (spellMapEN[item.wordEN] || item.wordEN) : (spellMapID[item.word] || item.word);
+      const u = new SpeechSynthesisUtterance(item.ch);
+      u.lang = language==='en' ? 'en-US' : 'id-ID';
+      u.rate = 0.8;
+      u.pitch = childGender === 'girl' ? 1.22 : 1.08;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+      return;
     }
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = language==='en' ? 'en-US' : 'id-ID';
-    u.rate = 0.8;
-    u.pitch = childGender === 'girl' ? 1.22 : 1.08;
-    u.volume = 1;
+
+    const item=NUMBERS[index];
+    const spellMapID = {
+      'Nol':'n-o-l','Satu':'s-a-t-u','Dua':'d-u-a','Tiga':'t-i-g-a','Empat':'e-m-p-a-t',
+      'Lima':'l-i-m-a','Enam':'e-n-a-m','Tujuh':'t-u-j-u-h','Delapan':'d-e-l-a-p-a-n','Sembilan':'s-e-m-b-i-l-a-n'
+    };
+    const spellMapEN = {
+      'Zero':'z-e-r-o','One':'o-n-e','Two':'t-w-o','Three':'t-h-r-e-e','Four':'f-o-u-r',
+      'Five':'f-i-v-e','Six':'s-i-x','Seven':'s-e-v-e-n','Eight':'e-i-g-h-t','Nine':'n-i-n-e'
+    };
+    const spelling = language==='en' ? (spellMapEN[item.wordEN] || item.wordEN) : (spellMapID[item.word] || item.word);
+    const word = currentWord(item);
+    const lang = language==='en' ? 'en-US' : 'id-ID';
     const voices = speechSynthesis.getVoices();
-    const prefix=language==='en'?'en':'id';
-    let selectedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
-    if(selectedVoice) u.voice = selectedVoice;
+    const prefix = language==='en' ? 'en' : 'id';
+    const selectedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+
     speechSynthesis.cancel();
-    speechSynthesis.speak(u);
+    const speakPart = (text, delay, next) => {
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang=lang; u.rate=0.8; u.pitch=childGender === 'girl' ? 1.22 : 1.08; u.volume=1;
+      if(selectedVoice) u.voice=selectedVoice;
+      u.onend = () => setTimeout(next, delay);
+      speechSynthesis.speak(u);
+    };
+
+    // Contoh: "1" → jeda → "s-a-t-u" → jeda → "satu"
+    speakPart(item.d, 550, () => {
+      speakPart(spelling, 550, () => {
+        const u = new SpeechSynthesisUtterance(word);
+        u.lang=lang; u.rate=0.8; u.pitch=childGender === 'girl' ? 1.22 : 1.08; u.volume=1;
+        if(selectedVoice) u.voice=selectedVoice;
+        speechSynthesis.speak(u);
+      });
+    });
   }catch(e){}
 }
 
