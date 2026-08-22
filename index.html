@@ -22,7 +22,7 @@
   *{box-sizing:border-box;}
   body{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
-    background: linear-gradient(180deg,var(--sky1) 0%, var(--sky2) 55%, var(--grass1) 55%, var(--grass2) 100%);
+    background:#4fb9f5 url('background-9x16.png') center center / cover fixed no-repeat;
     min-height:100vh; padding:14px; overflow-x:hidden;
   }
   .display{font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;}
@@ -156,7 +156,7 @@
 
   /* START / MENU SCREEN */
   .start-screen{
-    min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-height:calc(100vh - 28px); display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; gap:22px; padding:20px;
     position:relative; overflow:hidden;
   }
@@ -166,146 +166,8 @@
     position:relative; z-index:1;
   }
 
-  /* Huruf & angka beterbangan di latar halaman muka. pointer-events:none supaya
-     sekalipun tampil di depan (z-index lebih tinggi dari .start-card), klik/tap
-     tetap tembus ke tombol dan input di bawahnya -- jadi cuma hiasan, tidak
-     menghalangi interaksi. */
-  .floaty-layer{
-    position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:2;
-  }
-  .floaty-item{
-    position:absolute; bottom:-60px; font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-weight:800;
-    user-select:none; will-change:transform,opacity; opacity:0;
-    animation-name:floatyRise; animation-timing-function:ease-in-out; animation-iteration-count:infinite;
-    text-shadow:0 3px 0 rgba(0,0,0,0.08);
-  }
-  @keyframes floatyRise{
-    0%{ transform:translate(0,0) rotate(0deg); opacity:0; }
-    8%{ opacity:var(--floaty-op, 0.8); }
-    30%{ transform:translate(24px,-32vh) rotate(12deg); }
-    55%{ transform:translate(-20px,-58vh) rotate(-10deg); }
-    80%{ transform:translate(18px,-84vh) rotate(8deg); opacity:var(--floaty-op, 0.8); }
-    100%{ transform:translate(0,-108vh) rotate(0deg); opacity:0; }
-  }
-  @media (max-width:560px){
-    .floaty-item{ font-size:22px !important; }
-  }
 
-  /* Hewan-hewan beterbangan/berjalan di halaman muka, dengan efek 3D semu:
-     perspective + translateZ/rotateY/rotateX bikin badan hewan terlihat
-     berputar & maju-mundur (mendekat/menjauh dari layar), ditambah
-     drop-shadow sebagai bayangan tanah supaya kesan kedalamannya kuat --
-     tanpa perlu model poligon 3D sungguhan yang berat untuk web anak-anak.
-     pointer-events:none supaya tidak menghalangi klik ke tombol/input. */
-  .floaty-layer{
-    perspective:1000px; perspective-origin:50% 55%;
-  }
-  .animal-item{
-    position:absolute; font-size:34px; user-select:none; pointer-events:none;
-    will-change:transform,opacity; opacity:0; transform-style:preserve-3d;
-    filter:drop-shadow(0 8px 6px rgba(0,0,0,0.3));
-  }
-  .animal-item.bird{
-    top:var(--y,10%); left:-60px;
-    animation-name:birdFly3D; animation-timing-function:linear; animation-iteration-count:infinite;
-  }
-  .animal-item.ground{
-    bottom:var(--y,4%); left:-60px;
-    animation-name:groundWalk3D; animation-timing-function:linear; animation-iteration-count:infinite;
-    filter:none; /* bayangan dipindah ke .critter supaya menempel di bawah kaki, bukan di kotak pembungkus */
-  }
-  @keyframes birdFly3D{
-    0%{ transform:translate3d(0,0,-60px) rotateY(-18deg) rotateZ(0deg); opacity:0; }
-    6%{ opacity:0.9; }
-    20%{ transform:translate3d(20vw,-22px,20px) rotateY(10deg) rotateZ(-6deg); }
-    40%{ transform:translate3d(40vw,6px,-40px) rotateY(-14deg) rotateZ(5deg); }
-    60%{ transform:translate3d(60vw,-16px,30px) rotateY(12deg) rotateZ(-5deg); }
-    80%{ transform:translate3d(80vw,8px,-20px) rotateY(-10deg) rotateZ(4deg); opacity:0.9; }
-    94%{ opacity:0.9; }
-    100%{ transform:translate3d(calc(100vw + 80px),0,0) rotateY(0deg) rotateZ(0deg); opacity:0; }
-  }
-  @keyframes groundWalk3D{
-    0%{ transform:translate3d(0,0,-30px) scale(0.92); opacity:0; }
-    5%{ opacity:0.9; }
-    25%{ transform:translate3d(25vw,0,14px) scale(1.06); }
-    50%{ transform:translate3d(50vw,0,-14px) scale(0.96); }
-    75%{ transform:translate3d(75vw,0,14px) scale(1.06); }
-    94%{ opacity:0.9; }
-    100%{ transform:translate3d(calc(100vw + 80px),0,0) scale(1); opacity:0; }
-  }
 
-  /* ---- HEWAN BERJALAN (versi emoji, dibuat lebih hidup) ----
-     Sebelumnya badan hewan dibangun dari tumpukan <div> (badan/kepala/
-     kaki terpisah) yang hasilnya malah terlihat aneh/abstrak. Diganti
-     memakai emoji hewan yang sudah jelas bentuknya, lalu dibuat animatif
-     lewat kombinasi: lompat-lompat (bounce), oleng kiri-kanan (waddle),
-     squash & stretch saat mendarat, dan bayangan tanah yang berdenyut
-     mengikuti irama langkahnya. */
-  .critter-wrap{
-    position:relative; width:64px; height:56px;
-    display:flex; align-items:flex-end; justify-content:center;
-  }
-  .critter-emoji{
-    position:relative; display:inline-block; line-height:1;
-    animation: critterBounce 0.6s ease-in-out infinite, critterWaddle 0.6s ease-in-out infinite;
-    transform-origin:50% 100%;
-  }
-  @keyframes critterBounce{
-    0%,100%{ transform:translateY(0) scaleX(1) scaleY(1); }
-    30%{ transform:translateY(-16px) scaleX(0.96) scaleY(1.04); }
-    55%{ transform:translateY(0) scaleX(1.1) scaleY(0.88); }
-    70%{ transform:translateY(-4px) scaleX(1) scaleY(1); }
-  }
-  @keyframes critterWaddle{
-    0%,100%{ rotate:-8deg; }
-    50%{ rotate:8deg; }
-  }
-  .critter-shadow{
-    position:absolute; bottom:2px; left:50%; translate:-50% 0;
-    width:40px; height:9px; border-radius:50%;
-    background:rgba(0,0,0,0.25); filter:blur(1.5px);
-    animation:shadowPulse 0.6s ease-in-out infinite;
-  }
-  @keyframes shadowPulse{
-    0%,100%{ transform:scaleX(0.7); opacity:0.18; }
-    55%{ transform:scaleX(1); opacity:0.3; }
-  }
-  /* ---- AWAN TIPIS DI LANGIT ----
-     Awan dibuat dari bentuk pil polos + tonjolan lewat box-shadow (bukan
-     emoji) supaya terkesan tipis/samar, lalu diberi blur halus dan
-     opacity rendah. Melayang pelan dari kiri ke kanan. */
-  .sky-clouds{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
-  .cloud{
-    position:absolute; border-radius:50px; background:rgba(255,255,255,0.55);
-    filter:blur(1.5px); animation-name:cloudDrift; animation-timing-function:linear; animation-iteration-count:infinite;
-    box-shadow:
-      -28% 30% 0 -8% rgba(255,255,255,0.5),
-      28% 25% 0 -10% rgba(255,255,255,0.5),
-      0 -35% 0 -15% rgba(255,255,255,0.45);
-  }
-  @keyframes cloudDrift{
-    0%{ transform:translateX(-25vw); }
-    100%{ transform:translateX(125vw); }
-  }
-
-  /* ---- RUMPUT BERGOYANG DI GARIS HORIZON ----
-     Sekumpulan helai rumput kecil (segitiga pipih) diletakkan tepat di
-     batas langit/rumput (55% tinggi layar), tiap helai berayun sendiri
-     dengan kecepatan & jeda acak supaya terlihat tertiup angin. */
-  .grass-sway-layer{
-    position:fixed; left:0; right:0; top:calc(55% - 22px); height:34px;
-    pointer-events:none; z-index:0; overflow:visible;
-  }
-  .grass-blade{
-    position:absolute; bottom:0; border-radius:3px 3px 0 0;
-    clip-path:polygon(50% 0%, 100% 100%, 0% 100%);
-    transform-origin:50% 100%;
-    animation-name:bladeSway; animation-timing-function:ease-in-out; animation-iteration-count:infinite;
-  }
-  @keyframes bladeSway{
-    0%,100%{ transform:rotate(-7deg); }
-    50%{ transform:rotate(7deg); }
-  }
     font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;
     font-size:clamp(24px,5vw,40px);
     color:#fff;
@@ -467,9 +329,6 @@
     100%{ transform:translateY(110vh) rotate(360deg); opacity:0.9; }
   }
 
-  .animal-item.bee{
-    animation-name:beeFly !important;
-  }
   @keyframes beeFly{
     0%{ transform:translate3d(0,0,0) scaleX(1); opacity:0; }
     10%{ opacity:1; }
@@ -478,6 +337,79 @@
     75%{ transform:translate3d(75vw,-10px,0) scaleX(1); }
     100%{ transform:translate3d(calc(100vw + 80px),0,0) scaleX(1); opacity:0; }
   }
+
+
+/* === HALAMAN UTAMA: ilustrasi 9:16 pengguna === */
+.start-screen{
+  min-height:100vh;
+  height:100vh;
+  padding:0;
+  display:block;
+  position:relative;
+  overflow:hidden;
+  background:#22aaf0 url('background-9x16.png') center center / cover no-repeat;
+  border-radius:0;
+}
+.start-screen::before{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(0,120,220,.02) 0%,rgba(0,0,0,0) 58%,rgba(0,0,0,.18) 100%);
+  pointer-events:none;
+}
+.start-card{
+  position:absolute;
+  left:50%; bottom:14px;
+  transform:translateX(-50%);
+  width:min(92vw,520px);
+  max-width:none;
+  padding:12px;
+  z-index:5;
+  border-radius:24px;
+  background:rgba(255,255,255,.16);
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 10px 30px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.35);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.start-card > div:first-child{ margin-bottom:5px !important; }
+#btnLanguageStart{
+  padding:8px 14px; font-size:14px;
+  box-shadow:0 4px 0 rgba(0,0,0,.18);
+}
+.start-title,.start-sub{ display:none !important; }
+.start-name-row{ margin:0 0 9px; }
+.start-name-input{
+  padding:9px 13px;
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:14px;
+  background:rgba(255,255,255,.92);
+  font-size:15px;
+  box-shadow:0 3px 10px rgba(0,0,0,.12);
+}
+.start-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.start-btn{
+  min-height:52px;
+  padding:9px 10px;
+  border-radius:16px;
+  font-size:15px;
+  gap:7px;
+  max-width:none;
+  margin:0;
+  box-shadow:0 4px 0 rgba(0,0,0,.16),0 7px 13px rgba(0,0,0,.12);
+}
+.start-emoji{ width:34px; height:34px; font-size:19px; }
+.credit-tag{ bottom:7px; left:8px; font-size:11px; z-index:6; }
+@media(max-width:560px){
+  .start-card{ width:94vw; bottom:10px; padding:10px; border-radius:20px; }
+  .start-options{ gap:7px; }
+  .start-btn{ min-height:48px; font-size:13px; padding:7px 6px; border-radius:14px; }
+  .start-emoji{ width:30px; height:30px; font-size:17px; }
+  #btnLanguageStart{font-size:13px;padding:7px 11px;}
+}
 
 </style>
 
@@ -503,9 +435,6 @@
 <body>
 
 <div class="start-screen" id="startScreen">
-  <div class="sky-clouds" id="skyClouds"></div>
-  <div class="grass-sway-layer" id="grassSwayLayer"></div>
-  <div class="floaty-layer" id="floatyLayer"></div>
   <div class="start-card">
     <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
       <button class="pillbtn blue" id="btnLanguageStart" type="button">🇮🇩 Indonesia</button>
@@ -2254,146 +2183,6 @@ window.checkAdditionAnswer = function(value){
 })();
 </script>
 
-<!-- Huruf & angka beterbangan di halaman muka -->
-<script>
-(function(){
-  const layer = document.getElementById('floatyLayer');
-  if(!layer) return;
-  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
-  const COLORS = ['#FF5B93','#9B6BFF','#FFA23A','#3EC46D','#2E9EF5','#FFCB3C','#E8437E'];
-  // Jumlah item disesuaikan lebar layar supaya tetap ramai tapi enak dilihat di HP kecil
-  const COUNT = window.innerWidth < 560 ? 8 : window.innerWidth < 900 ? 12 : 16;
 
-  function spawn(i){
-    const el = document.createElement('span');
-    el.className = 'floaty-item';
-    el.textContent = CHARS[Math.floor(Math.random()*CHARS.length)];
-    el.style.left = (Math.random()*94 + 2) + '%';
-    // Tiga kelompok ukuran (kecil/sedang/besar) supaya variasinya terlihat jelas,
-    // bukan cuma acak sempit di rentang yang mirip.
-    const sizeGroup = Math.random();
-    let size;
-    if(sizeGroup < 0.4) size = Math.floor(Math.random()*14) + 16;      // kecil: 16-30px
-    else if(sizeGroup < 0.8) size = Math.floor(Math.random()*20) + 32; // sedang: 32-52px
-    else size = Math.floor(Math.random()*30) + 54;                    // besar: 54-84px
-    el.style.fontSize = size + 'px';
-    el.style.color = COLORS[Math.floor(Math.random()*COLORS.length)];
-    // Item lebih besar dibuat sedikit lebih transparan supaya tidak terlalu
-    // menutupi tombol saat melintas di depannya.
-    el.style.setProperty('--floaty-op', size > 54 ? '0.5' : '0.85');
-    const dur = (Math.random()*12 + 13).toFixed(1); // 13s - 25s per putaran
-    const delay = (-(Math.random()*dur)).toFixed(1); // mulai di titik acak dalam siklus, biar tidak muncul serentak
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay = delay + 's';
-    layer.appendChild(el);
-  }
-  for(let i=0;i<COUNT;i++) spawn(i);
-})();
-</script>
 
-<!-- Hewan-hewan beterbangan/berjalan di halaman muka -->
-<script>
-(function(){
-  const layer = document.getElementById('floatyLayer');
-  if(!layer) return;
-  const BIRDS = ['🐦','🐤','🦋','🐝','🦜'];
-  const GROUND_TYPES = ['cat','dog','rabbit','fox'];
-  const FUR = {
-    cat:    { fur:'#B7BEC7', dark:'#8E97A3', belly:'#EDEFF2' },
-    dog:    { fur:'#C9975E', dark:'#9C7040', belly:'#F1DFC2' },
-    rabbit: { fur:'#FBFBFB', dark:'#D9D9D9', belly:'#FFFFFF' },
-    fox:    { fur:'#F3862B', dark:'#C96A15', belly:'#FFF3E4' }
-  };
-  const isSmall = window.innerWidth < 560;
-  const BIRD_COUNT = isSmall ? 3 : 5;
-  const GROUND_COUNT = isSmall ? 2 : 4;
 
-  function spawnBird(){
-    const el = document.createElement('span');
-    el.className = 'animal-item bird';
-    el.textContent = BIRDS[Math.floor(Math.random()*BIRDS.length)];
-    el.style.setProperty('--y', (Math.random()*30 + 6) + '%');
-    el.style.fontSize = (Math.floor(Math.random()*18) + 28) + 'px';
-    const dur = (Math.random()*10 + 16).toFixed(1); // 16s - 26s melintasi layar
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
-    layer.appendChild(el);
-  }
-  const GROUND_EMOJI = { cat:'🐱', dog:'🐶', rabbit:'🐰', fox:'🦊' };
-  function spawnGround(){
-    const el = document.createElement('div');
-    el.className = 'animal-item ground';
-    el.style.setProperty('--y', (Math.random()*10 + 2) + '%');
-    const dur = (Math.random()*14 + 20).toFixed(1); // 20s - 34s, lebih pelan dari burung
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
-
-    const type = GROUND_TYPES[Math.floor(Math.random()*GROUND_TYPES.length)];
-    const scale = (Math.random()*0.5 + 0.8).toFixed(2); // variasi ukuran badan
-    const bounceDur = (Math.random()*0.25 + 0.45).toFixed(2) + 's'; // variasi kecepatan lompat tiap hewan
-
-    const wrap = document.createElement('div');
-    wrap.className = 'critter-wrap';
-    wrap.style.transform = `scale(${scale})`;
-    wrap.innerHTML =
-      '<div class="critter-shadow"></div>' +
-      `<span class="critter-emoji">${GROUND_EMOJI[type]}</span>`;
-    wrap.querySelectorAll('.critter-emoji,.critter-shadow').forEach(node=>{
-      node.style.animationDuration = bounceDur;
-    });
-    el.appendChild(wrap);
-    layer.appendChild(el);
-  }
-  for(let i=0;i<BIRD_COUNT;i++) spawnBird();
-  for(let i=0;i<GROUND_COUNT;i++) spawnGround();
-})();
-</script>
-
-<!-- Awan tipis melayang di langit -->
-<script>
-(function(){
-  const layer = document.getElementById('skyClouds');
-  if(!layer) return;
-  const isSmall = window.innerWidth < 560;
-  const COUNT = isSmall ? 3 : 5;
-  for(let i=0;i<COUNT;i++){
-    const el = document.createElement('div');
-    el.className = 'cloud';
-    const w = Math.floor(Math.random()*80) + 90; // 90-170px
-    el.style.width = w + 'px';
-    el.style.height = (w*0.32) + 'px';
-    el.style.top = (Math.random()*32 + 4) + '%'; // hanya di area langit
-    el.style.opacity = (Math.random()*0.3 + 0.35).toFixed(2); // tipis/samar
-    const dur = (Math.random()*60 + 70).toFixed(1); // 70s-130s, pelan
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay = (-(Math.random()*dur)).toFixed(1) + 's';
-    layer.appendChild(el);
-  }
-})();
-</script>
-
-<!-- Rumput bergoyang tertiup angin di garis horizon -->
-<script>
-(function(){
-  const layer = document.getElementById('grassSwayLayer');
-  if(!layer) return;
-  const isSmall = window.innerWidth < 560;
-  const COUNT = isSmall ? 26 : 44;
-  for(let i=0;i<COUNT;i++){
-    const el = document.createElement('div');
-    el.className = 'grass-blade';
-    el.style.left = (Math.random()*100) + '%';
-    const w = Math.floor(Math.random()*5) + 5; // 5-10px
-    const h = Math.floor(Math.random()*14) + 18; // 18-32px
-    el.style.width = w + 'px';
-    el.style.height = h + 'px';
-    el.style.background = Math.random() < 0.5
-      ? 'linear-gradient(180deg, var(--grass1), var(--grass2))'
-      : 'linear-gradient(180deg, var(--grass2), var(--grass1))';
-    const dur = (Math.random()*1.4 + 1.6).toFixed(2); // 1.6s-3s per ayunan
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay = (-(Math.random()*dur)).toFixed(2) + 's';
-    layer.appendChild(el);
-  }
-})();
-</script>
