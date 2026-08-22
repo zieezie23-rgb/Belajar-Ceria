@@ -519,6 +519,123 @@
   }
 </style>
 
+
+<style id="animated-main-icons">
+  .menu-anim-icon{
+    width:72px;height:58px;display:inline-flex;align-items:center;justify-content:center;
+    position:relative;flex:0 0 72px;
+    filter:drop-shadow(0 5px 4px rgba(38,64,120,.20));
+  }
+
+  /* Buku: halaman kanan/kiri membuka dan membalik lembut */
+  .book-icon{
+    width:58px;height:42px;position:relative;perspective:240px;
+  }
+  .book-icon .book-cover{
+    position:absolute;inset:4px 1px 0;border-radius:6px 8px 8px 6px;
+    background:linear-gradient(135deg,#1769D1,#2E9CF0);
+    box-shadow:inset 0 0 0 3px #0F58B8, 0 3px 0 #0B4794;
+  }
+  .book-icon .book-page{
+    position:absolute;top:7px;width:26px;height:32px;
+    background:linear-gradient(135deg,#FFFDF0,#FFF1C9);
+    border:2px solid #E7C87B;
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,.7);
+    transform-origin:100% 50%;
+  }
+  .book-icon .page-left{left:5px;border-radius:4px 2px 2px 5px;transform-origin:100% 50%;}
+  .book-icon .page-right{right:5px;border-radius:2px 5px 5px 2px;transform-origin:0 50%;}
+  .book-icon .book-spine{
+    position:absolute;left:50%;top:7px;width:4px;height:32px;
+    transform:translateX(-50%);border-radius:4px;background:#D99A22;z-index:4;
+  }
+  .book-icon .page-flip{
+    position:absolute;right:5px;top:7px;width:26px;height:32px;
+    border-radius:2px 5px 5px 2px;background:#FFF8DF;border:2px solid #E7C87B;
+    transform-origin:0 50%;z-index:3;
+    animation:bookFlip 2.4s ease-in-out infinite;
+  }
+  .book-icon .spark{
+    position:absolute;color:#FFD83D;font-size:14px;z-index:6;
+    animation:bookSpark 1.6s ease-in-out infinite;
+  }
+  .book-icon .spark.one{left:-3px;top:-7px}
+  .book-icon .spark.two{right:-4px;top:-4px;animation-delay:.5s}
+  @keyframes bookFlip{
+    0%,15%{transform:rotateY(0deg);opacity:1}
+    42%{transform:rotateY(-145deg);opacity:.92}
+    58%,100%{transform:rotateY(-180deg);opacity:0}
+  }
+  @keyframes bookSpark{
+    0%,100%{transform:translateY(0) scale(.9);opacity:.55}
+    50%{transform:translateY(-5px) scale(1.12);opacity:1}
+  }
+
+  /* Pensil: bergerak seperti sedang menulis */
+  .pencil-icon{
+    width:62px;height:58px;position:relative;
+    transform:rotate(-18deg);
+    animation:pencilWrite 1.55s ease-in-out infinite;
+    transform-origin:50% 65%;
+  }
+  .pencil-icon .body{
+    position:absolute;left:17px;top:3px;width:25px;height:45px;
+    border-radius:5px 5px 3px 3px;
+    background:linear-gradient(90deg,#FFD42A,#FFB300,#FFD83D);
+    border:2px solid #D99100;
+    box-shadow:inset 5px 0 0 rgba(255,255,255,.32);
+  }
+  .pencil-icon .body:before{
+    content:"";position:absolute;left:-2px;top:-11px;width:25px;height:12px;
+    border-radius:6px 6px 2px 2px;background:#F05B87;border:2px solid #B83A63;
+  }
+  .pencil-icon .metal{
+    position:absolute;left:16px;top:-2px;width:27px;height:9px;border-radius:3px;
+    background:linear-gradient(#E9EDF4,#AEB8C7,#F7F9FC);border:1px solid #8B96A8;
+  }
+  .pencil-icon .tip{
+    position:absolute;left:18px;bottom:-12px;width:23px;height:18px;
+    background:#EACB9D;clip-path:polygon(0 0,100% 0,50% 100%);
+    border:1px solid #B78E5E;
+  }
+  .pencil-icon .lead{
+    position:absolute;left:27px;bottom:-15px;width:6px;height:9px;
+    background:#30343B;clip-path:polygon(0 0,100% 0,50% 100%);
+  }
+  .pencil-icon .line{
+    position:absolute;left:12px;bottom:-21px;width:48px;height:10px;
+    border-bottom:4px solid #4D8CFF;border-radius:50%;
+    transform:rotate(4deg);opacity:.9;
+    animation:writeLine 1.55s ease-in-out infinite;
+  }
+  .pencil-icon .spark{
+    position:absolute;color:#FFD83D;font-size:13px;right:-6px;top:3px;
+    animation:pencilSpark 1.2s ease-in-out infinite;
+  }
+  @keyframes pencilWrite{
+    0%,100%{transform:rotate(-18deg) translate(0,0)}
+    25%{transform:rotate(-13deg) translate(4px,2px)}
+    50%{transform:rotate(-20deg) translate(8px,-1px)}
+    75%{transform:rotate(-14deg) translate(3px,3px)}
+  }
+  @keyframes writeLine{
+    0%,100%{transform:translateX(0) scaleX(.55);opacity:.35}
+    50%{transform:translateX(7px) scaleX(1);opacity:1}
+  }
+  @keyframes pencilSpark{
+    0%,100%{transform:scale(.8) rotate(0);opacity:.45}
+    50%{transform:scale(1.2) rotate(15deg);opacity:1}
+  }
+
+  .menu-main-btn .menu-anim-icon{transition:transform .18s ease;}
+  .menu-main-btn:hover .menu-anim-icon{transform:scale(1.07);}
+  .menu-main-btn:active .menu-anim-icon{transform:scale(.94);}
+
+  @media(max-width:520px){
+    .menu-anim-icon{width:62px;flex-basis:62px;transform:scale(.9);}
+  }
+</style>
+
 </head>
 <body>
 
@@ -539,8 +656,28 @@
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
     </div>
     <div class="main-menu-options" id="mainMenuOptions">
-      <button class="menu-main-btn belajar-menu" id="btnMenuBelajar"><span>📚</span><strong>BELAJAR</strong><small>Huruf & Angka</small></button>
-      <button class="menu-main-btn latihan-menu" id="btnMenuLatihan"><span>✏️</span><strong>LATIHAN</strong><small>Menulis & Berhitung</small></button>
+      <button class="menu-main-btn belajar-menu" id="btnMenuBelajar">
+        <span class="menu-anim-icon" aria-hidden="true">
+          <span class="book-icon">
+            <span class="book-cover"></span>
+            <span class="book-page page-left"></span>
+            <span class="book-page page-right"></span>
+            <span class="book-spine"></span>
+            <span class="page-flip"></span>
+            <span class="spark one">✦</span><span class="spark two">✦</span>
+          </span>
+        </span>
+        <strong>BELAJAR</strong><small>Huruf & Angka</small>
+      </button>
+      <button class="menu-main-btn latihan-menu" id="btnMenuLatihan">
+        <span class="menu-anim-icon" aria-hidden="true">
+          <span class="pencil-icon">
+            <span class="body"></span><span class="metal"></span><span class="tip"></span><span class="lead"></span>
+            <span class="line"></span><span class="spark">✦</span>
+          </span>
+        </span>
+        <strong>LATIHAN</strong><small>Menulis & Berhitung</small>
+      </button>
     </div>
 
     <div class="sub-menu" id="belajarMenu" style="display:none;">
