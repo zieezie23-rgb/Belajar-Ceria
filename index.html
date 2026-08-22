@@ -475,6 +475,23 @@
   @keyframes musicNote{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-3px) rotate(4deg)}}
 </style>
 
+<style id="latest-menu-polish">
+  .start-card{padding:48px 22px 30px;}
+  .start-top-controls{position:absolute;top:16px;right:16px;z-index:5;display:flex;align-items:center;gap:8px;}
+  .start-top-controls .pillbtn{padding:8px 12px;font-size:13px;box-shadow:0 3px 0 rgba(0,0,0,.16);}
+  .start-top-controls .menu-music-control{width:42px;height:42px;padding:0;margin:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:rgba(255,255,255,.18);border-radius:50%;border:2px solid rgba(255,255,255,.7);text-shadow:0 2px 3px rgba(0,0,0,.25);box-shadow:0 3px 8px rgba(0,0,0,.14);}
+  .start-top-controls .menu-music-control:active{transform:scale(.92);}
+  .start-top-controls .menu-music-control.off{opacity:.85;}
+  .start-name-row{margin:8px auto 16px;max-width:380px;}
+  .start-name-input{padding:9px 14px;font-size:15px;border-width:2px;border-radius:14px;height:44px;}
+  @media(max-width:480px){
+    .start-top-controls{top:10px;right:10px;}
+    .start-top-controls .pillbtn{font-size:12px;padding:7px 10px;}
+    .start-top-controls .menu-music-control{width:38px;height:38px;font-size:19px;}
+    .start-card{padding-top:58px;}
+  }
+</style>
+
 </head>
 <body>
 
@@ -483,18 +500,17 @@
   <div class="grass-sway-layer" id="grassSwayLayer"></div>
   <div class="floaty-layer" id="floatyLayer" aria-hidden="true"></div>
   <div class="start-card">
-    <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
+    <div class="start-top-controls">
       <button class="pillbtn blue" id="btnLanguageStart" type="button">🇮🇩 Indonesia</button>
+      <button class="menu-music-control" id="menuMusicControl" type="button" aria-label="Matikan musik" title="Musik ON">
+        <span id="menuMusicIcon" aria-hidden="true">🔊</span>
+      </button>
     </div>
     <h1 class="start-title display"><span class="twinkle">⭐</span> <span id="startTitleText">Belajar Huruf & Angka</span> <span class="twinkle">⭐</span></h1>
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
     </div>
-    <button class="menu-music-control" id="menuMusicControl" type="button" aria-label="Musik semangat belajar">
-      <span class="menu-music-note">🎵</span><span id="menuMusicText">Musik Semangat: ON</span>
-    </button>
-
     <div class="main-menu-options" id="mainMenuOptions">
       <button class="menu-main-btn belajar-menu" id="btnMenuBelajar"><span>📚</span><strong>BELAJAR</strong><small>Huruf & Angka</small></button>
       <button class="menu-main-btn latihan-menu" id="btnMenuLatihan"><span>✏️</span><strong>LATIHAN</strong><small>Menulis & Berhitung</small></button>
@@ -1983,10 +1999,12 @@ function stopMenuMusic(){
 
 function updateMenuMusicButton(){
   const btn=document.getElementById('menuMusicControl');
-  const text=document.getElementById('menuMusicText');
-  if(!btn||!text) return;
+  const icon=document.getElementById('menuMusicIcon');
+  if(!btn||!icon) return;
   btn.classList.toggle('off',!menuMusicOn);
-  text.textContent=menuMusicOn?'Musik Ceria: ON':'Musik Ceria: OFF';
+  icon.textContent=menuMusicOn?'🔊':'🔇';
+  btn.setAttribute('aria-label',menuMusicOn?'Matikan musik':'Nyalakan musik');
+  btn.setAttribute('title',menuMusicOn?'Musik ON':'Musik OFF');
 }
 
 function toggleMenuMusic(e){
