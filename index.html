@@ -1103,6 +1103,51 @@ img, canvas, svg, video {
 }
 </style>
 
+
+<style id="final-mobile-viewport-lock">
+/* Kunci halaman utama tepat di viewport HP agar tidak bisa ditarik/scroll ke area kosong di luar halaman. */
+html, body {
+  width:100%;
+  max-width:100%;
+  margin:0;
+  overscroll-behavior-y:none !important;
+}
+
+/* Saat menu utama tampil, halaman dibuat benar-benar setinggi viewport. */
+#startScreen {
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  min-height:100dvh !important;
+  max-height:100dvh !important;
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  touch-action:pan-y;
+}
+
+#startScreen .start-card {
+  height:100% !important;
+  max-height:100% !important;
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+}
+
+/* Jangan biarkan efek latar/animasi menciptakan area scroll tambahan. */
+#startScreen .scene-frame-photo,
+#startScreen::before,
+#startScreen .sky-clouds,
+#startScreen .floaty-layer {
+  max-height:100dvh;
+}
+
+/* Ketika aplikasi sudah masuk ke halaman belajar, body kembali boleh scroll bila diperlukan. */
+body:has(#startScreen[style*="display: none"]) {
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+}
+</style>
+
 </head>
 <body>
 
