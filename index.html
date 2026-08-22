@@ -254,6 +254,8 @@
   .start-btn:active{ transform:translateY(3px); box-shadow:0 3px 0 rgba(0,0,0,0.16), 0 4px 10px rgba(0,0,0,0.16); }
   .start-btn.huruf{ background:linear-gradient(135deg,var(--pink),var(--pink-dark)); }
   .start-btn.angka{ background:linear-gradient(135deg,var(--blue),var(--blue-dark)); }
+  .start-btn.menulisHuruf{ background:linear-gradient(135deg,#E8437E,#B92F66); }
+  .start-btn.menulisAngka{ background:linear-gradient(135deg,#1C7FD1,#155CA0); }
   .start-btn.tambah{ background:linear-gradient(135deg,var(--green),var(--green-dark)); }
   .start-btn.kurang{ background:linear-gradient(135deg,var(--orange),var(--orange-dark)); }
   .start-emoji{
@@ -402,6 +404,8 @@
     <div class="start-options">
       <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
       <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
+      <button class="start-btn menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf (A–Z)</button>
+      <button class="start-btn menulisAngka" id="btnStartMenulisAngka"><span class="start-emoji">✍️</span> Menulis Angka (0–9)</button>
       <button class="start-btn tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Belajar Penjumlahan</button>
       <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Belajar Pengurangan</button>
     </div>
@@ -556,6 +560,7 @@ let mode = 'huruf'; // or 'angka'
 let index = 0;
 let childGender = 'boy';
 let language = 'id'; // 'id' = Indonesia, 'en' = English
+let writingMode = false; // mode duplikat khusus Menulis Huruf / Menulis Angka
 
 // ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
 const DASH = '14,10';
@@ -1443,6 +1448,8 @@ function applyLanguage(){
 
   const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=T(key); };
   set('btnStartHuruf','huruf'); set('btnStartAngka','angka'); set('btnStartAddition','tambah'); set('btnStartSubtraction','kurang');
+  const mh=document.getElementById('btnStartMenulisHuruf'); if(mh) mh.innerHTML = '<span class="start-emoji">✍️</span> ' + (language==='en'?'Write Letters (A–Z)':'Menulis Huruf (A–Z)');
+  const ma=document.getElementById('btnStartMenulisAngka'); if(ma) ma.innerHTML = '<span class="start-emoji">✍️</span> ' + (language==='en'?'Write Numbers (0–9)':'Menulis Angka (0–9)');
   const kb=document.getElementById('btnKembali'); if(kb){ const homeLabel = language==='en'?'Home':'Beranda'; kb.setAttribute('aria-label',homeLabel); kb.setAttribute('title',homeLabel); }
   set('btnHandGuide','guide'); set('btnSpeakPanel','speak');
   set('btnPrev','prev'); set('btnClear','clear'); set('btnNext','next');
@@ -1475,13 +1482,15 @@ function render(){
   canvasMain.clear();
   canvasMain.resize();
 
-  document.getElementById('mainTitle').textContent = mode === 'huruf' ? T('titleHuruf') : T('titleAngka');
+  document.getElementById('mainTitle').textContent = writingMode
+    ? (mode === 'huruf' ? (language==='en' ? 'WRITE LETTERS' : 'MENULIS HURUF') : (language==='en' ? 'WRITE NUMBERS' : 'MENULIS ANGKA'))
+    : (mode === 'huruf' ? T('titleHuruf') : T('titleAngka'));
 
   if(mode === 'huruf'){
     wrapMain.classList.remove('angka');
     const item = LETTERS[index];
     renderHurufPair(svgMain, item.ch, item.ch.toLowerCase());
-    document.getElementById('panelTitle').textContent=T('contoh');
+    document.getElementById('panelTitle').textContent = writingMode ? (language==='en' ? 'Letter Example' : 'Contoh Huruf') : T('contoh');
     document.getElementById('contohVisual').textContent = currentEmoji(item);
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.ch + '</span>' + currentWord(item).slice(1);
@@ -1490,7 +1499,7 @@ function render(){
     wrapMain.classList.add('angka');
     const item = NUMBERS[index];
     renderAngkaPair(svgMain, item.d, currentWord(item));
-    document.getElementById('panelTitle').textContent=T('hitung');
+    document.getElementById('panelTitle').textContent = writingMode ? (language==='en' ? 'Number Example' : 'Contoh Angka') : T('hitung');
     document.getElementById('contohVisual').textContent = currentEmoji(item) || '—';
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.d + '</span> = ' + currentWord(item);
@@ -1505,6 +1514,14 @@ function render(){
   updateNextButton();
   speakCurrent();
   setHandGuideVisible(handGuideOn);
+  const modeHint = document.getElementById('modeHint');
+  if(modeHint) modeHint.textContent = writingMode
+    ? (language==='en' ? '✍️ Trace the example with your finger / mouse' : '✍️ Ikuti contoh huruf/angka dengan jari / mouse')
+    : (language==='en' ? '✏️ Draw with your finger / mouse' : '✏️ Gambar dengan jari / mouse');
+  const guideBtn = document.getElementById('btnHandGuide');
+  if(guideBtn) guideBtn.textContent = writingMode
+    ? (language==='en' ? '👆 Show Writing Guide' : '👆 Lihat Contoh Menulis')
+    : (handGuideOn ? T('guideHide') : T('guide'));
 }
 
 function updateNextButton(){
@@ -1609,6 +1626,7 @@ document.getElementById('btnNext').onclick = () => {
 document.getElementById('btnClear').onclick = () => { canvasMain.clear(); celebrated = false; updateNextButton(); };
 document.getElementById('btnKembali').onclick = () => {
   document.getElementById('stage').style.display = 'none';
+  writingMode = false;
   document.getElementById('startScreen').style.display = '';
 };
 document.getElementById('btnLanguage').onclick = toggleLanguage;
@@ -1641,8 +1659,9 @@ document.getElementById('colorCustom').addEventListener('input', (e) => {
 });
 
 // ---------- START / MENU ----------
-function startApp(selectedMode){
+function startApp(selectedMode, isWriting=false){
   mode = selectedMode;
+  writingMode = !!isWriting;
   index = 0;
   document.getElementById('startScreen').style.display = 'none';
   document.getElementById('stage').style.display = '';
@@ -1652,8 +1671,10 @@ function startApp(selectedMode){
     render();
   }
 }
-document.getElementById('btnStartHuruf').onclick = () => startApp('huruf');
-document.getElementById('btnStartAngka').onclick = () => startApp('angka');
+document.getElementById('btnStartHuruf').onclick = () => startApp('huruf', false);
+document.getElementById('btnStartAngka').onclick = () => startApp('angka', false);
+document.getElementById('btnStartMenulisHuruf').onclick = () => startApp('huruf', true);
+document.getElementById('btnStartMenulisAngka').onclick = () => startApp('angka', true);
 document.getElementById('btnStartAddition').onclick = () => openAddition();
 document.getElementById('btnStartSubtraction').onclick = () => openSubtraction();
 
