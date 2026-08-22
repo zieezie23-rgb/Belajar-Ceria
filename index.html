@@ -272,7 +272,11 @@
   }
   .start-name-input:focus{ border-color:var(--pink); }
   .start-name-input::placeholder{ color:#b5a9c7; font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:700; }
-  .start-options{ display:flex; flex-direction:column; gap:12px; }
+  .start-options{ display:flex; flex-direction:column; gap:18px; }
+  .menu-group{display:flex;flex-direction:column;gap:12px;}
+  .menu-group-title{font-size:20px;font-weight:900;text-align:left;margin:2px 4px 0;color:#24324a;letter-spacing:.2px;}
+  .menu-group.learn .menu-group-title{color:#2f80ed;}
+  .menu-group.practice .menu-group-title{color:#7e4ce0;}
 
   /* Tombol menu: rapi & minimalis tapi tetap "hidup" -- warna gradasi
      penuh per kategori (bukan transparan pudar), sedikit kilau di bagian
@@ -444,12 +448,19 @@
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
     </div>
     <div class="start-options">
-      <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
-      <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
-      <button class="start-btn menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf (A–Z)</button>
-      <button class="start-btn menulisAngka" id="btnStartMenulisAngka"><span class="start-emoji">✍️</span> Menulis Angka (0–9)</button>
-      <button class="start-btn tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Belajar Penjumlahan</button>
-      <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Belajar Pengurangan</button>
+      <div class="menu-group learn">
+        <div class="menu-group-title">📚 Belajar</div>
+        <button class="start-btn huruf" id="btnStartHuruf"><span class="start-emoji">🅰️</span> Belajar Huruf (A–Z)</button>
+        <button class="start-btn angka" id="btnStartAngka"><span class="start-emoji">🧮</span> Belajar Angka (0–9)</button>
+      </div>
+
+      <div class="menu-group practice">
+        <div class="menu-group-title">✏️ Latihan</div>
+        <button class="start-btn menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf (A–Z)</button>
+        <button class="start-btn menulisAngka" id="btnStartMenulisAngka"><span class="start-emoji">✍️</span> Menulis Angka (0–9)</button>
+        <button class="start-btn tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Latihan Penjumlahan</button>
+        <button class="start-btn kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Latihan Pengurangan</button>
+      </div>
     </div>
   </div>
   <div class="credit-tag">Creat by: Zie</div>
@@ -1453,7 +1464,7 @@ const I18N = {
     startSub:'Yuk pilih mau belajar apa dulu?',
     namePlaceholder:'Tulis nama anak di sini (opsional)',
     huruf:'Belajar Huruf (A–Z)', angka:'Belajar Angka (0–9)',
-    tambah:'Belajar Penjumlahan', kurang:'Belajar Pengurangan',
+    tambah:'Latihan Penjumlahan', kurang:'Latihan Pengurangan',
     language:'🇮🇩 Indonesia', back:'⟵ Kembali',
     titleHuruf:'BELAJAR HURUF', titleAngka:'BELAJAR ANGKA',
     contoh:'Contoh Kata', hitung:'Hitunglah', cara:'Cara Mengucapkan',
@@ -1471,7 +1482,7 @@ const I18N = {
     startSub:'Let’s choose what to learn first!',
     namePlaceholder:'Write the child’s name here (optional)',
     huruf:'Learn Letters (A–Z)', angka:'Learn Numbers (0–9)',
-    tambah:'Learn Addition', kurang:'Learn Subtraction',
+    tambah:'Addition Practice', kurang:'Subtraction Practice',
     language:'🇬🇧 English', back:'⟵ Back',
     titleHuruf:'LEARN LETTERS', titleAngka:'LEARN NUMBERS',
     contoh:'Example Word', hitung:'Count', cara:'How to Say It',
@@ -1611,7 +1622,7 @@ function render(){
     };
     const word = currentWord(item);
     const spelling = language==='en' ? (numberSpellingEN[item.wordEN] || '') : (numberSpellingID[item.word] || '');
-    document.getElementById('ucapText').textContent = `${item.d} ${spelling} ${word}`;
+    document.getElementById('ucapText').textContent = word;
     document.getElementById('syllableText').textContent = '';
   }
 
@@ -1708,16 +1719,8 @@ function speakCurrent(onlyLetter=false){
       return;
     }
 
+    // Belajar Angka: tombol Putar Suara hanya menyebutkan nama angkanya.
     const item=NUMBERS[index];
-    const spellMapID = {
-      'Nol':'n-o-l','Satu':'s-a-t-u','Dua':'d-u-a','Tiga':'t-i-g-a','Empat':'e-m-p-a-t',
-      'Lima':'l-i-m-a','Enam':'e-n-a-m','Tujuh':'t-u-j-u-h','Delapan':'d-e-l-a-p-a-n','Sembilan':'s-e-m-b-i-l-a-n'
-    };
-    const spellMapEN = {
-      'Zero':'z-e-r-o','One':'o-n-e','Two':'t-w-o','Three':'t-h-r-e-e','Four':'f-o-u-r',
-      'Five':'f-i-v-e','Six':'s-i-x','Seven':'s-e-v-e-n','Eight':'e-i-g-h-t','Nine':'n-i-n-e'
-    };
-    const spelling = language==='en' ? (spellMapEN[item.wordEN] || item.wordEN) : (spellMapID[item.word] || item.word);
     const word = currentWord(item);
     const lang = language==='en' ? 'en-US' : 'id-ID';
     const voices = speechSynthesis.getVoices();
@@ -1725,23 +1728,13 @@ function speakCurrent(onlyLetter=false){
     const selectedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
 
     speechSynthesis.cancel();
-    const speakPart = (text, delay, next) => {
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang=lang; u.rate=0.8; u.pitch=childGender === 'girl' ? 1.22 : 1.08; u.volume=1;
-      if(selectedVoice) u.voice=selectedVoice;
-      u.onend = () => setTimeout(next, delay);
-      speechSynthesis.speak(u);
-    };
-
-    // Contoh: "1" → jeda → "s-a-t-u" → jeda → "satu"
-    speakPart(item.d, 550, () => {
-      speakPart(spelling, 550, () => {
-        const u = new SpeechSynthesisUtterance(word);
-        u.lang=lang; u.rate=0.8; u.pitch=childGender === 'girl' ? 1.22 : 1.08; u.volume=1;
-        if(selectedVoice) u.voice=selectedVoice;
-        speechSynthesis.speak(u);
-      });
-    });
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang=lang;
+    u.rate=0.8;
+    u.pitch=childGender === 'girl' ? 1.22 : 1.08;
+    u.volume=1;
+    if(selectedVoice) u.voice=selectedVoice;
+    speechSynthesis.speak(u);
   }catch(e){}
 }
 
