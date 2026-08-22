@@ -2585,3 +2585,22 @@ window.checkAdditionAnswer = function(value){
 </script>
 
 <!-- Rumput dihilangkan: latar hanya langit dan awan. -->
+<style id="final-top-controls-fix">
+/* Kontrol Bahasa & Musik benar-benar menempel di pojok kanan atas layar */
+#startScreen .start-top-controls{
+  position:fixed !important;
+  top:12px !important;
+  right:12px !important;
+  left:auto !important;
+  z-index:100 !important;
+  display:flex !important;
+  align-items:center;
+  gap:8px;
+}
+@media(max-width:480px){
+  #startScreen .start-top-controls{
+    top:8px !important;
+    right:8px !important;
+  }
+}
+</style>
