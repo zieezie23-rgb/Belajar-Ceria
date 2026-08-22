@@ -1801,11 +1801,24 @@ function showMainMenu(){
   document.getElementById('mainMenuOptions').style.display='grid';
   document.getElementById('belajarMenu').style.display='none';
   document.getElementById('latihanMenu').style.display='none';
+
+  // Kembalikan elemen informasi yang hanya diperlukan di menu utama.
+  document.querySelector('.start-card > div:first-child').style.display='flex';
+  document.getElementById('startSub').style.display='';
+  document.querySelector('.start-name-row').style.display='';
+  document.getElementById('startTitleText').textContent = T('startTitle');
 }
 function showSubMenu(which){
   document.getElementById('mainMenuOptions').style.display='none';
   document.getElementById('belajarMenu').style.display=which==='belajar'?'flex':'none';
   document.getElementById('latihanMenu').style.display=which==='latihan'?'flex':'none';
+
+  // Di submenu dibuat lebih sederhana: hanya judul + pilihan menu.
+  // Bahasa, sapaan, dan kolom nama disembunyikan agar fokus ke pilihan.
+  document.querySelector('.start-card > div:first-child').style.display='none';
+  document.getElementById('startSub').style.display='none';
+  document.querySelector('.start-name-row').style.display='none';
+  document.getElementById('startTitleText').textContent = which==='belajar' ? 'BELAJAR' : 'LATIHAN';
 }
 document.getElementById('btnMenuBelajar').onclick=()=>showSubMenu('belajar');
 document.getElementById('btnMenuLatihan').onclick=()=>showSubMenu('latihan');
