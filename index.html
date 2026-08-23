@@ -932,7 +932,7 @@ body::before {
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background-image:none;
+  background-image:url("generated_images/background-belajar-anak.jpg");
   background-repeat:no-repeat;
   background-position:center center;
   background-size:cover;
@@ -2985,6 +2985,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
  }
  window.openAddition=function(){
     language='id';
+    document.getElementById('startScreen').style.setProperty('display','none','important');
    addQuestions=[makeAddQuestion(0)];
    addIndex=0;
    addScore=Number(learningProgress.addScore)||0;
@@ -3121,6 +3122,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
  }
  window.openSubtraction=function(){
     language='id';
+   document.getElementById('startScreen').style.setProperty('display','none','important');
    subQuestions=[makeSubQuestion(0)];
    subIndex=0;
    subScore=Number(learningProgress.subScore)||0;
