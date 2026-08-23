@@ -1275,7 +1275,7 @@ const NUMBERS = [
 let mode = 'huruf'; // or 'angka'
 let index = 0;
 let childGender = 'boy';
-let language = 'id'; // 'id' = Indonesia, 'en' = English
+let language = 'id'; // English is available only on the learning pages
 let writingMode = false; // mode duplikat khusus Menulis Huruf / Menulis Angka
 
 // ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
@@ -2046,7 +2046,11 @@ function buildMask(){
     const offY = (canvas.height - BASE_H*scale) / 2;
     const item = LETTERS[index];
     drawGlyph(item.ch, offX + 160*scale, offY + 255*scale, 330*scale, 34*scale);
-    drawGlyph(item.ch.toLowerCase(), offX + 480*scale, offY + 255*scale, 330*scale, 34*scale);
+    // Mode menulis hanya menampilkan/memandu huruf besar. Jangan meminta
+    // pengguna menutupi huruf kecil yang tidak memiliki panduan gerakan.
+    if(!writingMode){
+      drawGlyph(item.ch.toLowerCase(), offX + 480*scale, offY + 255*scale, 330*scale, 34*scale);
+    }
   } else {
     const BASE_W = 520, BASE_H = 520;
     const scale = Math.min(canvas.width / BASE_W, canvas.height / BASE_H);
@@ -2055,11 +2059,18 @@ function buildMask(){
     const item = NUMBERS[index];
     drawGlyph(item.d, offX + 260*scale, offY + 230*scale, 300*scale, 34*scale);
 
-    const { fontSize, centers } = layoutNumberWord(item.word, 700, 260, 480);
-    const wordY = 230 + 25 + fontSize*0.75;
-    [...item.word].forEach((ch,i) => {
-      drawGlyph(ch, offX + centers[i]*scale, offY + wordY*scale, fontSize*scale, 34*scale);
-    });
+    // renderAngkaPair memakai currentWord(item), sedangkan sebelumnya mask
+    // selalu memakai item.word (Bahasa Indonesia). Akibatnya mode English
+    // membandingkan coretan dengan kata yang berbeda dari yang ditampilkan.
+    // Dalam mode menulis, hanya digit yang punya panduan gerakan.
+    if(!writingMode){
+      const numberWord = currentWord(item);
+      const { fontSize, centers } = layoutNumberWord(numberWord, 700, 260, 480);
+      const wordY = 230 + 25 + fontSize*0.75;
+      [...numberWord].forEach((ch,i) => {
+        drawGlyph(ch, offX + centers[i]*scale, offY + wordY*scale, fontSize*scale, 34*scale);
+      });
+    }
   }
 
   // ambil titik-titik sampel dari pola (stride biar ringan)
@@ -2248,6 +2259,20 @@ function toggleLanguage(){
   applyLanguage();
 }
 
+function ensureLearningLanguageButton(){
+  let btn = document.getElementById('btnLanguage');
+  if(btn) return;
+  const topbar = document.querySelector('#stage .topbar');
+  if(!topbar) return;
+  btn = document.createElement('button');
+  btn.className = 'pillbtn orange';
+  btn.id = 'btnLanguage';
+  btn.type = 'button';
+  btn.textContent = T('language');
+  btn.onclick = toggleLanguage;
+  topbar.appendChild(btn);
+}
+
 function render(){
   const svgMain = document.getElementById('svgMain');
   const wrapMain = document.getElementById('wrapMain');
@@ -2272,14 +2297,14 @@ function render(){
   }
 
   document.getElementById('mainTitle').textContent = writingMode
-    ? (mode === 'huruf' ? (language==='en' ? 'WRITE LETTERS' : 'MENULIS HURUF') : (language==='en' ? 'WRITE NUMBERS' : 'MENULIS ANGKA'))
+    ? (mode === 'huruf' ? 'MENULIS HURUF' : 'MENULIS ANGKA')
     : (mode === 'huruf' ? T('titleHuruf') : T('titleAngka'));
 
   if(mode === 'huruf'){
     wrapMain.classList.remove('angka');
     const item = LETTERS[index];
     renderHurufPair(svgMain, item.ch, item.ch.toLowerCase());
-    document.getElementById('panelTitle').textContent = writingMode ? (language==='en' ? 'Letter Example' : 'Contoh Huruf') : T('contoh');
+    document.getElementById('panelTitle').textContent = writingMode ? 'Contoh Huruf' : T('contoh');
     document.getElementById('contohVisual').textContent = currentEmoji(item);
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.ch + '</span>' + currentWord(item).slice(1);
@@ -2288,12 +2313,12 @@ function render(){
     wrapMain.classList.add('angka');
     const item = NUMBERS[index];
     renderAngkaPair(svgMain, item.d, currentWord(item));
-    document.getElementById('panelTitle').textContent = writingMode ? (language==='en' ? 'Number Example' : 'Contoh Angka') : T('hitung');
+    document.getElementById('panelTitle').textContent = writingMode ? 'Contoh Angka' : T('hitung');
     document.getElementById('contohVisual').textContent = currentEmoji(item) || '—';
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.d + '</span> = ' + currentWord(item);
     document.getElementById('ucapText').textContent = '"' + currentWord(item) + '..."';
-    document.getElementById('syllableText').textContent = currentSyllable(item) || (language==='en'?'(say it slowly)':'(diucapkan pelan)');
+    document.getElementById('syllableText').textContent = currentSyllable(item) || '(diucapkan pelan)';
   }
 
   document.getElementById('btnPrev').disabled = (index === 0);
@@ -2312,11 +2337,11 @@ function render(){
   }
   const modeHint = document.getElementById('modeHint');
   if(modeHint) modeHint.textContent = writingMode
-    ? (language==='en' ? '✍️ Trace the example with your finger / mouse' : '✍️ Ikuti contoh huruf/angka dengan jari / mouse')
-    : (language==='en' ? '✏️ Draw with your finger / mouse' : '✏️ Gambar dengan jari / mouse');
+    ? '✍️ Ikuti contoh huruf/angka dengan jari / mouse'
+    : '✏️ Gambar dengan jari / mouse';
   const guideBtn = document.getElementById('btnHandGuide');
   if(guideBtn) guideBtn.textContent = writingMode
-    ? (language==='en' ? '👆 Show Writing Guide' : '👆 Lihat Contoh Menulis')
+    ? '👆 Lihat Contoh Menulis'
     : (handGuideOn ? T('guideHide') : T('guide'));
 }
 
@@ -2429,6 +2454,8 @@ document.getElementById('btnClear').onclick = () => { canvasMain.clear(); celebr
 document.getElementById('btnKembali').onclick = () => {
   document.getElementById('stage').style.display = 'none';
   writingMode = false;
+  const languageButton = document.getElementById('btnLanguage');
+  if(languageButton) languageButton.remove();
   // Beranda dan menu latihan selalu menggunakan Bahasa Indonesia.
   language = 'id';
   try{ localStorage.setItem('learningLanguage', language); }catch(e){}
@@ -2436,7 +2463,6 @@ document.getElementById('btnKembali').onclick = () => {
   applyLanguage();
   showMainMenu();
 };
-document.getElementById('btnLanguage').onclick = toggleLanguage;
 document.getElementById('btnSpeakPanel').onclick = speakCurrent;
 const helpOverlay=document.getElementById('helpOverlay');
 const closeHelp=()=>{ if(helpOverlay) helpOverlay.classList.remove('show'); };
@@ -2468,6 +2494,15 @@ document.getElementById('colorCustom').addEventListener('input', (e) => {
 function startApp(selectedMode, isWriting=false){
   mode = selectedMode;
   writingMode = !!isWriting;
+  // English is limited to the two learning pages. Writing mode is Indonesian
+  // only and does not expose the language control.
+  if(writingMode){
+    language = 'id';
+    const languageButton = document.getElementById('btnLanguage');
+    if(languageButton) languageButton.remove();
+  } else {
+    ensureLearningLanguageButton();
+  }
   index = 0;
   document.getElementById('startScreen').style.setProperty('display','none','important');
   document.getElementById('stage').style.display = '';
@@ -2620,11 +2655,12 @@ function updateStartSub(){
  window.renderAdd=function(){
    let q=addQuestions[addIndex];
    document.getElementById('addQuestion').textContent=`${q.a} + ${q.b} = ?`;
-   document.getElementById('addProgress').textContent = language==='en' ? `Question ${addIndex+1}` : `Soal ke-${addIndex+1}`;
+    document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1}`;
    addTyped='';
    updateAddDisplay();
  }
  window.openAddition=function(){
+    language='id';
    addQuestions=[makeAddQuestion(0)];
    addIndex=0;
    document.getElementById('additionScreen').style.display='block';
@@ -2636,31 +2672,28 @@ function updateStartSub(){
    let ok=Number(addTyped)===q.ans;
    let p=document.getElementById('addPopup');
    document.getElementById('addPopupEmoji').textContent=ok?'🎉':'😥';
-   document.getElementById('addPopupTitle').textContent = ok
-     ? (language==='en' ? 'Great, Correct Answer!' : 'Hebat, Jawaban Benar!')
-     : (language==='en' ? 'Oops, Wrong Answer!' : 'Yah, Jawaban Salah!');
-   document.getElementById('addRetryBtn').textContent = language==='en' ? '🔄 Try Again' : '🔄 Coba Lagi';
-   document.getElementById('addNextBtn').textContent = language==='en' ? '➡️ Next' : '➡️ Berikutnya';
+    document.getElementById('addPopupTitle').textContent = ok ? 'Hebat, Jawaban Benar!' : 'Yah, Jawaban Salah!';
+    document.getElementById('addRetryBtn').textContent = '🔄 Coba Lagi';
+    document.getElementById('addNextBtn').textContent = '➡️ Berikutnya';
    document.getElementById('addRetryBtn').style.display=ok?'none':'';
    document.getElementById('addNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
-   let u=new SpeechSynthesisUtterance(ok ? (language==='en'?'Great, correct answer':'Hebat, jawaban benar') : (language==='en'?'Wrong answer':'Jawaban salah'));
-   u.lang=language==='en'?'en-US':'id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+    let u=new SpeechSynthesisUtterance(ok ? 'Hebat, jawaban benar' : 'Jawaban salah');
+    u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    window._lastAddOk=ok;
  }
  window.applyAddSubLanguage=function(){
-   const en = language==='en';
-   const setText=(id,idText,enText)=>{ const el=document.getElementById(id); if(el) el.textContent = en?enText:idText; };
-   setText('addTitle','➕ Belajar Penjumlahan','➕ Learning Addition');
-   setText('addHint','🔢 Tekan angka jawabannya:','🔢 Press the number for your answer:');
-   setText('addCheckBtn','✅ Periksa','✅ Check');
-   setText('addRetryBtn','🔄 Coba Lagi','🔄 Try Again');
-   setText('addNextBtn','➡️ Berikutnya','➡️ Next');
-   setText('subTitle','➖ Belajar Pengurangan','➖ Learning Subtraction');
-   setText('subHint','🔢 Tekan angka jawabannya:','🔢 Press the number for your answer:');
-   setText('subCheckBtn','✅ Periksa','✅ Check');
-   setText('subRetryBtn','🔄 Coba Lagi','🔄 Try Again');
-   setText('subNextBtn','➡️ Berikutnya','➡️ Next');
+    const setText=(id,text)=>{ const el=document.getElementById(id); if(el) el.textContent=text; };
+    setText('addTitle','➕ Belajar Penjumlahan');
+    setText('addHint','🔢 Tekan angka jawabannya:');
+    setText('addCheckBtn','✅ Periksa');
+    setText('addRetryBtn','🔄 Coba Lagi');
+    setText('addNextBtn','➡️ Berikutnya');
+    setText('subTitle','➖ Belajar Pengurangan');
+    setText('subHint','🔢 Tekan angka jawabannya:');
+    setText('subCheckBtn','✅ Periksa');
+    setText('subRetryBtn','🔄 Coba Lagi');
+    setText('subNextBtn','➡️ Berikutnya');
    if(document.getElementById('additionScreen').style.display!=='none' && addQuestions.length) renderAdd();
    if(document.getElementById('subtractionScreen').style.display!=='none' && window.subQuestions && window.subQuestions.length) renderSub();
  }
@@ -2748,11 +2781,12 @@ function updateStartSub(){
  window.renderSub=function(){
    let q=subQuestions[subIndex];
    document.getElementById('subQuestion').textContent=`${q.a} - ${q.b} = ?`;
-   document.getElementById('subProgress').textContent = language==='en' ? `Question ${subIndex+1}` : `Soal ke-${subIndex+1}`;
+    document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1}`;
    subTyped='';
    updateSubDisplay();
  }
  window.openSubtraction=function(){
+    language='id';
    subQuestions=[makeSubQuestion(0)];
    subIndex=0;
    document.getElementById('subtractionScreen').style.display='block';
@@ -2764,16 +2798,14 @@ function updateStartSub(){
    let ok=Number(subTyped)===q.ans;
    let p=document.getElementById('subPopup');
    document.getElementById('subPopupEmoji').textContent=ok?'🎉':'😥';
-   document.getElementById('subPopupTitle').textContent = ok
-     ? (language==='en' ? 'Great, Correct Answer!' : 'Hebat, Jawaban Benar!')
-     : (language==='en' ? 'Oops, Wrong Answer!' : 'Yah, Jawaban Salah!');
-   document.getElementById('subRetryBtn').textContent = language==='en' ? '🔄 Try Again' : '🔄 Coba Lagi';
-   document.getElementById('subNextBtn').textContent = language==='en' ? '➡️ Next' : '➡️ Berikutnya';
+    document.getElementById('subPopupTitle').textContent = ok ? 'Hebat, Jawaban Benar!' : 'Yah, Jawaban Salah!';
+    document.getElementById('subRetryBtn').textContent = '🔄 Coba Lagi';
+    document.getElementById('subNextBtn').textContent = '➡️ Berikutnya';
    document.getElementById('subRetryBtn').style.display=ok?'none':'';
    document.getElementById('subNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
-   let u=new SpeechSynthesisUtterance(ok ? (language==='en'?'Great, correct answer':'Hebat, jawaban benar') : (language==='en'?'Wrong answer':'Jawaban salah'));
-   u.lang=language==='en'?'en-US':'id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+    let u=new SpeechSynthesisUtterance(ok ? 'Hebat, jawaban benar' : 'Jawaban salah');
+    u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    window._lastSubOk=ok;
  }
  window.retrySub=function(){
