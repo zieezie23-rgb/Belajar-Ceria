@@ -113,6 +113,7 @@
     border:0; border-radius:22px; background:#fff;
   }
   .canvaswrap.learn-letter{ aspect-ratio:16 / 9; max-height:520px; }
+  .canvaswrap.letter-writing{ aspect-ratio:1 / 1; max-height:520px; }
   .canvaswrap.learn-letter .learn-canvas-title,
   .canvaswrap.learn-number .learn-canvas-title{
     position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:6;
@@ -1879,7 +1880,11 @@ function renderHurufPair(svgEl, upper, lower){
 
   // Pada mode Belajar Huruf hanya bentuk solid yang ditampilkan.
   if(writingMode){
-    appendHandGuide(svgEl, ns, buildGuidePathD(upper, 160, 320, fontSize, fontWeight, 640, 400));
+    // Mode menulis memandu dan menghitung huruf besar maupun kecil.
+    const upperGuide = buildGuidePathD(upper, 160, 320, fontSize, fontWeight, 640, 400);
+    const lowerGuide = buildGuidePathD(lower, 480, 320, fontSize, fontWeight, 640, 400);
+    const guide = [upperGuide, lowerGuide].filter(Boolean).join(' ');
+    appendHandGuide(svgEl, ns, guide);
   }
 }
 // Angka: digit di atas, tulisan di bawah dalam satu kotak.
@@ -1893,8 +1898,12 @@ function renderAngkaPair(svgEl, digit, word){
   const fontWeight = 700;
   // Pada mode Belajar Angka (bukan Menulis), angka digeser sedikit ke bawah
   // supaya ada jarak yang cukup dari judul "Bentuk Angka" di atasnya.
-  const topOffset = writingMode ? 0 : 45;
-  const digitFontSize = 300, digitY = 230 + topOffset;
+  // Pada mode menulis, digit dibuat lebih besar dan baseline diturunkan agar
+  // bentuk visualnya benar-benar berada di tengah viewBox 520x520.
+  // Baseline SVG bukan posisi tengah glyph, sehingga y=230 sebelumnya
+  // membuat angka terlihat terlalu kecil dan menempel ke bagian atas.
+  const digitFontSize = writingMode ? 360 : 300;
+  const digitY = writingMode ? 360 : 230 + 45;
 
   const numberPalette = [
     ['#FF2638','#22C55E'], ['#2563EB','#F59E0B'], ['#A855F7','#EC4899'],
@@ -2040,24 +2049,25 @@ function buildMask(){
     // Skala mengikuti sisi yang lebih membatasi (seperti preserveAspectRatio SVG)
     // supaya posisi huruf tetap sinkron dengan panduan meski rasio kotak kanvas
     // sedikit berbeda antar device (mis. akibat max-height di CSS).
-    const BASE_W = 640, BASE_H = 360;
+    // ViewBox huruf adalah 640x400. Menggunakan tinggi 400 di sini penting
+    // setelah kanvas Menulis Huruf diubah menjadi persegi, agar target dan SVG
+    // tetap berada pada posisi vertikal yang sama.
+    const BASE_W = 640, BASE_H = 400;
     const scale = Math.min(canvas.width / BASE_W, canvas.height / BASE_H);
     const offX = (canvas.width - BASE_W*scale) / 2;
     const offY = (canvas.height - BASE_H*scale) / 2;
     const item = LETTERS[index];
-    drawGlyph(item.ch, offX + 160*scale, offY + 255*scale, 330*scale, 34*scale);
-    // Mode menulis hanya menampilkan/memandu huruf besar. Jangan meminta
-    // pengguna menutupi huruf kecil yang tidak memiliki panduan gerakan.
-    if(!writingMode){
-      drawGlyph(item.ch.toLowerCase(), offX + 480*scale, offY + 255*scale, 330*scale, 34*scale);
-    }
+    drawGlyph(item.ch, offX + 160*scale, offY + 320*scale, 330*scale, 34*scale);
+    drawGlyph(item.ch.toLowerCase(), offX + 480*scale, offY + 320*scale, 330*scale, 34*scale);
   } else {
     const BASE_W = 520, BASE_H = 520;
     const scale = Math.min(canvas.width / BASE_W, canvas.height / BASE_H);
     const offX = (canvas.width - BASE_W*scale) / 2;
     const offY = (canvas.height - BASE_H*scale) / 2;
     const item = NUMBERS[index];
-    drawGlyph(item.d, offX + 260*scale, offY + 230*scale, 300*scale, 34*scale);
+    const digitFontSize = writingMode ? 360 : 300;
+    const digitY = writingMode ? 360 : 230 + 45;
+    drawGlyph(item.d, offX + 260*scale, offY + digitY*scale, digitFontSize*scale, 34*scale);
 
     // renderAngkaPair memakai currentWord(item), sedangkan sebelumnya mask
     // selalu memakai item.word (Bahasa Indonesia). Akibatnya mode English
@@ -2287,6 +2297,7 @@ function render(){
   if(stage) stage.classList.toggle('writing-mode', !!writingMode);
   wrapMain.classList.toggle('learn-letter', cleanLearning && mode === 'huruf');
   wrapMain.classList.toggle('learn-number', cleanLearning && mode === 'angka');
+  wrapMain.classList.toggle('letter-writing', writingMode && mode === 'huruf');
   if(tracePanel) tracePanel.classList.toggle('learn-panel', cleanLearning);
   if(bottomNav) bottomNav.classList.toggle('learn-nav', cleanLearning);
   if(learnTitle){
