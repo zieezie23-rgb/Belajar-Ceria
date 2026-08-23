@@ -3082,5 +3082,82 @@ document.getElementById('quizHomeBtn').onclick = () => {
 }
 </style>
 
+<style id="main-menu-clean-layout">
+/* Tata ulang halaman utama: hierarki konten dibuat konsisten dan tidak berdesakan. */
+#startScreen .start-card{
+  justify-content:flex-start !important;
+  gap:0 !important;
+  padding:clamp(22px,4vh,48px) clamp(14px,3vw,28px) 18px !important;
+  overflow-y:auto !important;
+}
+#startScreen .start-title{order:1 !important;margin:clamp(28px,5vh,52px) auto 8px !important;}
+#startScreen .start-sub{order:2 !important;margin:0 auto 14px !important;}
+#startScreen .start-name-row{order:3 !important;margin:0 auto 20px !important;}
+#startScreen #mainMenuOptions{
+  order:4 !important;
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:start !important;
+  gap:clamp(12px,2.5vw,24px) !important;
+  width:min(720px,100%) !important;
+  margin:0 auto !important;
+  flex:none !important;
+}
+#startScreen #mainMenuOptions .huruf-logo-item,
+#startScreen #mainMenuOptions .angka-logo-item{
+  order:initial !important;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  margin:0 !important;
+  flex:none !important;
+}
+#startScreen #mainMenuOptions .latihan-menu{
+  order:initial !important;
+  grid-column:1 / -1;
+  width:100% !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:14px 18px !important;
+  min-height:70px;
+  background:rgba(255,255,255,.82) !important;
+  border:3px solid rgba(255,255,255,.95) !important;
+  border-radius:22px !important;
+  box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
+}
+#startScreen #mainMenuOptions .latihan-menu strong{
+  color:#E27B10 !important;
+  -webkit-text-stroke:0 !important;
+  font-size:clamp(22px,3vw,30px) !important;
+}
+#startScreen #mainMenuOptions .latihan-menu small{
+  color:#5A4A3A !important;
+}
+#startScreen .progress-card{
+  order:5 !important;
+  width:min(430px,100%) !important;
+  margin:18px auto 0 !important;
+}
+#startScreen .quiz-menu-btn{
+  order:6 !important;
+  margin:12px auto 0 !important;
+}
+@media(max-width:600px){
+  #startScreen #mainMenuOptions{
+    grid-template-columns:1fr;
+    width:min(360px,100%) !important;
+  }
+  #startScreen #mainMenuOptions .latihan-menu{grid-column:auto;}
+  #startScreen .start-title{margin-top:30px !important;}
+}
+@media(max-height:650px) and (min-width:601px){
+  #startScreen .start-title{margin-top:20px !important;}
+  #startScreen .start-name-row{margin-bottom:12px !important;}
+  #startScreen #mainMenuOptions{gap:8px 16px !important;}
+  #startScreen .progress-card{margin-top:10px !important;}
+  #startScreen .quiz-menu-btn{margin-top:7px !important;}
+}
+</style>
+
 </body>
 </html>
