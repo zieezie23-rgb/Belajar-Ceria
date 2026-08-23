@@ -529,7 +529,7 @@
 
 <style id="belajar-huruf-logo-style">
 #btnStartHuruf.huruf-logo-item{
-  width:min(190px,45vw);
+  width:min(300px,70vw);
   max-width:100%;
   height:auto;
   flex:0 1 auto;
@@ -553,14 +553,14 @@
 #btnStartHuruf:hover .huruf-logo-img{transform:translateY(-2px) scale(1.02);}
 #btnStartHuruf:active .huruf-logo-img{transform:scale(.98);}
 @media(max-width:430px){
-  #btnStartHuruf.huruf-logo-item{width:min(140px,42vw);}
+  #btnStartHuruf.huruf-logo-item{width:min(220px,70vw);}
 }
 </style>
 
 
 <style id="belajar-angka-logo-style">
 #btnStartAngka.angka-logo-item{
-  width:min(190px,45vw);
+  width:min(300px,70vw);
   max-width:100%;
   height:auto;
   flex:0 1 auto;
@@ -584,7 +584,7 @@
 #btnStartAngka:hover .angka-logo-img{transform:translateY(-2px) scale(1.02);}
 #btnStartAngka:active .angka-logo-img{transform:scale(.98);}
 @media(max-width:430px){
-  #btnStartAngka.angka-logo-item{width:min(140px,42vw);}
+  #btnStartAngka.angka-logo-item{width:min(220px,70vw);}
 }
 </style>
 
@@ -728,7 +728,7 @@
   order:4;
   flex:1 1 auto;
   align-items:center!important;
-  gap:5px!important;
+  gap:clamp(70px,15vw,190px)!important;
   margin:0 auto!important;
 }
 .menu-main-btn{
@@ -771,7 +771,7 @@
 @media(max-width:700px){
   .start-card{padding-top:30px!important;}
   .start-title{font-size:clamp(29px,8vw,52px)!important;margin-top:32px!important;}
-  .main-menu-options{gap:5px!important;}
+  .main-menu-options{gap:clamp(18px,8vw,65px)!important;}
   .menu-main-btn{min-width:145px!important;}
   .menu-main-btn .menu-anim-icon{
     width:170px!important;height:155px!important;flex-basis:155px!important;
@@ -791,7 +791,7 @@
     -webkit-text-stroke:1.5px #fff!important;
   }
   .start-sub{font-size:13px!important;}
-  .main-menu-options{gap:5px!important;}
+  .main-menu-options{gap:8px!important;}
   .menu-main-btn{min-width:135px!important;}
   .menu-main-btn .menu-anim-icon{
     width:145px!important;height:140px!important;flex-basis:140px!important;
@@ -806,7 +806,7 @@
 @media(max-height:700px){
   .start-title{margin:10px auto 4px!important;font-size:clamp(24px,6vw,44px)!important;}
   .start-sub{margin:2px 0 4px!important;font-size:clamp(12px,2vw,15px)!important;}
-  .main-menu-options{gap:5px!important;}
+  .main-menu-options{gap:clamp(18px,8vw,60px)!important;}
   .menu-main-btn .menu-anim-icon{
     width:130px!important;height:115px!important;flex-basis:115px!important;
   }
@@ -1079,7 +1079,7 @@ body:has(#startScreen[style*="display: none"]) {
 #btnStartHuruf img,#btnStartAngka img,
 .huruf-logo-img,.angka-logo-img{
  display:block!important;
- width:min(190px,45vw)!important;
+ width:min(320px,80vw)!important;
  max-width:100%!important;
  height:auto!important;
  object-fit:contain!important;
@@ -1087,37 +1087,6 @@ body:has(#startScreen[style*="display: none"]) {
 }
 </style>
 
-<style id="mobile-main-buttons-side-by-side">
-  /* Pada HP, Belajar Huruf dan Belajar Angka selalu satu baris. */
-  @media (max-width: 600px) {
-    #mainMenuOptions {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      width: 100% !important;
-      gap: 8px !important;
-      justify-content: center !important;
-      align-items: flex-start !important;
-    }
-
-    #mainMenuOptions .huruf-logo-item,
-    #mainMenuOptions .angka-logo-item {
-      width: calc((100vw - 48px) / 2) !important;
-      max-width: calc((100vw - 48px) / 2) !important;
-      min-width: 0 !important;
-      flex: 0 1 calc((100vw - 48px) / 2) !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-    }
-
-    #mainMenuOptions .huruf-logo-img,
-    #mainMenuOptions .angka-logo-img {
-      width: 100% !important;
-      max-width: 100% !important;
-      height: auto !important;
-      object-fit: contain !important;
-    }
-  }
-</style>
 </head>
 <body>
 
