@@ -1153,21 +1153,25 @@ body:has(#startScreen[style*="display: none"]) {
     <div class="main-menu-options" id="mainMenuOptions">
       <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar Huruf">Belajar Huruf (A–Z)</button>
       <button class="sub-menu-item angka angka-logo-item" id="btnStartAngka" type="button" aria-label="Belajar Angka">Belajar Angka (0–9)</button>
-      <button class="menu-main-btn latihan-menu" id="btnMenuLatihan">
-        <span class="menu-anim-icon" aria-hidden="true">
-          
-        </span>
-        <strong>LATIHAN</strong><small>Menulis & Berhitung</small>
-      </button>
     </div>
     <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     <button class="quiz-menu-btn" id="btnStartQuiz" type="button">🎯 Kuis Cepat</button>
+    <button class="menu-main-btn latihan-menu" id="btnMenuLatihan">
+      <span class="menu-anim-icon" aria-hidden="true"></span>
+      <strong>LATIHAN</strong><small>Menulis & Berhitung</small>
+    </button>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
       <button class="sub-menu-item menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf</button>
       <button class="sub-menu-item menulisAngka" id="btnStartMenulisAngka"><span class="start-emoji">✍️</span> Menulis Angka</button>
       <button class="sub-menu-item tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Penjumlahan</button>
       <button class="sub-menu-item kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Pengurangan</button>
+      <div class="counting-score-card" id="countingScoreCard">
+        <div class="counting-score-title">🧮 Score Berhitung</div>
+        <div class="counting-score-row"><span>➕ Penjumlahan</span><strong id="additionScoreMenu">0</strong></div>
+        <div class="counting-score-row"><span>➖ Pengurangan</span><strong id="subtractionScoreMenu">0</strong></div>
+        <div class="counting-score-total"><span>Total Score</span><strong id="countingScoreMenu">0</strong></div>
+      </div>
       <button class="sub-menu-title" type="button" id="backMainFromLatihan">← Kembali ke Menu Utama</button>
     </div>
   </div>
@@ -1251,6 +1255,7 @@ body:has(#startScreen[style*="display: none"]) {
     <div class="quiz-score" id="quizScore">Soal 1 dari 10 · ⭐ 0</div>
     <div class="quiz-visual" id="quizVisual">🐔</div>
     <div class="quiz-question" id="quizQuestion">Hewan apa yang berawalan huruf A?</div>
+    <button class="math-speak-btn" id="quizSpeakQuestion" type="button">🔊 Ulangi Soal</button>
     <div class="quiz-options" id="quizOptions"></div>
     <div class="quiz-result" id="quizResult"></div>
     <div class="quiz-actions">
@@ -2612,6 +2617,7 @@ function startApp(selectedMode, isWriting=false){
 function showMainMenu(){
   document.getElementById('mainMenuOptions').style.display='';
   document.getElementById('latihanMenu').style.display='none';
+  document.getElementById('btnMenuLatihan').style.display='';
 
   // Kembalikan elemen informasi yang hanya diperlukan di menu utama.
   document.querySelector('.start-card > div:first-child').style.display='flex';
@@ -2623,6 +2629,7 @@ function showMainMenu(){
 function showSubMenu(which){
   document.getElementById('mainMenuOptions').style.display='none';
   document.getElementById('latihanMenu').style.display=which==='latihan'?'flex':'none';
+  document.getElementById('btnMenuLatihan').style.display='none';
 
   // Di submenu dibuat lebih sederhana: hanya judul + pilihan menu.
   // Bahasa, sapaan, dan kolom nama disembunyikan agar fokus ke pilihan.
@@ -2663,6 +2670,7 @@ function saveProgress(){
   const badges = document.getElementById('badgeCount');
   if(stars) stars.textContent = learningProgress.stars;
   if(badges) badges.textContent = badgeTotal();
+  if(window.updateCountingScoreUI) window.updateCountingScoreUI();
 }
 saveProgress();
 
@@ -2691,6 +2699,18 @@ function makeQuizQuestion(){
     options: shuffle([item.d, ...distractors])
   };
 }
+function speakQuizQuestion(){
+  const question = quizState.current?.text;
+  if(!question || !window.speechSynthesis) return;
+  try{
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(question);
+    utterance.lang = 'id-ID';
+    utterance.rate = .82;
+    utterance.pitch = 1.08;
+    speechSynthesis.speak(utterance);
+  }catch(e){}
+}
 function renderQuizQuestion(){
   quizState.current = makeQuizQuestion();
   quizState.answered = false;
@@ -2698,6 +2718,7 @@ function renderQuizQuestion(){
   document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
   document.getElementById('quizVisual').textContent = q.visual;
   document.getElementById('quizQuestion').textContent = q.text;
+  speakQuizQuestion();
   document.getElementById('quizResult').textContent = '';
   document.getElementById('quizNextBtn').style.display = 'none';
   const options = document.getElementById('quizOptions');
@@ -2747,6 +2768,7 @@ function openQuiz(){
   renderQuizQuestion();
 }
 document.getElementById('btnStartQuiz').onclick = openQuiz;
+document.getElementById('quizSpeakQuestion').onclick = speakQuizQuestion;
 document.getElementById('quizNextBtn').onclick = () => {
   if(quizState.question >= 9){ finishQuiz(); return; }
   quizState.question++;
@@ -2805,6 +2827,13 @@ document.getElementById('quizHomeBtn').onclick = () => {
 }
 .addinput:focus{ border-color:var(--green); }
 .addbtn-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.math-speak-btn{
+  border:0; border-radius:16px; padding:9px 16px; margin:0 auto 12px;
+  background:linear-gradient(180deg,var(--orange),var(--orange-dark)); color:#fff;
+  font:800 15px 'Baloo 2','Trebuchet MS',sans-serif; cursor:pointer;
+  box-shadow:0 4px 0 rgba(0,0,0,.16);
+}
+.math-speak-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.16);}
 </style>
 <div id="additionScreen">
  <div class="addbox">
@@ -2812,6 +2841,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   <div class="addprogress" id="addProgress"></div>
   <div class="addq" id="addQuestion"></div>
   <p class="addhint" id="addHint">🔢 Tekan angka jawabannya:</p>
+  <button class="math-speak-btn" id="addSpeakQuestion" type="button">🔊 Ulangi Soal</button>
   <div class="addanswer-display" id="addAnswerDisplay">_</div>
   <div class="addkeypad" id="addKeypad">
     <button class="addkey" data-d="1">1</button>
@@ -2844,8 +2874,34 @@ document.getElementById('quizHomeBtn').onclick = () => {
 </div>
 <script>
 (function(){
+ window.mathNumberWords=['nol','satu','dua','tiga','empat','lima','enam','tujuh','delapan','sembilan','sepuluh','sebelas'];
+ window.mathNumberToWords=function(n){
+   n=Number(n);
+   if(n<12) return mathNumberWords[n];
+   if(n<20) return mathNumberWords[n-10]+' belas';
+   if(n<100){
+     const puluhan=Math.floor(n/10), satuan=n%10;
+     return mathNumberWords[puluhan]+' puluh'+(satuan?' '+mathNumberWords[satuan]:'');
+   }
+   return String(n);
+ };
+ window.speakMathQuestion=function(type){
+   const q=type==='add' ? addQuestions[addIndex] : subQuestions[subIndex];
+   if(!q || !window.speechSynthesis) return;
+   const operation=type==='add' ? 'tambah' : 'dikurangi';
+   const sentence=`${mathNumberToWords(q.a)} ${operation} ${mathNumberToWords(q.b)} sama dengan`;
+   try{
+     speechSynthesis.cancel();
+     const utterance=new SpeechSynthesisUtterance(sentence);
+     utterance.lang='id-ID';
+     utterance.rate=.82;
+     utterance.pitch=1.08;
+     speechSynthesis.speak(utterance);
+   }catch(e){}
+ };
  window.addQuestions=[];
  window.addIndex=0;
+ window.addScore=Number(learningProgress.addScore)||0;
  window.makeAddQuestion=function(idx){
    let level=Math.floor(idx/20);
    let max=10*(level+1); // 1-10, lalu 1-20, 1-30, 1-40, dst
@@ -2864,7 +2920,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
  window.renderAdd=function(){
    let q=addQuestions[addIndex];
    document.getElementById('addQuestion').textContent=`${q.a} + ${q.b} = ?`;
-    document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1}`;
+    document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1} · Skor: ${addScore}`;
    addTyped='';
    updateAddDisplay();
  }
@@ -2872,13 +2928,18 @@ document.getElementById('quizHomeBtn').onclick = () => {
     language='id';
    addQuestions=[makeAddQuestion(0)];
    addIndex=0;
+   addScore=Number(learningProgress.addScore)||0;
    document.getElementById('additionScreen').style.display='block';
    if(typeof window.applyAddSubLanguage==='function') window.applyAddSubLanguage();
    renderAdd();
+   speakMathQuestion('add');
  }
  window.checkAddAnswer=function(){
    let q=addQuestions[addIndex];
    let ok=Number(addTyped)===q.ans;
+   addScore += ok ? 10 : -3;
+   learningProgress.addScore=addScore;
+   saveProgress();
    let p=document.getElementById('addPopup');
    document.getElementById('addPopupEmoji').textContent=ok?'🎉':'😥';
     document.getElementById('addPopupTitle').textContent = ok ? 'Hebat, Jawaban Benar!' : 'Yah, Jawaban Salah!';
@@ -2889,6 +2950,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
    p.classList.add('show');
     let u=new SpeechSynthesisUtterance(ok ? 'Hebat, jawaban benar' : 'Jawaban salah');
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+   document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1} · Skor: ${addScore}`;
    window._lastAddOk=ok;
  }
  window.applyAddSubLanguage=function(){
@@ -2916,7 +2978,9 @@ document.getElementById('quizHomeBtn').onclick = () => {
    addIndex++;
    addQuestions.push(makeAddQuestion(addIndex));
    renderAdd();
+   speakMathQuestion('add');
  }
+  document.getElementById('addSpeakQuestion').onclick=()=>speakMathQuestion('add');
 })();
 </script>
 
@@ -2939,6 +3003,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   <div class="addprogress" id="subProgress"></div>
   <div class="addq" id="subQuestion"></div>
   <p class="addhint" id="subHint">🔢 Tekan angka jawabannya:</p>
+  <button class="math-speak-btn" id="subSpeakQuestion" type="button">🔊 Ulangi Soal</button>
   <div class="addanswer-display" id="subAnswerDisplay">_</div>
   <div class="addkeypad" id="subKeypad">
     <button class="addkey subkey" data-d="1">1</button>
@@ -2973,6 +3038,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 (function(){
  window.subQuestions=[];
  window.subIndex=0;
+  window.subScore=Number(learningProgress.subScore)||0;
  window.makeSubQuestion=function(idx){
    let level=Math.floor(idx/20);
    let max=10*(level+1); // 1-10, lalu 1-20, 1-30, 1-40, dst
@@ -2990,7 +3056,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
  window.renderSub=function(){
    let q=subQuestions[subIndex];
    document.getElementById('subQuestion').textContent=`${q.a} - ${q.b} = ?`;
-    document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1}`;
+    document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1} · Skor: ${subScore}`;
    subTyped='';
    updateSubDisplay();
  }
@@ -2998,13 +3064,18 @@ document.getElementById('quizHomeBtn').onclick = () => {
     language='id';
    subQuestions=[makeSubQuestion(0)];
    subIndex=0;
+   subScore=Number(learningProgress.subScore)||0;
    document.getElementById('subtractionScreen').style.display='block';
    if(typeof window.applyAddSubLanguage==='function') window.applyAddSubLanguage();
    renderSub();
+   speakMathQuestion('sub');
  }
  window.checkSubAnswer=function(){
    let q=subQuestions[subIndex];
    let ok=Number(subTyped)===q.ans;
+   subScore += ok ? 10 : -3;
+   learningProgress.subScore=subScore;
+   saveProgress();
    let p=document.getElementById('subPopup');
    document.getElementById('subPopupEmoji').textContent=ok?'🎉':'😥';
     document.getElementById('subPopupTitle').textContent = ok ? 'Hebat, Jawaban Benar!' : 'Yah, Jawaban Salah!';
@@ -3015,6 +3086,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
    p.classList.add('show');
     let u=new SpeechSynthesisUtterance(ok ? 'Hebat, jawaban benar' : 'Jawaban salah');
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+   document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1} · Skor: ${subScore}`;
    window._lastSubOk=ok;
  }
  window.retrySub=function(){
@@ -3027,8 +3099,25 @@ document.getElementById('quizHomeBtn').onclick = () => {
    subIndex++;
    subQuestions.push(makeSubQuestion(subIndex));
    renderSub();
+   speakMathQuestion('sub');
  }
+  document.getElementById('subSpeakQuestion').onclick=()=>speakMathQuestion('sub');
 })();
+</script>
+
+<script>
+window.updateCountingScoreUI=function(){
+  const add=Number(learningProgress.addScore)||0;
+  const sub=Number(learningProgress.subScore)||0;
+  const total=add+sub;
+  const addEl=document.getElementById('additionScoreMenu');
+  const subEl=document.getElementById('subtractionScoreMenu');
+  const totalEl=document.getElementById('countingScoreMenu');
+  if(addEl) addEl.textContent=add;
+  if(subEl) subEl.textContent=sub;
+  if(totalEl) totalEl.textContent=total;
+};
+window.updateCountingScoreUI();
 </script>
 
 
@@ -3142,6 +3231,30 @@ document.getElementById('quizHomeBtn').onclick = () => {
   order:6 !important;
   margin:12px auto 0 !important;
 }
+#startScreen > .start-card > .latihan-menu{
+  order:7 !important;
+  width:min(520px,100%) !important;
+  min-width:0 !important;
+  margin:16px auto 0 !important;
+  padding:14px 18px !important;
+  min-height:70px;
+  flex:none !important;
+  flex-direction:row !important;
+  gap:14px !important;
+  background:rgba(255,255,255,.82) !important;
+  border:3px solid rgba(255,255,255,.95) !important;
+  border-radius:22px !important;
+  box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
+}
+#startScreen > .start-card > .latihan-menu .menu-anim-icon{display:none !important;}
+#startScreen > .start-card > .latihan-menu strong{
+  color:#E27B10 !important;
+  -webkit-text-stroke:0 !important;
+  font-size:clamp(22px,3vw,30px) !important;
+}
+#startScreen > .start-card > .latihan-menu small{
+  color:#5A4A3A !important;
+}
 @media(max-width:600px){
   #startScreen #mainMenuOptions{
     grid-template-columns:1fr;
@@ -3149,6 +3262,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   }
   #startScreen #mainMenuOptions .latihan-menu{grid-column:auto;}
   #startScreen .start-title{margin-top:30px !important;}
+  #startScreen > .start-card > .latihan-menu{margin-top:12px !important;}
 }
 @media(max-height:650px) and (min-width:601px){
   #startScreen .start-title{margin-top:20px !important;}
@@ -3157,6 +3271,28 @@ document.getElementById('quizHomeBtn').onclick = () => {
   #startScreen .progress-card{margin-top:10px !important;}
   #startScreen .quiz-menu-btn{margin-top:7px !important;}
 }
+</style>
+
+<style id="counting-score-style">
+  .counting-score-card{
+    order:10; width:min(390px,100%); margin:8px auto 0; padding:14px 18px;
+    background:rgba(255,255,255,.94); border:3px solid #FFE1A8; border-radius:20px;
+    box-shadow:0 5px 0 rgba(100,65,20,.14); color:#4b3c52;
+    font-family:'Nunito','Segoe UI',sans-serif;
+  }
+  .counting-score-title{
+    margin-bottom:7px; color:#E27B10; font-size:18px; font-weight:900;
+  }
+  .counting-score-row,.counting-score-total{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:18px; padding:5px 0; font-size:15px; font-weight:800;
+  }
+  .counting-score-row strong{color:#7E4CE0;font-size:18px;}
+  .counting-score-total{
+    margin-top:5px; padding-top:9px; border-top:2px dashed #F3D9C4;
+    color:#2FA859; font-size:16px;
+  }
+  .counting-score-total strong{color:#229653;font-size:22px;}
 </style>
 
 </body>
