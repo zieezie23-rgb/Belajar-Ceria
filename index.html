@@ -164,6 +164,7 @@
   .ucap-face{ font-size:30px; }
   .ucap-text{ font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:18px; font-weight:800; color:var(--orange-dark); }
   .ucap-sub{ font-size:11px; color:#8a7e9c; margin-top:2px; }
+  .card.ucap.hide-syllable .ucap-sub{ display:none; }
 
   @media (max-width:560px){
     .siderow{ flex-direction:column; }
@@ -1096,6 +1097,48 @@ body:has(#startScreen[style*="display: none"]) {
 }
 </style>
 
+<style id="stars-quiz-style">
+  .progress-card{
+    margin:18px auto 0; max-width:430px; padding:12px 18px;
+    background:rgba(255,255,255,.18); border:2px solid rgba(255,255,255,.65);
+    border-radius:18px; color:#fff; text-shadow:0 2px 3px rgba(0,45,110,.25);
+    font-weight:900; font-size:15px;
+  }
+  .progress-card strong{font-size:20px;color:#FFE16A;}
+  .quiz-menu-btn{
+    margin:16px auto 0; border:0; border-radius:28px; padding:12px 24px;
+    background:linear-gradient(180deg,#9B6BFF,#7040D1); color:#fff;
+    font:800 18px 'Baloo 2','Trebuchet MS',sans-serif; cursor:pointer;
+    box-shadow:0 5px 0 rgba(60,25,130,.35); transition:transform .1s;
+  }
+  .quiz-menu-btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(60,25,130,.35);}
+  #quizScreen{
+    position:fixed; inset:0; z-index:5200; display:none; overflow:auto;
+    padding:20px; background:linear-gradient(180deg,#6EC6FF,#8FD9FF);
+  }
+  .quiz-box{
+    width:min(620px,100%); margin:20px auto; padding:25px 20px 22px;
+    background:var(--card); border-radius:30px; text-align:center;
+    box-shadow:0 10px 0 rgba(0,0,0,.14);
+  }
+  .quiz-title{margin:0;color:#7E4CE0;font:800 32px 'Baloo 2','Trebuchet MS',sans-serif;}
+  .quiz-score{margin:5px 0 18px;color:#F08000;font-weight:900;}
+  .quiz-question{font-size:21px;font-weight:900;color:var(--ink);margin:10px 0 18px;}
+  .quiz-visual{font-size:76px;line-height:1;margin:8px 0 12px;}
+  .quiz-options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:430px;margin:auto;}
+  .quiz-option{
+    min-height:68px;border:3px solid #D9C9FF;border-radius:18px;background:#F7F2FF;
+    color:#5638A0;font:800 28px 'Baloo 2','Trebuchet MS',sans-serif;cursor:pointer;
+    box-shadow:0 4px 0 #C4B0F5;
+  }
+  .quiz-option:hover{transform:translateY(-2px);background:#EDE4FF;}
+  .quiz-option.correct{background:#D9F8E4;border-color:#3EC46D;color:#218B48;}
+  .quiz-option.wrong{background:#FFE0E8;border-color:#FF5B93;color:#C52E62;}
+  .quiz-result{font-size:20px;font-weight:900;color:#2FA859;margin:16px 0;}
+  .quiz-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;}
+  @media(max-width:430px){.quiz-title{font-size:27px}.quiz-option{font-size:24px}.quiz-visual{font-size:64px}}
+</style>
+
 </head>
 <body>
 
@@ -1117,6 +1160,8 @@ body:has(#startScreen[style*="display: none"]) {
         <strong>LATIHAN</strong><small>Menulis & Berhitung</small>
       </button>
     </div>
+    <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
+    <button class="quiz-menu-btn" id="btnStartQuiz" type="button">🎯 Kuis Cepat</button>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
       <button class="sub-menu-item menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf</button>
@@ -1198,6 +1243,21 @@ body:has(#startScreen[style*="display: none"]) {
     <button class="pillbtn green" id="btnNext">Berikutnya ⟶</button>
   </div>
 
+</div>
+
+<div id="quizScreen" aria-modal="true" role="dialog">
+  <div class="quiz-box">
+    <h1 class="quiz-title">🎯 Kuis Cepat</h1>
+    <div class="quiz-score" id="quizScore">Soal 1 dari 10 · ⭐ 0</div>
+    <div class="quiz-visual" id="quizVisual">🐔</div>
+    <div class="quiz-question" id="quizQuestion">Hewan apa yang berawalan huruf A?</div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-result" id="quizResult"></div>
+    <div class="quiz-actions">
+      <button class="pillbtn orange" id="quizNextBtn" type="button" style="display:none;">➡️ Berikutnya</button>
+      <button class="pillbtn gray" id="quizHomeBtn" type="button">🏠 Menu Utama</button>
+    </div>
+  </div>
 </div>
 
 <div class="celebrate-overlay" id="celebrateOverlay">
@@ -2114,6 +2174,8 @@ function checkCoverage(){
   if(window.updateMatchProgress) window.updateMatchProgress(ratio*100);
   if(ratio >= 0.8){
     celebrated = true;
+    learningProgress.stars++;
+    saveProgress();
     celebrate();
     updateNextButton();
   }
@@ -2296,6 +2358,8 @@ function render(){
   const cleanLearning = !writingMode; // berlaku untuk mode Belajar Huruf maupun Belajar Angka
   const stage = document.getElementById('stage');
   if(stage) stage.classList.toggle('writing-mode', !!writingMode);
+  const ucapCard = document.querySelector('.card.ucap');
+  if(ucapCard) ucapCard.classList.toggle('hide-syllable', mode === 'huruf');
   wrapMain.classList.toggle('learn-letter', cleanLearning && mode === 'huruf');
   wrapMain.classList.toggle('learn-number', cleanLearning && mode === 'angka');
   wrapMain.classList.toggle('letter-writing', writingMode && mode === 'huruf');
@@ -2581,6 +2645,118 @@ function updateStartSub(){
   const name = document.getElementById('childName').value.trim();
   document.getElementById('startSub').textContent = name ? `Yuk pilih, ${name} mau belajar apa?` : 'Yuk pilih mau belajar apa dulu?';
 }
+
+// ---------- BINTANG, LENCANA, DAN KUIS ----------
+const progressStorageKey = 'belajarHurufAngkaProgress';
+let learningProgress = { stars: 0 };
+try{
+  learningProgress = Object.assign(learningProgress, JSON.parse(localStorage.getItem(progressStorageKey) || '{}'));
+}catch(e){}
+
+function badgeTotal(){
+  const stars = Number(learningProgress.stars) || 0;
+  return (stars >= 5 ? 1 : 0) + (stars >= 15 ? 1 : 0) + (stars >= 30 ? 1 : 0);
+}
+function saveProgress(){
+  try{ localStorage.setItem(progressStorageKey, JSON.stringify(learningProgress)); }catch(e){}
+  const stars = document.getElementById('starCount');
+  const badges = document.getElementById('badgeCount');
+  if(stars) stars.textContent = learningProgress.stars;
+  if(badges) badges.textContent = badgeTotal();
+}
+saveProgress();
+
+let quizState = { question: 0, score: 0, current: null, answered: false };
+function shuffle(list){
+  return [...list].sort(() => Math.random() - .5);
+}
+function makeQuizQuestion(){
+  const isLetter = Math.random() < .6;
+  if(isLetter){
+    const item = LETTERS[Math.floor(Math.random() * LETTERS.length)];
+    const distractors = shuffle(LETTERS.filter(x => x.ch !== item.ch)).slice(0, 3).map(x => x.ch);
+    return {
+      visual: item.emoji,
+      text: `Huruf apa yang menjadi awal kata ${item.word}?`,
+      answer: item.ch,
+      options: shuffle([item.ch, ...distractors])
+    };
+  }
+  const item = NUMBERS[Math.floor(Math.random() * NUMBERS.length)];
+  const distractors = shuffle(NUMBERS.filter(x => x.d !== item.d)).slice(0, 3).map(x => x.d);
+  return {
+    visual: item.emoji || '🔢',
+    text: `Angka berapa yang benar untuk kata “${item.word}”?`,
+    answer: item.d,
+    options: shuffle([item.d, ...distractors])
+  };
+}
+function renderQuizQuestion(){
+  quizState.current = makeQuizQuestion();
+  quizState.answered = false;
+  const q = quizState.current;
+  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
+  document.getElementById('quizVisual').textContent = q.visual;
+  document.getElementById('quizQuestion').textContent = q.text;
+  document.getElementById('quizResult').textContent = '';
+  document.getElementById('quizNextBtn').style.display = 'none';
+  const options = document.getElementById('quizOptions');
+  options.innerHTML = '';
+  q.options.forEach(option => {
+    const button = document.createElement('button');
+    button.className = 'quiz-option';
+    button.type = 'button';
+    button.textContent = option;
+    button.onclick = () => answerQuiz(button, option);
+    options.appendChild(button);
+  });
+}
+function answerQuiz(button, option){
+  if(quizState.answered) return;
+  quizState.answered = true;
+  const correct = option === quizState.current.answer;
+  document.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.disabled = true;
+    if(btn.textContent === quizState.current.answer) btn.classList.add('correct');
+  });
+  if(correct){
+    quizState.score++;
+    learningProgress.stars++;
+    saveProgress();
+    document.getElementById('quizResult').textContent = '✅ Benar! Kamu hebat!';
+  }else{
+    button.classList.add('wrong');
+    document.getElementById('quizResult').textContent = `💡 Jawaban yang benar: ${quizState.current.answer}`;
+  }
+  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
+  document.getElementById('quizNextBtn').style.display = '';
+}
+function finishQuiz(){
+  const result = document.getElementById('quizResult');
+  const earned = quizState.score >= 5 ? ' 🏅 Lencana baru terbuka!' : '';
+  result.textContent = `🎉 Selesai! Nilaimu ${quizState.score}/10.${earned}`;
+  document.getElementById('quizOptions').innerHTML = '';
+  document.getElementById('quizNextBtn').style.display = 'none';
+  document.getElementById('quizQuestion').textContent = 'Mau bermain lagi untuk mengumpulkan lebih banyak bintang?';
+  document.getElementById('quizVisual').textContent = quizState.score >= 8 ? '🏆' : '🌟';
+}
+function openQuiz(){
+  quizState = { question: 0, score: 0, current: null, answered: false };
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+  renderQuizQuestion();
+}
+document.getElementById('btnStartQuiz').onclick = openQuiz;
+document.getElementById('quizNextBtn').onclick = () => {
+  if(quizState.question >= 9){ finishQuiz(); return; }
+  quizState.question++;
+  renderQuizQuestion();
+};
+document.getElementById('quizHomeBtn').onclick = () => {
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('startScreen').style.display = '';
+  showMainMenu();
+};
 
 </script>
 
