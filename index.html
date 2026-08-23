@@ -1076,6 +1076,59 @@ body:has(#startScreen[style*="display: none"]) {
 }
 </style>
 
+<style id="mobile-main-menu-cleanup">
+  /* Tombol utama saat ini berupa teks, bukan lagi kartu ilustrasi.
+     Override aturan menu lama agar tidak saling bertumpuk di layar HP. */
+  .main-menu-options{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    gap:8px;
+    width:100%;
+    margin:0 auto;
+  }
+
+  .main-menu-options .sub-menu-item{
+    width:min(340px,86vw);
+    min-width:0;
+    min-height:48px;
+    padding:10px 16px;
+    margin:0 auto;
+    border-radius:18px;
+    font-size:clamp(19px,5.2vw,25px);
+    line-height:1.1;
+    white-space:nowrap;
+    box-shadow:0 4px 0 rgba(0,0,0,.12)!important;
+  }
+
+  .main-menu-options .sub-menu-item.huruf{
+    color:#fff!important;
+    background:linear-gradient(180deg,#FF6DA0,#E8437E)!important;
+  }
+
+  .main-menu-options .sub-menu-item.angka{
+    color:#fff!important;
+    background:linear-gradient(180deg,#45AEF5,#237FCE)!important;
+  }
+
+  .main-menu-options .sub-menu-item:active{
+    transform:translateY(3px) scale(.98);
+    box-shadow:0 1px 0 rgba(0,0,0,.12)!important;
+  }
+
+  @media (min-width:700px){
+    .main-menu-options{
+      flex-direction:row;
+      justify-content:center;
+      gap:16px;
+    }
+    .main-menu-options .sub-menu-item{
+      width:min(300px,32vw);
+    }
+  }
+</style>
+
 <style id="menu-banner-fix">
 #btnStartHuruf,#btnStartAngka{
  background:transparent!important;
@@ -2616,6 +2669,8 @@ function startApp(selectedMode, isWriting=false){
 }
 function showMainMenu(){
   document.getElementById('mainMenuOptions').style.display='';
+  document.getElementById('progressCard').style.display='';
+  document.getElementById('btnStartQuiz').style.display='';
   document.getElementById('latihanMenu').style.display='none';
   document.getElementById('btnMenuLatihan').style.display='';
 
@@ -2628,6 +2683,8 @@ function showMainMenu(){
 }
 function showSubMenu(which){
   document.getElementById('mainMenuOptions').style.display='none';
+  document.getElementById('progressCard').style.display='none';
+  document.getElementById('btnStartQuiz').style.display='none';
   document.getElementById('latihanMenu').style.display=which==='latihan'?'flex':'none';
   document.getElementById('btnMenuLatihan').style.display='none';
 
@@ -2637,7 +2694,9 @@ function showSubMenu(which){
   document.getElementById('startSub').style.display='none';
   document.querySelector('.start-name-row').style.display='none';
   document.getElementById('startTitleText').textContent = which==='belajar' ? 'PENGENALAN' : 'LATIHAN';
-  updateStartTitleVisual(false);
+  const titleImg = document.getElementById('startTitleImg');
+  if(titleImg) titleImg.style.display='none';
+  document.getElementById('startTitleText').style.display='';
 }
 document.getElementById('btnMenuLatihan').onclick=()=>showSubMenu('latihan');
 document.getElementById('backMainFromLatihan').onclick=showMainMenu;
@@ -3274,6 +3333,39 @@ window.updateCountingScoreUI();
 </style>
 
 <style id="counting-score-style">
+  /* Menu utama juga dipusatkan secara vertikal di viewport. */
+  #startScreen .start-card{
+    justify-content:center !important;
+  }
+
+  /* Pusatkan judul dan isi submenu Latihan sebagai satu kelompok. */
+  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-card{
+    justify-content:center !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-title{
+    margin:0 auto 18px !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
+    margin:0 auto !important;
+  }
+
+  /* Saat submenu latihan aktif, jadikan ia satu halaman menu tersendiri. */
+  #startScreen #latihanMenu{
+    order:2 !important;
+    flex:0 1 auto !important;
+    width:min(520px,100%) !important;
+    margin:0 auto !important;
+  }
+  #startScreen #latihanMenu[style*="display: flex"]{
+    display:flex !important;
+  }
+  #startScreen #latihanMenu .sub-menu-item{
+    width:min(360px,86vw);
+    min-height:44px;
+    padding:8px 14px;
+    line-height:1.1;
+  }
+
   .counting-score-card{
     order:10; width:min(390px,100%); margin:8px auto 0; padding:14px 18px;
     background:rgba(255,255,255,.94); border:3px solid #FFE1A8; border-radius:20px;
