@@ -1852,7 +1852,8 @@ function renderHurufPair(svgEl, upper, lower){
   svgEl.setAttribute('viewBox','0 0 640 400');
   svgEl.innerHTML = '';
   const ns = 'http://www.w3.org/2000/svg';
-  const fontSize = 330, fontWeight = 700;
+  // Huruf dibuat lebih besar agar lebih mudah dilihat dan dijiplak anak.
+  const fontSize = 380, fontWeight = 700;
 
   // Setiap halaman huruf mendapat kombinasi warna berbeda.
   // Huruf besar dan kecil memakai warna pasangan agar mudah dibedakan anak.
@@ -2057,8 +2058,8 @@ function buildMask(){
     const offX = (canvas.width - BASE_W*scale) / 2;
     const offY = (canvas.height - BASE_H*scale) / 2;
     const item = LETTERS[index];
-    drawGlyph(item.ch, offX + 160*scale, offY + 320*scale, 330*scale, 34*scale);
-    drawGlyph(item.ch.toLowerCase(), offX + 480*scale, offY + 320*scale, 330*scale, 34*scale);
+    drawGlyph(item.ch, offX + 160*scale, offY + 320*scale, 380*scale, 34*scale);
+    drawGlyph(item.ch.toLowerCase(), offX + 480*scale, offY + 320*scale, 380*scale, 34*scale);
   } else {
     const BASE_W = 520, BASE_H = 520;
     const scale = Math.min(canvas.width / BASE_W, canvas.height / BASE_H);
@@ -2462,6 +2463,27 @@ document.getElementById('btnNext').onclick = () => {
   if(index < list.length-1){ index++; render(); }
 };
 document.getElementById('btnClear').onclick = () => { canvasMain.clear(); celebrated = false; updateNextButton(); };
+// Tombol pada popup setelah latihan berhasil harus menutup popup terlebih
+// dahulu. Sebelumnya kedua tombol hanya dibuat di HTML tanpa handler, sehingga
+// terlihat bisa ditekan tetapi tidak melakukan apa-apa.
+document.getElementById('btnTryAgain').onclick = () => {
+  document.getElementById('actionOverlay').classList.remove('show');
+  canvasMain.clear();
+  celebrated = false;
+  window.lastMatchPercent = 0;
+  if(window.updateMatchProgress) window.updateMatchProgress(0);
+  updateNextButton();
+};
+document.getElementById('btnGoNext').onclick = () => {
+  document.getElementById('actionOverlay').classList.remove('show');
+  const list = mode === 'huruf' ? LETTERS : NUMBERS;
+  if(index < list.length - 1){
+    index++;
+    render();
+  } else {
+    updateNextButton();
+  }
+};
 document.getElementById('btnKembali').onclick = () => {
   document.getElementById('stage').style.display = 'none';
   writingMode = false;
