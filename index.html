@@ -1298,6 +1298,21 @@ body:has(#startScreen[style*="display: none"]) {
   @media(max-width:430px){.quiz-title{font-size:27px}.quiz-option{font-size:24px}.quiz-visual{font-size:64px}}
 </style>
 
+<script>
+/* Performance: warm only the assets that are used by the menus, without blocking startup. */
+(function(){
+  const assets = [
+    'assets/background.png','assets/judul.png','assets/huruf.png','assets/angka.png',
+    'assets/quis.png','assets/latihan.png','assets/menulis_huruf.png','assets/menulis_angka.png',
+    'assets/penjumlahan.png','assets/pengurangan.png'
+  ];
+  function warm(){
+    assets.forEach(src => { const img = new Image(); img.decoding='async'; img.src=src; });
+  }
+  if('requestIdleCallback' in window) requestIdleCallback(warm,{timeout:1200});
+  else setTimeout(warm,200);
+})();
+</script>
 </head>
 <body>
 
@@ -2374,7 +2389,11 @@ function checkCoverage(){
   }
 }
 canvasMain.setOnStrokeEnd(checkCoverage);
-window.addEventListener('resize', () => { buildMask(); });
+let _maskResizeFrame = 0;
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(_maskResizeFrame);
+  _maskResizeFrame = requestAnimationFrame(() => buildMask());
+});
 
 function spawnConfetti(){
   const layer = document.getElementById('confettiLayer');
@@ -2597,9 +2616,10 @@ function render(){
   renderChips();
   buildMask();
   updateNextButton();
-  if(mode === 'huruf' && !writingMode) speakLetterAndExample();
+  // Let the new page paint first; speech starts on the next task so navigation feels instant.
+  if(mode === 'huruf' && !writingMode) setTimeout(speakLetterAndExample, 0);
   else if(writingMode && mode === 'huruf') { /* mode menulis tidak otomatis menyebut contoh */ }
-  else if(mode === 'angka' && !writingMode) speakCurrent();
+  else if(mode === 'angka' && !writingMode) setTimeout(speakCurrent, 0);
   if(cleanLearning){
     setHandGuideVisible(false);
     handGuideOn = false;
@@ -2641,6 +2661,19 @@ function renderChips(){
 
 
 // ---------- SPEECH ----------
+// Cache speech voices so changing pages does not repeatedly enumerate them.
+let cachedSpeechVoices = [];
+function refreshSpeechVoices(){
+  try { cachedSpeechVoices = speechSynthesis.getVoices() || []; } catch(e) {}
+}
+if(window.speechSynthesis){
+  refreshSpeechVoices();
+  speechSynthesis.onvoiceschanged = refreshSpeechVoices;
+}
+function getSpeechVoice(prefix){
+  const p = String(prefix || '').toLowerCase();
+  return cachedSpeechVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(p));
+}
 
 function speakCurrent(onlyLetter=false){
   try{
@@ -2671,9 +2704,8 @@ function speakCurrent(onlyLetter=false){
     u.rate = 0.8;
     u.pitch = childGender === 'girl' ? 1.22 : 1.08;
     u.volume = 1;
-    const voices = speechSynthesis.getVoices();
     const prefix=language==='en'?'en':'id';
-    let selectedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+    const selectedVoice = getSpeechVoice(prefix);
     if(selectedVoice) u.voice = selectedVoice;
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
@@ -2689,9 +2721,8 @@ function speakLetterAndExample(){
     const letter = item.ch;
     const word = language==='en' ? item.wordEN : item.word;
     const lang = language==='en' ? 'en-US' : 'id-ID';
-    const voices = speechSynthesis.getVoices();
     const prefix=language==='en'?'en':'id';
-    const selectedVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+    const selectedVoice = getSpeechVoice(prefix);
 
     speechSynthesis.cancel();
 
@@ -2798,11 +2829,9 @@ function startApp(selectedMode, isWriting=false){
   index = 0;
   document.getElementById('startScreen').style.setProperty('display','none','important');
   document.getElementById('stage').style.display = '';
-  if(document.fonts && document.fonts.ready){
-    document.fonts.ready.then(render).catch(render);
-  } else {
-    render();
-  }
+  // Render immediately. Fonts are visual-only and must never block navigation.
+  // The browser will swap the web font in when it becomes available.
+  render();
 }
 function showMainMenu(){
   // Hapus override inline agar CSS menu utama dapat tampil normal.
