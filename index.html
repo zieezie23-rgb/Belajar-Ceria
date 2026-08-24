@@ -3321,6 +3321,12 @@ if(typeof applyLanguage==='function') applyLanguage();
   box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
 }
 #startScreen > .start-card > .latihan-menu .menu-anim-icon{display:none !important;}
+#startScreen > .start-card > .latihan-menu.has-img{
+  background:none !important;
+  border:none !important;
+  box-shadow:none !important;
+  padding:0 !important;
+}
 #startScreen > .start-card > .latihan-menu strong{
   color:#E27B10 !important;
   -webkit-text-stroke:0 !important;
@@ -3331,10 +3337,19 @@ if(typeof applyLanguage==='function') applyLanguage();
 }
 @media(max-width:600px){
   #startScreen #mainMenuOptions{
-    grid-template-columns:1fr;
-    width:min(360px,100%) !important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:min(420px,94vw) !important;
+    gap:10px !important;
   }
-  #startScreen #mainMenuOptions .latihan-menu{grid-column:auto;}
+  #startScreen #mainMenuOptions .huruf-logo-item,
+  #startScreen #mainMenuOptions .angka-logo-item{
+    width:100% !important;
+  }
+  #startScreen #mainMenuOptions .huruf-logo-item img,
+  #startScreen #mainMenuOptions .angka-logo-item img{
+    width:100% !important;
+  }
+  #startScreen #mainMenuOptions .latihan-menu{grid-column:1 / -1;}
   #startScreen .start-title{margin-top:30px !important;}
   #startScreen > .start-card > .latihan-menu{margin-top:12px !important;}
 }
