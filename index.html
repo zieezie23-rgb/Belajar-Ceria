@@ -723,14 +723,50 @@
   width:min(360px,72vw)!important;
   margin:auto auto 2px!important;
   order:5;
+  position:relative;
 }
 .start-name-input{
-  height:46px!important;
-  border:none!important;
-  border-radius:22px!important;
-  background:rgba(255,253,247,.96)!important;
+  height:50px!important;
+  border:3px solid #FFD23C!important;
+  border-radius:26px!important;
+  background:rgba(255,253,247,.97)!important;
   box-shadow:0 5px 0 rgba(104,71,35,.16),0 10px 18px rgba(0,70,120,.12)!important;
   font-size:16px!important;
+  font-weight:800!important;
+  font-family:'Baloo 2','Trebuchet MS',sans-serif!important;
+  color:#7E4CE0!important;
+  padding-left:42px!important;
+  padding-right:38px!important;
+  width:100%!important;
+  transition:transform .15s, box-shadow .15s, border-color .15s;
+}
+.start-name-input:focus{
+  border-color:#FF5B93!important;
+  transform:scale(1.03);
+  box-shadow:0 5px 0 rgba(104,71,35,.16),0 0 0 5px rgba(255,91,147,.22),0 10px 18px rgba(0,70,120,.12)!important;
+  outline:none;
+}
+.start-name-input::placeholder{
+  color:#B79ADD!important;
+  font-weight:700!important;
+}
+.start-name-icon{
+  position:absolute;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+  pointer-events:none;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.15));
+}
+.start-name-icon.right{
+  left:auto;
+  right:14px;
+  animation:nameStarPulse 1.6s ease-in-out infinite;
+}
+@keyframes nameStarPulse{
+  0%,100%{ transform:translateY(-50%) scale(1); }
+  50%{ transform:translateY(-50%) scale(1.25) rotate(10deg); }
 }
 
 /* Menu besar: ilustrasi menjadi fokus utama */
@@ -1224,7 +1260,9 @@ body:has(#startScreen[style*="display: none"]) {
     <div id="menuCenterWrap">
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
-      <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
+      <span class="start-name-icon" aria-hidden="true">✏️</span>
+      <input type="text" id="childName" class="start-name-input" placeholder="Nama anak (opsional)" maxlength="20">
+      <span class="start-name-icon right" aria-hidden="true">⭐</span>
     </div>
     <div class="main-menu-options" id="mainMenuOptions">
       <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar Huruf"><img src="assets/huruf.png" alt="Belajar Huruf (A–Z)" class="huruf-logo-img"><span class="btn-text-fallback" style="display:none">Belajar Huruf (A–Z)</span></button>
@@ -2312,7 +2350,7 @@ const I18N = {
   id: {
     startTitle:'Belajar Huruf & Angka',
     startSub:'Yuk pilih mau belajar apa dulu?',
-    namePlaceholder:'Tulis nama anak di sini (opsional)',
+    namePlaceholder:'Nama anak (opsional)',
     huruf:'Belajar Huruf (A–Z)', angka:'Belajar Angka (0–9)',
     tambah:'Belajar Penjumlahan', kurang:'Belajar Pengurangan',
     language:'🇮🇩 Indonesia', back:'⟵ Kembali',
@@ -2703,6 +2741,8 @@ function showMainMenu(){
   document.getElementById('startSub').style.removeProperty('display');
   document.querySelector('.start-name-row').style.removeProperty('display');
   document.getElementById('startTitleText').textContent = T('startTitle');
+  const titleImg = document.getElementById('startTitleImg');
+  if(titleImg) titleImg.src='assets/judul.png';
   updateStartTitleVisual(language === 'id');
 }
 function showSubMenu(which){
@@ -2718,10 +2758,15 @@ function showSubMenu(which){
   // Bahasa, sapaan, dan kolom nama disembunyikan agar fokus ke pilihan.
   document.getElementById('startSub').style.setProperty('display','none','important');
   document.querySelector('.start-name-row').style.setProperty('display','none','important');
-  document.getElementById('startTitleText').textContent = which==='belajar' ? 'PENGENALAN' : 'LATIHAN';
+  document.getElementById('startTitleText').textContent = which==='belajar' ? 'PENGENALAN' : '';
   const titleImg = document.getElementById('startTitleImg');
-  if(titleImg) titleImg.style.display='none';
-  document.getElementById('startTitleText').style.display='';
+  if(which==='latihan'){
+    if(titleImg){ titleImg.src='assets/latihan.png'; titleImg.alt='Latihan Menulis & Berhitung'; titleImg.style.display='block'; }
+    document.getElementById('startTitleText').style.display='none';
+  } else {
+    if(titleImg) titleImg.style.display='none';
+    document.getElementById('startTitleText').style.display='';
+  }
 }
 document.getElementById('btnMenuLatihan').onclick=()=>showSubMenu('latihan');
 document.getElementById('backMainFromLatihan').onclick=showMainMenu;
@@ -3278,7 +3323,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   min-height:0;
   gap:0 !important;
 }
-#startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;}
+#startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;color:#000 !important;text-shadow:none !important;}
 #startScreen .start-name-row{order:3 !important;margin:0 auto 12px !important;}
 #startScreen #mainMenuOptions{
   order:4 !important;
@@ -3392,12 +3437,12 @@ if(typeof applyLanguage==='function') applyLanguage();
     justify-content:center !important;
   }
 
-  /* Pusatkan judul dan isi submenu Latihan sebagai satu kelompok. */
+  /* Pusatkan isi submenu Latihan; judul tetap 5px di atas seperti menu utama. */
   #startScreen:has(#latihanMenu[style*="display: flex"]) .start-card{
-    justify-content:center !important;
+    justify-content:flex-start !important;
   }
   #startScreen:has(#latihanMenu[style*="display: flex"]) .start-title{
-    margin:0 auto 18px !important;
+    margin:5px auto 0 !important;
   }
   #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
     margin:0 auto !important;
@@ -3406,9 +3451,11 @@ if(typeof applyLanguage==='function') applyLanguage();
   /* Saat submenu latihan aktif, jadikan ia satu halaman menu tersendiri. */
   #startScreen #latihanMenu{
     order:2 !important;
-    flex:0 1 auto !important;
+    flex:1 1 auto !important;
+    justify-content:center !important;
     width:min(520px,100%) !important;
     margin:0 auto !important;
+    min-height:0;
   }
   #startScreen #latihanMenu[style*="display: flex"]{
     display:flex !important;
