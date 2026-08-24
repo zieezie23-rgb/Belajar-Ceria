@@ -1403,6 +1403,120 @@ body::before {
 }
 </style>
 
+
+<style id="playful-ui-motion">
+/* ===== ANIMASI CERIA =====
+   Semua tombol dan judul menu diberi gerakan lembut agar tidak terasa statis. */
+@keyframes playfulBob{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-5px) rotate(-0.6deg)}
+}
+@keyframes playfulBobSmall{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-3px) rotate(0.5deg)}
+}
+@keyframes titleFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-4px) scale(1.015)}
+}
+@keyframes menuIconFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-7px) rotate(-1deg)}
+}
+@keyframes buttonShine{
+  0%,55%,100%{filter:brightness(1)}
+  30%{filter:brightness(1.08)}
+}
+
+/* Judul utama menu */
+#startScreen .start-title{
+  animation:titleFloat 2.8s ease-in-out infinite!important;
+  transform-origin:center center;
+}
+#startScreen .start-title-img{
+  animation:titleFloat 2.8s ease-in-out infinite;
+  transform-origin:center center;
+}
+
+/* Menu utama */
+#startScreen .main-menu-options > button,
+#startScreen #btnStartQuiz,
+#startScreen #btnMenuLatihan{
+  animation:playfulBob 2.5s ease-in-out infinite, buttonShine 3.2s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+#startScreen .main-menu-options > button:nth-child(2){animation-delay:.35s,.35s}
+#startScreen #btnStartQuiz{animation-delay:.7s,.7s}
+#startScreen #btnMenuLatihan{animation-delay:1.05s,1.05s}
+
+/* Ikon/gambar menu ikut bergerak sedikit lebih hidup */
+#startScreen .menu-anim-icon,
+#startScreen .huruf-logo-img,
+#startScreen .angka-logo-img,
+#startScreen .submenu-img,
+#startScreen .quiz-menu-btn img,
+#startScreen .latihan-menu img{
+  animation:menuIconFloat 2.2s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+#startScreen .angka-logo-img{animation-delay:.35s}
+#startScreen .submenu-img{animation-duration:2.35s}
+
+/* Judul/subjudul dan item submenu */
+#startScreen .start-sub{
+  animation:playfulBobSmall 3s ease-in-out infinite;
+}
+#startScreen .sub-menu-item,
+#startScreen .sub-menu-title{
+  animation:playfulBobSmall 2.4s ease-in-out infinite, buttonShine 3.5s ease-in-out infinite;
+  transform-origin:center center;
+}
+#startScreen .sub-menu-item:nth-child(2){animation-delay:.18s,.18s}
+#startScreen .sub-menu-item:nth-child(3){animation-delay:.36s,.36s}
+#startScreen .sub-menu-item:nth-child(4){animation-delay:.54s,.54s}
+#startScreen .sub-menu-title{animation-delay:.72s,.72s}
+
+/* Tombol pada halaman belajar/latihan juga diberi gerakan lembut */
+#stage button:not(:disabled),
+#quizScreen button:not(:disabled),
+#helpOverlay button:not(:disabled){
+  animation:playfulBobSmall 3.2s ease-in-out infinite;
+  transform-origin:center center;
+}
+
+/* Interaksi sentuh tetap terasa responsif */
+#startScreen button:active,
+#stage button:active,
+#quizScreen button:active,
+#helpOverlay button:active{
+  animation-play-state:paused!important;
+}
+
+/* Input tidak ikut dianimasikan */
+#startScreen .start-name-input{animation:none!important;}
+
+/* Pengguna yang memilih mengurangi animasi tetap mendapat tampilan nyaman */
+@media (prefers-reduced-motion:reduce){
+  #startScreen .start-title,
+  #startScreen .start-title-img,
+  #startScreen .main-menu-options > button,
+  #startScreen #btnStartQuiz,
+  #startScreen #btnMenuLatihan,
+  #startScreen .menu-anim-icon,
+  #startScreen .huruf-logo-img,
+  #startScreen .angka-logo-img,
+  #startScreen .submenu-img,
+  #startScreen .quiz-menu-btn img,
+  #startScreen .latihan-menu img,
+  #startScreen .start-sub,
+  #startScreen .sub-menu-item,
+  #startScreen .sub-menu-title,
+  #stage button:not(:disabled),
+  #quizScreen button:not(:disabled),
+  #helpOverlay button:not(:disabled){animation:none!important;}
+}
+</style>
+
 </head>
 <body>
 
@@ -1607,15 +1721,15 @@ const LETTERS = [
 ];
 const NUMBERS = [
   {d:'0', word:'Nol', wordEN:'Zero', emoji:'', syllable:'n-o-l, nol', syllableEN:'z-e-r-o, zero'},
-  {d:'1', word:'Satu', wordEN:'One', emoji:'🍎', syllable:'s-a sa, t-u tu, satu', syllableEN:'o-n-e, one'},
-  {d:'2', word:'Dua', wordEN:'Two', emoji:'🍎🍎', syllable:'d-u du, a, dua', syllableEN:'t-w-o, two'},
-  {d:'3', word:'Tiga', wordEN:'Three', emoji:'🍎🍎🍎', syllable:'t-i ti, g-a ga, tiga', syllableEN:'t-h-r-ee, three'},
-  {d:'4', word:'Empat', wordEN:'Four', emoji:'🍎🍎🍎🍎', syllable:'em, pat, empat', syllableEN:'f-o-u-r, four'},
-  {d:'5', word:'Lima', wordEN:'Five', emoji:'🍎🍎🍎🍎🍎', syllable:'l-i li, m-a ma, lima', syllableEN:'f-i-v-e, five'},
-  {d:'6', word:'Enam', wordEN:'Six', emoji:'🍎🍎🍎🍎🍎🍎', syllable:'e, nam, enam', syllableEN:'s-i-x, six'},
-  {d:'7', word:'Tujuh', wordEN:'Seven', emoji:'🍎🍎🍎🍎🍎🍎🍎', syllable:'tu, juh, tujuh', syllableEN:'s-e-v-e-n, seven'},
-  {d:'8', word:'Delapan', wordEN:'Eight', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'de, la, pan, delapan', syllableEN:'e-i-g-h-t, eight'},
-  {d:'9', word:'Sembilan', wordEN:'Nine', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'sem, bi, lan, sembilan', syllableEN:'n-i-n-e, nine'},
+  {d:'1', word:'Satu', wordEN:'One', emoji:'🍎', syllable:'s-a-t-u, satu', syllableEN:'o-n-e, one'},
+  {d:'2', word:'Dua', wordEN:'Two', emoji:'🍎🍎', syllable:'d-u-a, dua', syllableEN:'t-w-o, two'},
+  {d:'3', word:'Tiga', wordEN:'Three', emoji:'🍎🍎🍎', syllable:'t-i-g-a, tiga', syllableEN:'t-h-r-ee, three'},
+  {d:'4', word:'Empat', wordEN:'Four', emoji:'🍎🍎🍎🍎', syllable:'e-m-p-a-t, empat', syllableEN:'f-o-u-r, four'},
+  {d:'5', word:'Lima', wordEN:'Five', emoji:'🍎🍎🍎🍎🍎', syllable:'l-i-m-a, lima', syllableEN:'f-i-v-e, five'},
+  {d:'6', word:'Enam', wordEN:'Six', emoji:'🍎🍎🍎🍎🍎🍎', syllable:'e-n-a-m, enam', syllableEN:'s-i-x, six'},
+  {d:'7', word:'Tujuh', wordEN:'Seven', emoji:'🍎🍎🍎🍎🍎🍎🍎', syllable:'t-u-j-u-h, tujuh', syllableEN:'s-e-v-e-n, seven'},
+  {d:'8', word:'Delapan', wordEN:'Eight', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'d-e-l-a-p-a-n, delapan', syllableEN:'e-i-g-h-t, eight'},
+  {d:'9', word:'Sembilan', wordEN:'Nine', emoji:'🍎🍎🍎🍎🍎🍎🍎🍎🍎', syllable:'s-e-m-b-i-l-a-n, sembilan', syllableEN:'n-i-n-e, nine'},
 ];
 
 let mode = 'huruf'; // or 'angka'
@@ -2765,38 +2879,120 @@ function getSpeechVoice(prefix){
   return cachedSpeechVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(p));
 }
 
+// ---------- MP3 AUDIO PACK ----------
+// Semua MP3 berada di luar index.html. File hanya dimuat saat diperlukan,
+// sehingga ukuran index tetap ringan.
+let currentAudio = null;
+const AUDIO_ROOT = 'audio_pack/';
+
+function stopAppAudio(){
+  try{
+    if(currentAudio){
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      currentAudio = null;
+    }
+  }catch(e){}
+}
+
+function playAppAudio(path, onended){
+  return new Promise((resolve, reject) => {
+    try{
+      stopAppAudio();
+      if(window.speechSynthesis) speechSynthesis.cancel();
+
+      const audio = new Audio(AUDIO_ROOT + path);
+      currentAudio = audio;
+      audio.preload = 'none';
+      audio.onended = () => {
+        if(currentAudio === audio) currentAudio = null;
+        if(typeof onended === 'function') onended();
+        resolve();
+      };
+      audio.onerror = () => {
+        if(currentAudio === audio) currentAudio = null;
+        reject(new Error('Audio tidak ditemukan: ' + path));
+      };
+      audio.play().catch(reject);
+    }catch(e){
+      reject(e);
+    }
+  });
+}
+
+function playAudioWithFallback(path, fallbackText, lang='id-ID'){
+  return playAppAudio(path).catch(() => {
+    // Jika MP3 belum ada di GitHub, aplikasi tetap dapat berbicara melalui TTS.
+    if(!window.speechSynthesis || !fallbackText) return;
+    try{
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(fallbackText);
+      u.lang = lang;
+      u.rate = 0.8;
+      u.pitch = childGender === 'girl' ? 1.22 : 1.08;
+      u.volume = 1;
+      const selectedVoice = getSpeechVoice(lang.startsWith('en') ? 'en' : 'id');
+      if(selectedVoice) u.voice = selectedVoice;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  });
+}
+
+function numberAudioName(item, kind='lengkap'){
+  const safe = String(item.word || '').toLowerCase()
+    .normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
+  return `${item.d}-${safe}-${kind}.mp3`;
+}
+
+function letterAudioName(item, example=false){
+  const letter = String(item.ch || '').toLowerCase();
+  return `huruf/${letter}${example ? '-contoh' : ''}.mp3`;
+}
+
 function speakCurrent(onlyLetter=false){
   try{
+    if(language === 'id'){
+      if(mode === 'huruf'){
+        const item = LETTERS[index];
+        const path = letterAudioName(item, false);
+        const fallback = item.ch;
+        playAudioWithFallback(path, fallback, 'id-ID');
+        return;
+      }
+
+      const item = NUMBERS[index];
+      // Tombol "Putar Suara" dan perpindahan angka menggunakan
+      // MP3 lengkap: "Satu... s-a-t-u... satu."
+      const path = `angka/${numberAudioName(item, 'lengkap')}`;
+      const fallbackMap = {
+        'Nol':'Nol. n-o-l. nol','Satu':'Satu. s-a-t-u. satu','Dua':'Dua. d-u-a. dua',
+        'Tiga':'Tiga. t-i-g-a. tiga','Empat':'Empat. e-m-p-a-t. empat','Lima':'Lima. l-i-m-a. lima',
+        'Enam':'Enam. e-n-a-m. enam','Tujuh':'Tujuh. t-u-j-u-h. tujuh',
+        'Delapan':'Delapan. d-e-l-a-p-a-n. delapan','Sembilan':'Sembilan. s-e-m-b-i-l-a-n. sembilan'
+      };
+      playAudioWithFallback(path, fallbackMap[item.word] || item.word, 'id-ID');
+      return;
+    }
+
+    // Bahasa Inggris belum memiliki paket MP3; pertahankan TTS sebagai fallback.
     let text='';
     if(mode === 'huruf'){
       const item=LETTERS[index];
-      // Tombol "Putar Suara" hanya menyebutkan huruf.
-      // Saat halaman dibuka/berpindah, gunakan speakLetterAndExample().
-      text = language==='en' ? item.ch : item.ch;
+      text = item.ch;
     }else{
       const item=NUMBERS[index];
-      const spellMapID = {
-        'Nol':'Nol. n-o-l. nol','Satu':'Satu. s-a-t-u. satu','Dua':'Dua. d-u-a. dua',
-        'Tiga':'Tiga. t-i-g-a. tiga','Empat':'Empat. e-m-p-a-t. empat','Lima':'Lima. l-i-m-a. lima',
-        'Enam':'Enam. e-n-a-m. enam','Tujuh':'Tujuh. t-u-j-u-h. tujuh','Delapan':'Delapan. d-e-l-a-p-a-n. delapan',
-        'Sembilan':'Sembilan. s-e-m-b-i-l-a-n. sembilan'
-      };
       const spellMapEN = {
         'Zero':'Zero. z-e-r-o. zero','One':'One. o-n-e. one','Two':'Two. t-w-o. two',
         'Three':'Three. t-h-r-e-e. three','Four':'Four. f-o-u-r. four','Five':'Five. f-i-v-e. five',
         'Six':'Six. s-i-x. six','Seven':'Seven. s-e-v-e-n. seven','Eight':'Eight. e-i-g-h-t. eight',
         'Nine':'Nine. n-i-n-e. nine'
       };
-      text = language==='en' ? (spellMapEN[item.wordEN] || item.wordEN) : (spellMapID[item.word] || item.word);
+      text = spellMapEN[item.wordEN] || item.wordEN;
     }
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = language==='en' ? 'en-US' : 'id-ID';
-    u.rate = 0.8;
-    u.pitch = childGender === 'girl' ? 1.22 : 1.08;
-    u.volume = 1;
-    const prefix=language==='en'?'en':'id';
-    const selectedVoice = getSpeechVoice(prefix);
-    if(selectedVoice) u.voice = selectedVoice;
+    u.lang='en-US'; u.rate=0.8; u.pitch=childGender==='girl'?1.22:1.08; u.volume=1;
+    const selectedVoice=getSpeechVoice('en');
+    if(selectedVoice) u.voice=selectedVoice;
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
   }catch(e){}
@@ -2808,30 +3004,44 @@ function speakLetterAndExample(){
   if(mode !== 'huruf') return;
   try{
     const item=LETTERS[index];
+
+    if(language === 'id'){
+      // Gunakan dua MP3 terpisah agar karakter suara tetap konsisten:
+      // "A" -> jeda -> contoh kata "Ayam".
+      const letterPath = letterAudioName(item, false);
+      const examplePath = letterAudioName(item, true);
+
+      playAppAudio(letterPath)
+        .then(() => new Promise(resolve => setTimeout(resolve, 650)))
+        .then(() => playAppAudio(examplePath))
+        .catch(() => {
+          // Fallback ke TTS bila aset belum tersedia.
+          const letter=item.ch;
+          const word=item.word;
+          const selectedVoice=getSpeechVoice('id');
+          speechSynthesis.cancel();
+          const u1=new SpeechSynthesisUtterance(letter);
+          u1.lang='id-ID'; u1.rate=.8; u1.pitch=childGender==='girl'?1.22:1.08;
+          const u2=new SpeechSynthesisUtterance(word);
+          u2.lang='id-ID'; u2.rate=.8; u2.pitch=childGender==='girl'?1.22:1.08;
+          if(selectedVoice){u1.voice=selectedVoice;u2.voice=selectedVoice;}
+          u1.onend=()=>setTimeout(()=>speechSynthesis.speak(u2),650);
+          speechSynthesis.speak(u1);
+        });
+      return;
+    }
+
+    // Bahasa Inggris tetap menggunakan TTS.
     const letter = item.ch;
-    const word = language==='en' ? item.wordEN : item.word;
-    const lang = language==='en' ? 'en-US' : 'id-ID';
-    const prefix=language==='en'?'en':'id';
-    const selectedVoice = getSpeechVoice(prefix);
-
+    const word = item.wordEN;
+    const selectedVoice = getSpeechVoice('en');
     speechSynthesis.cancel();
-
-    const u1 = new SpeechSynthesisUtterance(letter);
-    u1.lang = lang;
-    u1.rate = 0.8;
-    u1.pitch = childGender === 'girl' ? 1.22 : 1.08;
-    u1.volume = 1;
-    if(selectedVoice) u1.voice = selectedVoice;
-
-    const u2 = new SpeechSynthesisUtterance(word);
-    u2.lang = lang;
-    u2.rate = 0.8;
-    u2.pitch = childGender === 'girl' ? 1.22 : 1.08;
-    u2.volume = 1;
-    if(selectedVoice) u2.voice = selectedVoice;
-
-    // Jeda singkat setelah penyebutan huruf.
-    u1.onend = () => setTimeout(() => speechSynthesis.speak(u2), 650);
+    const u1=new SpeechSynthesisUtterance(letter);
+    u1.lang='en-US'; u1.rate=.8; u1.pitch=childGender==='girl'?1.22:1.08;
+    const u2=new SpeechSynthesisUtterance(word);
+    u2.lang='en-US'; u2.rate=.8; u2.pitch=childGender==='girl'?1.22:1.08;
+    if(selectedVoice){u1.voice=selectedVoice;u2.voice=selectedVoice;}
+    u1.onend=()=>setTimeout(()=>speechSynthesis.speak(u2),650);
     speechSynthesis.speak(u1);
   }catch(e){}
 }
