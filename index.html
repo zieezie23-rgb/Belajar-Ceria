@@ -1149,6 +1149,7 @@ body:has(#startScreen[style*="display: none"]) {
  height:auto!important;
  object-fit:contain!important;
  margin:0 auto!important;
+ filter:drop-shadow(0 6px 8px rgba(0,30,80,.22));
 }
 </style>
 
@@ -1160,6 +1161,18 @@ body:has(#startScreen[style*="display: none"]) {
     font-weight:900; font-size:15px;
   }
   .progress-card strong{font-size:20px;color:#FFE16A;}
+  #startScreen .progress-card{
+    background:none !important;
+    border:none !important;
+    box-shadow:none !important;
+    color:#000 !important;
+    text-shadow:none !important;
+  }
+  #startScreen .progress-card strong{
+    color:#FFE16A !important;
+    font-weight:900 !important;
+    text-shadow:0 2px 3px rgba(0,45,110,.25) !important;
+  }
   .quiz-menu-btn{
     margin:16px auto 0; border:0; border-radius:28px; padding:12px 24px;
     background:linear-gradient(180deg,#9B6BFF,#7040D1); color:#fff;
@@ -1171,8 +1184,8 @@ body:has(#startScreen[style*="display: none"]) {
     background:none!important; border:none!important; box-shadow:none!important;
     padding:0!important; line-height:0;
   }
-  .quiz-menu-btn.has-img img{ display:block; width:min(260px,60vw); height:auto; margin:0 auto; }
-  .latihan-menu.has-img img{ display:block; width:min(320px,72vw); height:auto; margin:0 auto; }
+  .quiz-menu-btn.has-img img{ display:block; width:min(260px,60vw); height:auto; margin:0 auto; filter:drop-shadow(0 6px 8px rgba(0,30,80,.22)); }
+  .latihan-menu.has-img img{ display:block; width:min(320px,72vw); height:auto; margin:0 auto; filter:drop-shadow(0 6px 8px rgba(0,30,80,.22)); }
   .quiz-menu-btn.has-img:active,.latihan-menu.has-img:active{ transform:translateY(3px); }
   #quizScreen{
     position:fixed; inset:0; z-index:5200; display:none; overflow:auto;
@@ -3253,15 +3266,15 @@ if(typeof applyLanguage==='function') applyLanguage();
   padding:clamp(22px,4vh,48px) clamp(14px,3vw,28px) 18px !important;
   overflow-y:auto !important;
 }
-#startScreen .start-title{order:1 !important;margin:clamp(28px,5vh,52px) auto 8px !important;}
-#startScreen .start-sub{order:2 !important;margin:0 auto 14px !important;}
-#startScreen .start-name-row{order:3 !important;margin:0 auto 20px !important;}
+#startScreen .start-title{order:1 !important;margin:clamp(8px,1.5vh,18px) auto 4px !important;}
+#startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;}
+#startScreen .start-name-row{order:3 !important;margin:0 auto 12px !important;}
 #startScreen #mainMenuOptions{
   order:4 !important;
   display:grid !important;
   grid-template-columns:repeat(2,minmax(0,1fr));
   align-items:start !important;
-  gap:clamp(12px,2.5vw,24px) !important;
+  gap:clamp(8px,1.8vw,16px) !important;
   width:min(720px,100%) !important;
   margin:0 auto !important;
   flex:none !important;
@@ -3299,17 +3312,17 @@ if(typeof applyLanguage==='function') applyLanguage();
 #startScreen .progress-card{
   order:5 !important;
   width:min(430px,100%) !important;
-  margin:18px auto 0 !important;
+  margin:10px auto 0 !important;
 }
 #startScreen .quiz-menu-btn{
   order:6 !important;
-  margin:12px auto 0 !important;
+  margin:6px auto 0 !important;
 }
 #startScreen > .start-card > .latihan-menu{
   order:7 !important;
   width:min(520px,100%) !important;
   min-width:0 !important;
-  margin:16px auto 0 !important;
+  margin:8px auto 0 !important;
   padding:14px 18px !important;
   min-height:70px;
   flex:none !important;
@@ -3350,14 +3363,14 @@ if(typeof applyLanguage==='function') applyLanguage();
     width:100% !important;
   }
   #startScreen #mainMenuOptions .latihan-menu{grid-column:1 / -1;}
-  #startScreen .start-title{margin-top:30px !important;}
-  #startScreen > .start-card > .latihan-menu{margin-top:12px !important;}
+  #startScreen .start-title{margin-top:8px !important;}
+  #startScreen > .start-card > .latihan-menu{margin-top:8px !important;}
 }
 @media(max-height:650px) and (min-width:601px){
-  #startScreen .start-title{margin-top:20px !important;}
-  #startScreen .start-name-row{margin-bottom:12px !important;}
+  #startScreen .start-title{margin-top:6px !important;}
+  #startScreen .start-name-row{margin-bottom:8px !important;}
   #startScreen #mainMenuOptions{gap:8px 16px !important;}
-  #startScreen .progress-card{margin-top:10px !important;}
+  #startScreen .progress-card{margin-top:6px !important;}
   #startScreen .quiz-menu-btn{margin-top:7px !important;}
 }
 </style>
