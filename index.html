@@ -2462,9 +2462,11 @@ function applyLanguage(){
   if(inp) inp.placeholder=T('namePlaceholder');
 
   const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=T(key); };
-  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar Huruf (A–Z)'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); } const ba=document.getElementById('btnStartAngka'); if(ba){ const labelA=language==='en'?'Learn Numbers (0–9)':'Belajar Angka (0–9)'; ba.setAttribute('aria-label',labelA); ba.setAttribute('title',labelA); } set('btnStartAddition','tambah'); set('btnStartSubtraction','kurang');
-  const mh=document.getElementById('btnStartMenulisHuruf'); if(mh) mh.innerHTML = '<span class="start-emoji">✍️</span> ' + (language==='en'?'Write Letters (A–Z)':'Menulis Huruf (A–Z)');
-  const ma=document.getElementById('btnStartMenulisAngka'); if(ma) ma.innerHTML = '<span class="start-emoji">✍️</span> ' + (language==='en'?'Write Numbers (0–9)':'Menulis Angka (0–9)');
+  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar Huruf (A–Z)'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); } const ba=document.getElementById('btnStartAngka'); if(ba){ const labelA=language==='en'?'Learn Numbers (0–9)':'Belajar Angka (0–9)'; ba.setAttribute('aria-label',labelA); ba.setAttribute('title',labelA); }
+  const bAdd=document.getElementById('btnStartAddition'); if(bAdd){ const labelAdd=T('tambah'); bAdd.setAttribute('aria-label',labelAdd); bAdd.setAttribute('title',labelAdd); }
+  const bSub=document.getElementById('btnStartSubtraction'); if(bSub){ const labelSub=T('kurang'); bSub.setAttribute('aria-label',labelSub); bSub.setAttribute('title',labelSub); }
+  const mh=document.getElementById('btnStartMenulisHuruf'); if(mh){ const labelMh=language==='en'?'Write Letters (A–Z)':'Menulis Huruf (A–Z)'; mh.setAttribute('aria-label',labelMh); mh.setAttribute('title',labelMh); }
+  const ma=document.getElementById('btnStartMenulisAngka'); if(ma){ const labelMa=language==='en'?'Write Numbers (0–9)':'Menulis Angka (0–9)'; ma.setAttribute('aria-label',labelMa); ma.setAttribute('title',labelMa); }
   const kb=document.getElementById('btnKembali'); if(kb){ const homeLabel = language==='en'?'Home':'Beranda'; kb.setAttribute('aria-label',homeLabel); kb.setAttribute('title',homeLabel); }
   set('btnHandGuide','guide'); set('btnSpeakPanel','speak');
   set('btnPrev','prev'); set('btnClear','clear'); set('btnNext','next');
