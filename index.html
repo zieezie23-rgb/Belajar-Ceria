@@ -19,7 +19,9 @@
     --card:#FFFDF7;
     --ink:#2B2140;
   }
-  *{box-sizing:border-box;}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  button, .pillbtn, a, [role="button"], input, select, textarea{ outline:none; -webkit-tap-highlight-color:transparent; }
+  button:focus, .pillbtn:focus, a:focus, [role="button"]:focus{ outline:none; box-shadow:none; }
   html,body{ height:100%; }
   body{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
@@ -445,6 +447,25 @@
   color:#0f172a;
   box-shadow:0 4px 12px rgba(0,0,0,.08);
   pointer-events:none;
+  display:flex;
+  align-items:baseline;
+  gap:4px;
+}
+.match-pct{
+  display:inline-block;
+  font-size:1.8em;
+  font-weight:900;
+  color:var(--pink-dark,#E8437E);
+  line-height:1;
+  transform-origin:left center;
+}
+.match-pct.pop{
+  animation:matchPctPop .28s ease-out;
+}
+@keyframes matchPctPop{
+  0%{ transform:scale(1); }
+  45%{ transform:scale(1.45); }
+  100%{ transform:scale(1); }
 }
 </style>
 
@@ -1369,7 +1390,7 @@ body:has(#startScreen[style*="display: none"]) {
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
         <canvas id="matchAreaCanvas"></canvas>
         <canvas id="canvasMain"></canvas>
-        <div id="matchProgress">Kecocokan: 0%</div>
+        <div id="matchProgress">Kecocokan: <span id="matchPct" class="match-pct">0%</span></div>
               </div>
     </div>
 
@@ -2228,7 +2249,20 @@ window.updateMatchProgress = function(pct){
   const el = document.getElementById('matchProgress');
   if(!el) return;
   const label = language === 'en' ? 'Match' : 'Kecocokan';
-  el.textContent = `${label}: ${Math.round(pct)}%`;
+  const rounded = Math.round(pct);
+  const pctEl = document.getElementById('matchPct');
+  if(pctEl){
+    const labelNode = el.firstChild;
+    if(labelNode && labelNode.nodeType === 3){ labelNode.textContent = `${label}: `; }
+    if(pctEl.textContent !== `${rounded}%`){
+      pctEl.textContent = `${rounded}%`;
+      pctEl.classList.remove('pop');
+      void pctEl.offsetWidth; // restart animasi
+      pctEl.classList.add('pop');
+    }
+  } else {
+    el.textContent = `${label}: ${rounded}%`;
+  }
 };
 function buildMask(){
   const canvas = canvasMain.canvas;
