@@ -869,6 +869,8 @@
   margin:0 auto;
   filter:drop-shadow(0 6px 10px rgba(0,45,110,.25));
 }
+/* Sembunyikan teks judul secara default; JS (applyLanguage) yang akan menampilkannya bila perlu (mis. bahasa Inggris / submenu). */
+#startTitleText{ display:none; }
 
 /* Pastikan ornamen/bintang di ujung kiri-kanan logo tidak terpotong. */
 #startScreen .start-title{
@@ -3182,6 +3184,7 @@ window.updateCountingScoreUI=function(){
   if(totalEl) totalEl.textContent=total;
 };
 window.updateCountingScoreUI();
+if(typeof applyLanguage==='function') applyLanguage();
 </script>
 
 
