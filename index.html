@@ -323,23 +323,25 @@
   .start-title .title-space{display:inline-block;width:.28em;}
 
   .credit-tag{
-    position:fixed; left:14px; bottom:10px; z-index:3;
+    position:fixed; left:14px; bottom:10px; z-index:6000;
     font-family:'Baloo 2','Trebuchet MS',sans-serif; font-weight:700; font-size:13px;
     color:rgba(255,255,255,0.85); text-shadow:0 2px 3px rgba(0,0,0,0.25);
     pointer-events:none; user-select:none;
   }
 
   .reset-progress-btn{
-    position:fixed; right:14px; bottom:10px; z-index:50;
-    width:40px; height:40px; border-radius:50%; border:none;
-    background:linear-gradient(180deg,#ff9a9a,#e85555);
-    color:#fff; font-size:18px; cursor:pointer;
-    box-shadow:0 4px 0 rgba(150,30,30,.35);
-    display:flex; align-items:center; justify-content:center;
-    opacity:.55; transition:opacity .2s, transform .1s;
+    position:fixed; right:70px; bottom:10px; z-index:50;
+    width:auto; height:auto; border-radius:20px; border:2px solid #D62839;
+    background:#FFE1E1; padding:7px 14px;
+    color:#D62839; font-size:14px; font-weight:800; cursor:pointer;
+    box-shadow:0 3px 0 rgba(150,30,30,.25);
+    display:flex; align-items:center; gap:5px; justify-content:center;
+    opacity:.9; transition:opacity .2s, transform .1s;
+    font-family:'Baloo 2','Trebuchet MS',sans-serif;
   }
   .reset-progress-btn:hover{ opacity:1; }
-  .reset-progress-btn:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(150,30,30,.35); }
+  .reset-progress-btn:active{ transform:translateY(2px); box-shadow:0 1px 0 rgba(150,30,30,.25); }
+  .reset-progress-btn .reset-icon{ color:#D62839; font-size:15px; }
 
   /* BOTTOM NAV */
   .bottomnav{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
@@ -1302,8 +1304,7 @@ body:has(#startScreen[style*="display: none"]) {
       <button class="sub-menu-title" type="button" id="backMainFromLatihan">← Kembali ke Menu Utama</button>
     </div>
   </div>
-  <div class="credit-tag">Creat by: Zie</div>
-  <button class="reset-progress-btn" id="btnResetProgress" type="button" aria-label="Reset Pencapaian" title="Reset Pencapaian"><span class="reset-icon">🔄</span> Reset</button>
+  <button class="reset-progress-btn" id="btnResetProgress" type="button" aria-label="Reset Pencapaian" title="Reset Pencapaian"><span class="reset-icon">↺</span> Reset</button>
 </div>
 
 <div id="resetConfirmOverlay" class="help-overlay">
@@ -3534,5 +3535,6 @@ if(typeof applyLanguage==='function') applyLanguage();
   .counting-score-total strong{color:#229653;font-size:22px;}
 </style>
 
+<div class="credit-tag">Created by: Zie</div>
 </body>
 </html>
