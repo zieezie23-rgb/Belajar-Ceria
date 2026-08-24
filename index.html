@@ -1167,6 +1167,13 @@ body:has(#startScreen[style*="display: none"]) {
     box-shadow:0 5px 0 rgba(60,25,130,.35); transition:transform .1s;
   }
   .quiz-menu-btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(60,25,130,.35);}
+  .quiz-menu-btn.has-img,.latihan-menu.has-img{
+    background:none!important; border:none!important; box-shadow:none!important;
+    padding:0!important; line-height:0;
+  }
+  .quiz-menu-btn.has-img img{ display:block; width:min(260px,60vw); height:auto; margin:0 auto; }
+  .latihan-menu.has-img img{ display:block; width:min(320px,72vw); height:auto; margin:0 auto; }
+  .quiz-menu-btn.has-img:active,.latihan-menu.has-img:active{ transform:translateY(3px); }
   #quizScreen{
     position:fixed; inset:0; z-index:5200; display:none; overflow:auto;
     padding:20px; background:linear-gradient(180deg,#6EC6FF,#8FD9FF);
@@ -1206,14 +1213,14 @@ body:has(#startScreen[style*="display: none"]) {
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
     </div>
     <div class="main-menu-options" id="mainMenuOptions">
-      <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar Huruf">Belajar Huruf (A–Z)</button>
-      <button class="sub-menu-item angka angka-logo-item" id="btnStartAngka" type="button" aria-label="Belajar Angka">Belajar Angka (0–9)</button>
+      <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar Huruf"><img src="assets/huruf.png" alt="Belajar Huruf (A–Z)" class="huruf-logo-img"><span class="btn-text-fallback" style="display:none">Belajar Huruf (A–Z)</span></button>
+      <button class="sub-menu-item angka angka-logo-item" id="btnStartAngka" type="button" aria-label="Belajar Angka"><img src="assets/angka.png" alt="Belajar Angka (0–9)" class="angka-logo-img"><span class="btn-text-fallback" style="display:none">Belajar Angka (0–9)</span></button>
     </div>
     <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
-    <button class="quiz-menu-btn" id="btnStartQuiz" type="button">🎯 Kuis Cepat</button>
-    <button class="menu-main-btn latihan-menu" id="btnMenuLatihan">
+    <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img src="assets/quis.png" alt="Kuis Cepat"></button>
+    <button class="menu-main-btn latihan-menu has-img" id="btnMenuLatihan">
       <span class="menu-anim-icon" aria-hidden="true"></span>
-      <strong>LATIHAN</strong><small>Menulis & Berhitung</small>
+      <img src="assets/latihan.png" alt="Latihan Menulis & Berhitung">
     </button>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
@@ -2363,7 +2370,7 @@ function applyLanguage(){
   if(inp) inp.placeholder=T('namePlaceholder');
 
   const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=T(key); };
-  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar Huruf (A–Z)'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); bh.textContent=label; } set('btnStartAngka','angka'); set('btnStartAddition','tambah'); set('btnStartSubtraction','kurang');
+  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar Huruf (A–Z)'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); } const ba=document.getElementById('btnStartAngka'); if(ba){ const labelA=language==='en'?'Learn Numbers (0–9)':'Belajar Angka (0–9)'; ba.setAttribute('aria-label',labelA); ba.setAttribute('title',labelA); } set('btnStartAddition','tambah'); set('btnStartSubtraction','kurang');
   const mh=document.getElementById('btnStartMenulisHuruf'); if(mh) mh.innerHTML = '<span class="start-emoji">✍️</span> ' + (language==='en'?'Write Letters (A–Z)':'Menulis Huruf (A–Z)');
   const ma=document.getElementById('btnStartMenulisAngka'); if(ma) ma.innerHTML = '<span class="start-emoji">✍️</span> ' + (language==='en'?'Write Numbers (0–9)':'Menulis Angka (0–9)');
   const kb=document.getElementById('btnKembali'); if(kb){ const homeLabel = language==='en'?'Home':'Beranda'; kb.setAttribute('aria-label',homeLabel); kb.setAttribute('title',homeLabel); }
