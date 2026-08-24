@@ -2865,7 +2865,11 @@ function renderChips(){
 
 
 // ---------- SPEECH ----------
-// Cache speech voices so changing pages does not repeatedly enumerate them.
+// Semua suara aplikasi menggunakan Web Speech TTS.
+// Tidak lagi memanggil file MP3 sehingga kata/angka dapat dibaca fleksibel.
+const TTS_PITCH = 10.00;
+const TTS_RATE = 0.95;
+
 let cachedSpeechVoices = [];
 function refreshSpeechVoices(){
   try { cachedSpeechVoices = speechSynthesis.getVoices() || []; } catch(e) {}
@@ -2879,74 +2883,20 @@ function getSpeechVoice(prefix){
   return cachedSpeechVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(p));
 }
 
-// ---------- MP3 AUDIO PACK ----------
-// Semua MP3 berada di luar index.html. File hanya dimuat saat diperlukan,
-// sehingga ukuran index tetap ringan.
-let currentAudio = null;
-const AUDIO_ROOT = 'audio_pack/';
-
-function stopAppAudio(){
+function speakTTS(text, lang='id-ID', onend=null){
+  if(!window.speechSynthesis || !text) return;
   try{
-    if(currentAudio){
-      currentAudio.pause();
-      currentAudio.currentTime = 0;
-      currentAudio = null;
-    }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text));
+    u.lang = lang;
+    u.rate = TTS_RATE;
+    u.pitch = TTS_PITCH;
+    u.volume = 1;
+    const selectedVoice = getSpeechVoice(lang.startsWith('en') ? 'en' : 'id');
+    if(selectedVoice) u.voice = selectedVoice;
+    if(typeof onend === 'function') u.onend = onend;
+    speechSynthesis.speak(u);
   }catch(e){}
-}
-
-function playAppAudio(path, onended){
-  return new Promise((resolve, reject) => {
-    try{
-      stopAppAudio();
-      if(window.speechSynthesis) speechSynthesis.cancel();
-
-      const audio = new Audio(AUDIO_ROOT + path);
-      currentAudio = audio;
-      audio.preload = 'none';
-      audio.onended = () => {
-        if(currentAudio === audio) currentAudio = null;
-        if(typeof onended === 'function') onended();
-        resolve();
-      };
-      audio.onerror = () => {
-        if(currentAudio === audio) currentAudio = null;
-        reject(new Error('Audio tidak ditemukan: ' + path));
-      };
-      audio.play().catch(reject);
-    }catch(e){
-      reject(e);
-    }
-  });
-}
-
-function playAudioWithFallback(path, fallbackText, lang='id-ID'){
-  return playAppAudio(path).catch(() => {
-    // Jika MP3 belum ada di GitHub, aplikasi tetap dapat berbicara melalui TTS.
-    if(!window.speechSynthesis || !fallbackText) return;
-    try{
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(fallbackText);
-      u.lang = lang;
-      u.rate = 0.8;
-      u.pitch = childGender === 'girl' ? 1.22 : 1.08;
-      u.volume = 1;
-      const selectedVoice = getSpeechVoice(lang.startsWith('en') ? 'en' : 'id');
-      if(selectedVoice) u.voice = selectedVoice;
-      speechSynthesis.speak(u);
-    }catch(e){}
-  });
-}
-
-function numberAudioName(item, kind='lengkap'){
-  const safe = String(item.word || '').toLowerCase()
-    .normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
-  return `${item.d}-${safe}-${kind}.mp3`;
-}
-
-function letterAudioName(item, example=false){
-  const letter = String(item.ch || '').toLowerCase();
-  return `huruf/${letter}${example ? '-contoh' : ''}.mp3`;
 }
 
 function speakCurrent(onlyLetter=false){
@@ -2954,27 +2904,20 @@ function speakCurrent(onlyLetter=false){
     if(language === 'id'){
       if(mode === 'huruf'){
         const item = LETTERS[index];
-        const path = letterAudioName(item, false);
-        const fallback = item.ch;
-        playAudioWithFallback(path, fallback, 'id-ID');
+        speakTTS(item.ch, 'id-ID');
         return;
       }
-
       const item = NUMBERS[index];
-      // Tombol "Putar Suara" dan perpindahan angka menggunakan
-      // MP3 lengkap: "Satu... s-a-t-u... satu."
-      const path = `angka/${numberAudioName(item, 'lengkap')}`;
       const fallbackMap = {
         'Nol':'Nol. n-o-l. nol','Satu':'Satu. s-a-t-u. satu','Dua':'Dua. d-u-a. dua',
         'Tiga':'Tiga. t-i-g-a. tiga','Empat':'Empat. e-m-p-a-t. empat','Lima':'Lima. l-i-m-a. lima',
         'Enam':'Enam. e-n-a-m. enam','Tujuh':'Tujuh. t-u-j-u-h. tujuh',
         'Delapan':'Delapan. d-e-l-a-p-a-n. delapan','Sembilan':'Sembilan. s-e-m-b-i-l-a-n. sembilan'
       };
-      playAudioWithFallback(path, fallbackMap[item.word] || item.word, 'id-ID');
+      speakTTS(fallbackMap[item.word] || item.word, 'id-ID');
       return;
     }
 
-    // Bahasa Inggris belum memiliki paket MP3; pertahankan TTS sebagai fallback.
     let text='';
     if(mode === 'huruf'){
       const item=LETTERS[index];
@@ -2989,12 +2932,7 @@ function speakCurrent(onlyLetter=false){
       };
       text = spellMapEN[item.wordEN] || item.wordEN;
     }
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang='en-US'; u.rate=0.8; u.pitch=childGender==='girl'?1.22:1.08; u.volume=1;
-    const selectedVoice=getSpeechVoice('en');
-    if(selectedVoice) u.voice=selectedVoice;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
+    speakTTS(text, 'en-US');
   }catch(e){}
 }
 
@@ -3004,45 +2942,11 @@ function speakLetterAndExample(){
   if(mode !== 'huruf') return;
   try{
     const item=LETTERS[index];
-
-    if(language === 'id'){
-      // Gunakan dua MP3 terpisah agar karakter suara tetap konsisten:
-      // "A" -> jeda -> contoh kata "Ayam".
-      const letterPath = letterAudioName(item, false);
-      const examplePath = letterAudioName(item, true);
-
-      playAppAudio(letterPath)
-        .then(() => new Promise(resolve => setTimeout(resolve, 650)))
-        .then(() => playAppAudio(examplePath))
-        .catch(() => {
-          // Fallback ke TTS bila aset belum tersedia.
-          const letter=item.ch;
-          const word=item.word;
-          const selectedVoice=getSpeechVoice('id');
-          speechSynthesis.cancel();
-          const u1=new SpeechSynthesisUtterance(letter);
-          u1.lang='id-ID'; u1.rate=.8; u1.pitch=childGender==='girl'?1.22:1.08;
-          const u2=new SpeechSynthesisUtterance(word);
-          u2.lang='id-ID'; u2.rate=.8; u2.pitch=childGender==='girl'?1.22:1.08;
-          if(selectedVoice){u1.voice=selectedVoice;u2.voice=selectedVoice;}
-          u1.onend=()=>setTimeout(()=>speechSynthesis.speak(u2),650);
-          speechSynthesis.speak(u1);
-        });
-      return;
-    }
-
-    // Bahasa Inggris tetap menggunakan TTS.
-    const letter = item.ch;
-    const word = item.wordEN;
-    const selectedVoice = getSpeechVoice('en');
-    speechSynthesis.cancel();
-    const u1=new SpeechSynthesisUtterance(letter);
-    u1.lang='en-US'; u1.rate=.8; u1.pitch=childGender==='girl'?1.22:1.08;
-    const u2=new SpeechSynthesisUtterance(word);
-    u2.lang='en-US'; u2.rate=.8; u2.pitch=childGender==='girl'?1.22:1.08;
-    if(selectedVoice){u1.voice=selectedVoice;u2.voice=selectedVoice;}
-    u1.onend=()=>setTimeout(()=>speechSynthesis.speak(u2),650);
-    speechSynthesis.speak(u1);
+    const lang = language === 'en' ? 'en-US' : 'id-ID';
+    const word = language === 'en' ? item.wordEN : item.word;
+    speakTTS(item.ch, lang, () => {
+      setTimeout(() => speakTTS(word, lang), 650);
+    });
   }catch(e){}
 }
 
