@@ -795,7 +795,7 @@
   .start-card{padding:25px 5px 8px!important;}
   .start-top-controls{top:8px!important;right:8px!important;}
   .start-title{
-    margin-top:38px!important;
+    margin-top:6px!important;
     font-size:clamp(24px,8.3vw,34px)!important;
     gap:3px!important;
     -webkit-text-stroke:1.5px #fff!important;
@@ -814,7 +814,7 @@
   .start-name-row{width:min(260px,72vw)!important;}
 }
 @media(max-height:700px){
-  .start-title{margin:10px auto 4px!important;font-size:clamp(24px,6vw,44px)!important;}
+  .start-title{margin:0 auto 8px!important;font-size:clamp(24px,6vw,44px)!important;}
   .start-sub{margin:2px 0 4px!important;font-size:clamp(12px,2vw,15px)!important;}
   .main-menu-options{gap:clamp(18px,8vw,60px)!important;}
   .menu-main-btn .menu-anim-icon{
@@ -826,7 +826,7 @@
   .start-name-input{height:38px!important;font-size:14px!important;}
 }
 @media(max-height:520px){
-  .start-title{margin:4px auto 2px!important;font-size:clamp(18px,5vw,30px)!important;}
+  .start-title{margin:0 auto 6px!important;font-size:clamp(18px,5vw,30px)!important;}
   .menu-main-btn .menu-anim-icon{
     width:90px!important;height:80px!important;flex-basis:80px!important;
   }
@@ -1221,6 +1221,7 @@ body:has(#startScreen[style*="display: none"]) {
 <div class="floaty-layer" id="floatyLayer" aria-hidden="true"></div>
   <div class="start-card">
     <h1 class="start-title display" id="startTitle"><img src="assets/judul.png" alt="Belajar Huruf & Angka" class="start-title-img" id="startTitleImg"><span id="startTitleText" aria-label="Belajar Huruf & Angka">Belajar Huruf &amp; Angka</span></h1>
+    <div id="menuCenterWrap">
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
       <input type="text" id="childName" class="start-name-input" placeholder="Tulis nama anak di sini (opsional)" maxlength="20">
@@ -1235,6 +1236,7 @@ body:has(#startScreen[style*="display: none"]) {
       <span class="menu-anim-icon" aria-hidden="true"></span>
       <img src="assets/latihan.png" alt="Latihan Menulis & Berhitung">
     </button>
+    </div>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
       <button class="sub-menu-item menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf</button>
@@ -2698,7 +2700,6 @@ function showMainMenu(){
   document.getElementById('btnMenuLatihan').style.removeProperty('display');
 
   // Kembalikan elemen informasi yang hanya diperlukan di menu utama.
-  document.querySelector('.start-card > div:first-child').style.removeProperty('display');
   document.getElementById('startSub').style.removeProperty('display');
   document.querySelector('.start-name-row').style.removeProperty('display');
   document.getElementById('startTitleText').textContent = T('startTitle');
@@ -2715,7 +2716,6 @@ function showSubMenu(which){
 
   // Di submenu dibuat lebih sederhana: hanya judul + pilihan menu.
   // Bahasa, sapaan, dan kolom nama disembunyikan agar fokus ke pilihan.
-  document.querySelector('.start-card > div:first-child').style.setProperty('display','none','important');
   document.getElementById('startSub').style.setProperty('display','none','important');
   document.querySelector('.start-name-row').style.setProperty('display','none','important');
   document.getElementById('startTitleText').textContent = which==='belajar' ? 'PENGENALAN' : 'LATIHAN';
@@ -3266,7 +3266,18 @@ if(typeof applyLanguage==='function') applyLanguage();
   padding:clamp(22px,4vh,48px) clamp(14px,3vw,28px) 18px !important;
   overflow-y:auto !important;
 }
-#startScreen .start-title{order:1 !important;margin:clamp(8px,1.5vh,18px) auto 4px !important;}
+#startScreen .start-title{order:1 !important;margin:5px auto 0 !important;flex:0 0 auto !important;}
+#startScreen #menuCenterWrap{
+  order:2 !important;
+  flex:1 1 auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  min-height:0;
+  gap:0 !important;
+}
 #startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;}
 #startScreen .start-name-row{order:3 !important;margin:0 auto 12px !important;}
 #startScreen #mainMenuOptions{
@@ -3318,7 +3329,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   order:6 !important;
   margin:6px auto 0 !important;
 }
-#startScreen > .start-card > .latihan-menu{
+#startScreen #menuCenterWrap > .latihan-menu{
   order:7 !important;
   width:min(520px,100%) !important;
   min-width:0 !important;
@@ -3333,19 +3344,19 @@ if(typeof applyLanguage==='function') applyLanguage();
   border-radius:22px !important;
   box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
 }
-#startScreen > .start-card > .latihan-menu .menu-anim-icon{display:none !important;}
-#startScreen > .start-card > .latihan-menu.has-img{
+#startScreen #menuCenterWrap > .latihan-menu .menu-anim-icon{display:none !important;}
+#startScreen #menuCenterWrap > .latihan-menu.has-img{
   background:none !important;
   border:none !important;
   box-shadow:none !important;
   padding:0 !important;
 }
-#startScreen > .start-card > .latihan-menu strong{
+#startScreen #menuCenterWrap > .latihan-menu strong{
   color:#E27B10 !important;
   -webkit-text-stroke:0 !important;
   font-size:clamp(22px,3vw,30px) !important;
 }
-#startScreen > .start-card > .latihan-menu small{
+#startScreen #menuCenterWrap > .latihan-menu small{
   color:#5A4A3A !important;
 }
 @media(max-width:600px){
@@ -3363,11 +3374,11 @@ if(typeof applyLanguage==='function') applyLanguage();
     width:100% !important;
   }
   #startScreen #mainMenuOptions .latihan-menu{grid-column:1 / -1;}
-  #startScreen .start-title{margin-top:8px !important;}
-  #startScreen > .start-card > .latihan-menu{margin-top:8px !important;}
+  #startScreen .start-title{margin-top:0 !important;margin-bottom:12px !important;}
+  #startScreen #menuCenterWrap > .latihan-menu{margin-top:8px !important;}
 }
 @media(max-height:650px) and (min-width:601px){
-  #startScreen .start-title{margin-top:6px !important;}
+  #startScreen .start-title{margin-top:0 !important;margin-bottom:10px !important;}
   #startScreen .start-name-row{margin-bottom:8px !important;}
   #startScreen #mainMenuOptions{gap:8px 16px !important;}
   #startScreen .progress-card{margin-top:6px !important;}
