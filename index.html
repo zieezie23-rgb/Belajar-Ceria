@@ -1201,6 +1201,19 @@ body:has(#startScreen[style*="display: none"]) {
  margin:0 auto!important;
  filter:drop-shadow(0 6px 8px rgba(0,30,80,.22));
 }
+.sub-menu-item.has-img{
+  background:none!important; border:none!important; box-shadow:none!important;
+  padding:4px!important; line-height:0;
+}
+.submenu-img{
+  display:block!important;
+  width:min(220px,60vw)!important;
+  max-width:100%!important;
+  height:auto!important;
+  object-fit:contain!important;
+  margin:0 auto!important;
+  filter:drop-shadow(0 4px 6px rgba(0,30,80,.2));
+}
 </style>
 
 <style id="stars-quiz-style">
@@ -1291,10 +1304,10 @@ body:has(#startScreen[style*="display: none"]) {
     </div>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
-      <button class="sub-menu-item menulisHuruf" id="btnStartMenulisHuruf"><span class="start-emoji">✍️</span> Menulis Huruf</button>
-      <button class="sub-menu-item menulisAngka" id="btnStartMenulisAngka"><span class="start-emoji">✍️</span> Menulis Angka</button>
-      <button class="sub-menu-item tambah" id="btnStartAddition"><span class="start-emoji">➕</span> Penjumlahan</button>
-      <button class="sub-menu-item kurang" id="btnStartSubtraction"><span class="start-emoji">➖</span> Pengurangan</button>
+      <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img src="assets/menulis_huruf.png" alt="Menulis Huruf" class="submenu-img"><span class="btn-text-fallback" style="display:none">Menulis Huruf</span></button>
+      <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img src="assets/menulis_angka.png" alt="Menulis Angka" class="submenu-img"><span class="btn-text-fallback" style="display:none">Menulis Angka</span></button>
+      <button class="sub-menu-item tambah has-img" id="btnStartAddition"><img src="assets/penjumlahan.png" alt="Penjumlahan" class="submenu-img"><span class="btn-text-fallback" style="display:none">Penjumlahan</span></button>
+      <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img src="assets/pengurangan.png" alt="Pengurangan" class="submenu-img"><span class="btn-text-fallback" style="display:none">Pengurangan</span></button>
       <div class="counting-score-card" id="countingScoreCard">
         <div class="counting-score-title">🧮 Score Berhitung</div>
         <div class="counting-score-row"><span>➕ Penjumlahan</span><strong id="additionScoreMenu">0</strong></div>
