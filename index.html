@@ -391,15 +391,7 @@
     display:flex; align-items:center; justify-content:center;
   }
   .speakbtn:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.2); }
-
-  .speakbtn-full{
-    width:100%; margin-top:10px; border:none; border-radius:14px; padding:9px;
-    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:700; font-size:14px; color:#fff; cursor:pointer;
-    background:linear-gradient(180deg,var(--orange),var(--orange-dark)); box-shadow:0 4px 0 rgba(0,0,0,0.18);
-  }
-  .speakbtn-full:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
-
-  /* CELEBRATION POPUP */
+/* CELEBRATION POPUP */
   .celebrate-overlay{
     position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
     z-index:999; opacity:0; pointer-events:none; transition:opacity .25s;
@@ -1971,74 +1963,7 @@ body::before {
 </style>
 
 
-<style id="desktop-controls-final">
-@media (min-width: 801px){
 
-  /* Home sedikit lebih besar */
-  #stage .topbar .homebtn{
-    width:92px !important;
-    height:92px !important;
-    min-width:92px !important;
-    font-size:40px !important;
-  }
-
-  /* Tombol Sebelumnya / Berikutnya diperbesar */
-  #stage .bottomnav .pillbtn{
-    min-height:76px !important;
-    padding:18px 34px !important;
-    font-size:clamp(26px,2vw,36px) !important;
-    border-radius:40px !important;
-  }
-
-  /*
-    Cara mengucapkan:
-    teks di kiri, speaker besar di kanan.
-    Tombol suara lama disembunyikan secara visual dan digantikan
-    oleh speaker besar yang tetap memanggil fungsi tombol suara lama.
-  */
-  #stage .ucap-card{
-    position:relative !important;
-  }
-
-  #stage .ucap-card .speak-btn{
-    width:92px !important;
-    min-width:92px !important;
-    height:92px !important;
-    min-height:92px !important;
-    padding:0 !important;
-    border-radius:50% !important;
-    font-size:0 !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    position:absolute !important;
-    right:22px !important;
-    top:50% !important;
-    transform:translateY(-50%) !important;
-    z-index:5 !important;
-  }
-
-  #stage .ucap-card .speak-btn::before{
-    content:'🔊' !important;
-    font-size:48px !important;
-    line-height:1 !important;
-  }
-
-  /* Beri ruang agar teks tidak tertutup speaker */
-  #stage .ucap-card .ucap-content{
-    padding-right:125px !important;
-  }
-
-  /* Hilangkan tulisan "Putar Suara" jika ada */
-  #stage .ucap-card .speak-btn .speak-label{
-    display:none !important;
-  }
-
-  #stage .ucap-card .speak-hint{
-    display:none !important;
-  }
-}
-</style>
 
 
 <style id="desktop-actual-fix">
@@ -2060,9 +1985,8 @@ body::before {
   #stage .ucap-text{font-size:40px !important;line-height:1 !important;white-space:nowrap !important;}
   #stage .ucap-sub{font-size:17px !important;margin-top:6px !important;}
   #stage .pronunciation-speaker{display:flex !important;position:static !important;transform:none !important;flex:0 0 100px !important;width:100px !important;height:100px !important;min-width:100px !important;min-height:100px !important;padding:0 !important;margin:0 !important;border-radius:50% !important;font-size:60px !important;line-height:1 !important;align-items:center !important;justify-content:center !important;}
-  #stage .speakbtn-full{display:none !important;}
-
-  /* WRITING: pronunciation card spans the complete width */
+  #stage
+/* WRITING: pronunciation card spans the complete width */
   #stage.writing-mode .maingrid{grid-template-columns:1fr !important;grid-template-rows:minmax(0,1fr) auto !important;}
   #stage.writing-mode .sidebar{grid-column:1 !important;width:100% !important;}
   #stage.writing-mode .siderow{display:block !important;width:100% !important;}
@@ -2103,6 +2027,82 @@ body::before {
   #addPopup .celebrate-emoji,#subPopup .celebrate-emoji{font-size:110px !important;}
   #addPopup .celebrate-title,#subPopup .celebrate-title{font-size:54px !important;}
   #addPopup .pillbtn,#subPopup .pillbtn{min-height:72px !important;padding:14px 32px !important;font-size:27px !important;border-radius:22px !important;}
+}
+</style>
+
+
+<style id="desktop-speaker-single">
+@media (min-width:801px){
+  #stage .card.ucap .ucap-row{
+    width:100% !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:24px !important;
+  }
+  #stage .card.ucap #btnSpeakPanel{
+    display:flex !important;
+    position:static !important;
+    width:104px !important;
+    height:104px !important;
+    min-width:104px !important;
+    min-height:104px !important;
+    flex:0 0 104px !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:50% !important;
+    font-size:62px !important;
+    line-height:1 !important;
+    transform:none !important;
+  }
+  /* The pronunciation panel contains exactly one sound control. */
+  #stage .card.ucap .speakbtn-full{display:none !important;}
+}
+</style>
+
+<style id="desktop-speaker-no-text">
+@media (min-width:801px){
+  #stage #btnSpeakPanel{
+    overflow:hidden !important;
+    white-space:nowrap !important;
+    text-indent:0 !important;
+  }
+}
+</style>
+
+
+<style id="desktop-speaker-right-only">
+@media (min-width:801px){
+  /* Speaker berada di sisi paling kanan panel, tidak lagi berdempetan
+     dengan teks pengucapan. */
+  #stage .card.ucap{
+    position:relative !important;
+  }
+
+  #stage .card.ucap .ucap-row{
+    position:relative !important;
+    width:100% !important;
+    height:100% !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+
+  #stage .card.ucap .pronunciation-speaker{
+    position:absolute !important;
+    right:24px !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    margin:0 !important;
+    flex:none !important;
+  }
+
+  /* Teks pengucapan tetap berada di tengah panel. */
+  #stage .card.ucap .ucap-copy{
+    margin:0 auto !important;
+    text-align:center !important;
+  }
 }
 </style>
 
@@ -3314,7 +3314,7 @@ function applyLanguage(){
   const mh=document.getElementById('btnStartMenulisHuruf'); if(mh){ const labelMh=language==='en'?'Write Letters (A–Z)':'Menulis Huruf (A–Z)'; mh.setAttribute('aria-label',labelMh); mh.setAttribute('title',labelMh); }
   const ma=document.getElementById('btnStartMenulisAngka'); if(ma){ const labelMa=language==='en'?'Write Numbers (0–9)':'Menulis Angka (0–9)'; ma.setAttribute('aria-label',labelMa); ma.setAttribute('title',labelMa); }
   const kb=document.getElementById('btnKembali'); if(kb){ const homeLabel = language==='en'?'Home':'Beranda'; kb.setAttribute('aria-label',homeLabel); kb.setAttribute('title',homeLabel); }
-  set('btnHandGuide','guide'); set('btnSpeakPanel','speak');
+  set('btnHandGuide','guide');
   set('btnPrev','prev'); set('btnClear','clear'); set('btnNext','next');
   const lm=document.getElementById('btnLanguage'); if(lm) lm.textContent=T('language');
   const ph=document.getElementById('panelTitle'); if(ph) ph.textContent=mode==='huruf'?T('contoh'):T('hitung');
@@ -4505,5 +4505,50 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 
 <div class="credit-tag">Created by: Zie</div>
+
+<script id="speaker-function-fix">
+(function(){
+  function bindSpeaker(){
+    const btn = document.getElementById('btnSpeakPanel');
+    if(!btn || btn.dataset.speakerBound === '1') return;
+    btn.dataset.speakerBound = '1';
+
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      /* Use the same pronunciation text already displayed in the panel. */
+      const item = (typeof currentIndex !== 'undefined' && typeof items !== 'undefined')
+        ? items[currentIndex]
+        : null;
+
+      if(typeof speak !== 'function') return;
+
+      if(item){
+        try {
+          speak(currentSay(item));
+        } catch(err) {
+          const text = document.getElementById('ucapText');
+          if(text) speak(text.textContent.replace(/^["']|["']$/g,''));
+        }
+      }else{
+        const text = document.getElementById('ucapText');
+        if(text) speak(text.textContent.replace(/^["']|["']$/g,''));
+      }
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bindSpeaker);
+  }else{
+    bindSpeaker();
+  }
+
+  /* Re-bind safely after navigation/rendering. */
+  const observer = new MutationObserver(bindSpeaker);
+  observer.observe(document.documentElement, {childList:true, subtree:true});
+})();
+</script>
+
 </body>
 </html>
