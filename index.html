@@ -1519,6 +1519,527 @@ body::before {
 }
 </style>
 
+
+<style id="desktop-each-page-fullscreen-final">
+/* ================================================================
+   DESKTOP: EVERY ACTIVE SCREEN USES THE WHOLE VIEWPORT.
+   Content/state (A, B, C... / each question) remains one page at a time.
+   No global scale and no combining of separate screens.
+   ================================================================ */
+@media (min-width: 801px) and (min-height: 600px){
+  html,body{width:100%;height:100%;overflow:hidden !important;}
+
+  /* Learning / tracing screen: one active page = one full viewport. */
+  #stage{
+    width:100vw !important;
+    max-width:none !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    margin:0 !important;
+    padding:clamp(16px,1.8vw,28px) !important;
+    overflow:hidden !important;
+    display:flex;
+    flex-direction:column;
+  }
+  #stage .topbar{flex:0 0 auto; width:100%; margin-bottom:clamp(10px,1.2vh,16px);}
+  #stage .chipstrip{flex:0 0 auto; width:100%; margin-bottom:clamp(6px,1vh,12px);}
+  #stage .maingrid{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,2.1fr) minmax(320px,1fr) !important;
+    gap:clamp(14px,1.5vw,24px) !important;
+    width:100% !important;
+    overflow:hidden !important;
+  }
+  #stage .tracepanel{
+    min-height:0 !important;
+    height:100% !important;
+    width:auto !important;
+    margin:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    padding:clamp(12px,1.2vw,20px) !important;
+  }
+  #stage .panel-toolbar{flex:0 0 auto;}
+  #stage .canvaswrap{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    width:100% !important;
+    max-height:none !important;
+    height:auto !important;
+  }
+  #stage .canvaswrap.learn-letter,
+  #stage .canvaswrap.learn-number,
+  #stage .canvaswrap.letter-writing{
+    flex:1 1 auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    aspect-ratio:auto !important;
+  }
+  #stage .sidebar{
+    min-height:0 !important;
+    height:100% !important;
+    width:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:clamp(12px,1.4vh,20px) !important;
+    overflow:hidden !important;
+  }
+  #stage .siderow{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:clamp(12px,1.4vh,20px) !important;
+  }
+  #stage .siderow .card{
+    flex:1 1 0 !important;
+    min-height:0 !important;
+    width:100% !important;
+    overflow:auto !important;
+    padding:clamp(14px,1.4vw,24px) !important;
+  }
+  #stage .card h3{font-size:clamp(20px,1.7vw,30px) !important;}
+  #stage .contoh-visual{font-size:clamp(48px,5vw,82px) !important; padding:clamp(12px,1.2vw,22px) 4px !important;}
+  #stage .contoh-word{font-size:clamp(22px,1.8vw,32px) !important;}
+  #stage .ucap-text{font-size:clamp(20px,1.7vw,30px) !important;}
+  #stage .ucap-face{font-size:clamp(30px,3vw,48px) !important;}
+  #stage .bottomnav{flex:0 0 auto; width:100%; margin-top:clamp(10px,1.2vh,16px);}
+  #stage .bottomnav .pillbtn{min-height:clamp(48px,6vh,68px); font-size:clamp(17px,1.35vw,24px);}
+
+  /* Quiz: each question remains its own full-screen state. */
+  #quizScreen{width:100vw !important;height:100dvh !important;min-height:100dvh !important;}
+  #quizScreen .quiz-box{width:min(88vw,1000px) !important;max-width:1000px !important;max-height:92dvh !important;overflow:auto;}
+
+  /* Addition/subtraction: each question remains a full-screen page. */
+  #additionScreen,#subtractionScreen{width:100vw !important;height:100dvh !important;min-height:100dvh !important;max-height:100dvh !important;overflow:hidden !important;display:none;align-items:center;justify-content:center;}
+  #additionScreen .addbox,#subtractionScreen .addbox{width:min(72vw,760px) !important;max-width:760px !important;max-height:92dvh !important;overflow:auto;margin:0 auto !important;}
+
+  /* Main menu/submenus: the active menu is the full viewport; submenu content
+     is centered inside that page rather than sharing space with other pages. */
+  #startScreen{width:100vw !important;height:100dvh !important;min-height:100dvh !important;max-height:100dvh !important;overflow:hidden !important;}
+  #startScreen .start-card{width:100vw !important;height:100dvh !important;max-width:none !important;max-height:none !important;overflow:hidden !important;}
+}
+</style>
+
+<style id="desktop-learning-wide-layout">
+@media (min-width: 801px){
+  /*
+    DESKTOP LEARNING PAGES
+    Satu halaman/state tetap satu viewport, tetapi susunannya:
+    Header
+    Huruf/angka selector
+    ┌──────────────────────────────────────┐
+    │            BENTUK HURUF/ANGKA       │  <- melebar kiri-kanan
+    └──────────────────────────────────────┘
+    ┌───────────────────┐ ┌────────────────┐
+    │ Hitung/Contoh Kata │ │ Cara Mengucap  │  <- di bawah kanvas
+    └───────────────────┘ └────────────────┘
+    Navigasi
+  */
+
+  #stage{
+    box-sizing:border-box !important;
+  }
+
+  /* Jangan lagi membuat kanvas + panel informasi menjadi kiri/kanan. */
+  #stage .maingrid{
+    grid-template-columns:1fr !important;
+    grid-template-rows:minmax(0,1fr) auto !important;
+    gap:clamp(10px,1.2vh,18px) !important;
+    overflow:hidden !important;
+  }
+
+  /* Kanvas mengambil lebar penuh dan menjadi area utama. */
+  #stage .maingrid > .tracepanel{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+  }
+
+  #stage .canvaswrap,
+  #stage .canvaswrap.learn-letter,
+  #stage .canvaswrap.learn-number{
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+  }
+
+  /* Panel informasi dipindahkan ke bawah kanvas. */
+  #stage .sidebar{
+    grid-column:1 !important;
+    grid-row:2 !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    display:block !important;
+    overflow:visible !important;
+  }
+
+  #stage .siderow{
+    width:100% !important;
+    height:auto !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:clamp(10px,1.2vw,18px) !important;
+    overflow:visible !important;
+  }
+
+  #stage .siderow .card{
+    width:100% !important;
+    min-height:clamp(120px,16vh,190px) !important;
+    height:auto !important;
+    max-height:none !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
+
+  /* Bila layar desktop lebih tinggi, kartu bawah tetap proporsional. */
+  #stage .siderow .card h3{
+    margin-bottom:clamp(6px,0.8vh,12px) !important;
+  }
+
+  #stage .contoh-visual{
+    padding:clamp(8px,0.8vh,14px) 4px !important;
+  }
+
+  /* Tombol navigasi tetap paling bawah dan selebar area aplikasi. */
+  #stage .bottomnav{
+    width:100% !important;
+  }
+}
+
+/* Desktop sangat lebar: kanvas benar-benar terasa melebar kiri-kanan. */
+@media (min-width: 1200px){
+  #stage .siderow{
+    grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) !important;
+  }
+}
+</style>
+
+
+<style id="desktop-top-and-chip-layout">
+@media (min-width: 801px){
+  /* PANEL ATAS: diperbesar dan diberi ruang lebih lega */
+  #stage .topbar{
+    display:grid !important;
+    grid-template-columns:110px minmax(0,1fr) 190px !important;
+    align-items:center !important;
+    gap:18px !important;
+    width:100% !important;
+    margin-bottom:18px !important;
+  }
+
+  #stage .topbar .homebtn{
+    width:78px !important;
+    height:78px !important;
+    font-size:34px !important;
+    justify-self:start !important;
+  }
+
+  #stage .topbar .title-wrap{
+    min-width:0 !important;
+    width:100% !important;
+    min-height:78px !important;
+    padding:14px 30px !important;
+    border-radius:44px !important;
+    box-sizing:border-box !important;
+  }
+
+  #stage .topbar .title-wrap h1{
+    font-size:clamp(32px,2.8vw,48px) !important;
+  }
+
+  #stage .topbar .title-wrap span{
+    font-size:clamp(26px,2.2vw,38px) !important;
+  }
+
+  #stage .topbar #btnLanguage{
+    min-height:64px !important;
+    justify-content:center !important;
+    padding:14px 22px !important;
+    font-size:clamp(18px,1.45vw,25px) !important;
+  }
+
+  /* DAFTAR HURUF/ANGKA: lebih besar */
+  #stage .chipstrip{
+    width:100% !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:12px !important;
+    padding:8px 4px 16px !important;
+    margin-bottom:8px !important;
+    overflow:hidden !important;
+    scrollbar-width:none !important;
+  }
+
+  #stage .chipstrip .chip{
+    width:64px !important;
+    height:58px !important;
+    min-width:64px !important;
+    border-radius:16px !important;
+    font-size:25px !important;
+    box-shadow:0 5px 0 rgba(0,0,0,.18) !important;
+  }
+
+  #stage .chipstrip .chip.current{
+    transform:scale(1.08) !important;
+  }
+
+  /* Tombol geser kiri/kanan untuk daftar huruf */
+  #stage .chipstrip .chip-arrow{
+    width:54px !important;
+    height:54px !important;
+    min-width:54px !important;
+    flex:0 0 54px !important;
+    border:0 !important;
+    border-radius:50% !important;
+    background:linear-gradient(180deg,#9B6BFF,#7E4CE0) !important;
+    color:#fff !important;
+    font-size:30px !important;
+    font-weight:900 !important;
+    line-height:1 !important;
+    cursor:pointer !important;
+    box-shadow:0 5px 0 rgba(0,0,0,.18) !important;
+  }
+
+  #stage .chipstrip .chip-arrow:disabled{
+    opacity:.28 !important;
+    cursor:default !important;
+    box-shadow:0 3px 0 rgba(0,0,0,.10) !important;
+  }
+
+  /* Angka 0–9: seluruhnya cukup, simetris, berada di tengah. */
+  #stage .chipstrip.numbers-centered{
+    justify-content:center !important;
+    overflow:hidden !important;
+  }
+
+  #stage .chipstrip.numbers-centered .chip{
+    width:58px !important;
+    min-width:58px !important;
+    height:58px !important;
+    font-size:24px !important;
+  }
+}
+</style>
+
+
+<style id="desktop-fonts-large">
+/* ================= DESKTOP TYPOGRAPHY =================
+   Semua teks UI desktop diperbesar agar seimbang dengan area layar.
+   Mobile tidak disentuh.
+*/
+@media (min-width: 801px){
+
+  #stage{
+    font-size:20px !important;
+  }
+
+  /* Header */
+  #stage .topbar .title-wrap h1{
+    font-size:clamp(40px,3.2vw,56px) !important;
+    line-height:1.05 !important;
+  }
+  #stage .topbar .title-wrap span{
+    font-size:clamp(28px,2.2vw,40px) !important;
+  }
+  #stage .topbar #btnLanguage{
+    font-size:clamp(22px,1.6vw,30px) !important;
+  }
+
+  /* Daftar huruf / angka */
+  #stage .chipstrip .chip{
+    font-size:30px !important;
+    font-weight:900 !important;
+  }
+  #stage .chipstrip .chip-arrow{
+    font-size:38px !important;
+  }
+
+  /* Judul panel */
+  #stage .card h3{
+    font-size:clamp(26px,2vw,36px) !important;
+  }
+
+  /* Contoh kata / visual */
+  #stage .contoh-visual{
+    font-size:clamp(58px,5.8vw,96px) !important;
+  }
+  #stage .contoh-word{
+    font-size:clamp(28px,2.2vw,38px) !important;
+  }
+
+  /* Cara mengucapkan */
+  #stage .ucap-face{
+    font-size:clamp(38px,3.2vw,54px) !important;
+  }
+  #stage .ucap-text{
+    font-size:clamp(26px,2vw,36px) !important;
+  }
+  #stage .ucap-sub{
+    font-size:clamp(15px,1.2vw,20px) !important;
+  }
+  #stage .speak-btn,
+  #stage .speak-hint{
+    font-size:clamp(18px,1.35vw,24px) !important;
+  }
+
+  /* Tombol navigasi */
+  #stage .bottomnav .pillbtn{
+    font-size:clamp(22px,1.7vw,30px) !important;
+    font-weight:900 !important;
+  }
+
+  /* Tombol/teks latihan menulis */
+  #stage .panel-toolbar,
+  #stage .panel-toolbar button,
+  #stage .trace-help,
+  #stage .trace-title,
+  #stage .trace-label,
+  #stage .trace-progress,
+  #stage .writing-actions button{
+    font-size:clamp(18px,1.35vw,25px) !important;
+  }
+
+  /* Kuis desktop */
+  #quizScreen .quiz-title{
+    font-size:clamp(38px,3.2vw,54px) !important;
+  }
+  #quizScreen .quiz-question{
+    font-size:clamp(28px,2.2vw,38px) !important;
+  }
+  #quizScreen .quiz-option{
+    font-size:clamp(28px,2vw,36px) !important;
+  }
+  #quizScreen .quiz-result{
+    font-size:clamp(25px,1.8vw,32px) !important;
+  }
+
+  /* Penjumlahan / pengurangan */
+  #additionScreen .addbox,
+  #subtractionScreen .addbox{
+    font-size:20px !important;
+  }
+  #additionScreen .add-title,
+  #subtractionScreen .add-title{
+    font-size:clamp(38px,3.2vw,54px) !important;
+  }
+  #additionScreen .add-question,
+  #subtractionScreen .add-question{
+    font-size:clamp(32px,2.5vw,44px) !important;
+  }
+  #additionScreen .add-option,
+  #subtractionScreen .add-option{
+    font-size:clamp(28px,2vw,36px) !important;
+  }
+
+  /* Menu utama + submenu */
+  #startScreen .start-title{
+    font-size:clamp(40px,4vw,64px) !important;
+  }
+  #startScreen .start-sub{
+    font-size:clamp(20px,1.6vw,28px) !important;
+  }
+  #startScreen .menu-main-btn strong{
+    font-size:clamp(28px,2vw,38px) !important;
+  }
+  #startScreen .sub-menu-item{
+    font-size:clamp(28px,2vw,38px) !important;
+  }
+  #startScreen .sub-menu-title{
+    font-size:clamp(20px,1.5vw,28px) !important;
+  }
+
+  /* Tombol Bahasa/Musik dan kontrol kecil */
+  #stage button,
+  #stage input,
+  #quizScreen button,
+  #additionScreen button,
+  #subtractionScreen button{
+    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
+  }
+}
+</style>
+
+
+<style id="desktop-controls-final">
+@media (min-width: 801px){
+
+  /* Home sedikit lebih besar */
+  #stage .topbar .homebtn{
+    width:92px !important;
+    height:92px !important;
+    min-width:92px !important;
+    font-size:40px !important;
+  }
+
+  /* Tombol Sebelumnya / Berikutnya diperbesar */
+  #stage .bottomnav .pillbtn{
+    min-height:76px !important;
+    padding:18px 34px !important;
+    font-size:clamp(26px,2vw,36px) !important;
+    border-radius:40px !important;
+  }
+
+  /*
+    Cara mengucapkan:
+    teks di kiri, speaker besar di kanan.
+    Tombol suara lama disembunyikan secara visual dan digantikan
+    oleh speaker besar yang tetap memanggil fungsi tombol suara lama.
+  */
+  #stage .ucap-card{
+    position:relative !important;
+  }
+
+  #stage .ucap-card .speak-btn{
+    width:92px !important;
+    min-width:92px !important;
+    height:92px !important;
+    min-height:92px !important;
+    padding:0 !important;
+    border-radius:50% !important;
+    font-size:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:absolute !important;
+    right:22px !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    z-index:5 !important;
+  }
+
+  #stage .ucap-card .speak-btn::before{
+    content:'🔊' !important;
+    font-size:48px !important;
+    line-height:1 !important;
+  }
+
+  /* Beri ruang agar teks tidak tertutup speaker */
+  #stage .ucap-card .ucap-content{
+    padding-right:125px !important;
+  }
+
+  /* Hilangkan tulisan "Putar Suara" jika ada */
+  #stage .ucap-card .speak-btn .speak-label{
+    display:none !important;
+  }
+
+  #stage .ucap-card .speak-hint{
+    display:none !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -2852,18 +3373,95 @@ function updateNextButton(){
 function renderChips(){
   const strip = document.getElementById('chipStrip');
   strip.innerHTML = '';
+
   const list = mode === 'huruf' ? LETTERS : NUMBERS;
+  const isDesktop = window.matchMedia && window.matchMedia('(min-width: 801px)').matches;
+
+  // Angka desktop: semua 0–9 ditampilkan sekaligus dan dipusatkan.
+  if(mode === 'angka' && isDesktop){
+    strip.classList.add('numbers-centered');
+    list.forEach((item, i) => {
+      const b = document.createElement('button');
+      b.className = 'chip' + (i === index ? ' current' : '');
+      b.textContent = item.d;
+      b.onclick = () => { index = i; render(); };
+      strip.appendChild(b);
+    });
+    return;
+  }
+
+  strip.classList.remove('numbers-centered');
+
+  // Huruf desktop: tampilkan maksimal 5 huruf. Huruf lainnya benar-benar
+  // tidak dirender di strip sampai pengguna menggeser dengan panah.
+  if(mode === 'huruf' && isDesktop){
+    const visibleCount = 5;
+    const maxStart = Math.max(0, list.length - visibleCount);
+
+    // Simpan posisi jendela di sekitar huruf aktif.
+    if(typeof window.letterChipStart !== 'number') window.letterChipStart = 0;
+    window.letterChipStart = Math.max(
+      0,
+      Math.min(window.letterChipStart, maxStart)
+    );
+
+    // Pastikan huruf aktif selalu berada di dalam 5 yang terlihat.
+    if(index < window.letterChipStart){
+      window.letterChipStart = index;
+    } else if(index >= window.letterChipStart + visibleCount){
+      window.letterChipStart = Math.min(maxStart, index - visibleCount + 1);
+    }
+
+    const left = document.createElement('button');
+    left.className = 'chip-arrow';
+    left.type = 'button';
+    left.textContent = '‹';
+    left.setAttribute('aria-label', 'Huruf sebelumnya');
+    left.disabled = window.letterChipStart === 0;
+    left.onclick = () => {
+      window.letterChipStart = Math.max(0, window.letterChipStart - visibleCount);
+      renderChips();
+    };
+    strip.appendChild(left);
+
+    const start = window.letterChipStart;
+    const end = Math.min(list.length, start + visibleCount);
+
+    for(let i = start; i < end; i++){
+      const item = list[i];
+      const b = document.createElement('button');
+      b.className = 'chip' + (i === index ? ' current' : '');
+      b.textContent = item.ch;
+      b.onclick = () => { index = i; render(); };
+      strip.appendChild(b);
+    }
+
+    const right = document.createElement('button');
+    right.className = 'chip-arrow';
+    right.type = 'button';
+    right.textContent = '›';
+    right.setAttribute('aria-label', 'Huruf berikutnya');
+    right.disabled = window.letterChipStart >= maxStart;
+    right.onclick = () => {
+      window.letterChipStart = Math.min(
+        maxStart,
+        window.letterChipStart + visibleCount
+      );
+      renderChips();
+    };
+    strip.appendChild(right);
+    return;
+  }
+
+  // Tampilan non-desktop / mode lainnya tetap seperti semula.
   list.forEach((item, i) => {
     const b = document.createElement('button');
     b.className = 'chip' + (i === index ? ' current' : '');
     b.textContent = mode === 'huruf' ? item.ch : item.d;
-    b.onclick = () => { index = i;
-    render(); };
+    b.onclick = () => { index = i; render(); };
     strip.appendChild(b);
   });
 }
-
-
 
 
 // ---------- SPEECH ----------
@@ -3820,90 +4418,14 @@ if(typeof applyLanguage==='function') applyLanguage();
 </style>
 
 <style id="desktop-app-fix">
-/* Saat dibuka di jendela lebar (mis. aplikasi desktop), layar Belajar/Menjiplak
-   dan Kuis dulunya menempel di bagian atas jendela sehingga menyisakan celah
-   kosong raksasa di bawah (tombol jadi terasa kecil & "mengambang"). Di sini
-   layar tersebut dipusatkan secara vertikal di jendela, seimbang atas-bawah. */
+/* Keep the app viewport neutral. The master-layout rule above owns scaling. */
 @media (min-width:640px) and (min-height:640px){
-  body{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-  }
-  #stage{
-    width:100%;
-  }
-  #quizScreen[style*="display: block"]{
-    display:flex !important;
-    align-items:center;
-    justify-content:center;
-  }
+  body{display:block !important;overflow:hidden !important;}
 }
 </style>
 
 
 
-
-<style id="desktop-layout-master-final">
-/* ================================================================
-   DESKTOP MASTER LAYOUT
-   Desktop uses exactly the same composition as the phone/browser:
-   main learning panel first, then the two information cards below.
-   Desktop changes SCALE only; it does not create a new grid.
-   ================================================================ */
-
-/* The learning page must have one composition at every viewport width. */
-#stage .maingrid{
-  display:block !important;
-  grid-template-columns:1fr !important;
-  width:100% !important;
-}
-#stage .tracepanel{
-  width:100% !important;
-  margin:0 0 16px !important;
-}
-#stage .sidebar{ width:100% !important; }
-#stage .siderow{
-  display:flex !important;
-  flex-direction:row !important;
-  gap:12px !important;
-  width:100% !important;
-}
-#stage .siderow .card{
-  flex:1 1 0 !important;
-  min-width:0 !important;
-}
-
-/* Desktop: take the mobile/browser composition and scale the whole stage. */
-@media (min-width:881px){
-  html,body{ width:100%; height:100%; overflow:hidden !important; }
-  body{ display:block !important; }
-
-  #stage{
-    /* 760px is the master design width used for scaling. */
-    width:760px !important;
-    max-width:none !important;
-    margin:0 auto !important;
-    box-sizing:border-box !important;
-    transform-origin:top center !important;
-    transform:scale(clamp(1, min(calc(100vw / 760), calc(100vh / 1120)), 1.65)) !important;
-  }
-
-  /* Keep every child at its normal/master size. */
-  #stage .topbar .title-wrap h1{font-size:27px !important;}
-  #stage .topbar .title-wrap{padding:10px 22px !important;}
-  #stage .pillbtn{font-size:16px !important; padding:12px 20px !important;}
-  #stage .pillbtn.homebtn{width:48px !important;height:48px !important;font-size:22px !important;}
-  #stage .chip{width:42px !important;height:42px !important;font-size:18px !important;}
-  #stage .card{padding:14px !important;border-radius:22px !important;}
-  #stage .card h3{font-size:18px !important;margin-bottom:10px !important;}
-  #stage .contoh-visual{font-size:46px !important;}
-  #stage .contoh-word{font-size:20px !important;}
-  #stage .ucap-text{font-size:18px !important;}
-  #stage .ucap-face{font-size:30px !important;}
-}
-</style>
 
 <div class="credit-tag">Created by: Zie</div>
 </body>
