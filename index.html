@@ -81,21 +81,6 @@
     font-size:27px; font-weight:900;
   }
 
-  .voice-avatar{
-    width:44px; height:44px; border-radius:50%; background:#FFE1B0; display:flex;
-    align-items:center; justify-content:center; font-size:24px; border:3px solid #fff;
-  }
-
-  /* TABS */
-  .tabs{ display:flex; gap:10px; margin-bottom:12px; }
-  .tab{
-    flex:1; text-align:center; padding:10px; border-radius:16px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
-    font-weight:700; font-size:16px; cursor:pointer; border:3px solid transparent;
-    background:rgba(255,255,255,0.55); color:#4a3d63;
-  }
-  .tab.active.huruf{ background:#fff; border-color:var(--pink); color:var(--pink-dark); }
-  .tab.active.angka{ background:#fff; border-color:var(--blue); color:var(--blue-dark); }
-
   /* CHIP STRIP */
   .chipstrip{
     display:flex; gap:8px; overflow-x:auto; padding:6px 2px 12px; margin-bottom:6px;
@@ -109,8 +94,7 @@
   .chip.current{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); transform:scale(1.08); }
 
   /* MAIN GRID */
-  .maingrid{ display:grid; grid-template-columns: 2.1fr 1fr; gap:16px; }
-  @media (max-width:880px){ .maingrid{ grid-template-columns: 1fr; } }
+  .maingrid{ display:grid; grid-template-columns: 1fr; gap:16px; }
 
   .tracepanel{
     background:var(--card); border-radius:26px; padding:16px;
@@ -148,7 +132,6 @@
   .learn-letter .learn-canvas-title + svg{ top:0; }
   .bottomnav.learn-nav #btnClear{ display:none; }
   #matchAreaCanvas{ pointer-events:none; cursor:default; }
-  .startdot{ display:none !important; }
 
   /* Layar "Belajar" (bukan menulis): panel kanvas, sidebar, dan navigasi bawah
      tidak ditampilkan, hanya strip huruf yang aktif. Layar Menulis Huruf/Angka
@@ -158,7 +141,7 @@
 
   /* SIDEBAR */
   .sidebar{ display:flex; flex-direction:column; gap:12px; }
-  .siderow{ display:flex; gap:12px; }
+  .siderow{ display:flex; flex-direction:column; gap:12px; }
   .siderow .card{ flex:1; min-width:0; }
   .card{ background:var(--card); border-radius:22px; padding:14px; box-shadow:0 6px 0 rgba(0,0,0,0.10); }
   .card h3{
@@ -168,7 +151,6 @@
   }
   .card.contoh h3{ color:#2FA859; }
   .card.ucap h3{ color:#F08000; }
-  .card.petunjuk h3{ color:#2E9EF5; }
 
   .contoh-visual{
     text-align:center; font-size:46px; line-height:1; margin:6px 0 8px;
@@ -183,10 +165,6 @@
   .ucap-text{ font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:18px; font-weight:800; color:var(--orange-dark); }
   .ucap-sub{ font-size:11px; color:#8a7e9c; margin-top:2px; }
   .card.ucap.hide-syllable .ucap-sub{ display:none; }
-
-  @media (max-width:560px){
-    .siderow{ flex-direction:column; }
-  }
 
   .help-overlay{
     position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
@@ -247,10 +225,6 @@
     white-space:nowrap;
     flex:0 1 auto;
   }
-  .start-title .twinkle{
-    flex:0 0 auto;
-    font-size:.72em;
-  }
   @media(max-width:420px){
     .start-title{font-size:21px;gap:6px;letter-spacing:0;}
   }
@@ -270,18 +244,14 @@
   }
   .start-name-input:focus{ border-color:var(--pink); }
   .start-name-input::placeholder{ color:#b5a9c7; font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:700; }
-  .start-options{ display:flex; flex-direction:column; gap:12px; }
   /* Khusus mode Menulis: hilangkan kartu yang tidak diperlukan. */
   #stage.writing-mode .card.contoh{ display:none; }
   #stage.writing-mode .card.hitung{ display:none; }
   #stage.writing-mode .sidebar .siderow{ justify-content:center; }
-  #stage.writing-mode .sidebar .card.ucap{ width:min(520px,100%); }
-
-  /* Tombol menu: rapi & minimalis tapi tetap "hidup" -- warna gradasi
+  #stage.writing-mode .sidebar .card.ucap{ width:min(520px,100%); }/* Tombol menu: rapi & minimalis tapi tetap "hidup" -- warna gradasi
      penuh per kategori (bukan transparan pudar), sedikit kilau di bagian
      atas, bayangan lembut yang membesar saat disentuh/hover supaya terasa
-     interaktif dan menarik, bukan datar. */
-  .start-btn{
+     interaktif dan menarik{
     border:none; border-radius:20px; padding:17px 22px;
     font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:800; font-size:19px; letter-spacing:0.3px;
     color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:14px;
@@ -290,28 +260,6 @@
     transition:transform .12s ease, box-shadow .12s ease;
     max-width:320px; width:100%; margin:0 auto;
   }
-  .start-btn::after{
-    content:''; position:absolute; inset:0; border-radius:inherit;
-    background:linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 55%);
-    pointer-events:none;
-  }
-  .start-btn:hover{ transform:translateY(-3px); box-shadow:0 9px 0 rgba(0,0,0,0.16), 0 16px 22px rgba(0,0,0,0.2); }
-  .start-btn:active{ transform:translateY(3px); box-shadow:0 3px 0 rgba(0,0,0,0.16), 0 4px 10px rgba(0,0,0,0.16); }
-  .start-btn.huruf{ background:linear-gradient(135deg,var(--pink),var(--pink-dark)); }
-  .start-btn.angka{ background:linear-gradient(135deg,var(--blue),var(--blue-dark)); }
-  .start-btn.menulisHuruf{ background:linear-gradient(135deg,#E8437E,#B92F66); }
-  .start-btn.menulisAngka{ background:linear-gradient(135deg,#1C7FD1,#155CA0); }
-  .start-btn.tambah{ background:linear-gradient(135deg,var(--green),var(--green-dark)); }
-  .start-btn.kurang{ background:linear-gradient(135deg,var(--orange),var(--orange-dark)); }
-  .start-emoji{
-    font-size:22px; display:inline-flex; align-items:center; justify-content:center;
-    width:42px; height:42px; background:rgba(255,255,255,0.28); border-radius:50%; flex-shrink:0;
-    box-shadow:inset 0 2px 3px rgba(255,255,255,0.4), 0 2px 5px rgba(0,0,0,0.12);
-    animation: startIconWiggle 2.6s ease-in-out infinite; position:relative; z-index:1;
-  }
-  .start-btn.angka .start-emoji{ animation-delay:.15s; }
-  .start-btn.tambah .start-emoji{ animation-delay:.3s; }
-  .start-btn.kurang .start-emoji{ animation-delay:.45s; }
   @keyframes startIconWiggle{
     0%,100%{ transform:rotate(0deg) scale(1); }
     50%{ transform:rotate(-6deg) scale(1.06); }
@@ -334,7 +282,6 @@
     -webkit-text-stroke:2px #9A5B00;
     text-shadow:0 3px 0 #D28A00,0 6px 0 rgba(121,68,0,.28),0 9px 14px rgba(0,0,0,.18);
   }
-  .title-star{display:inline-block;flex:0 0 auto;font-size:.62em;color:#FFE66D;-webkit-text-stroke:0;text-shadow:0 3px 0 #D28A00,0 5px 8px rgba(0,0,0,.18);animation:titleStarBounce 1.8s ease-in-out infinite;}
   .title-letter{display:inline-block;animation:titleLetterJump 1.25s ease-in-out infinite;animation-delay:calc(var(--i) * .075s);}
   @keyframes titleLetterJump{0%,100%{transform:translateY(0) rotate(0deg);}18%{transform:translateY(-9px) rotate(-2deg) scale(1.04);}34%{transform:translateY(0) rotate(1deg) scale(1);}}
   @keyframes titleStarBounce{0%,100%{transform:translateY(0) rotate(0deg) scale(1);}50%{transform:translateY(-5px) rotate(8deg) scale(1.08);}}
@@ -513,10 +460,6 @@
   letter-spacing:.5px;
   line-height:1;
 }
-.menu-main-btn.belajar-menu strong{
-  color:#FF5B93;
-  text-shadow:0 2px 0 #B92F66,0 4px 0 #9D2758,0 7px 0 rgba(130,25,70,.28);
-}
 .menu-main-btn.latihan-menu strong{
   color:#FFA23A;
   text-shadow:0 2px 0 #C46300,0 4px 0 #A85100,0 7px 0 rgba(130,70,0,.28);
@@ -570,7 +513,6 @@
 .sub-menu-item.huruf{color:#E8437E!important}.sub-menu-item.angka{color:#237FCE!important}.sub-menu-item.menulisHuruf{color:#B92F66!important}.sub-menu-item.menulisAngka{color:#155CA0!important}.sub-menu-item.tambah{color:#229653!important}.sub-menu-item.kurang{color:#E27B10!important}
 .sub-menu-title{order:99;align-self:center;border:0;background:transparent!important;color:#fff!important;font-family:'Nunito','Segoe UI',sans-serif;font-size:16px;font-weight:900;padding:16px 4px 5px;margin-top:14px;cursor:pointer;box-shadow:none!important;text-shadow:0 2px 4px rgba(36,83,120,.22);}
 .sub-menu-title:hover{color:#FFF!important;text-decoration:underline;text-underline-offset:5px;}
-.sub-menu .start-emoji{font-size:28px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.10));}
 </style>
 
 <style id="belajar-huruf-logo-style">
@@ -605,33 +547,14 @@
 
 
 <style id="menu-music-style">
-
-  .menu-music-control{
-    margin:2px auto 0; border:0; background:transparent; color:#fff;
-    font-family:'Nunito','Segoe UI',sans-serif; font-size:15px; font-weight:900;
-    text-shadow:0 2px 4px rgba(36,83,120,.22); cursor:pointer; padding:6px 10px;
-    transition:transform .15s ease, opacity .15s ease;
-  }
-  .menu-music-control:hover{transform:scale(1.04); opacity:.9;}
-  .menu-music-control:active{transform:scale(.96);}
-  .menu-music-note{display:inline-block; margin-right:6px; animation:musicNote 1.1s ease-in-out infinite;}
-  .menu-music-control.off .menu-music-note{animation:none; opacity:.65;}
   @keyframes musicNote{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-3px) rotate(4deg)}}
 </style>
 
 <style id="latest-menu-polish">
   .start-card{padding:48px 22px 30px;}
-  .start-top-controls{position:absolute;top:16px;right:16px;z-index:5;display:flex;align-items:center;gap:8px;}
-  .start-top-controls .pillbtn{padding:8px 12px;font-size:13px;box-shadow:0 3px 0 rgba(0,0,0,.16);}
-  .start-top-controls .menu-music-control{width:42px;height:42px;padding:0;margin:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:rgba(255,255,255,.18);border-radius:50%;border:2px solid rgba(255,255,255,.7);text-shadow:0 2px 3px rgba(0,0,0,.25);box-shadow:0 3px 8px rgba(0,0,0,.14);}
-  .start-top-controls .menu-music-control:active{transform:scale(.92);}
-  .start-top-controls .menu-music-control.off{opacity:.85;}
   .start-name-row{margin:8px auto 16px;max-width:380px;}
   .start-name-input{padding:9px 14px;font-size:15px;border-width:2px;border-radius:14px;height:44px;}
   @media(max-width:480px){
-    .start-top-controls{top:10px;right:10px;}
-    .start-top-controls .pillbtn{font-size:12px;padding:7px 10px;}
-    .start-top-controls .menu-music-control{width:38px;height:38px;font-size:19px;}
     .start-card{padding-top:58px;}
   }
 </style>
@@ -672,23 +595,6 @@
   position:relative!important;
   z-index:2!important;
 }
-.start-top-controls{
-  position:absolute!important;
-  top:14px!important;
-  right:14px!important;
-}
-.start-top-controls .pillbtn{
-  background:rgba(255,255,255,.18)!important;
-  border:none!important;
-  box-shadow:0 4px 10px rgba(0,65,130,.16)!important;
-  backdrop-filter:blur(5px);
-  color:#fff!important;
-}
-.start-top-controls .menu-music-control{
-  background:rgba(255,255,255,.18)!important;
-  border:none!important;
-  backdrop-filter:blur(5px);
-}
 
 /* Judul besar seperti logo anak-anak */
 .start-title{
@@ -705,12 +611,6 @@
     0 12px 0 #06498E,
     0 17px 22px rgba(0,52,120,.28)!important;
   animation:none!important;
-}
-.start-title .title-star{
-  color:#FFE66B!important;
-  -webkit-text-stroke:0!important;
-  text-shadow:0 3px 0 #D18B00,0 6px 10px rgba(80,50,0,.2)!important;
-  animation:titleStarBounce 1.8s ease-in-out infinite!important;
 }
 .start-title #startTitleText{
   display:inline-block;
@@ -799,9 +699,7 @@
   color:#fff!important;
   -webkit-text-stroke:2px #1554A0!important;
   text-shadow:0 4px 0 #0C3F83,0 7px 12px rgba(0,45,110,.28)!important;
-}
-.menu-main-btn.belajar-menu strong,
-.menu-main-btn.latihan-menu strong{
+}.menu-main-btn.latihan-menu strong{
   color:#fff!important;
 }
 
@@ -830,7 +728,6 @@
 @media(max-width:430px){
   .start-screen{padding:0 8px 10px!important;}
   .start-card{padding:25px 5px 8px!important;}
-  .start-top-controls{top:8px!important;right:8px!important;}
   .start-title{
     margin-top:6px!important;
     font-size:clamp(24px,8.3vw,34px)!important;
@@ -870,15 +767,6 @@
 </style>
 
 <style id="photo-mascots-style">
-/* ===== Karakter maskot dari gambar asli (buku & pensil) ===== */
-.mascot-photo{
-  width:100%; height:100%; object-fit:contain;
-  filter:drop-shadow(0 10px 10px rgba(20,60,110,.28));
-  animation:mascotFloat 3.2s ease-in-out infinite;
-  transform-origin:center bottom;
-}
-.book-photo{ animation-delay:0s; }
-.pencil-photo{ animation-delay:.5s; transform:rotate(-6deg); animation-name:mascotFloatPencil; }
 
 @keyframes mascotFloat{
   0%,100%{ transform:translateY(0) rotate(-1.5deg); }
@@ -888,8 +776,6 @@
   0%,100%{ transform:translateY(0) rotate(-6deg); }
   50%{ transform:translateY(-16px) rotate(-2deg); }
 }
-
-.menu-main-btn:hover .mascot-photo{ transform:scale(1.05); }
 
 /* ===== Judul berupa gambar logo asli ===== */
 .start-title-img{
@@ -1028,15 +914,8 @@ img, canvas, svg, video {
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-/* Kartu/menu tidak boleh memaksa viewport melebar */
-.start-card,
-.start-card > *,
-.menu-grid,
-.menu-option,
-.submenu,
-.submenu-grid {
+}/* Kartu/menu tidak boleh memaksa viewport melebar */
+.start-card, .start-card > *, .submenu{
   max-width: 100%;
 }
 
@@ -1046,12 +925,7 @@ img, canvas, svg, video {
   .submenu-grid {
     width: 100%;
     grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  .menu-option,
-  .menu-card,
-  .submenu button,
-  .start-card button {
+  }.submenu button, .start-card button{
     min-width: 0 !important;
     max-width: 100%;
   }
@@ -1145,16 +1019,7 @@ body:has(#startScreen[style*="display: none"]) {
     box-shadow:0 1px 0 rgba(0,0,0,.12)!important;
   }
 
-  @media (min-width:700px){
-    .main-menu-options{
-      flex-direction:row;
-      justify-content:center;
-      gap:16px;
-    }
-    .main-menu-options .sub-menu-item{
-      width:min(300px,32vw);
-    }
-  }
+  
 </style>
 
 <style id="menu-banner-fix">
@@ -1322,13 +1187,6 @@ body {
   box-sizing:border-box;
 }
 
-#startScreen .start-top-controls {
-  position:fixed !important;
-  top:max(8px, env(safe-area-inset-top)) !important;
-  right:max(8px, env(safe-area-inset-right)) !important;
-  z-index:100 !important;
-}
-
 @media (max-width:600px){
   #startScreen {
     width:100vw !important;
@@ -1462,323 +1320,12 @@ body::before {
 </style>
 
 
-<style id="desktop-each-page-fullscreen-final">
-/* ================================================================
-   DESKTOP: EVERY ACTIVE SCREEN USES THE WHOLE VIEWPORT.
-   Content/state (A, B, C... / each question) remains one page at a time.
-   No global scale and no combining of separate screens.
-   ================================================================ */
-@media (min-width: 801px) and (min-height: 600px){
-  html,body{width:100%;height:100%;overflow:hidden !important;}
-
-  /* Learning / tracing screen: one active page = one full viewport. */
-  #stage{
-    width:100vw !important;
-    max-width:none !important;
-    height:100dvh !important;
-    min-height:100dvh !important;
-    max-height:100dvh !important;
-    margin:0 !important;
-    padding:clamp(16px,1.8vw,28px) !important;
-    overflow:hidden !important;
-    display:flex;
-    flex-direction:column;
-  }
-  #stage .topbar{flex:0 0 auto; width:100%; margin-bottom:clamp(10px,1.2vh,16px);}
-  #stage .chipstrip{flex:0 0 auto; width:100%; margin-bottom:clamp(6px,1vh,12px);}
-  #stage .maingrid{
-    flex:1 1 auto !important;
-    min-height:0 !important;
-    display:grid !important;
-    grid-template-columns:minmax(0,2.1fr) minmax(320px,1fr) !important;
-    gap:clamp(14px,1.5vw,24px) !important;
-    width:100% !important;
-    overflow:hidden !important;
-  }
-  #stage .tracepanel{
-    min-height:0 !important;
-    height:100% !important;
-    width:auto !important;
-    margin:0 !important;
-    display:flex !important;
-    flex-direction:column !important;
-    padding:clamp(12px,1.2vw,20px) !important;
-  }
-  #stage .panel-toolbar{flex:0 0 auto;}
-  #stage .canvaswrap{
-    flex:1 1 auto !important;
-    min-height:0 !important;
-    width:100% !important;
-    max-height:none !important;
-    height:auto !important;
-  }
-  #stage .canvaswrap.learn-letter,
-  #stage .canvaswrap.letter-writing{
-    flex:1 1 auto !important;
-    max-height:none !important;
-    min-height:0 !important;
-    aspect-ratio:auto !important;
-  }
-  #stage .sidebar{
-    min-height:0 !important;
-    height:100% !important;
-    width:auto !important;
-    display:flex !important;
-    flex-direction:column !important;
-    gap:clamp(12px,1.4vh,20px) !important;
-    overflow:hidden !important;
-  }
-  #stage .siderow{
-    flex:1 1 auto !important;
-    min-height:0 !important;
-    display:flex !important;
-    flex-direction:column !important;
-    gap:clamp(12px,1.4vh,20px) !important;
-  }
-  #stage .siderow .card{
-    flex:1 1 0 !important;
-    min-height:0 !important;
-    width:100% !important;
-    overflow:auto !important;
-    padding:clamp(14px,1.4vw,24px) !important;
-  }
-  #stage .card h3{font-size:clamp(20px,1.7vw,30px) !important;}
-  #stage .contoh-visual{font-size:clamp(48px,5vw,82px) !important; padding:clamp(12px,1.2vw,22px) 4px !important;}
-  #stage .contoh-word{font-size:clamp(22px,1.8vw,32px) !important;}
-  #stage .ucap-text{font-size:clamp(20px,1.7vw,30px) !important;}
-  #stage .ucap-face{font-size:clamp(30px,3vw,48px) !important;}
-  #stage .bottomnav{flex:0 0 auto; width:100%; margin-top:clamp(10px,1.2vh,16px);}
-  #stage .bottomnav .pillbtn{min-height:clamp(48px,6vh,68px); font-size:clamp(17px,1.35vw,24px);}
-
-  /* Quiz: each question remains its own full-screen state. */
-  #quizScreen{width:100vw !important;height:100dvh !important;min-height:100dvh !important;}
-  #quizScreen .quiz-box{width:min(88vw,1000px) !important;max-width:1000px !important;max-height:92dvh !important;overflow:auto;}
-
-  /* Addition/subtraction: each question remains a full-screen page. */
-  #additionScreen,#subtractionScreen{width:100vw !important;height:100dvh !important;min-height:100dvh !important;max-height:100dvh !important;overflow:hidden !important;display:none;align-items:center;justify-content:center;}
-  #additionScreen .addbox,#subtractionScreen .addbox{width:min(72vw,760px) !important;max-width:760px !important;max-height:92dvh !important;overflow:auto;margin:0 auto !important;}
-
-  /* Main menu/submenus: the active menu is the full viewport; submenu content
-     is centered inside that page rather than sharing space with other pages. */
-  #startScreen{width:100vw !important;height:100dvh !important;min-height:100dvh !important;max-height:100dvh !important;overflow:hidden !important;}
-  #startScreen .start-card{width:100vw !important;height:100dvh !important;max-width:none !important;max-height:none !important;overflow:hidden !important;}
-}
-</style>
-
-<style id="desktop-learning-wide-layout">
-@media (min-width: 801px){
-  /*
-    DESKTOP LEARNING PAGES
-    Satu halaman/state tetap satu viewport, tetapi susunannya:
-    Header
-    Huruf/angka selector
-    ┌──────────────────────────────────────┐
-    │            BENTUK HURUF/ANGKA       │  <- melebar kiri-kanan
-    └──────────────────────────────────────┘
-    ┌───────────────────┐ ┌────────────────┐
-    │ Hitung/Contoh Kata │ │ Cara Mengucap  │  <- di bawah kanvas
-    └───────────────────┘ └────────────────┘
-    Navigasi
-  */
-
-  #stage{
-    box-sizing:border-box !important;
-  }
-
-  /* Jangan lagi membuat kanvas + panel informasi menjadi kiri/kanan. */
-  #stage .maingrid{
-    grid-template-columns:1fr !important;
-    grid-template-rows:minmax(0,1fr) auto !important;
-    gap:clamp(10px,1.2vh,18px) !important;
-    overflow:hidden !important;
-  }
-
-  /* Kanvas mengambil lebar penuh dan menjadi area utama. */
-  #stage .maingrid > .tracepanel{
-    grid-column:1 !important;
-    grid-row:1 !important;
-    width:100% !important;
-    height:auto !important;
-    min-height:0 !important;
-    max-height:none !important;
-  }
-
-  #stage .canvaswrap,
-  #stage .canvaswrap.learn-letter{
-    width:100% !important;
-    height:100% !important;
-    min-height:0 !important;
-    max-height:none !important;
-    aspect-ratio:auto !important;
-  }
-
-  /* Panel informasi dipindahkan ke bawah kanvas. */
-  #stage .sidebar{
-    grid-column:1 !important;
-    grid-row:2 !important;
-    width:100% !important;
-    height:auto !important;
-    min-height:0 !important;
-    display:block !important;
-    overflow:visible !important;
-  }
-
-  #stage .siderow{
-    width:100% !important;
-    height:auto !important;
-    display:grid !important;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
-    gap:clamp(10px,1.2vw,18px) !important;
-    overflow:visible !important;
-  }
-
-  #stage .siderow .card{
-    width:100% !important;
-    min-height:clamp(120px,16vh,190px) !important;
-    height:auto !important;
-    max-height:none !important;
-    overflow:hidden !important;
-    box-sizing:border-box !important;
-  }
-
-  /* Bila layar desktop lebih tinggi, kartu bawah tetap proporsional. */
-  #stage .siderow .card h3{
-    margin-bottom:clamp(6px,0.8vh,12px) !important;
-  }
-
-  #stage .contoh-visual{
-    padding:clamp(8px,0.8vh,14px) 4px !important;
-  }
-
-  /* Tombol navigasi tetap paling bawah dan selebar area aplikasi. */
-  #stage .bottomnav{
-    width:100% !important;
-  }
-}
-
-/* Desktop sangat lebar: kanvas benar-benar terasa melebar kiri-kanan. */
-@media (min-width: 1200px){
-  #stage .siderow{
-    grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) !important;
-  }
-}
-</style>
 
 
-<style id="desktop-top-and-chip-layout">
-@media (min-width: 801px){
-  /* PANEL ATAS: diperbesar dan diberi ruang lebih lega */
-  #stage .topbar{
-    display:grid !important;
-    grid-template-columns:110px minmax(0,1fr) 190px !important;
-    align-items:center !important;
-    gap:18px !important;
-    width:100% !important;
-    margin-bottom:18px !important;
-  }
 
-  #stage .topbar .homebtn{
-    width:78px !important;
-    height:78px !important;
-    font-size:34px !important;
-    justify-self:start !important;
-  }
 
-  #stage .topbar .title-wrap{
-    min-width:0 !important;
-    width:100% !important;
-    min-height:78px !important;
-    padding:14px 30px !important;
-    border-radius:44px !important;
-    box-sizing:border-box !important;
-  }
 
-  #stage .topbar .title-wrap h1{
-    font-size:clamp(32px,2.8vw,48px) !important;
-  }
 
-  #stage .topbar .title-wrap span{
-    font-size:clamp(26px,2.2vw,38px) !important;
-  }
-
-  #stage .topbar .title-wrap h1 .title-line1{
-    font-size:clamp(16px,1.4vw,22px) !important;
-  }
-
-  #stage .topbar .title-wrap h1 .title-line2{
-    font-size:clamp(32px,2.8vw,48px) !important;
-  }
-
-  #stage .topbar #btnLanguage{
-    min-height:64px !important;
-    justify-content:center !important;
-    padding:14px 22px !important;
-    font-size:clamp(18px,1.45vw,25px) !important;
-  }
-
-  /* DAFTAR HURUF/ANGKA: lebih besar */
-  #stage .chipstrip{
-    width:100% !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:12px !important;
-    padding:8px 4px 16px !important;
-    margin-bottom:8px !important;
-    overflow:hidden !important;
-    scrollbar-width:none !important;
-  }
-
-  #stage .chipstrip .chip{
-    width:64px !important;
-    height:58px !important;
-    min-width:64px !important;
-    border-radius:16px !important;
-    font-size:25px !important;
-    box-shadow:0 5px 0 rgba(0,0,0,.18) !important;
-  }
-
-  #stage .chipstrip .chip.current{
-    transform:scale(1.08) !important;
-  }
-
-  /* Tombol geser kiri/kanan untuk daftar huruf */
-  #stage .chipstrip .chip-arrow{
-    width:54px !important;
-    height:54px !important;
-    min-width:54px !important;
-    flex:0 0 54px !important;
-    border:0 !important;
-    border-radius:50% !important;
-    background:linear-gradient(180deg,#9B6BFF,#7E4CE0) !important;
-    color:#fff !important;
-    font-size:30px !important;
-    font-weight:900 !important;
-    line-height:1 !important;
-    cursor:pointer !important;
-    box-shadow:0 5px 0 rgba(0,0,0,.18) !important;
-  }
-
-  #stage .chipstrip .chip-arrow:disabled{
-    opacity:.28 !important;
-    cursor:default !important;
-    box-shadow:0 3px 0 rgba(0,0,0,.10) !important;
-  }
-
-  /* Angka 0–9: seluruhnya cukup, simetris, berada di tengah. */
-  #stage .chipstrip.numbers-centered{
-    justify-content:center !important;
-    overflow:hidden !important;
-  }
-
-  #stage .chipstrip.numbers-centered .chip{
-    width:58px !important;
-    min-width:58px !important;
-    height:58px !important;
-    font-size:24px !important;
-  }
-}
-</style>
 
 
 <style id="mengenal-huruf-angka-grid">
@@ -1794,9 +1341,7 @@ body::before {
   overflow:visible !important;
   justify-content:initial !important;
   align-items:stretch;
-}
-#stage.simple-learning .chipstrip .chip,
-#stage.simple-learning .chipstrip .chip-arrow{
+}#stage.simple-learning .chipstrip .chip{
   width:auto !important;
   min-width:0 !important;
   height:auto !important;
@@ -1956,7 +1501,6 @@ body::before {
 #stage.simple-learning #bottomNav{
   display:none !important;
 }
-#stage.simple-learning .chipstrip .chip-arrow{display:none !important;}
 @media(max-width:800px){
   #stage.simple-learning .chipstrip{
     width:min(620px,calc(100vw - 22px));
@@ -1972,326 +1516,19 @@ body::before {
 }
 </style>
 
-<style id="desktop-fonts-large">
-/* ================= DESKTOP TYPOGRAPHY =================
-   Semua teks UI desktop diperbesar agar seimbang dengan area layar.
-   Mobile tidak disentuh.
-*/
-@media (min-width: 801px){
-
-  #stage{
-    font-size:20px !important;
-  }
-
-  /* Header */
-  #stage .topbar .title-wrap h1{
-    font-size:clamp(40px,3.2vw,56px) !important;
-    line-height:1.05 !important;
-  }
-  #stage .topbar .title-wrap span{
-    font-size:clamp(28px,2.2vw,40px) !important;
-  }
-  #stage .topbar .title-wrap h1 .title-line1{
-    font-size:clamp(20px,1.7vw,28px) !important;
-  }
-  #stage .topbar .title-wrap h1 .title-line2{
-    font-size:clamp(40px,3.2vw,56px) !important;
-  }
-  #stage .topbar #btnLanguage{
-    font-size:clamp(22px,1.6vw,30px) !important;
-  }
-
-  /* Daftar huruf / angka */
-  #stage .chipstrip .chip{
-    font-size:30px !important;
-    font-weight:900 !important;
-  }
-  #stage .chipstrip .chip-arrow{
-    font-size:38px !important;
-  }
-
-  /* Judul panel */
-  #stage .card h3{
-    font-size:clamp(26px,2vw,36px) !important;
-  }
-
-  /* Contoh kata / visual */
-  #stage .contoh-visual{
-    font-size:clamp(58px,5.8vw,96px) !important;
-  }
-  #stage .contoh-word{
-    font-size:clamp(28px,2.2vw,38px) !important;
-  }
-
-  /* Cara mengucapkan */
-  #stage .ucap-face{
-    font-size:clamp(38px,3.2vw,54px) !important;
-  }
-  #stage .ucap-text{
-    font-size:clamp(26px,2vw,36px) !important;
-  }
-  #stage .ucap-sub{
-    font-size:clamp(15px,1.2vw,20px) !important;
-  }
-  #stage .speak-btn,
-  #stage .speak-hint{
-    font-size:clamp(18px,1.35vw,24px) !important;
-  }
-
-  /* Tombol navigasi */
-  #stage .bottomnav .pillbtn{
-    font-size:clamp(22px,1.7vw,30px) !important;
-    font-weight:900 !important;
-  }
-
-  /* Tombol/teks latihan menulis */
-  #stage .panel-toolbar,
-  #stage .panel-toolbar button,
-  #stage .trace-help,
-  #stage .trace-title,
-  #stage .trace-label,
-  #stage .trace-progress,
-  #stage .writing-actions button{
-    font-size:clamp(18px,1.35vw,25px) !important;
-  }
-
-  /* Kuis desktop */
-  #quizScreen .quiz-title{
-    font-size:clamp(38px,3.2vw,54px) !important;
-  }
-  #quizScreen .quiz-question{
-    font-size:clamp(28px,2.2vw,38px) !important;
-  }
-  #quizScreen .quiz-option{
-    font-size:clamp(28px,2vw,36px) !important;
-  }
-  #quizScreen .quiz-result{
-    font-size:clamp(25px,1.8vw,32px) !important;
-  }
-
-  /* Penjumlahan / pengurangan */
-  #additionScreen .addbox,
-  #subtractionScreen .addbox{
-    font-size:20px !important;
-  }
-  #additionScreen .add-title,
-  #subtractionScreen .add-title{
-    font-size:clamp(38px,3.2vw,54px) !important;
-  }
-  #additionScreen .add-question,
-  #subtractionScreen .add-question{
-    font-size:clamp(32px,2.5vw,44px) !important;
-  }
-  #additionScreen .add-option,
-  #subtractionScreen .add-option{
-    font-size:clamp(28px,2vw,36px) !important;
-  }
-
-  /* Menu utama + submenu */
-  #startScreen .start-title{
-    font-size:clamp(40px,4vw,64px) !important;
-  }
-  #startScreen .start-sub{
-    font-size:clamp(20px,1.6vw,28px) !important;
-  }
-  #startScreen .menu-main-btn strong{
-    font-size:clamp(28px,2vw,38px) !important;
-  }
-  #startScreen .sub-menu-item{
-    font-size:clamp(28px,2vw,38px) !important;
-  }
-  #startScreen .sub-menu-title{
-    font-size:clamp(20px,1.5vw,28px) !important;
-  }
-
-  /* Tombol Bahasa/Musik dan kontrol kecil */
-  #stage button,
-  #stage input,
-  #quizScreen button,
-  #additionScreen button,
-  #subtractionScreen button{
-    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
-  }
-}
-</style>
 
 
 
 
 
-<style id="desktop-actual-fix">
-@media (min-width:801px) and (min-height:600px){
-  /* LEARNING INFO PANELS: only slightly shorter than the current version */
-  #stage .sidebar{width:100% !important;}
-  #stage .siderow{display:grid !important;grid-template-columns:1.2fr 1fr !important;gap:18px !important;width:100% !important;}
-  #stage .siderow .card{height:210px !important;min-height:210px !important;max-height:210px !important;padding:16px 22px !important;box-sizing:border-box !important;overflow:hidden !important;}
-  #stage .siderow .card h3{font-size:32px !important;margin:0 0 8px !important;text-align:center !important;}
-  #stage .card.contoh{display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;}
-  #stage .contoh-visual{height:108px !important;min-height:108px !important;width:100% !important;display:flex !important;align-items:center !important;justify-content:center !important;padding:0 !important;margin:0 0 6px !important;font-size:92px !important;line-height:1 !important;}
-  #stage .contoh-word{font-size:38px !important;line-height:1 !important;text-align:center !important;margin:0 !important;}
-
-  /* PRONUNCIATION: real replacement button, right side, same vertical center */
-  #stage .card.ucap{display:flex !important;flex-direction:column !important;justify-content:center !important;align-items:center !important;}
-  #stage .ucap-row{width:100% !important;flex:1 !important;display:flex !important;align-items:center !important;justify-content:center !important;gap:22px !important;flex-wrap:nowrap !important;}
-  #stage .ucap-face{font-size:54px !important;flex:0 0 auto !important;}
-  #stage .ucap-content{flex:0 1 auto !important;min-width:0 !important;text-align:center !important;}
-  #stage .ucap-text{font-size:40px !important;line-height:1 !important;white-space:nowrap !important;}
-  #stage .ucap-sub{font-size:17px !important;margin-top:6px !important;}
-  /* WRITING: pronunciation card spans the complete width */
-  #stage.writing-mode .maingrid{grid-template-columns:1fr !important;grid-template-rows:minmax(0,1fr) auto !important;}
-  #stage.writing-mode .sidebar{grid-column:1 !important;width:100% !important;}
-  #stage.writing-mode .siderow{display:block !important;width:100% !important;}
-  #stage.writing-mode .card.ucap{width:100% !important;height:160px !important;min-height:160px !important;max-height:160px !important;}
-  #stage.writing-mode .card.contoh{display:none !important;}
-
-  /* QUIZ: force the visible screen to flex-center, regardless of inline display:block */
-  #quizScreen[style*="display: block"]{display:flex !important;align-items:center !important;justify-content:center !important;padding:28px !important;box-sizing:border-box !important;}
-  #quizScreen .quiz-box{width:min(1120px,90vw) !important;max-width:1120px !important;max-height:90vh !important;margin:0 !important;padding:42px 58px !important;box-sizing:border-box !important;border-radius:38px !important;display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;}
-  #quizScreen .quiz-title{font-size:60px !important;margin:0 0 8px !important;}
-  #quizScreen .quiz-score{font-size:28px !important;margin:5px 0 16px !important;}
-  #quizScreen .quiz-visual{font-size:150px !important;margin:4px 0 12px !important;}
-  #quizScreen .quiz-question{font-size:42px !important;max-width:980px !important;margin:8px auto 18px !important;text-align:center !important;line-height:1.15 !important;}
-  #quizScreen #quizSpeakQuestion{font-size:24px !important;min-height:62px !important;padding:12px 30px !important;margin:0 auto 20px !important;border-radius:20px !important;}
-  #quizScreen .quiz-options{width:min(900px,100%) !important;max-width:900px !important;gap:18px !important;margin:0 auto !important;}
-  #quizScreen .quiz-option{min-height:100px !important;padding:16px 24px !important;border-radius:24px !important;font-size:40px !important;}
-  #quizScreen .quiz-result{font-size:36px !important;margin:18px 0 !important;}
-  #quizScreen .quiz-actions{gap:16px !important;margin-top:14px !important;}
-  #quizScreen .quiz-actions .pillbtn{min-height:70px !important;padding:14px 32px !important;font-size:27px !important;border-radius:22px !important;}
-
-  /* ADDITION/SUBTRACTION: actual visible screens are flex-centered */
-  #additionScreen[style*="display:block"],#subtractionScreen[style*="display:block"]{display:flex !important;align-items:center !important;justify-content:center !important;padding:28px !important;box-sizing:border-box !important;}
-  #additionScreen .addbox,#subtractionScreen .addbox{width:min(1080px,90vw) !important;max-width:1080px !important;max-height:90vh !important;margin:0 !important;padding:42px 58px !important;border-radius:38px !important;box-sizing:border-box !important;display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;text-align:center !important;}
-  #additionScreen .addbox h1,#subtractionScreen .addbox h1{font-size:60px !important;margin:0 0 10px !important;}
-  #additionScreen .addprogress,#subtractionScreen .addprogress{font-size:27px !important;margin-bottom:16px !important;}
-  #additionScreen .addq,#subtractionScreen .addq{width:min(900px,100%) !important;min-height:140px !important;padding:20px 24px !important;margin:8px auto 18px !important;display:flex !important;align-items:center !important;justify-content:center !important;border-radius:28px !important;font-size:84px !important;line-height:1 !important;}
-  #additionScreen .addhint,#subtractionScreen .addhint{font-size:25px !important;margin:0 0 12px !important;}
-  #additionScreen .math-speak-btn,#subtractionScreen .math-speak-btn{font-size:24px !important;min-height:62px !important;padding:12px 30px !important;border-radius:20px !important;margin:0 auto 18px !important;}
-  #additionScreen .addanswer-display,#subtractionScreen .addanswer-display{width:min(700px,100%) !important;min-height:90px !important;padding:12px 20px !important;font-size:68px !important;border-radius:24px !important;margin-bottom:18px !important;box-sizing:border-box !important;}
-  #additionScreen .addkeypad,#subtractionScreen .addkeypad{width:min(700px,100%) !important;gap:14px !important;margin:0 auto 20px !important;}
-  #additionScreen .addkey,#subtractionScreen .addkey{min-height:88px !important;padding:14px 0 !important;font-size:42px !important;border-radius:22px !important;}
-  #additionScreen .addbtn-row,#subtractionScreen .addbtn-row{width:100% !important;justify-content:center !important;gap:16px !important;}
-  #additionScreen .addbtn-row .pillbtn,#subtractionScreen .addbtn-row .pillbtn{min-height:70px !important;padding:14px 32px !important;font-size:27px !important;border-radius:22px !important;}
-
-  /* Math popups: larger, centered */
-  #addPopup,#subPopup{align-items:center !important;justify-content:center !important;padding:28px !important;}
-  #addPopup .celebrate-box,#subPopup .celebrate-box{width:min(720px,72vw) !important;min-height:310px !important;padding:48px 56px !important;border-radius:40px !important;box-sizing:border-box !important;}
-  #addPopup .celebrate-emoji,#subPopup .celebrate-emoji{font-size:110px !important;}
-  #addPopup .celebrate-title,#subPopup .celebrate-title{font-size:54px !important;}
-  #addPopup .pillbtn,#subPopup .pillbtn{min-height:72px !important;padding:14px 32px !important;font-size:27px !important;border-radius:22px !important;}
-}
-</style>
 
 
-<style id="desktop-main-menu-reposition">
-@media (min-width:801px){
-  /* Main menu only: title remains above; the name field moves upward. */
-  #startScreen{
-    justify-content:center !important;
-  }
-
-  #startScreen .start-card{
-    display:flex !important;
-    flex-direction:column !important;
-    align-items:center !important;
-    justify-content:center !important;
-  }
-
-  #startScreen #menuCenterWrap{
-    display:flex !important;
-    flex-direction:column !important;
-    align-items:center !important;
-    justify-content:flex-start !important;
-    width:100% !important;
-    max-width:1120px !important;
-    gap:0 !important;
-    transform:translateY(-38px) !important;
-  }
-
-  /*
-    Requested order:
-    input nama
-    ↓
-    "Yuk pilih mau belajar apa"
-    ↓
-    menu utama
-  */
-  #startScreen #menuCenterWrap > .start-sub{
-    order:2 !important;
-    margin:8px auto 18px !important;
-  }
-
-  #startScreen #menuCenterWrap > .start-name-row{
-    order:1 !important;
-    margin:0 auto 0 !important;
-  }
-
-  #startScreen #menuCenterWrap > #mainMenuOptions{
-    order:3 !important;
-  }
-
-  #startScreen #menuCenterWrap > #progressCard{
-    order:4 !important;
-  }
-
-  #startScreen #menuCenterWrap > #btnMenuLatihan{
-    order:5 !important;
-  }
-
-  #startScreen #menuCenterWrap > #btnStartQuiz{
-    order:6 !important;
-  }
-}
-</style>
 
 
-<style id="desktop-latihan-and-brush-final">
-@media (min-width:801px){
-  /* LATIHAN SUBMENU: keep the cards large, only tidy the layout */
-  #latihanMenu{
-    width:min(1100px,94vw) !important;
-    max-width:1100px !important;
-    margin:12px auto 0 !important;
-    display:grid !important;
-    grid-template-columns:repeat(2,minmax(420px,1fr)) !important;
-    gap:28px !important;
-    justify-content:center !important;
-    align-items:stretch !important;
-  }
-  #latihanMenu .sub-menu-item{
-    width:100% !important;
-    height:210px !important;
-    min-height:210px !important;
-    padding:18px 28px !important;
-    margin:0 !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    box-sizing:border-box !important;
-    border-radius:30px !important;
-  }
-  #latihanMenu .submenu-img{
-    width:145px !important;
-    height:145px !important;
-    max-width:145px !important;
-    max-height:145px !important;
-    object-fit:contain !important;
-  }
-  #latihanMenu .counting-score-card{
-    grid-column:1 / -1 !important;
-    width:min(700px,100%) !important;
-    margin:0 auto !important;
-  }
-  #latihanMenu .sub-menu-title{
-    grid-column:1 / -1 !important;
-    justify-self:center !important;
-  }
 
-  /* MENULIS HURUF / ANGKA: visible brush-size control */
-  #stage.writing-mode #brushSizePanel{
-    display:flex !important;
-  }
-}
-</style>
+
+
+
 
 
 <style id="brush-size-control">
@@ -2605,20 +1842,7 @@ body::before {
   font-size:9px !important;
   line-height:1 !important;
 }
-@media (min-width:801px){
-  #stage .topbar #btnLanguage{
-    width:78px !important;
-    height:78px !important;
-    min-width:78px !important;
-    min-height:78px !important;
-  }
-  #stage .topbar #btnLanguage .lang-flag{
-    font-size:26px !important;
-  }
-  #stage .topbar #btnLanguage .lang-code{
-    font-size:14px !important;
-  }
-}
+
 </style>
 
 <style id="learning-mode-cleanup">
@@ -4547,12 +3771,6 @@ document.getElementById('quizHomeBtn').onclick = () => {
 .addkey:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
 .addkey.zero{ grid-column:2; }
 .addkey.back{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
-.addinput{
-  width:100%; box-sizing:border-box; border:3px solid #F3D9C4; border-radius:18px;
-  padding:12px 16px; font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:24px; color:var(--ink);
-  background:#FFFDF7; text-align:center; outline:none; margin-bottom:16px;
-}
-.addinput:focus{ border-color:var(--green); }
 .addbtn-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
 .math-speak-btn{
   border:0; border-radius:16px; padding:9px 16px; margin:0 auto 12px;
@@ -4723,7 +3941,6 @@ document.getElementById('quizHomeBtn').onclick = () => {
   margin:0 0 6px; letter-spacing:1px;
 }
 .subkey{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
-.addinput:focus.sub{ border-color:var(--orange); }
 </style>
 <div id="subtractionScreen">
  <div class="addbox subbox">
@@ -4857,22 +4074,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 <!-- Rumput dihilangkan: latar hanya langit dan awan. -->
 <style id="final-top-controls-fix">
-/* Kontrol Bahasa & Musik benar-benar menempel di pojok kanan atas layar */
-#startScreen .start-top-controls{
-  position:fixed !important;
-  top:12px !important;
-  right:12px !important;
-  left:auto !important;
-  z-index:100 !important;
-  display:flex !important;
-  align-items:center;
-  gap:8px;
-}
 @media(max-width:480px){
-  #startScreen .start-top-controls{
-    top:8px !important;
-    right:8px !important;
-  }
 }
 </style>
 
@@ -5080,29 +4282,12 @@ if(typeof applyLanguage==='function') applyLanguage();
   .counting-score-total strong{color:#229653;font-size:22px;}
 </style>
 
-<style id="desktop-app-fix">
-/* Keep the app viewport neutral. The master-layout rule above owns scaling. */
-@media (min-width:640px) and (min-height:640px){
-  body{display:block !important;overflow:hidden !important;}
-}
-</style>
+
 
 
 
 
 <div class="credit-tag">Created by: Zie</div>
-
-<script id="language-short-label">
-(function(){
-  const b=document.getElementById('btnLanguage');
-  if(!b)return;
-  const sync=()=>{ b.textContent=(typeof language!=='undefined' && language==='en')?'EN':'ID'; };
-  b.addEventListener('click',()=>setTimeout(sync,0));
-  sync();
-})();
-</script>
-
-
 
 <script id="clean-learning-variant-script">
 (function(){
@@ -5119,14 +4304,6 @@ if(typeof applyLanguage==='function') applyLanguage();
   setVariant('squircle');
 })();
 </script>
-<script id="clean-language-sync">
-(function(){
-  const b=document.getElementById('btnLanguage'); if(!b)return;
-  const sync=()=>{const f=b.querySelector('.lang-flag'),c=b.querySelector('.lang-code');if(typeof language!=='undefined'){if(f)f.textContent=language==='en'?'🇬🇧':'🇮🇩';if(c)c.textContent=language==='en'?'EN':'ID';}};
-  b.addEventListener('click',()=>setTimeout(sync,20));sync();
-})();
-</script>
-
 <script id="final-learning-init">
 (function(){
   function initLearningUI(){
