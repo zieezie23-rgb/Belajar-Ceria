@@ -1104,18 +1104,30 @@ body:has(#startScreen[style*="display: none"]) {
   .quiz-score{margin:5px 0 18px;color:#F08000;font-weight:900;}
   .quiz-question{font-size:21px;font-weight:900;color:var(--ink);margin:10px 0 18px;}
   .quiz-visual{font-size:76px;line-height:1;margin:8px 0 12px;}
-  .quiz-options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:430px;margin:auto;}
+  .quiz-options{display:flex;flex-direction:column;gap:12px;max-width:430px;margin:auto;}
   .quiz-option{
-    min-height:68px;border:3px solid #D9C9FF;border-radius:18px;background:#F7F2FF;
-    color:#5638A0;font:800 28px 'Baloo 2','Trebuchet MS',sans-serif;cursor:pointer;
+    min-height:60px;border:3px solid #D9C9FF;border-radius:18px;background:#F7F2FF;
+    color:#5638A0;font:800 22px 'Baloo 2','Trebuchet MS',sans-serif;cursor:pointer;
     box-shadow:0 4px 0 #C4B0F5;
+    display:flex;align-items:center;gap:12px;padding:8px 16px;text-align:left;
+    animation:quizOptionPop .28s ease;
   }
+  @keyframes quizOptionPop{ from{opacity:0;transform:translateY(8px) scale(.96);} to{opacity:1;transform:none;} }
+  .quiz-option-label{
+    flex:0 0 auto; width:36px;height:36px;border-radius:50%;
+    background:#7E4CE0;color:#fff;display:flex;align-items:center;justify-content:center;
+    font:800 18px 'Baloo 2','Trebuchet MS',sans-serif;
+  }
+  .quiz-option-text{flex:1;min-width:0;}
   .quiz-option:hover{transform:translateY(-2px);background:#EDE4FF;}
   .quiz-option.correct{background:#D9F8E4;border-color:#3EC46D;color:#218B48;}
+  .quiz-option.correct .quiz-option-label{background:#2FA859;}
   .quiz-option.wrong{background:#FFE0E8;border-color:#FF5B93;color:#C52E62;}
+  .quiz-option.wrong .quiz-option-label{background:#E8437E;}
+  .quiz-option:disabled{cursor:default;}
   .quiz-result{font-size:20px;font-weight:900;color:#2FA859;margin:16px 0;}
   .quiz-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;}
-  @media(max-width:430px){.quiz-title{font-size:27px}.quiz-option{font-size:24px}.quiz-visual{font-size:64px}}
+  @media(max-width:430px){.quiz-title{font-size:27px}.quiz-option{font-size:19px}.quiz-visual{font-size:64px}}
 </style>
 
 <script>
@@ -3609,7 +3621,7 @@ function resetAllProgress(){
   learningProgress = { stars: 0, addScore: 0, subScore: 0 };
   try{ localStorage.removeItem(progressStorageKey); }catch(e){}
   saveProgress();
-  quizState = { question: 0, score: 0, current: null, answered: false };
+  quizState = { question: 0, score: 0, current: null, answered: false, revealToken: 0 };
 }
 (function initResetButton(){
   const btn = document.getElementById('btnResetProgress');
@@ -3625,15 +3637,16 @@ function resetAllProgress(){
   };
 })();
 
-let quizState = { question: 0, score: 0, current: null, answered: false };
+let quizState = { question: 0, score: 0, current: null, answered: false, revealToken: 0 };
 function shuffle(list){
   return [...list].sort(() => Math.random() - .5);
 }
+const QUIZ_OPTION_LABELS = ['A','B','C'];
 function makeQuizQuestion(){
   const isLetter = Math.random() < .6;
   if(isLetter){
     const item = LETTERS[Math.floor(Math.random() * LETTERS.length)];
-    const distractors = shuffle(LETTERS.filter(x => x.ch !== item.ch)).slice(0, 3).map(x => x.ch);
+    const distractors = shuffle(LETTERS.filter(x => x.ch !== item.ch)).slice(0, 2).map(x => x.ch);
     return {
       visual: item.emoji,
       text: `Huruf apa yang menjadi awal kata ${item.word}?`,
@@ -3642,7 +3655,7 @@ function makeQuizQuestion(){
     };
   }
   const item = NUMBERS[Math.floor(Math.random() * NUMBERS.length)];
-  const distractors = shuffle(NUMBERS.filter(x => x.d !== item.d)).slice(0, 3).map(x => x.d);
+  const distractors = shuffle(NUMBERS.filter(x => x.d !== item.d)).slice(0, 2).map(x => x.d);
   return {
     visual: item.emoji || '🔢',
     text: `Angka berapa yang benar untuk kata “${item.word}”?`,
@@ -3650,60 +3663,107 @@ function makeQuizQuestion(){
     options: shuffle([item.d, ...distractors])
   };
 }
-function speakQuizQuestion(){
+function speakQuizQuestion(onend){
   const question = quizState.current?.text;
-  if(!question || !window.speechSynthesis) return;
+  if(!question || !window.speechSynthesis){ if(typeof onend === 'function') onend(); return; }
   try{
     speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(question);
     utterance.lang = 'id-ID';
     utterance.rate = .82;
     utterance.pitch = 1.08;
+    if(typeof onend === 'function'){
+      utterance.onend = onend;
+      utterance.onerror = onend;
+    }
     speechSynthesis.speak(utterance);
-  }catch(e){}
+  }catch(e){ if(typeof onend === 'function') onend(); }
+}
+function speakQuizText(text, onend){
+  if(!window.speechSynthesis || !text){ if(typeof onend === 'function') onend(); return; }
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'id-ID';
+    u.rate = .88;
+    u.pitch = 1.05;
+    if(typeof onend === 'function'){
+      u.onend = onend;
+      u.onerror = onend;
+    }
+    speechSynthesis.speak(u);
+  }catch(e){ if(typeof onend === 'function') onend(); }
 }
 function renderQuizQuestion(){
   quizState.current = makeQuizQuestion();
   quizState.answered = false;
+  quizState.revealToken = (quizState.revealToken || 0) + 1;
   const q = quizState.current;
   document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
   document.getElementById('quizVisual').textContent = q.visual;
   document.getElementById('quizQuestion').textContent = q.text;
-  speakQuizQuestion();
   document.getElementById('quizResult').textContent = '';
   document.getElementById('quizNextBtn').style.display = 'none';
   const options = document.getElementById('quizOptions');
   options.innerHTML = '';
-  q.options.forEach(option => {
-    const button = document.createElement('button');
-    button.className = 'quiz-option';
-    button.type = 'button';
-    button.textContent = option;
-    button.onclick = () => answerQuiz(button, option);
-    options.appendChild(button);
+  // Pilihan disembunyikan dan baru dimunculkan satu per satu setelah soal selesai dibacakan.
+  const myToken = quizState.revealToken;
+  speakQuizQuestion(() => {
+    if(myToken !== quizState.revealToken) return;
+    revealQuizOption(0, myToken);
+  });
+}
+function revealQuizOption(i, token){
+  if(token !== quizState.revealToken) return;
+  const q = quizState.current;
+  if(!q || i >= q.options.length) return;
+  const options = document.getElementById('quizOptions');
+  const option = q.options[i];
+  const label = QUIZ_OPTION_LABELS[i] || String(i + 1);
+  const button = document.createElement('button');
+  button.className = 'quiz-option';
+  button.type = 'button';
+  button.dataset.value = option;
+  button.innerHTML = `<span class="quiz-option-label">${label}</span><span class="quiz-option-text">${option}</span>`;
+  button.onclick = () => answerQuiz(button, option);
+  options.appendChild(button);
+  speakQuizText(`${label}. ${option}`, () => {
+    if(token !== quizState.revealToken) return;
+    setTimeout(() => revealQuizOption(i + 1, token), 250);
   });
 }
 function answerQuiz(button, option){
   if(quizState.answered) return;
   quizState.answered = true;
+  quizState.revealToken = (quizState.revealToken || 0) + 1; // hentikan reveal/TTS pilihan yang masih berjalan
   const correct = option === quizState.current.answer;
   document.querySelectorAll('.quiz-option').forEach(btn => {
     btn.disabled = true;
-    if(btn.textContent === quizState.current.answer) btn.classList.add('correct');
+    if(btn.dataset.value === quizState.current.answer) btn.classList.add('correct');
   });
+  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
   if(correct){
     quizState.score++;
     learningProgress.stars++;
     saveProgress();
     document.getElementById('quizResult').textContent = '✅ Benar! Kamu hebat!';
+    document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
+    document.getElementById('quizNextBtn').style.display = 'none';
+    speakQuizText('Benar! Kamu hebat!', () => {
+      setTimeout(() => {
+        if(quizState.question >= 9){ finishQuiz(); }
+        else{ quizState.question++; renderQuizQuestion(); }
+      }, 600);
+    });
   }else{
     button.classList.add('wrong');
     document.getElementById('quizResult').textContent = `💡 Jawaban yang benar: ${quizState.current.answer}`;
+    document.getElementById('quizNextBtn').style.display = '';
+    speakQuizText('Yah, jawaban salah');
   }
-  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
-  document.getElementById('quizNextBtn').style.display = '';
 }
 function finishQuiz(){
+  quizState.revealToken = (quizState.revealToken || 0) + 1;
   const result = document.getElementById('quizResult');
   const earned = quizState.score >= 5 ? ' 🏅 Lencana baru terbuka!' : '';
   result.textContent = `🎉 Selesai! Nilaimu ${quizState.score}/10.${earned}`;
@@ -3713,19 +3773,21 @@ function finishQuiz(){
   document.getElementById('quizVisual').textContent = quizState.score >= 8 ? '🏆' : '🌟';
 }
 function openQuiz(){
-  quizState = { question: 0, score: 0, current: null, answered: false };
+  quizState = { question: 0, score: 0, current: null, answered: false, revealToken: 0 };
   document.getElementById('startScreen').style.display = 'none';
   document.getElementById('quizScreen').style.display = 'block';
   renderQuizQuestion();
 }
 document.getElementById('btnStartQuiz').onclick = openQuiz;
-document.getElementById('quizSpeakQuestion').onclick = speakQuizQuestion;
+document.getElementById('quizSpeakQuestion').onclick = () => speakQuizQuestion();
 document.getElementById('quizNextBtn').onclick = () => {
   if(quizState.question >= 9){ finishQuiz(); return; }
   quizState.question++;
   renderQuizQuestion();
 };
 document.getElementById('quizHomeBtn').onclick = () => {
+  quizState.revealToken = (quizState.revealToken || 0) + 1;
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
   document.getElementById('quizScreen').style.display = 'none';
   document.getElementById('startScreen').style.display = '';
   showMainMenu();
