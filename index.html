@@ -2106,6 +2106,173 @@ body::before {
 }
 </style>
 
+
+<style id="desktop-speaker-right-definitive">
+@media (min-width:801px){
+  #stage .card.ucap{
+    position:relative !important;
+  }
+  #stage .card.ucap .ucap-row{
+    width:100% !important;
+    min-height:150px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:20px !important;
+    flex-wrap:nowrap !important;
+    margin:0 !important;
+  }
+  #stage .card.ucap .ucap-content{
+    text-align:center !important;
+    margin:0 auto !important;
+  }
+  /* Direct child: speaker is structurally outside the centered row. */
+  #stage .card.ucap > #btnSpeakPanel{
+    position:absolute !important;
+    right:26px !important;
+    left:auto !important;
+    top:50% !important;
+    bottom:auto !important;
+    transform:translateY(-50%) !important;
+    z-index:50 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:104px !important;
+    height:104px !important;
+    min-width:104px !important;
+    min-height:104px !important;
+    margin:0 !important;
+    padding:0 !important;
+    flex:none !important;
+    border-radius:50% !important;
+    font-size:62px !important;
+    line-height:1 !important;
+  }
+}
+</style>
+
+
+<style id="desktop-main-menu-reposition">
+@media (min-width:801px){
+  /* Main menu only: title remains above; the name field moves upward. */
+  #startScreen{
+    justify-content:center !important;
+  }
+
+  #startScreen .start-card{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+
+  #startScreen #menuCenterWrap{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    max-width:1120px !important;
+    gap:0 !important;
+    transform:translateY(-38px) !important;
+  }
+
+  /*
+    Requested order:
+    input nama
+    ↓
+    "Yuk pilih mau belajar apa"
+    ↓
+    menu utama
+  */
+  #startScreen #menuCenterWrap > .start-sub{
+    order:2 !important;
+    margin:8px auto 18px !important;
+  }
+
+  #startScreen #menuCenterWrap > .start-name-row{
+    order:1 !important;
+    margin:0 auto 0 !important;
+  }
+
+  #startScreen #menuCenterWrap > #mainMenuOptions{
+    order:3 !important;
+  }
+
+  #startScreen #menuCenterWrap > #progressCard{
+    order:4 !important;
+  }
+
+  #startScreen #menuCenterWrap > #btnStartQuiz{
+    order:5 !important;
+  }
+
+  #startScreen #menuCenterWrap > #btnMenuLatihan{
+    order:6 !important;
+  }
+}
+</style>
+
+
+<style id="desktop-latihan-submenu-final">
+@media (min-width:801px){
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
+    width:min(920px,92vw) !important;
+    max-width:920px !important;
+    margin:8px auto 0 !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(300px,1fr)) !important;
+    grid-auto-rows:150px !important;
+    gap:22px 26px !important;
+    align-content:center !important;
+    justify-content:center !important;
+    align-items:stretch !important;
+    flex:none !important;
+  }
+
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:150px !important;
+    height:150px !important;
+    padding:14px 20px !important;
+    margin:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:8px !important;
+    font-size:27px !important;
+    line-height:1.05 !important;
+    border-radius:26px !important;
+    box-sizing:border-box !important;
+  }
+
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .submenu-img{
+    display:block !important;
+    width:82px !important;
+    height:82px !important;
+    max-width:82px !important;
+    max-height:82px !important;
+    object-fit:contain !important;
+    flex:0 0 auto !important;
+  }
+
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard{
+    grid-column:1 / -1 !important;
+    width:min(520px,100%) !important;
+    margin:0 auto !important;
+  }
+
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-title{
+    grid-column:1 / -1 !important;
+    justify-self:center !important;
+    margin:0 auto !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -2217,8 +2384,8 @@ body::before {
               <div class="ucap-text" id="ucapText">"Aaa..."</div>
               <div class="ucap-sub" id="syllableText">(diucapkan pelan)</div>
             </div>
-            <button class="speakbtn pronunciation-speaker" id="btnSpeakPanel" type="button" aria-label="Putar suara" title="Putar suara">🔊</button>
           </div>
+          <button class="speakbtn pronunciation-speaker" id="btnSpeakPanel" type="button" aria-label="Putar suara" title="Putar suara">🔊</button>
         </div>
       </div>
     </div>
