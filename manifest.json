@@ -1,0 +1,19 @@
+{
+  "name": "Belajar Huruf & Angka",
+  "short_name": "Belajar Ceria",
+  "description": "Aplikasi belajar huruf dan angka untuk anak-anak",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#6EC6FF",
+  "theme_color": "#2E9EF5",
+  "icons": [
+    {
+      "src": "assets/judul.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

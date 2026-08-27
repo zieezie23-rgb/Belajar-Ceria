@@ -5,7 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Belajar Huruf & Angka</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Bubblegum+Sans&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Bubblegum+Sans&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+
+<!-- PWA: supaya "Tambahkan ke Layar Utama" menjadi aplikasi standalone, bukan sekadar pintasan situs -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2E9EF5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Belajar Ceria">
+<link rel="apple-touch-icon" href="assets/judul.png">
+<link rel="icon" href="assets/judul.png" type="image/png">
 <style>
   :root{
 --sky1:#6EC6FF; --sky2:#8FD9FF;
@@ -1423,10 +1433,6 @@ body::before {
   0%,100%{transform:translateY(0) rotate(0deg)}
   50%{transform:translateY(-7px) rotate(-1deg)}
 }
-@keyframes buttonShine{
-  0%,55%,100%{filter:brightness(1)}
-  30%{filter:brightness(1.08)}
-}
 
 /* Judul utama menu */
 #startScreen .start-title{
@@ -1442,12 +1448,12 @@ body::before {
 #startScreen .main-menu-options > button,
 #startScreen #btnStartQuiz,
 #startScreen #btnMenuLatihan{
-  animation:playfulBob 2.5s ease-in-out infinite, buttonShine 3.2s ease-in-out infinite;
+  animation:playfulBob 2.5s ease-in-out infinite;
   transform-origin:center bottom;
 }
-#startScreen .main-menu-options > button:nth-child(2){animation-delay:.35s,.35s}
-#startScreen #btnStartQuiz{animation-delay:.7s,.7s}
-#startScreen #btnMenuLatihan{animation-delay:1.05s,1.05s}
+#startScreen .main-menu-options > button:nth-child(2){animation-delay:.35s}
+#startScreen #btnStartQuiz{animation-delay:.7s}
+#startScreen #btnMenuLatihan{animation-delay:1.05s}
 
 /* Ikon/gambar menu ikut bergerak sedikit lebih hidup */
 #startScreen .menu-anim-icon,
@@ -1468,21 +1474,17 @@ body::before {
 }
 #startScreen .sub-menu-item,
 #startScreen .sub-menu-title{
-  animation:playfulBobSmall 2.4s ease-in-out infinite, buttonShine 3.5s ease-in-out infinite;
+  animation:playfulBobSmall 2.4s ease-in-out infinite;
   transform-origin:center center;
 }
-#startScreen .sub-menu-item:nth-child(2){animation-delay:.18s,.18s}
-#startScreen .sub-menu-item:nth-child(3){animation-delay:.36s,.36s}
-#startScreen .sub-menu-item:nth-child(4){animation-delay:.54s,.54s}
-#startScreen .sub-menu-title{animation-delay:.72s,.72s}
+#startScreen .sub-menu-item:nth-child(2){animation-delay:.18s}
+#startScreen .sub-menu-item:nth-child(3){animation-delay:.36s}
+#startScreen .sub-menu-item:nth-child(4){animation-delay:.54s}
+#startScreen .sub-menu-title{animation-delay:.72s}
 
-/* Tombol pada halaman belajar/latihan juga diberi gerakan lembut */
-#stage button:not(:disabled),
-#quizScreen button:not(:disabled),
-#helpOverlay button:not(:disabled){
-  animation:playfulBobSmall 3.2s ease-in-out infinite;
-  transform-origin:center center;
-}
+/* Tombol pada halaman belajar/kuis TIDAK dianimasikan terus-menerus:
+   layar ini dipakai untuk menjiplak/menulis, jadi animasi infinite di sini
+   hanya membebani rendering tanpa manfaat dan mengganggu fokus anak. */
 
 /* Interaksi sentuh tetap terasa responsif */
 #startScreen button:active,
