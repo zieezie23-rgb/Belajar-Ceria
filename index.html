@@ -150,6 +150,12 @@
   #matchAreaCanvas{ pointer-events:none; cursor:default; }
   .startdot{ display:none !important; }
 
+  /* Layar "Belajar" (bukan menulis): panel kanvas, sidebar, dan navigasi bawah
+     tidak ditampilkan, hanya strip huruf yang aktif. Layar Menulis Huruf/Angka
+     tetap memakai elemen-elemen ini seperti biasa. */
+  #stage.simple-learning .maingrid{ display:none !important; }
+  #stage.simple-learning #bottomNav{ display:none !important; }
+
   /* SIDEBAR */
   .sidebar{ display:flex; flex-direction:column; gap:12px; }
   .siderow{ display:flex; gap:12px; }
@@ -384,13 +390,6 @@
     position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px);
     opacity:0; cursor:pointer; border:none; padding:0;
   }
-  .speakbtn{
-    width:40px; height:40px; border-radius:50%;
-    border:none; background:linear-gradient(180deg,var(--orange),var(--orange-dark)); color:#fff;
-    font-size:18px; cursor:pointer; box-shadow:0 4px 0 rgba(0,0,0,0.2);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .speakbtn:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.2); }
 /* CELEBRATION POPUP */
   .celebrate-overlay{
     position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
@@ -2138,9 +2137,7 @@ body::before {
   #stage .ucap-content{flex:0 1 auto !important;min-width:0 !important;text-align:center !important;}
   #stage .ucap-text{font-size:40px !important;line-height:1 !important;white-space:nowrap !important;}
   #stage .ucap-sub{font-size:17px !important;margin-top:6px !important;}
-  #stage .pronunciation-speaker{display:flex !important;position:static !important;transform:none !important;flex:0 0 100px !important;width:100px !important;height:100px !important;min-width:100px !important;min-height:100px !important;padding:0 !important;margin:0 !important;border-radius:50% !important;font-size:60px !important;line-height:1 !important;align-items:center !important;justify-content:center !important;}
-  #stage
-/* WRITING: pronunciation card spans the complete width */
+  /* WRITING: pronunciation card spans the complete width */
   #stage.writing-mode .maingrid{grid-template-columns:1fr !important;grid-template-rows:minmax(0,1fr) auto !important;}
   #stage.writing-mode .sidebar{grid-column:1 !important;width:100% !important;}
   #stage.writing-mode .siderow{display:block !important;width:100% !important;}
@@ -2181,128 +2178,6 @@ body::before {
   #addPopup .celebrate-emoji,#subPopup .celebrate-emoji{font-size:110px !important;}
   #addPopup .celebrate-title,#subPopup .celebrate-title{font-size:54px !important;}
   #addPopup .pillbtn,#subPopup .pillbtn{min-height:72px !important;padding:14px 32px !important;font-size:27px !important;border-radius:22px !important;}
-}
-</style>
-
-
-<style id="desktop-speaker-single">
-@media (min-width:801px){
-  #stage .card.ucap .ucap-row{
-    width:100% !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:24px !important;
-  }
-  #stage .card.ucap #btnSpeakPanel{
-    display:flex !important;
-    position:static !important;
-    width:104px !important;
-    height:104px !important;
-    min-width:104px !important;
-    min-height:104px !important;
-    flex:0 0 104px !important;
-    margin:0 !important;
-    padding:0 !important;
-    border:0 !important;
-    border-radius:50% !important;
-    font-size:62px !important;
-    line-height:1 !important;
-    transform:none !important;
-  }
-  /* The pronunciation panel contains exactly one sound control. */
-  #stage .card.ucap .speakbtn-full{display:none !important;}
-}
-</style>
-
-<style id="desktop-speaker-no-text">
-@media (min-width:801px){
-  #stage #btnSpeakPanel{
-    overflow:hidden !important;
-    white-space:nowrap !important;
-    text-indent:0 !important;
-  }
-}
-</style>
-
-
-<style id="desktop-speaker-right-only">
-@media (min-width:801px){
-  /* Speaker berada di sisi paling kanan panel, tidak lagi berdempetan
-     dengan teks pengucapan. */
-  #stage .card.ucap{
-    position:relative !important;
-  }
-
-  #stage .card.ucap .ucap-row{
-    position:relative !important;
-    width:100% !important;
-    height:100% !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-  }
-
-  #stage .card.ucap .pronunciation-speaker{
-    position:absolute !important;
-    right:24px !important;
-    top:50% !important;
-    transform:translateY(-50%) !important;
-    margin:0 !important;
-    flex:none !important;
-  }
-
-  /* Teks pengucapan tetap berada di tengah panel. */
-  #stage .card.ucap .ucap-copy{
-    margin:0 auto !important;
-    text-align:center !important;
-  }
-}
-</style>
-
-
-<style id="desktop-speaker-right-definitive">
-@media (min-width:801px){
-  #stage .card.ucap{
-    position:relative !important;
-  }
-  #stage .card.ucap .ucap-row{
-    width:100% !important;
-    min-height:150px !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:20px !important;
-    flex-wrap:nowrap !important;
-    margin:0 !important;
-  }
-  #stage .card.ucap .ucap-content{
-    text-align:center !important;
-    margin:0 auto !important;
-  }
-  /* Direct child: speaker is structurally outside the centered row. */
-  #stage .card.ucap > #btnSpeakPanel{
-    position:absolute !important;
-    right:26px !important;
-    left:auto !important;
-    top:50% !important;
-    bottom:auto !important;
-    transform:translateY(-50%) !important;
-    z-index:50 !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    width:104px !important;
-    height:104px !important;
-    min-width:104px !important;
-    min-height:104px !important;
-    margin:0 !important;
-    padding:0 !important;
-    flex:none !important;
-    border-radius:50% !important;
-    font-size:62px !important;
-    line-height:1 !important;
-  }
 }
 </style>
 
@@ -2400,9 +2275,6 @@ body::before {
     max-width:145px !important;
     max-height:145px !important;
     object-fit:contain !important;
-  }
-  #latihanMenu .btn-text-fallback{
-    font-size:30px !important;
   }
   #latihanMenu .counting-score-card{
     grid-column:1 / -1 !important;
@@ -2794,7 +2666,7 @@ body::before {
       <span class="start-name-icon right" aria-hidden="true">⭐</span>
     </div>
     <div class="main-menu-options" id="mainMenuOptions">
-      <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar Huruf"><img src="assets/huruf.png" alt="Belajar Huruf (A–Z)" class="huruf-logo-img"><span class="btn-text-fallback" style="display:none">Belajar Huruf (A–Z)</span></button>
+      <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar"><img src="assets/huruf.png" alt="Belajar" class="huruf-logo-img"></button>
     </div>
     <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img src="assets/quis.png" alt="Kuis Cepat"></button>
@@ -2805,10 +2677,10 @@ body::before {
     </div>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
-      <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img src="assets/menulis_huruf.png" alt="Menulis Huruf" class="submenu-img"><span class="btn-text-fallback" style="display:none">Menulis Huruf</span></button>
-      <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img src="assets/menulis_angka.png" alt="Menulis Angka" class="submenu-img"><span class="btn-text-fallback" style="display:none">Menulis Angka</span></button>
-      <button class="sub-menu-item tambah has-img" id="btnStartAddition"><img src="assets/penjumlahan.png" alt="Penjumlahan" class="submenu-img"><span class="btn-text-fallback" style="display:none">Penjumlahan</span></button>
-      <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img src="assets/pengurangan.png" alt="Pengurangan" class="submenu-img"><span class="btn-text-fallback" style="display:none">Pengurangan</span></button>
+      <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img src="assets/menulis_huruf.png" alt="Menulis Huruf" class="submenu-img"></button>
+      <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img src="assets/menulis_angka.png" alt="Menulis Angka" class="submenu-img"></button>
+      <button class="sub-menu-item tambah has-img" id="btnStartAddition"><img src="assets/penjumlahan.png" alt="Penjumlahan" class="submenu-img"></button>
+      <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img src="assets/pengurangan.png" alt="Pengurangan" class="submenu-img"></button>
       <div class="counting-score-card" id="countingScoreCard">
         <div class="counting-score-title">🧮 Score Berhitung</div>
         <div class="counting-score-row"><span>➕ Penjumlahan</span><strong id="additionScoreMenu">0</strong></div>
@@ -2839,7 +2711,7 @@ body::before {
     <button class="pillbtn pink homebtn" id="btnKembali" aria-label="Beranda" title="Beranda">🏠</button>
     <div class="title-wrap">
       <span style="font-size:22px;">⭐</span>
-      <h1 class="display" id="mainTitle"><span class="title-line1" id="mainTitleLine1">MENGENAL</span><span class="title-line2" id="mainTitleLine2">HURUF</span></h1>
+      <h1 class="display" id="mainTitle"><span class="title-line1" id="mainTitleLine1">MENGENAL</span><span class="title-line2" id="mainTitleLine2">HURUF DAN ANGKA</span></h1>
       <span style="font-size:22px;">⭐</span>
     </div>
     <button class="pillbtn orange" id="btnLanguage"><span class="lang-flag" aria-hidden="true">🇬🇧</span><span class="lang-code">EN</span></button>
@@ -2904,7 +2776,6 @@ body::before {
               <div class="ucap-sub" id="syllableText">(diucapkan pelan)</div>
             </div>
           </div>
-          <button class="speakbtn pronunciation-speaker" id="btnSpeakPanel" type="button" aria-label="Putar suara" title="Putar suara">🔊</button>
         </div>
       </div>
     </div>
@@ -3902,12 +3773,13 @@ function celebrate(){
   overlay.classList.add('show');
   spawnConfetti();
   const name = document.getElementById('childName').value.trim();
-  const message = name ? I18N[language].smartName(name) : T('smart');
+  const item = mode === 'huruf' ? LETTERS[index].ch : NUMBERS[index].d;
+  const message = name ? `Yeay, ${name} berhasil menulis ${item}` : `Yeay, kamu berhasil menulis ${item}!`;
   document.getElementById('celebrateTitle').textContent = message;
   try{
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(message);
-    u.lang = language==='en' ? 'en-US' : 'id-ID';
+    u.lang = 'id-ID';
     u.rate = 1;
     u.pitch = 1.3;
     speechSynthesis.speak(u);
@@ -3998,7 +3870,7 @@ function applyLanguage(){
   if(inp) inp.placeholder=T('namePlaceholder');
 
   const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=T(key); };
-  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar Huruf (A–Z)'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); }
+  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); }
   const bAdd=document.getElementById('btnStartAddition'); if(bAdd){ const labelAdd=T('tambah'); bAdd.setAttribute('aria-label',labelAdd); bAdd.setAttribute('title',labelAdd); }
   const bSub=document.getElementById('btnStartSubtraction'); if(bSub){ const labelSub=T('kurang'); bSub.setAttribute('aria-label',labelSub); bSub.setAttribute('title',labelSub); }
   const mh=document.getElementById('btnStartMenulisHuruf'); if(mh){ const labelMh=language==='en'?'Write Letters (A–Z)':'Menulis Huruf (A–Z)'; mh.setAttribute('aria-label',labelMh); mh.setAttribute('title',labelMh); }
@@ -4053,6 +3925,13 @@ function ensureLearningLanguageButton(){
   topbar.appendChild(btn);
 }
 
+const variantPickerEl = document.querySelector('.learning-variant-picker');
+const chipStripEl = document.getElementById('chipStrip');
+const variantPickerAnchor = document.createComment('variant-picker-anchor');
+const chipStripAnchor = document.createComment('chip-strip-anchor');
+if(variantPickerEl) variantPickerEl.after(variantPickerAnchor);
+if(chipStripEl) chipStripEl.after(chipStripAnchor);
+
 function render(){
   const svgMain = document.getElementById('svgMain');
   const wrapMain = document.getElementById('wrapMain');
@@ -4067,6 +3946,19 @@ function render(){
   if(stage) {
     stage.classList.toggle('writing-mode', !!writingMode);
     stage.classList.toggle('simple-learning', !writingMode);
+    stage.classList.toggle('writing-huruf', writingMode && mode === 'huruf');
+  }
+
+  // Layar Menulis Huruf: pemilih variasi tombol dan strip huruf A-Z benar-benar
+  // dilepas dari DOM (bukan cuma disembunyikan). Untuk Belajar dan Menulis
+  // Angka, keduanya dipasang kembali seperti semula.
+  const removeForWritingHuruf = writingMode && mode === 'huruf';
+  if(removeForWritingHuruf){
+    if(variantPickerEl && variantPickerEl.isConnected) variantPickerEl.remove();
+    if(chipStripEl && chipStripEl.isConnected) chipStripEl.remove();
+  } else {
+    if(variantPickerEl && !variantPickerEl.isConnected) variantPickerAnchor.after(variantPickerEl);
+    if(chipStripEl && !chipStripEl.isConnected) chipStripAnchor.after(chipStripEl);
   }
   const ucapCard = document.querySelector('.card.ucap');
   if(ucapCard) ucapCard.classList.toggle('hide-syllable', mode === 'huruf');
@@ -4086,7 +3978,7 @@ function render(){
     mainTitleEl.textContent = mode === 'huruf' ? 'MENULIS HURUF' : 'MENULIS ANGKA';
   } else {
     const titleLine1 = language === 'en' ? 'LEARN' : 'MENGENAL';
-    const titleLine2 = language === 'en' ? 'LETTERS' : 'HURUF';
+    const titleLine2 = language === 'en' ? 'LETTERS' : 'HURUF DAN ANGKA';
     mainTitleEl.innerHTML = '<span class="title-line1" id="mainTitleLine1">' + titleLine1 + '</span>'
       + '<span class="title-line2" id="mainTitleLine2">' + titleLine2 + '</span>';
   }
@@ -4117,9 +4009,7 @@ function render(){
   renderChips();
   if(writingMode) buildMask();
   updateNextButton();
-  // Let the new page paint first; speech starts on the next task so navigation feels instant.
-  if(mode === 'huruf' && !writingMode) setTimeout(speakLetterAndExample, 0);
-  else if(writingMode && mode === 'huruf') { /* mode menulis tidak otomatis menyebut contoh */ }
+  // TTS otomatis dinonaktifkan; suara huruf hanya diputar lewat tombol speaker manual.
   if(cleanLearning){
     setHandGuideVisible(false);
     handGuideOn = false;
@@ -4251,7 +4141,7 @@ function speakLearningChip(item, button, type){
 // ---------- SPEECH ----------
 // Semua suara aplikasi menggunakan Web Speech TTS.
 // Tidak lagi memanggil file MP3 sehingga kata/angka dapat dibaca fleksibel.
-const TTS_PITCH = 10.00;
+const TTS_PITCH = 1.1;
 const TTS_RATE = 0.95;
 
 let cachedSpeechVoices = [];
@@ -4321,57 +4211,6 @@ function speakTTS(text, lang='id-ID', onend=null){
   }catch(e){}
 }
 
-function speakCurrent(onlyLetter=false){
-  try{
-    if(language === 'id'){
-      if(mode === 'huruf'){
-        const item = LETTERS[index];
-        speakTTS(item.ch, 'id-ID');
-        return;
-      }
-      const item = NUMBERS[index];
-      const fallbackMap = {
-        'Nol':'Nol. n-o-l. nol','Satu':'Satu. s-a-t-u. satu','Dua':'Dua. d-u-a. dua',
-        'Tiga':'Tiga. t-i-g-a. tiga','Empat':'Empat. e-m-p-a-t. empat','Lima':'Lima. l-i-m-a. lima',
-        'Enam':'Enam. e-n-a-m. enam','Tujuh':'Tujuh. t-u-j-u-h. tujuh',
-        'Delapan':'Delapan. d-e-l-a-p-a-n. delapan','Sembilan':'Sembilan. s-e-m-b-i-l-a-n. sembilan'
-      };
-      speakTTS(fallbackMap[item.word] || item.word, 'id-ID');
-      return;
-    }
-
-    let text='';
-    if(mode === 'huruf'){
-      const item=LETTERS[index];
-      text = item.ch;
-    }else{
-      const item=NUMBERS[index];
-      const spellMapEN = {
-        'Zero':'Zero. z-e-r-o. zero','One':'One. o-n-e. one','Two':'Two. t-w-o. two',
-        'Three':'Three. t-h-r-e-e. three','Four':'Four. f-o-u-r. four','Five':'Five. f-i-v-e. five',
-        'Six':'Six. s-i-x. six','Seven':'Seven. s-e-v-e-n. seven','Eight':'Eight. e-i-g-h-t. eight',
-        'Nine':'Nine. n-i-n-e. nine'
-      };
-      text = spellMapEN[item.wordEN] || item.wordEN;
-    }
-    speakTTS(text, 'en-US');
-  }catch(e){}
-}
-
-// Saat halaman huruf dibuka atau berpindah: sebutkan huruf, beri jeda,
-// lalu sebutkan contoh katanya. Contoh: "A ... Ayam".
-function speakLetterAndExample(){
-  if(mode !== 'huruf') return;
-  try{
-    const item=LETTERS[index];
-    const lang = language === 'en' ? 'en-US' : 'id-ID';
-    const word = language === 'en' ? item.wordEN : item.word;
-    speakTTS(item.ch, lang, () => {
-      setTimeout(() => speakTTS(word, lang), 650);
-    });
-  }catch(e){}
-}
-
 // ---------- EVENTS ----------
 document.getElementById('btnPrev').onclick = () => { if(index>0){ index--; render(); } };
 document.getElementById('btnNext').onclick = () => {
@@ -4413,7 +4252,6 @@ document.getElementById('btnKembali').onclick = () => {
   applyLanguage();
   showMainMenu();
 };
-document.getElementById('btnSpeakPanel').onclick = speakCurrent;
 const helpOverlay=document.getElementById('helpOverlay');
 const closeHelp=()=>{ if(helpOverlay) helpOverlay.classList.remove('show'); };
 document.getElementById('btnHelp').onclick=()=>{
@@ -4490,30 +4328,25 @@ function showMainMenu(){
   if(titleImg) titleImg.src='assets/judul.png';
   updateStartTitleVisual(language === 'id');
 }
-function showSubMenu(which){
+function showSubMenu(){
   // Gunakan !important karena CSS layout menu utama memakai display:grid !important.
   // Ini memastikan tombol Belajar Huruf/Angka benar-benar hilang saat submenu Latihan dibuka.
   document.getElementById('mainMenuOptions').style.setProperty('display','none','important');
   document.getElementById('progressCard').style.setProperty('display','none','important');
   document.getElementById('btnStartQuiz').style.setProperty('display','none','important');
-  document.getElementById('latihanMenu').style.setProperty('display',which==='latihan'?'flex':'none','important');
+  document.getElementById('latihanMenu').style.setProperty('display','flex','important');
   document.getElementById('btnMenuLatihan').style.setProperty('display','none','important');
 
   // Di submenu dibuat lebih sederhana: hanya judul + pilihan menu.
   // Bahasa, sapaan, dan kolom nama disembunyikan agar fokus ke pilihan.
   document.getElementById('startSub').style.setProperty('display','none','important');
   document.querySelector('.start-name-row').style.setProperty('display','none','important');
-  document.getElementById('startTitleText').textContent = which==='belajar' ? 'PENGENALAN' : '';
+  document.getElementById('startTitleText').textContent = '';
   const titleImg = document.getElementById('startTitleImg');
-  if(which==='latihan'){
-    if(titleImg){ titleImg.src='assets/latihan.png'; titleImg.alt='Latihan Menulis & Berhitung'; titleImg.style.display='block'; }
-    document.getElementById('startTitleText').style.display='none';
-  } else {
-    if(titleImg) titleImg.style.display='none';
-    document.getElementById('startTitleText').style.display='';
-  }
+  if(titleImg){ titleImg.src='assets/latihan.png'; titleImg.alt='Latihan Menulis & Berhitung'; titleImg.style.display='block'; }
+  document.getElementById('startTitleText').style.display='none';
 }
-document.getElementById('btnMenuLatihan').onclick=()=>showSubMenu('latihan');
+document.getElementById('btnMenuLatihan').onclick=showSubMenu;
 document.getElementById('backMainFromLatihan').onclick=showMainMenu;
 document.getElementById('btnStartHuruf').onclick = () => startApp('huruf', false);
 document.getElementById('btnStartMenulisHuruf').onclick = () => startApp('huruf', true);
@@ -4843,7 +4676,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
    document.getElementById('addRetryBtn').style.display=ok?'none':'';
    document.getElementById('addNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
-    let u=new SpeechSynthesisUtterance(ok ? 'Hebat, jawaban benar' : 'Jawaban salah');
+    let u=new SpeechSynthesisUtterance(ok ? 'Hebat, Kamu pintar' : 'Yah, Jawaban salah');
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1} · Skor: ${addScore}`;
    window._lastAddOk=ok;
@@ -4980,7 +4813,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
    document.getElementById('subRetryBtn').style.display=ok?'none':'';
    document.getElementById('subNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
-    let u=new SpeechSynthesisUtterance(ok ? 'Hebat, jawaban benar' : 'Jawaban salah');
+    let u=new SpeechSynthesisUtterance(ok ? 'Hebat, Kamu pintar' : 'Yah, Jawaban salah');
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1} · Skor: ${subScore}`;
    window._lastSubOk=ok;
@@ -5258,53 +5091,6 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 
 <div class="credit-tag">Created by: Zie</div>
-
-<script id="speaker-function-fix">
-(function(){
-  function bindSpeaker(){
-    const btn = document.getElementById('btnSpeakPanel');
-    if(!btn || btn.dataset.speakerBound === '1') return;
-    btn.dataset.speakerBound = '1';
-
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopPropagation();
-
-      /* Use the same pronunciation text already displayed in the panel. */
-      const item = (typeof currentIndex !== 'undefined' && typeof items !== 'undefined')
-        ? items[currentIndex]
-        : null;
-
-      if(typeof speak !== 'function') return;
-
-      if(item){
-        try {
-          speak(currentSay(item));
-        } catch(err) {
-          const text = document.getElementById('ucapText');
-          if(text) speak(text.textContent.replace(/^["']|["']$/g,''));
-        }
-      }else{
-        const text = document.getElementById('ucapText');
-        if(text) speak(text.textContent.replace(/^["']|["']$/g,''));
-      }
-    });
-  }
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', bindSpeaker);
-  }else{
-    bindSpeaker();
-  }
-
-  /* Re-bind safely after navigation/rendering. */
-  const observer = new MutationObserver(bindSpeaker);
-  observer.observe(document.documentElement, {childList:true, subtree:true});
-})();
-</script>
-
-
-
 
 <script id="language-short-label">
 (function(){
