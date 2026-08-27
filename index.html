@@ -70,8 +70,15 @@
     display:flex; align-items:center; justify-content:center; gap:10px;
   }
   .title-wrap h1{
-    margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-size:27px; font-weight:900; color:#fff;
+    margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:900; color:#fff;
     letter-spacing:.8px; line-height:1.1;
+    display:flex; flex-direction:column; align-items:center; gap:1px;
+  }
+  .title-wrap h1 .title-line1{
+    font-size:14px; font-weight:800; letter-spacing:1.2px; opacity:.92;
+  }
+  .title-wrap h1 .title-line2{
+    font-size:27px; font-weight:900;
   }
 
   .voice-avatar{
@@ -119,15 +126,13 @@
   .canvaswrap svg{ position:absolute; inset:0; width:100%; height:100%; }
   .canvaswrap canvas{ position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; }
 
-  /* MODE BELAJAR HURUF & BELAJAR ANGKA: kanvas dibuat bersih, hanya menampilkan bentuk solid. */
-  .canvaswrap.learn-letter,
-  .canvaswrap.learn-number{
+  /* MODE BELAJAR HURUF: kanvas dibuat bersih, hanya menampilkan bentuk solid. */
+  .canvaswrap.learn-letter{
     border:0; border-radius:22px; background:#fff;
   }
   .canvaswrap.learn-letter{ aspect-ratio:16 / 9; max-height:520px; }
   .canvaswrap.letter-writing{ aspect-ratio:1 / 1; max-height:520px; }
-  .canvaswrap.learn-letter .learn-canvas-title,
-  .canvaswrap.learn-number .learn-canvas-title{
+  .canvaswrap.learn-letter .learn-canvas-title{
     position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:6;
     background:none; color:#E83B78;
     font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:900; font-size:24px; line-height:1.1;
@@ -136,16 +141,11 @@
   }
   .canvaswrap.learn-letter #canvasMain,
   .canvaswrap.learn-letter #matchAreaCanvas,
-  .canvaswrap.learn-letter #matchProgress,
-  .canvaswrap.learn-number #canvasMain,
-  .canvaswrap.learn-number #matchAreaCanvas,
-  .canvaswrap.learn-number #matchProgress{ display:none !important; }
-  .canvaswrap.learn-letter svg,
-  .canvaswrap.learn-number svg{ z-index:2; }
+  .canvaswrap.learn-letter #matchProgress{ display:none !important; }
+  .canvaswrap.learn-letter svg{ z-index:2; }
   .tracepanel.learn-panel .panel-toolbar{ display:none; }
   .tracepanel.learn-panel{ padding:10px; }
-  .learn-letter .learn-canvas-title + svg,
-  .learn-number .learn-canvas-title + svg{ top:0; }
+  .learn-letter .learn-canvas-title + svg{ top:0; }
   .bottomnav.learn-nav #btnClear{ display:none; }
   #matchAreaCanvas{ pointer-events:none; cursor:default; }
   .startdot{ display:none !important; }
@@ -605,36 +605,6 @@
 </style>
 
 
-<style id="belajar-angka-logo-style">
-#btnStartAngka.angka-logo-item{
-  width:min(300px,70vw);
-  max-width:100%;
-  height:auto;
-  flex:0 1 auto;
-  background:none !important;
-  border:none !important;
-  box-shadow:none !important;
-  padding:0;
-  margin:0 auto;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  line-height:0;
-}
-#btnStartAngka .angka-logo-img{
-  display:block;
-  width:100%;
-  height:auto;
-  object-fit:contain;
-  background:transparent !important;
-}
-#btnStartAngka:hover .angka-logo-img{transform:translateY(-2px) scale(1.02);}
-#btnStartAngka:active .angka-logo-img{transform:scale(.98);}
-@media(max-width:430px){
-  #btnStartAngka.angka-logo-item{width:min(220px,70vw);}
-}
-</style>
-
 <style id="menu-music-style">
 
   .menu-music-control{
@@ -824,10 +794,6 @@
   flex-basis:230px!important;
   transform:scale(1)!important;
 }
-.menu-main-btn .book-icon,
-.menu-main-btn .pencil-icon{
-  transform:scale(2.35)!important;
-}
 .menu-main-btn strong{
   margin-top:2px!important;
   font-size:clamp(24px,3.8vw,38px)!important;
@@ -859,7 +825,6 @@
   .menu-main-btn .menu-anim-icon{
     width:170px!important;height:155px!important;flex-basis:155px!important;
   }
-  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(1.65)!important;}
   .menu-main-btn strong{font-size:24px!important;}
   .start-name-row{width:min(300px,72vw)!important;}
 }
@@ -879,7 +844,6 @@
   .menu-main-btn .menu-anim-icon{
     width:145px!important;height:140px!important;flex-basis:140px!important;
   }
-  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(1.42)!important;}
   .menu-main-btn strong{
     font-size:21px!important;
     -webkit-text-stroke:1.5px #1554A0!important;
@@ -893,7 +857,6 @@
   .menu-main-btn .menu-anim-icon{
     width:130px!important;height:115px!important;flex-basis:115px!important;
   }
-  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(1.3)!important;}
   .menu-main-btn strong{font-size:20px!important;}
   .start-name-row{margin:2px auto 2px!important;}
   .start-name-input{height:38px!important;font-size:14px!important;}
@@ -903,7 +866,6 @@
   .menu-main-btn .menu-anim-icon{
     width:90px!important;height:80px!important;flex-basis:80px!important;
   }
-  .menu-main-btn .book-icon,.menu-main-btn .pencil-icon{transform:scale(.9)!important;}
   .menu-main-btn strong{font-size:16px!important;}
 }
 </style>
@@ -929,9 +891,6 @@
 }
 
 .menu-main-btn:hover .mascot-photo{ transform:scale(1.05); }
-
-/* Karena maskot sekarang berupa foto, sembunyikan ikon CSS lama sepenuhnya */
-.book-icon,.pencil-icon{ display:none!important; }
 
 /* ===== Judul berupa gambar logo asli ===== */
 .start-title-img{
@@ -1139,11 +1098,6 @@ html, body {
   overscroll-behavior:none !important;
 }
 
-/* Jangan biarkan efek latar/animasi menciptakan area scroll tambahan. */
-#startScreen .floaty-layer {
-  max-height:100dvh;
-}
-
 /* Ketika aplikasi sudah masuk ke halaman belajar, body kembali boleh scroll bila diperlukan. */
 body:has(#startScreen[style*="display: none"]) {
   overflow-x:hidden !important;
@@ -1205,17 +1159,17 @@ body:has(#startScreen[style*="display: none"]) {
 </style>
 
 <style id="menu-banner-fix">
-#btnStartHuruf,#btnStartAngka{
+#btnStartHuruf{
  background:transparent!important;
  border:none!important;
  box-shadow:none!important;
  outline:none!important;
 }
-#btnStartHuruf *,#btnStartAngka *{
+#btnStartHuruf *{
  background:transparent!important;
 }
-#btnStartHuruf img,#btnStartAngka img,
-.huruf-logo-img,.angka-logo-img{
+#btnStartHuruf img,
+.huruf-logo-img{
  display:block!important;
  width:min(320px,80vw)!important;
  max-width:100%!important;
@@ -1450,14 +1404,12 @@ body::before {
 /* Ikon/gambar menu ikut bergerak sedikit lebih hidup */
 #startScreen .menu-anim-icon,
 #startScreen .huruf-logo-img,
-#startScreen .angka-logo-img,
 #startScreen .submenu-img,
 #startScreen .quiz-menu-btn img,
 #startScreen .latihan-menu img{
   animation:menuIconFloat 2.2s ease-in-out infinite;
   transform-origin:center bottom;
 }
-#startScreen .angka-logo-img{animation-delay:.35s}
 #startScreen .submenu-img{animation-duration:2.35s}
 
 /* Judul/subjudul dan item submenu */
@@ -1498,7 +1450,6 @@ body::before {
   #startScreen #btnMenuLatihan,
   #startScreen .menu-anim-icon,
   #startScreen .huruf-logo-img,
-  #startScreen .angka-logo-img,
   #startScreen .submenu-img,
   #startScreen .quiz-menu-btn img,
   #startScreen .latihan-menu img,
@@ -1563,7 +1514,6 @@ body::before {
     height:auto !important;
   }
   #stage .canvaswrap.learn-letter,
-  #stage .canvaswrap.learn-number,
   #stage .canvaswrap.letter-writing{
     flex:1 1 auto !important;
     max-height:none !important;
@@ -1655,8 +1605,7 @@ body::before {
   }
 
   #stage .canvaswrap,
-  #stage .canvaswrap.learn-letter,
-  #stage .canvaswrap.learn-number{
+  #stage .canvaswrap.learn-letter{
     width:100% !important;
     height:100% !important;
     min-height:0 !important;
@@ -1753,6 +1702,14 @@ body::before {
     font-size:clamp(26px,2.2vw,38px) !important;
   }
 
+  #stage .topbar .title-wrap h1 .title-line1{
+    font-size:clamp(16px,1.4vw,22px) !important;
+  }
+
+  #stage .topbar .title-wrap h1 .title-line2{
+    font-size:clamp(32px,2.8vw,48px) !important;
+  }
+
   #stage .topbar #btnLanguage{
     min-height:64px !important;
     justify-content:center !important;
@@ -1825,6 +1782,197 @@ body::before {
 </style>
 
 
+<style id="mengenal-huruf-angka-grid">
+/* Tampilan baru: Mengenal Huruf & Angka */
+#stage.simple-learning{overflow:hidden !important;}
+#stage.simple-learning .chipstrip{
+  width:min(760px, calc(100vw - 32px));
+  margin:clamp(14px,3vh,28px) auto 0;
+  padding:0;
+  display:grid !important;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:clamp(8px,1.4vw,14px);
+  overflow:visible !important;
+  justify-content:initial !important;
+  align-items:stretch;
+}
+#stage.simple-learning .chipstrip .chip,
+#stage.simple-learning .chipstrip .chip-arrow{
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:clamp(54px,7vw,82px) !important;
+  aspect-ratio:1/1;
+  margin:0 !important;
+  position:relative;
+  overflow:hidden;
+  border:3px solid #E8437E !important;
+  color:#2B2140 !important;
+  font-size:clamp(38px,7.2vw,72px) !important;
+  line-height:.9 !important;
+  font-weight:900 !important;
+  cursor:pointer !important;
+  -webkit-tap-highlight-color:transparent;
+  transform:translateZ(0) scale(1) rotate(0);
+  transition:transform .14s cubic-bezier(.2,1.5,.4,1),filter .14s ease,box-shadow .14s ease;
+}
+
+/* ① BINTANG — pusat dibuat gemuk, bukan ujung panjang */
+#stage.simple-learning.variant-star .chipstrip .chip{
+  clip-path:polygon(
+    50% 4%, 62% 34%, 95% 34%, 69% 52%,
+    80% 89%, 50% 67%, 20% 89%, 31% 52%,
+    5% 34%, 38% 34%
+  ) !important;
+  border:0 !important;
+  background:linear-gradient(145deg,#fff8ad 0%,#ffd94c 50%,#efa500 100%) !important;
+  filter:drop-shadow(0 6px 0 #c78900) drop-shadow(0 9px 12px rgba(80,55,0,.18));
+}
+#stage.simple-learning.variant-star .chip:hover{
+  transform:translateY(-4px) scale(1.045) rotate(3deg);
+}
+#stage.simple-learning.variant-star .chip:active{
+  animation:shapeTurnStar .65s cubic-bezier(.2,.8,.3,1);
+}
+
+/* ② BUBBLE — bulat dan gemuk */
+#stage.simple-learning.variant-bubble .chipstrip .chip{
+  border-radius:45% !important;
+  border:4px solid #E8437E !important;
+  background:radial-gradient(circle at 28% 19%,rgba(255,255,255,.95) 0 11%,transparent 12%),
+             linear-gradient(145deg,#fff,#ffe8f4 50%,#ffb4d5) !important;
+  box-shadow:inset 0 4px 7px rgba(255,255,255,.9),
+             0 8px 0 #c92e68,0 12px 18px rgba(65,35,75,.16) !important;
+}
+#stage.simple-learning.variant-bubble .chip:hover{transform:translateY(-5px) scale(1.05);}
+#stage.simple-learning.variant-bubble .chip:active{animation:shapeTurnBubble .65s cubic-bezier(.2,.8,.3,1);}
+
+/* ③ CLOUD — bentuk awan yang jelas */
+#stage.simple-learning.variant-cloud .chipstrip .chip{
+  border:3px solid #4c9ed0 !important;
+  border-radius:50% 50% 42% 42% / 48% 48% 36% 36% !important;
+  background:linear-gradient(145deg,#fff,#f1faff 52%,#bfe5ff) !important;
+  box-shadow:0 7px 0 #5d9fca,0 11px 17px rgba(45,100,140,.17) !important;
+}
+#stage.simple-learning.variant-cloud .chip:hover{transform:translateY(-5px) scale(1.05);}
+#stage.simple-learning.variant-cloud .chip:active{animation:shapeTurnCloud .65s cubic-bezier(.2,.8,.3,1);}
+
+/* ④ 3D TOY TILE — keping mainan */
+#stage.simple-learning.variant-toytile .chipstrip .chip{
+  border:4px solid rgba(255,255,255,.95) !important;
+  border-radius:21% !important;
+  background:linear-gradient(145deg,#fff0f7 0%,#ff9fc8 47%,#df3978 100%) !important;
+  color:#fff !important;
+  text-shadow:0 2px 0 rgba(140,25,75,.35);
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.8),
+             inset 0 -6px 0 rgba(120,20,65,.2),
+             0 9px 0 #a92458,0 13px 17px rgba(65,35,75,.2) !important;
+}
+#stage.simple-learning.variant-toytile .chip:hover{transform:translateY(-5px) scale(1.04);}
+#stage.simple-learning.variant-toytile .chip:active{animation:shapeTurnToy .65s cubic-bezier(.2,.8,.3,1);}
+
+/* ⑤ ROUNDED SQUIRCLE */
+#stage.simple-learning.variant-squircle .chipstrip .chip{
+  border-radius:27% !important;
+  background:linear-gradient(145deg,#fff,#fff4fa 52%,#ffd5e8) !important;
+  box-shadow:0 7px 0 #c92e68,0 10px 16px rgba(65,35,75,.16) !important;
+}
+#stage.simple-learning.variant-squircle .chip:hover{transform:translateY(-4px) scale(1.04);}
+#stage.simple-learning.variant-squircle .chip:active{animation:shapeTurnSquircle .65s cubic-bezier(.2,.8,.3,1);}
+
+/* Angka: aksen biru, tetapi mengikuti bentuk pilihan */
+#stage.simple-learning .chipstrip .chip.number-chip{
+  border-color:#237FCE !important;
+}
+#stage.simple-learning.variant-star .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#e5f8ff,#67c8ff 50%,#237fce) !important;
+  filter:drop-shadow(0 6px 0 #17639e) drop-shadow(0 9px 12px rgba(35,76,120,.18));
+}
+#stage.simple-learning.variant-bubble .chipstrip .chip.number-chip{
+  background:radial-gradient(circle at 28% 19%,rgba(255,255,255,.95) 0 11%,transparent 12%),
+             linear-gradient(145deg,#fff,#e6f7ff 50%,#9bd9ff) !important;
+  box-shadow:inset 0 4px 7px rgba(255,255,255,.9),0 8px 0 #17639e,0 12px 18px rgba(35,76,120,.16) !important;
+}
+#stage.simple-learning.variant-cloud .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#fff,#effaff 52%,#b5e1ff) !important;
+  box-shadow:0 7px 0 #4f94c5,0 11px 17px rgba(35,76,120,.17) !important;
+}
+#stage.simple-learning.variant-toytile .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#e9f9ff,#62c2ff 47%,#237fce) !important;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.8),inset 0 -6px 0 rgba(10,70,120,.2),
+             0 9px 0 #17639e,0 13px 17px rgba(35,76,120,.2) !important;
+}
+#stage.simple-learning.variant-squircle .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#fff,#f0faff 52%,#c8e8ff) !important;
+  box-shadow:0 7px 0 #17639e,0 10px 16px rgba(35,76,120,.16) !important;
+}
+#stage.simple-learning .chipstrip .chip.number-chip:active{color:#fff !important;}
+
+/* Turn Around: satu putaran penuh, lalu 100% kembali ke awal */
+@keyframes shapeTurnStar{
+  0%{transform:scale(1) rotate(0deg)}
+  25%{transform:scale(.86) rotate(90deg)}
+  55%{transform:scale(1.1) rotate(200deg)}
+  80%{transform:scale(.96) rotate(310deg)}
+  100%{transform:scale(1) rotate(360deg)}
+}
+@keyframes shapeTurnBubble{
+  0%{transform:scale(1) rotateY(0deg)}
+  25%{transform:scale(.86) rotateY(90deg)}
+  55%{transform:scale(1.1) rotateY(200deg)}
+  80%{transform:scale(.96) rotateY(310deg)}
+  100%{transform:scale(1) rotateY(360deg)}
+}
+@keyframes shapeTurnCloud{
+  0%{transform:scale(1) rotate(0deg)}
+  25%{transform:scale(.86) rotate(-90deg)}
+  55%{transform:scale(1.1) rotate(200deg)}
+  80%{transform:scale(.96) rotate(310deg)}
+  100%{transform:scale(1) rotate(360deg)}
+}
+@keyframes shapeTurnToy{
+  0%{transform:scale(1) rotateX(0deg)}
+  25%{transform:scale(.86) rotateX(90deg)}
+  55%{transform:scale(1.1) rotateX(200deg)}
+  80%{transform:scale(.96) rotateX(310deg)}
+  100%{transform:scale(1) rotateX(360deg)}
+}
+@keyframes shapeTurnSquircle{
+  0%{transform:scale(1) rotate(0deg)}
+  25%{transform:scale(.86) rotate(90deg)}
+  55%{transform:scale(1.1) rotate(200deg)}
+  80%{transform:scale(.96) rotate(310deg)}
+  100%{transform:scale(1) rotate(360deg)}
+}
+#stage.simple-learning .chipstrip .grid-spacer{
+  display:block;
+  aspect-ratio:1 / 1;
+}
+#stage.simple-learning .chipstrip .grid-divider{
+  grid-column:1 / -1;
+  height:clamp(12px,2.2vh,24px);
+}
+/* Sembunyikan seluruh area belajar lama: hanya header + grid yang tersisa. */
+#stage.simple-learning .maingrid,
+#stage.simple-learning #bottomNav{
+  display:none !important;
+}
+#stage.simple-learning .chipstrip .chip-arrow{display:none !important;}
+@media(max-width:800px){
+  #stage.simple-learning .chipstrip{
+    width:min(620px,calc(100vw - 22px));
+    gap:8px;
+    margin-top:14px;
+  }
+  #stage.simple-learning .chipstrip .chip{
+    min-height:54px !important;
+    border-width:2px !important;
+    border-radius:12px !important;
+    box-shadow:0 3px 0 rgba(0,0,0,.14) !important;
+  }
+}
+</style>
+
 <style id="desktop-fonts-large">
 /* ================= DESKTOP TYPOGRAPHY =================
    Semua teks UI desktop diperbesar agar seimbang dengan area layar.
@@ -1843,6 +1991,12 @@ body::before {
   }
   #stage .topbar .title-wrap span{
     font-size:clamp(28px,2.2vw,40px) !important;
+  }
+  #stage .topbar .title-wrap h1 .title-line1{
+    font-size:clamp(20px,1.7vw,28px) !important;
+  }
+  #stage .topbar .title-wrap h1 .title-line2{
+    font-size:clamp(40px,3.2vw,56px) !important;
   }
   #stage .topbar #btnLanguage{
     font-size:clamp(22px,1.6vw,30px) !important;
@@ -2204,80 +2358,432 @@ body::before {
     order:4 !important;
   }
 
-  #startScreen #menuCenterWrap > #btnStartQuiz{
+  #startScreen #menuCenterWrap > #btnMenuLatihan{
     order:5 !important;
   }
 
-  #startScreen #menuCenterWrap > #btnMenuLatihan{
+  #startScreen #menuCenterWrap > #btnStartQuiz{
     order:6 !important;
   }
 }
 </style>
 
 
-<style id="desktop-latihan-submenu-final">
+<style id="desktop-latihan-and-brush-final">
 @media (min-width:801px){
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
-    width:min(920px,92vw) !important;
-    max-width:920px !important;
-    margin:8px auto 0 !important;
+  /* LATIHAN SUBMENU: keep the cards large, only tidy the layout */
+  #latihanMenu{
+    width:min(1100px,94vw) !important;
+    max-width:1100px !important;
+    margin:12px auto 0 !important;
     display:grid !important;
-    grid-template-columns:repeat(2,minmax(300px,1fr)) !important;
-    grid-auto-rows:150px !important;
-    gap:22px 26px !important;
-    align-content:center !important;
+    grid-template-columns:repeat(2,minmax(420px,1fr)) !important;
+    gap:28px !important;
     justify-content:center !important;
     align-items:stretch !important;
-    flex:none !important;
   }
-
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
+  #latihanMenu .sub-menu-item{
     width:100% !important;
-    min-width:0 !important;
-    min-height:150px !important;
-    height:150px !important;
-    padding:14px 20px !important;
+    height:210px !important;
+    min-height:210px !important;
+    padding:18px 28px !important;
     margin:0 !important;
     display:flex !important;
-    flex-direction:column !important;
     align-items:center !important;
     justify-content:center !important;
-    gap:8px !important;
-    font-size:27px !important;
-    line-height:1.05 !important;
-    border-radius:26px !important;
     box-sizing:border-box !important;
+    border-radius:30px !important;
   }
-
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .submenu-img{
-    display:block !important;
-    width:82px !important;
-    height:82px !important;
-    max-width:82px !important;
-    max-height:82px !important;
+  #latihanMenu .submenu-img{
+    width:145px !important;
+    height:145px !important;
+    max-width:145px !important;
+    max-height:145px !important;
     object-fit:contain !important;
-    flex:0 0 auto !important;
   }
-
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard{
+  #latihanMenu .btn-text-fallback{
+    font-size:30px !important;
+  }
+  #latihanMenu .counting-score-card{
     grid-column:1 / -1 !important;
-    width:min(520px,100%) !important;
+    width:min(700px,100%) !important;
     margin:0 auto !important;
   }
-
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-title{
+  #latihanMenu .sub-menu-title{
     grid-column:1 / -1 !important;
     justify-self:center !important;
-    margin:0 auto !important;
+  }
+
+  /* MENULIS HURUF / ANGKA: visible brush-size control */
+  #stage.writing-mode #brushSizePanel{
+    display:flex !important;
   }
 }
 </style>
 
+
+<style id="brush-size-control">
+.brush-size-panel{
+  display:none;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 3px 0 rgba(0,0,0,.10);
+}
+.brush-size-label{
+  font-weight:800;
+  font-size:14px;
+  white-space:nowrap;
+}
+#brushSize{
+  width:120px;
+  accent-color:#8C63E8;
+  cursor:pointer;
+}
+#brushSizeValue{
+  min-width:28px;
+  text-align:center;
+  font-weight:900;
+  font-size:14px;
+}
+@media (max-width:800px){
+  .brush-size-panel{display:none !important;}
+}
+</style>
+
+
+
+
+
+
+
+
+<style id="clean-learning-picker">
+.learning-variant-picker{
+  width:min(760px,calc(100vw - 32px));
+  margin:clamp(8px,1.5vh,14px) auto 0;
+  display:flex;justify-content:center;gap:7px;flex-wrap:wrap;
+}
+.learning-variant-picker button{
+  border:2px solid rgba(60,40,80,.15);border-radius:999px;
+  padding:7px 11px;background:#fff;color:#3b3150;
+  font-family:'Baloo 2','Trebuchet MS',sans-serif;font-weight:800;
+  font-size:clamp(11px,1.15vw,15px);cursor:pointer;
+  box-shadow:0 3px 0 rgba(0,0,0,.12);
+}
+.learning-variant-picker button.active{
+  transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.12);filter:saturate(1.1);
+}
+#stage .topbar #btnLanguage{
+  display:inline-flex !important;align-items:center !important;justify-content:center !important;
+  gap:5px !important;white-space:nowrap !important;overflow:hidden !important;
+  box-sizing:border-box !important;line-height:1 !important;
+}
+#stage .topbar #btnLanguage .lang-flag{display:inline-flex;flex:0 0 auto;font-size:1.05em;line-height:1;}
+#stage .topbar #btnLanguage .lang-code{display:inline-block;flex:0 0 auto;font-weight:900;line-height:1;}
+@media(max-width:800px){
+  .learning-variant-picker{gap:4px;margin-top:6px;}
+  .learning-variant-picker button{padding:5px 8px;font-size:11px;}
+  #stage .topbar #btnLanguage{gap:3px !important;font-size:13px !important;}
+}
+</style>
+
+<style id="actual-learning-final-fix">
+/* ===== FINAL LEARNING BUTTON SHAPES ===== */
+#stage.simple-learning .chipstrip{
+  grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+}
+#stage.simple-learning .chipstrip .chip{
+  min-width:0 !important;
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:1/1 !important;
+  min-height:0 !important;
+  font-size:clamp(32px,8.3vw,72px) !important;
+  line-height:.88 !important;
+  font-weight:900 !important;
+  box-sizing:border-box !important;
+  transform-origin:center center !important;
+}
+
+/* Z is ALWAYS in the center column of row 6. */
+#stage.simple-learning .chipstrip .chip:nth-child(28){
+  grid-column:3 !important;
+}
+
+/* STAR: broad center and thick arms */
+#stage.simple-learning.variant-star .chipstrip .chip{
+  clip-path:polygon(
+    50% 3%, 62% 31%, 92% 31%, 69% 49%,
+    79% 91%, 50% 68%, 21% 91%, 31% 49%,
+    8% 31%, 38% 31%
+  ) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:linear-gradient(145deg,#fff9b0 0%,#ffd94b 52%,#eea300 100%) !important;
+  color:#34220a !important;
+  filter:drop-shadow(0 6px 0 #bd7e00) drop-shadow(0 9px 12px rgba(80,55,0,.18)) !important;
+  box-shadow:none !important;
+}
+
+/* BUBBLE */
+#stage.simple-learning.variant-bubble .chipstrip .chip{
+  clip-path:none !important;
+  border:4px solid #E8437E !important;
+  border-radius:44% !important;
+  background:radial-gradient(circle at 27% 18%,rgba(255,255,255,.98) 0 10%,transparent 11%),
+             linear-gradient(145deg,#fff,#ffe8f4 50%,#ffb5d6) !important;
+  box-shadow:inset 0 4px 7px rgba(255,255,255,.92),0 8px 0 #c92e68,0 12px 18px rgba(65,35,75,.16) !important;
+}
+
+/* CLOUD */
+#stage.simple-learning.variant-cloud .chipstrip .chip{
+  clip-path:polygon(
+    18% 78%,14% 69%,16% 57%,23% 49%,32% 47%,
+    35% 36%,43% 27%,54% 25%,64% 30%,69% 39%,
+    79% 39%,88% 46%,91% 57%,88% 68%,80% 76%,
+    80% 82%,22% 82%
+  ) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:linear-gradient(145deg,#fff 0%,#f0faff 52%,#b9e2ff 100%) !important;
+  color:#2B2140 !important;
+  filter:drop-shadow(0 6px 0 #5a9ac5) drop-shadow(0 10px 15px rgba(45,100,140,.17)) !important;
+}
+
+/* 3D TOY TILE */
+#stage.simple-learning.variant-toytile .chipstrip .chip{
+  clip-path:none !important;
+  border:4px solid rgba(255,255,255,.95) !important;
+  border-radius:20% !important;
+  background:linear-gradient(145deg,#fff0f7 0%,#ff9fc8 46%,#df3978 100%) !important;
+  color:#fff !important;
+  text-shadow:0 2px 0 rgba(140,25,75,.35) !important;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.82),inset 0 -6px 0 rgba(120,20,65,.2),
+             0 9px 0 #a92458,0 13px 17px rgba(65,35,75,.2) !important;
+}
+
+/* ROUNDED SQUIRCLE */
+#stage.simple-learning.variant-squircle .chipstrip .chip{
+  clip-path:none !important;
+  border:3px solid #E8437E !important;
+  border-radius:27% !important;
+  background:linear-gradient(145deg,#fff,#fff4fa 52%,#ffd5e8) !important;
+  color:#2B2140 !important;
+  box-shadow:0 7px 0 #c92e68,0 10px 16px rgba(65,35,75,.16) !important;
+}
+
+/* Number colors follow the chosen shape. */
+#stage.simple-learning .chipstrip .chip.number-chip{color:#173456 !important;border-color:#237FCE !important;}
+#stage.simple-learning.variant-star .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#e7f9ff,#69caff 52%,#237fce) !important;
+  filter:drop-shadow(0 6px 0 #17639e) drop-shadow(0 9px 12px rgba(35,76,120,.18)) !important;
+}
+#stage.simple-learning.variant-bubble .chipstrip .chip.number-chip{
+  background:radial-gradient(circle at 27% 18%,rgba(255,255,255,.98) 0 10%,transparent 11%),
+             linear-gradient(145deg,#fff,#e6f7ff 50%,#9bd9ff) !important;
+  box-shadow:inset 0 4px 7px rgba(255,255,255,.92),0 8px 0 #17639e,0 12px 18px rgba(35,76,120,.16) !important;
+}
+#stage.simple-learning.variant-cloud .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#fff,#effaff 52%,#b5e1ff) !important;
+  filter:drop-shadow(0 6px 0 #4f94c5) drop-shadow(0 10px 15px rgba(35,76,120,.17)) !important;
+}
+#stage.simple-learning.variant-toytile .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#e9f9ff,#62c2ff 47%,#237fce 100%) !important;
+  color:#fff !important;
+  text-shadow:0 2px 0 rgba(10,70,120,.35) !important;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.8),inset 0 -6px 0 rgba(10,70,120,.2),
+             0 9px 0 #17639e,0 13px 17px rgba(35,76,120,.2) !important;
+}
+#stage.simple-learning.variant-squircle .chipstrip .chip.number-chip{
+  background:linear-gradient(145deg,#fff,#f0faff 52%,#c8e8ff) !important;
+  box-shadow:0 7px 0 #17639e,0 10px 16px rgba(35,76,120,.16) !important;
+}
+
+/* Turn around: visible full turn, then exactly back to normal. */
+#stage.simple-learning .chipstrip .chip.chip-speaking{
+  animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;
+}
+@keyframes learningTurnAround{
+  0%{transform:scale(1) rotate(0deg)}
+  22%{transform:scale(.86) rotate(80deg)}
+  50%{transform:scale(1.10) rotate(190deg)}
+  78%{transform:scale(.96) rotate(300deg)}
+  100%{transform:scale(1) rotate(360deg)}
+}
+
+/* Language: flag and ID/EN never overlap. */
+#stage .topbar #btnLanguage{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex-direction:row !important;
+  gap:5px !important;
+  white-space:nowrap !important;
+  padding-left:14px !important;
+  padding-right:14px !important;
+}
+#stage .topbar #btnLanguage .lang-flag{
+  position:static !important;
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  font-size:1em !important;
+  line-height:1 !important;
+}
+#stage .topbar #btnLanguage .lang-code{
+  position:static !important;
+  display:inline-block !important;
+  flex:0 0 auto !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+}
+@media(max-width:800px){
+  #stage.simple-learning .chipstrip{
+    width:min(620px,calc(100vw - 22px)) !important;
+    gap:8px !important;
+    margin-top:14px !important;
+  }
+  #stage.simple-learning .chipstrip .chip{
+    min-height:0 !important;
+    border-width:3px !important;
+    font-size:clamp(30px,9.2vw,62px) !important;
+  }
+  #stage.simple-learning.variant-star .chipstrip .chip{border:0 !important;}
+  #stage .topbar #btnLanguage{
+    width:78px !important;
+    min-width:78px !important;
+    height:78px !important;
+    min-height:78px !important;
+    padding:0 !important;
+    gap:4px !important;
+    font-size:15px !important;
+  }
+}
+</style>
+
+<style id="language-flag-final-fix">
+#stage .topbar #btnLanguage{
+  display:inline-flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+  white-space:nowrap !important;
+  overflow:visible !important;
+}
+#stage .topbar #btnLanguage .lang-flag{
+  display:inline-block !important;
+  position:static !important;
+  width:auto !important;
+  height:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif !important;
+  font-size:18px !important;
+  line-height:1 !important;
+  transform:none !important;
+}
+#stage .topbar #btnLanguage .lang-code{
+  display:inline-block !important;
+  position:static !important;
+  width:auto !important;
+  height:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  font-size:14px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+}
+@media(max-width:800px){
+  #stage .topbar #btnLanguage{
+    width:82px !important;
+    min-width:82px !important;
+    height:82px !important;
+    min-height:82px !important;
+    gap:5px !important;
+  }
+  #stage .topbar #btnLanguage .lang-flag{font-size:17px !important;}
+  #stage .topbar #btnLanguage .lang-code{font-size:14px !important;}
+}
+</style>
+
+<style id="home-language-match-shape">
+/* Tombol Bahasa dibuat sama persis bentuk (lingkaran) & ukurannya dengan tombol Home,
+   mengikuti nilai .pillbtn.homebtn di setiap breakpoint. */
+#stage .topbar #btnLanguage{
+  width:48px !important;
+  height:48px !important;
+  min-width:48px !important;
+  min-height:48px !important;
+  padding:0 !important;
+  border-radius:50% !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:0 !important;
+}
+#stage .topbar #btnLanguage .lang-flag{
+  font-size:15px !important;
+  line-height:1 !important;
+}
+#stage .topbar #btnLanguage .lang-code{
+  font-size:9px !important;
+  line-height:1 !important;
+}
+@media (min-width:801px){
+  #stage .topbar #btnLanguage{
+    width:78px !important;
+    height:78px !important;
+    min-width:78px !important;
+    min-height:78px !important;
+  }
+  #stage .topbar #btnLanguage .lang-flag{
+    font-size:26px !important;
+  }
+  #stage .topbar #btnLanguage .lang-code{
+    font-size:14px !important;
+  }
+}
+</style>
+
+<style id="learning-mode-cleanup">
+/* =========================================================
+   BELAJAR HURUF / ANGKA = MODE PENGENALAN SAJA
+   Semua kontrol dan mekanisme khusus MENULIS dimatikan.
+   ========================================================= */
+#stage.simple-learning .speak-hint,
+#stage.simple-learning #btnHandGuide,
+#stage.simple-learning #colorPicker,
+#stage.simple-learning #brushSizePanel,
+#stage.simple-learning #btnClear,
+#stage.simple-learning #matchProgress,
+#stage.simple-learning #matchAreaCanvas,
+#stage.simple-learning #canvasMain{
+  display:none !important;
+}
+
+#stage.simple-learning .panel-toolbar{
+  display:none !important;
+}
+
+/* Kanvas gambar tidak menerima sentuhan/mouse saat belajar. */
+#stage.simple-learning #canvasMain,
+#stage.simple-learning #matchAreaCanvas{
+  pointer-events:none !important;
+}
+
+/* Tidak ada area tracing/cocokan yang menutupi huruf. */
+#stage.simple-learning .canvaswrap{
+  pointer-events:auto;
+}
+</style>
 </head>
 <body>
 
 <div class="start-screen" id="startScreen">
-<div class="floaty-layer" id="floatyLayer" aria-hidden="true"></div>
   <div class="start-card">
     <h1 class="start-title display" id="startTitle"><img src="assets/judul.png" alt="Belajar Huruf & Angka" class="start-title-img" id="startTitleImg"><span id="startTitleText" aria-label="Belajar Huruf & Angka">Belajar Huruf &amp; Angka</span></h1>
     <div id="menuCenterWrap">
@@ -2289,7 +2795,6 @@ body::before {
     </div>
     <div class="main-menu-options" id="mainMenuOptions">
       <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar Huruf"><img src="assets/huruf.png" alt="Belajar Huruf (A–Z)" class="huruf-logo-img"><span class="btn-text-fallback" style="display:none">Belajar Huruf (A–Z)</span></button>
-      <button class="sub-menu-item angka angka-logo-item" id="btnStartAngka" type="button" aria-label="Belajar Angka"><img src="assets/angka.png" alt="Belajar Angka (0–9)" class="angka-logo-img"><span class="btn-text-fallback" style="display:none">Belajar Angka (0–9)</span></button>
     </div>
     <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img src="assets/quis.png" alt="Kuis Cepat"></button>
@@ -2334,13 +2839,21 @@ body::before {
     <button class="pillbtn pink homebtn" id="btnKembali" aria-label="Beranda" title="Beranda">🏠</button>
     <div class="title-wrap">
       <span style="font-size:22px;">⭐</span>
-      <h1 class="display" id="mainTitle">BELAJAR HURUF</h1>
+      <h1 class="display" id="mainTitle"><span class="title-line1" id="mainTitleLine1">MENGENAL</span><span class="title-line2" id="mainTitleLine2">HURUF</span></h1>
       <span style="font-size:22px;">⭐</span>
     </div>
-    <button class="pillbtn orange" id="btnLanguage">🇮🇩 Indonesia</button>
+    <button class="pillbtn orange" id="btnLanguage"><span class="lang-flag" aria-hidden="true">🇬🇧</span><span class="lang-code">EN</span></button>
   </div>
 
-  <div class="chipstrip" id="chipStrip"></div>
+  
+<div class="learning-variant-picker" aria-label="Pilihan bentuk tombol">
+  <button type="button" data-variant="star">★ Bintang</button>
+  <button type="button" data-variant="bubble">● Bubble</button>
+  <button type="button" data-variant="cloud">☁ Cloud</button>
+  <button type="button" data-variant="toytile">◆ 3D Toy</button>
+  <button type="button" data-variant="squircle" class="active">▣ Squircle</button>
+</div>
+<div class="chipstrip" id="chipStrip"></div>
 
   <div class="maingrid">
     <div class="tracepanel">
@@ -2356,6 +2869,12 @@ body::before {
             <label class="swatch custom" title="Pilih warna lain">
               <input type="color" id="colorCustom" value="#0B1F4E">
             </label>
+          </div>
+
+          <div class="brush-size-panel" id="brushSizePanel" aria-label="Ukuran kuas">
+            <span class="brush-size-label">Kuas</span>
+            <input id="brushSize" type="range" min="6" max="50" value="24" step="1" aria-label="Ukuran kuas">
+            <span id="brushSizeValue">24</span>
           </div>
           <button class="pillbtn blue helpicon" id="btnHelp" type="button" aria-label="Petunjuk" title="Petunjuk">?</button>
         </div>
@@ -3208,6 +3727,7 @@ function setupCanvas(canvas){
     clear: () => ctx.clearRect(0,0,canvas.width,canvas.height),
     resize,
     setColor: (c) => { currentColor = c; ctx.strokeStyle = c; },
+    setBrushSize: (size) => { ctx.lineWidth = Number(size) || 24; },
     setOnStrokeEnd: (fn) => { onStrokeEnd = fn; }
   };
 }
@@ -3240,6 +3760,7 @@ window.updateMatchProgress = function(pct){
   }
 };
 function buildMask(){
+  if(!writingMode) return;
   const canvas = canvasMain.canvas;
   maskCanvas.width = canvas.width;
   maskCanvas.height = canvas.height;
@@ -3328,6 +3849,7 @@ function buildMask(){
 }
 
 function checkCoverage(){
+  if(!writingMode) return;
   if(celebrated || targetPoints.length === 0) return;
   const canvas = canvasMain.canvas;
   const drawData = canvasMain.ctx.getImageData(0,0,canvas.width,canvas.height).data;
@@ -3352,7 +3874,7 @@ canvasMain.setOnStrokeEnd(checkCoverage);
 let _maskResizeFrame = 0;
 window.addEventListener('resize', () => {
   cancelAnimationFrame(_maskResizeFrame);
-  _maskResizeFrame = requestAnimationFrame(() => buildMask());
+  _maskResizeFrame = requestAnimationFrame(() => { if(writingMode) buildMask(); });
 });
 
 function spawnConfetti(){
@@ -3375,6 +3897,7 @@ function spawnConfetti(){
 }
 
 function celebrate(){
+  if(!writingMode) return;
   const overlay = document.getElementById('celebrateOverlay');
   overlay.classList.add('show');
   spawnConfetti();
@@ -3475,7 +3998,7 @@ function applyLanguage(){
   if(inp) inp.placeholder=T('namePlaceholder');
 
   const set=(id,key)=>{ const el=document.getElementById(id); if(el) el.textContent=T(key); };
-  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar Huruf (A–Z)'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); } const ba=document.getElementById('btnStartAngka'); if(ba){ const labelA=language==='en'?'Learn Numbers (0–9)':'Belajar Angka (0–9)'; ba.setAttribute('aria-label',labelA); ba.setAttribute('title',labelA); }
+  const bh=document.getElementById('btnStartHuruf'); if(bh){ const label=language==='en'?'Learn Letters (A–Z)':'Belajar Huruf (A–Z)'; bh.setAttribute('aria-label',label); bh.setAttribute('title',label); }
   const bAdd=document.getElementById('btnStartAddition'); if(bAdd){ const labelAdd=T('tambah'); bAdd.setAttribute('aria-label',labelAdd); bAdd.setAttribute('title',labelAdd); }
   const bSub=document.getElementById('btnStartSubtraction'); if(bSub){ const labelSub=T('kurang'); bSub.setAttribute('aria-label',labelSub); bSub.setAttribute('title',labelSub); }
   const mh=document.getElementById('btnStartMenulisHuruf'); if(mh){ const labelMh=language==='en'?'Write Letters (A–Z)':'Menulis Huruf (A–Z)'; mh.setAttribute('aria-label',labelMh); mh.setAttribute('title',labelMh); }
@@ -3483,7 +4006,7 @@ function applyLanguage(){
   const kb=document.getElementById('btnKembali'); if(kb){ const homeLabel = language==='en'?'Home':'Beranda'; kb.setAttribute('aria-label',homeLabel); kb.setAttribute('title',homeLabel); }
   set('btnHandGuide','guide');
   set('btnPrev','prev'); set('btnClear','clear'); set('btnNext','next');
-  const lm=document.getElementById('btnLanguage'); if(lm) lm.textContent=T('language');
+  const lm=document.getElementById('btnLanguage'); if(lm) lm.textContent=(language==='en'?'EN':'ID');
   const ph=document.getElementById('panelTitle'); if(ph) ph.textContent=mode==='huruf'?T('contoh'):T('hitung');
   const uh=document.querySelector('.card.ucap h3'); if(uh) uh.textContent=T('cara');
   const ht=document.getElementById('helpTitle'); if(ht) ht.textContent=T('helpTitle');
@@ -3516,7 +4039,9 @@ function ensureLearningLanguageButton(){
   if(btn){
     btn.type = 'button';
     btn.onclick = toggleLanguage;
-    btn.textContent = T('language');
+    if(!btn.querySelector('.lang-flag')){
+      btn.innerHTML = '<span class="lang-flag" aria-hidden="true">🇮🇩</span><span class="lang-code">ID</span>';
+    }
     return;
   }
   btn = document.createElement('button');
@@ -3537,13 +4062,15 @@ function render(){
   canvasMain.clear();
   canvasMain.resize();
 
-  const cleanLearning = !writingMode; // berlaku untuk mode Belajar Huruf maupun Belajar Angka
+  const cleanLearning = !writingMode; // berlaku untuk mode Belajar Huruf
   const stage = document.getElementById('stage');
-  if(stage) stage.classList.toggle('writing-mode', !!writingMode);
+  if(stage) {
+    stage.classList.toggle('writing-mode', !!writingMode);
+    stage.classList.toggle('simple-learning', !writingMode);
+  }
   const ucapCard = document.querySelector('.card.ucap');
   if(ucapCard) ucapCard.classList.toggle('hide-syllable', mode === 'huruf');
   wrapMain.classList.toggle('learn-letter', cleanLearning && mode === 'huruf');
-  wrapMain.classList.toggle('learn-number', cleanLearning && mode === 'angka');
   wrapMain.classList.toggle('letter-writing', writingMode && mode === 'huruf');
   if(tracePanel) tracePanel.classList.toggle('learn-panel', cleanLearning);
   if(bottomNav) bottomNav.classList.toggle('learn-nav', cleanLearning);
@@ -3554,9 +4081,15 @@ function render(){
       : (language === 'en' ? 'Number Shape' : 'Bentuk Angka');
   }
 
-  document.getElementById('mainTitle').textContent = writingMode
-    ? (mode === 'huruf' ? 'MENULIS HURUF' : 'MENULIS ANGKA')
-    : (mode === 'huruf' ? T('titleHuruf') : T('titleAngka'));
+  const mainTitleEl = document.getElementById('mainTitle');
+  if(writingMode){
+    mainTitleEl.textContent = mode === 'huruf' ? 'MENULIS HURUF' : 'MENULIS ANGKA';
+  } else {
+    const titleLine1 = language === 'en' ? 'LEARN' : 'MENGENAL';
+    const titleLine2 = language === 'en' ? 'LETTERS' : 'HURUF';
+    mainTitleEl.innerHTML = '<span class="title-line1" id="mainTitleLine1">' + titleLine1 + '</span>'
+      + '<span class="title-line2" id="mainTitleLine2">' + titleLine2 + '</span>';
+  }
 
   if(mode === 'huruf'){
     wrapMain.classList.remove('angka');
@@ -3582,12 +4115,11 @@ function render(){
   document.getElementById('btnPrev').disabled = (index === 0);
 
   renderChips();
-  buildMask();
+  if(writingMode) buildMask();
   updateNextButton();
   // Let the new page paint first; speech starts on the next task so navigation feels instant.
   if(mode === 'huruf' && !writingMode) setTimeout(speakLetterAndExample, 0);
   else if(writingMode && mode === 'huruf') { /* mode menulis tidak otomatis menyebut contoh */ }
-  else if(mode === 'angka' && !writingMode) setTimeout(speakCurrent, 0);
   if(cleanLearning){
     setHandGuideVisible(false);
     handGuideOn = false;
@@ -3613,95 +4145,106 @@ function updateNextButton(){
 
 function renderChips(){
   const strip = document.getElementById('chipStrip');
+  if(!strip) return;
   strip.innerHTML = '';
-
-  const list = mode === 'huruf' ? LETTERS : NUMBERS;
-  const isDesktop = window.matchMedia && window.matchMedia('(min-width: 801px)').matches;
-
-  // Angka desktop: semua 0–9 ditampilkan sekaligus dan dipusatkan.
-  if(mode === 'angka' && isDesktop){
-    strip.classList.add('numbers-centered');
-    list.forEach((item, i) => {
-      const b = document.createElement('button');
-      b.className = 'chip' + (i === index ? ' current' : '');
-      b.textContent = item.d;
-      b.onclick = () => { index = i; render(); };
-      strip.appendChild(b);
-    });
-    return;
-  }
-
   strip.classList.remove('numbers-centered');
 
-  // Huruf desktop: tampilkan maksimal 5 huruf. Huruf lainnya benar-benar
-  // tidak dirender di strip sampai pengguna menggeser dengan panah.
-  if(mode === 'huruf' && isDesktop){
-    const visibleCount = 5;
-    const maxStart = Math.max(0, list.length - visibleCount);
-
-    // Simpan posisi jendela di sekitar huruf aktif.
-    if(typeof window.letterChipStart !== 'number') window.letterChipStart = 0;
-    window.letterChipStart = Math.max(
-      0,
-      Math.min(window.letterChipStart, maxStart)
-    );
-
-    // Pastikan huruf aktif selalu berada di dalam 5 yang terlihat.
-    if(index < window.letterChipStart){
-      window.letterChipStart = index;
-    } else if(index >= window.letterChipStart + visibleCount){
-      window.letterChipStart = Math.min(maxStart, index - visibleCount + 1);
-    }
-
-    const left = document.createElement('button');
-    left.className = 'chip-arrow';
-    left.type = 'button';
-    left.textContent = '‹';
-    left.setAttribute('aria-label', 'Huruf sebelumnya');
-    left.disabled = window.letterChipStart === 0;
-    left.onclick = () => {
-      window.letterChipStart = Math.max(0, window.letterChipStart - visibleCount);
-      renderChips();
-    };
-    strip.appendChild(left);
-
-    const start = window.letterChipStart;
-    const end = Math.min(list.length, start + visibleCount);
-
-    for(let i = start; i < end; i++){
-      const item = list[i];
-      const b = document.createElement('button');
-      b.className = 'chip' + (i === index ? ' current' : '');
-      b.textContent = item.ch;
-      b.onclick = () => { index = i; render(); };
-      strip.appendChild(b);
-    }
-
-    const right = document.createElement('button');
-    right.className = 'chip-arrow';
-    right.type = 'button';
-    right.textContent = '›';
-    right.setAttribute('aria-label', 'Huruf berikutnya');
-    right.disabled = window.letterChipStart >= maxStart;
-    right.onclick = () => {
-      window.letterChipStart = Math.min(
-        maxStart,
-        window.letterChipStart + visibleCount
-      );
-      renderChips();
-    };
-    strip.appendChild(right);
-    return;
-  }
-
-  // Tampilan non-desktop / mode lainnya tetap seperti semula.
-  list.forEach((item, i) => {
+  // A–Y: 5 columns x 5 rows.
+  const letters = LETTERS;
+  letters.slice(0,25).forEach((item, pos) => {
     const b = document.createElement('button');
-    b.className = 'chip' + (i === index ? ' current' : '');
-    b.textContent = mode === 'huruf' ? item.ch : item.d;
-    b.onclick = () => { index = i; render(); };
+    b.type = 'button';
+    b.className = 'chip';
+    b.textContent = item.ch;
+    b.setAttribute('aria-label', `Huruf ${item.ch}`);
+    b.dataset.speechCount = '0';
+    b.onclick = () => speakLearningChip(item, b, 'huruf');
     strip.appendChild(b);
   });
+
+  // Row 6: two empty cells, Z under W (column 3), two empty cells.
+  for(let i=0;i<2;i++){
+    const spacer=document.createElement('span');
+    spacer.className='grid-spacer';
+    spacer.setAttribute('aria-hidden','true');
+    strip.appendChild(spacer);
+  }
+
+  const z = letters[25];
+  const zb = document.createElement('button');
+  zb.type='button';
+  zb.className='chip';
+  zb.textContent=z.ch;
+  zb.setAttribute('aria-label',`Huruf ${z.ch}`);
+  zb.dataset.speechCount='0';
+  zb.onclick=()=>speakLearningChip(z,zb,'huruf');
+  strip.appendChild(zb);
+
+  for(let i=0;i<2;i++){
+    const spacer=document.createElement('span');
+    spacer.className='grid-spacer';
+    spacer.setAttribute('aria-hidden','true');
+    strip.appendChild(spacer);
+  }
+
+  const divider=document.createElement('div');
+  divider.className='grid-divider';
+  divider.setAttribute('aria-hidden','true');
+  strip.appendChild(divider);
+
+  NUMBERS.forEach((item) => {
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='chip number-chip';
+    b.textContent=item.d;
+    b.setAttribute('aria-label',`Angka ${item.d}`);
+    b.dataset.speechCount='0';
+    b.onclick=()=>speakLearningChip(item,b,'angka');
+    strip.appendChild(b);
+  });
+}
+
+function speakLearningChip(item, button, type){
+  const count = Number(button.dataset.speechCount || '0');
+  button.dataset.speechCount = String(count + 1);
+
+  /*
+    TTS pertama dibuat sebagai beberapa bagian terpisah agar ada jeda jelas:
+    Huruf : A --- Ayam
+    Angka : 1 --- s --- a --- t --- u --- satu
+    Tekanan berikutnya hanya membaca huruf/angka.
+  */
+  if(type === 'huruf'){
+    const lang = language === 'en' ? 'en-US' : 'id-ID';
+
+    if(count === 0){
+      const example = language === 'en' ? item.wordEN : item.word;
+      speakSequence([item.ch, example], lang, 520);
+    }else{
+      speakSequence([item.ch], lang, 0);
+    }
+  }else{
+    const lang = language === 'en' ? 'en-US' : 'id-ID';
+
+    if(count === 0){
+      const spellingSource = language === 'en' ? item.syllableEN : item.syllable;
+      const spelling = String(spellingSource || '')
+        .split(',')[0]
+        .replace(/\s+/g,'')
+        .split('-')
+        .filter(Boolean);
+
+      const example = language === 'en' ? item.wordEN : item.word;
+      speakSequence([item.d, ...spelling, example], lang, 430);
+    }else{
+      speakSequence([item.d], lang, 0);
+    }
+  }
+
+  button.classList.remove('chip-speaking');
+  void button.offsetWidth;
+  button.classList.add('chip-speaking');
+  setTimeout(()=>button.classList.remove('chip-speaking'),700);
 }
 
 
@@ -3722,6 +4265,44 @@ if(window.speechSynthesis){
 function getSpeechVoice(prefix){
   const p = String(prefix || '').toLowerCase();
   return cachedSpeechVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(p));
+}
+
+function speakSequence(parts, lang='id-ID', gap=450){
+  if(!window.speechSynthesis || !parts || !parts.length) return;
+
+  try{
+    speechSynthesis.cancel();
+
+    const cleanParts = parts
+      .map(x => String(x ?? '').trim())
+      .filter(Boolean);
+
+    let i = 0;
+
+    function nextPart(){
+      if(i >= cleanParts.length) return;
+
+      const u = new SpeechSynthesisUtterance(cleanParts[i]);
+      u.lang = lang;
+      u.rate = TTS_RATE;
+      u.pitch = TTS_PITCH;
+      u.volume = 1;
+
+      const selectedVoice = getSpeechVoice(lang.startsWith('en') ? 'en' : 'id');
+      if(selectedVoice) u.voice = selectedVoice;
+
+      u.onend = () => {
+        i++;
+        if(i < cleanParts.length){
+          setTimeout(nextPart, gap);
+        }
+      };
+
+      speechSynthesis.speak(u);
+    }
+
+    nextPart();
+  }catch(e){}
 }
 
 function speakTTS(text, lang='id-ID', onend=null){
@@ -3797,7 +4378,8 @@ document.getElementById('btnNext').onclick = () => {
   const list = mode === 'huruf' ? LETTERS : NUMBERS;
   if(index < list.length-1){ index++; render(); }
 };
-document.getElementById('btnClear').onclick = () => { canvasMain.clear(); celebrated = false; updateNextButton(); };
+document.getElementById('btnClear').onclick = () => {
+  if(!writingMode) return; canvasMain.clear(); celebrated = false; updateNextButton(); };
 // Tombol pada popup setelah latihan berhasil harus menutup popup terlebih
 // dahulu. Sebelumnya kedua tombol hanya dibuat di HTML tanpa handler, sehingga
 // terlihat bisa ditekan tetapi tidak melakukan apa-apa.
@@ -3857,6 +4439,17 @@ document.getElementById('colorCustom').addEventListener('input', (e) => {
   canvasMain.setColor(e.target.value);
   document.querySelectorAll('#colorPicker .swatch').forEach(s => s.classList.remove('active'));
 });
+const brushSize = document.getElementById('brushSize');
+const brushSizeValue = document.getElementById('brushSizeValue');
+if(brushSize){
+  const applyBrushSize = () => {
+    const value = Number(brushSize.value) || 24;
+    canvasMain.setBrushSize(value);
+    if(brushSizeValue) brushSizeValue.textContent = value;
+  };
+  brushSize.addEventListener('input', applyBrushSize);
+  applyBrushSize();
+}
 
 // ---------- START / MENU ----------
 function startApp(selectedMode, isWriting=false){
@@ -3923,7 +4516,6 @@ function showSubMenu(which){
 document.getElementById('btnMenuLatihan').onclick=()=>showSubMenu('latihan');
 document.getElementById('backMainFromLatihan').onclick=showMainMenu;
 document.getElementById('btnStartHuruf').onclick = () => startApp('huruf', false);
-document.getElementById('btnStartAngka').onclick = () => startApp('angka', false);
 document.getElementById('btnStartMenulisHuruf').onclick = () => startApp('huruf', true);
 document.getElementById('btnStartMenulisAngka').onclick = () => startApp('angka', true);
 document.getElementById('btnStartAddition').onclick = () => openAddition();
@@ -4452,7 +5044,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 </style>
 
 <style id="main-menu-layout-fix">
-/* Belajar Huruf dan Belajar Angka berada di atas menu Latihan. */
+/* Belajar Huruf berada di atas menu Latihan. */
 #mainMenuOptions{
   flex-wrap:wrap;
   row-gap:10px;
@@ -4461,18 +5053,14 @@ if(typeof applyLanguage==='function') applyLanguage();
   flex:0 0 100%;
   width:100%;
 }
-#mainMenuOptions .angka-logo-item{
+#mainMenuOptions .huruf-logo-item{
   order:1;
   width:min(300px,70vw);
   flex:0 1 min(300px,70vw);
-}
-#mainMenuOptions .huruf-logo-item{
-  order:2;
-  width:min(300px,70vw);
-  flex:0 1 min(300px,70vw);
+  margin:0 auto;
 }
 #mainMenuOptions .latihan-menu{
-  order:3;
+  order:2;
 }
 </style>
 
@@ -4508,13 +5096,13 @@ if(typeof applyLanguage==='function') applyLanguage();
   margin:0 auto !important;
   flex:none !important;
 }
-#startScreen #mainMenuOptions .huruf-logo-item,
-#startScreen #mainMenuOptions .angka-logo-item{
+#startScreen #mainMenuOptions .huruf-logo-item{
   order:initial !important;
   width:100% !important;
-  max-width:100% !important;
+  max-width:min(320px,100%) !important;
   min-width:0 !important;
-  margin:0 !important;
+  margin:0 auto !important;
+  grid-column:1 / -1 !important;
   flex:none !important;
 }
 #startScreen #mainMenuOptions .latihan-menu{
@@ -4543,12 +5131,8 @@ if(typeof applyLanguage==='function') applyLanguage();
   width:min(430px,100%) !important;
   margin:10px auto 0 !important;
 }
-#startScreen .quiz-menu-btn{
-  order:6 !important;
-  margin:6px auto 0 !important;
-}
 #startScreen #menuCenterWrap > .latihan-menu{
-  order:7 !important;
+  order:6 !important;
   width:min(520px,100%) !important;
   min-width:0 !important;
   margin:8px auto 0 !important;
@@ -4577,18 +5161,20 @@ if(typeof applyLanguage==='function') applyLanguage();
 #startScreen #menuCenterWrap > .latihan-menu small{
   color:#5A4A3A !important;
 }
+#startScreen .quiz-menu-btn{
+  order:7 !important;
+  margin:6px auto 0 !important;
+}
 @media(max-width:600px){
   #startScreen #mainMenuOptions{
     grid-template-columns:repeat(2,minmax(0,1fr));
     width:min(420px,94vw) !important;
     gap:10px !important;
   }
-  #startScreen #mainMenuOptions .huruf-logo-item,
-  #startScreen #mainMenuOptions .angka-logo-item{
+  #startScreen #mainMenuOptions .huruf-logo-item{
     width:100% !important;
   }
-  #startScreen #mainMenuOptions .huruf-logo-item img,
-  #startScreen #mainMenuOptions .angka-logo-item img{
+  #startScreen #mainMenuOptions .huruf-logo-item img{
     width:100% !important;
   }
   #startScreen #mainMenuOptions .latihan-menu{grid-column:1 / -1;}
@@ -4717,5 +5303,106 @@ if(typeof applyLanguage==='function') applyLanguage();
 })();
 </script>
 
+
+
+
+<script id="language-short-label">
+(function(){
+  const b=document.getElementById('btnLanguage');
+  if(!b)return;
+  const sync=()=>{ b.textContent=(typeof language!=='undefined' && language==='en')?'EN':'ID'; };
+  b.addEventListener('click',()=>setTimeout(sync,0));
+  sync();
+})();
+</script>
+
+
+
+<script id="clean-learning-variant-script">
+(function(){
+  const stage=document.getElementById('stage');
+  const picker=document.querySelector('.learning-variant-picker');
+  if(!stage||!picker)return;
+  const names=['star','bubble','cloud','toytile','squircle'];
+  function setVariant(v){
+    names.forEach(n=>stage.classList.remove('variant-'+n));
+    stage.classList.add('variant-'+v);
+    picker.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.variant===v));
+  }
+  picker.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>setVariant(b.dataset.variant)));
+  setVariant('squircle');
+})();
+</script>
+<script id="clean-language-sync">
+(function(){
+  const b=document.getElementById('btnLanguage'); if(!b)return;
+  const sync=()=>{const f=b.querySelector('.lang-flag'),c=b.querySelector('.lang-code');if(typeof language!=='undefined'){if(f)f.textContent=language==='en'?'🇬🇧':'🇮🇩';if(c)c.textContent=language==='en'?'EN':'ID';}};
+  b.addEventListener('click',()=>setTimeout(sync,20));sync();
+})();
+</script>
+
+<script id="final-learning-init">
+(function(){
+  function initLearningUI(){
+    const stage=document.getElementById('stage');
+    const picker=document.querySelector('.learning-variant-picker');
+    if(stage && !stage.classList.contains('variant-star') &&
+       !stage.classList.contains('variant-bubble') &&
+       !stage.classList.contains('variant-cloud') &&
+       !stage.classList.contains('variant-toytile') &&
+       !stage.classList.contains('variant-squircle')){
+      stage.classList.add('variant-squircle');
+    }
+    if(picker){
+      const buttons=picker.querySelectorAll('button[data-variant]');
+      buttons.forEach(b=>b.addEventListener('click',()=>{
+        const v=b.dataset.variant;
+        ['star','bubble','cloud','toytile','squircle'].forEach(x=>stage.classList.remove('variant-'+x));
+        stage.classList.add('variant-'+v);
+        buttons.forEach(x=>x.classList.toggle('active',x===b));
+      }));
+    }
+    const lang=document.getElementById('btnLanguage');
+    if(lang){
+      const flag=lang.querySelector('.lang-flag'), code=lang.querySelector('.lang-code');
+      const sync=()=>{
+        if(typeof language!=='undefined'){
+          if(flag) flag.textContent=language==='en'?'🇬🇧':'🇮🇩';
+          if(code) code.textContent=language==='en'?'EN':'ID';
+        }
+      };
+      lang.addEventListener('click',()=>setTimeout(sync,30));
+      sync();
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initLearningUI);
+  else initLearningUI();
+})();
+</script>
+
+<script id="language-flag-final-sync">
+(function(){
+  function syncLanguageButton(){
+    const b=document.getElementById('btnLanguage');
+    if(!b || typeof language==='undefined') return;
+    let f=b.querySelector('.lang-flag');
+    let c=b.querySelector('.lang-code');
+    if(!f || !c){
+      b.innerHTML='<span class="lang-flag" aria-hidden="true"></span><span class="lang-code"></span>';
+      f=b.querySelector('.lang-flag');
+      c=b.querySelector('.lang-code');
+    }
+    f.textContent=language==='en'?'🇬🇧':'🇮🇩';
+    c.textContent=language==='en'?'EN':'ID';
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',syncLanguageButton);
+  }else{
+    syncLanguageButton();
+  }
+  const b=document.getElementById('btnLanguage');
+  if(b) b.addEventListener('click',()=>setTimeout(syncLanguageButton,60));
+})();
+</script>
 </body>
 </html>
