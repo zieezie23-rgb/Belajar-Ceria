@@ -1624,6 +1624,66 @@ body::before {
 }
 </style>
 
+
+<style id="desktop-ui-adjustments">
+@media (min-width:801px){
+  /* Tombol navigasi desktop sedikit diperbesar agar lebih nyaman diklik. */
+  #stage .bottomnav .pillbtn{
+    min-height:54px !important;
+    padding:14px 28px !important;
+    font-size:18px !important;
+  }
+
+  /* Submenu latihan desktop dibuat lebih besar dan lebih mudah dilihat. */
+  #startScreen #latihanMenu{
+    width:min(760px,88vw) !important;
+    gap:24px !important;
+    margin:18px auto 0 !important;
+  }
+  #startScreen #latihanMenu .sub-menu-item{
+    width:min(520px,70vw) !important;
+    min-height:64px !important;
+    padding:10px 18px !important;
+  }
+  #startScreen #latihanMenu .submenu-img{
+    width:min(360px,38vw) !important;
+  }
+
+  /* Panel ukuran coretan khusus mode Menulis. */
+  .stroke-size-panel{
+    display:flex; align-items:center; gap:10px;
+    padding:7px 12px; border-radius:14px;
+    background:rgba(255,255,255,.92);
+    border:2px solid rgba(126,76,224,.16);
+    box-shadow:0 3px 8px rgba(0,30,80,.08);
+  }
+  .stroke-size-label{font:800 13px 'Nunito','Segoe UI',sans-serif; color:#5b4a70; white-space:nowrap;}
+  #strokeSize{width:150px; accent-color:#7E4CE0; cursor:pointer;}
+  #strokeSizeValue{min-width:24px; text-align:center; font:900 14px 'Nunito','Segoe UI',sans-serif; color:#7E4CE0;}
+
+  /* Kuis desktop: panel memenuhi halaman. */
+  #quizScreen{padding:18px !important; align-items:stretch !important;}
+  #quizScreen .quiz-box{
+    width:100% !important; max-width:none !important; height:100% !important;
+    max-height:none !important; margin:0 !important; box-sizing:border-box !important;
+    border-radius:26px !important; padding:32px 48px 30px !important;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  #quizScreen .quiz-options{max-width:760px !important; width:min(760px,90%) !important; margin:18px auto !important;}
+
+  /* Penjumlahan & pengurangan desktop: panel memenuhi halaman. */
+  #additionScreen,#subtractionScreen{padding:18px !important;}
+  #additionScreen .addbox,#subtractionScreen .addbox{
+    width:100% !important; max-width:none !important; height:100% !important;
+    max-height:none !important; margin:0 !important; box-sizing:border-box !important;
+    border-radius:26px !important; padding:32px 48px !important;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  #additionScreen .addq,#subtractionScreen .addq{font-size:clamp(52px,5vw,78px) !important; padding:24px !important;}
+  #additionScreen .addkeypad,#subtractionScreen .addkeypad{width:min(620px,70vw) !important; margin-left:auto !important; margin-right:auto !important;}
+}
+</style>
+
 <style id="desktop-learning-wide-layout">
 @media (min-width: 801px){
   /*
@@ -2123,6 +2183,11 @@ body::before {
             <label class="swatch custom" title="Pilih warna lain">
               <input type="color" id="colorCustom" value="#0B1F4E">
             </label>
+          </div>
+          <div class="stroke-size-panel" id="strokeSizePanel" style="display:none;">
+            <span class="stroke-size-label">✏️ Ukuran Coretan</span>
+            <input id="strokeSize" type="range" min="6" max="40" value="24" step="2" aria-label="Ukuran coretan">
+            <strong id="strokeSizeValue">24</strong>
           </div>
           <button class="pillbtn blue helpicon" id="btnHelp" type="button" aria-label="Petunjuk" title="Petunjuk">?</button>
         </div>
@@ -2937,9 +3002,10 @@ function renderAngkaPair(svgEl, digit, word){
 function setupCanvas(canvas){
   const ctx = canvas.getContext('2d');
   let currentColor = '#0B1F4E';
+  let currentLineWidth = 24;
   function applyStyle(){
     ctx.strokeStyle = currentColor;
-    ctx.lineWidth = 24;
+    ctx.lineWidth = currentLineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
   }
@@ -2975,11 +3041,31 @@ function setupCanvas(canvas){
     clear: () => ctx.clearRect(0,0,canvas.width,canvas.height),
     resize,
     setColor: (c) => { currentColor = c; ctx.strokeStyle = c; },
+    setLineWidth: (w) => { currentLineWidth = Number(w) || 24; ctx.lineWidth = currentLineWidth; },
     setOnStrokeEnd: (fn) => { onStrokeEnd = fn; }
   };
 }
 
 const canvasMain = setupCanvas(document.getElementById('canvasMain'));
+
+// Panel ukuran coretan hanya ditampilkan pada mode Menulis Huruf/Angka.
+(function(){
+  const panel = document.getElementById('strokeSizePanel');
+  const range = document.getElementById('strokeSize');
+  const value = document.getElementById('strokeSizeValue');
+  function updateStrokePanel(){
+    if(!panel) return;
+    panel.style.display = writingMode ? 'flex' : 'none';
+  }
+  if(range){
+    range.addEventListener('input', function(){
+      canvasMain.setLineWidth(this.value);
+      if(value) value.textContent=this.value;
+    });
+  }
+  window.updateStrokePanel = updateStrokePanel;
+  setTimeout(updateStrokePanel,0);
+})();
 
 // ---------- TRACE-COVERAGE MASK & CELEBRATION ----------
 const maskCanvas = document.createElement('canvas');
@@ -3629,6 +3715,7 @@ document.getElementById('colorCustom').addEventListener('input', (e) => {
 function startApp(selectedMode, isWriting=false){
   mode = selectedMode;
   writingMode = !!isWriting;
+  if(window.updateStrokePanel) window.updateStrokePanel();
   // English is limited to the two learning pages. Writing mode is Indonesian
   // only and does not expose the language control.
   if(writingMode){
@@ -3649,6 +3736,7 @@ function startApp(selectedMode, isWriting=false){
   render();
 }
 function showMainMenu(){
+  if(window.updateStrokePanel){ writingMode=false; window.updateStrokePanel(); }
   // Hapus override inline agar CSS menu utama dapat tampil normal.
   document.getElementById('mainMenuOptions').style.removeProperty('display');
   document.getElementById('progressCard').style.removeProperty('display');
@@ -4439,5 +4527,12 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 
 <div class="credit-tag">Created by: Zie</div>
+
+<style id="desktop-ui-final-override">
+@media (min-width:801px){
+  #quizScreen .quiz-box{width:100% !important;max-width:none !important;height:100% !important;max-height:none !important;margin:0 !important;box-sizing:border-box !important;}
+  #additionScreen .addbox,#subtractionScreen .addbox{width:100% !important;max-width:none !important;height:100% !important;max-height:none !important;margin:0 !important;box-sizing:border-box !important;}
+}
+</style>
 </body>
 </html>
