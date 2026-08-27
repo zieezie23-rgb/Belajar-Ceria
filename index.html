@@ -3842,43 +3842,66 @@ if(typeof applyLanguage==='function') applyLanguage();
 }
 </style>
 
-<style id="desktop-scale-up">
-/* Di jendela desktop yang cukup lega, tombol/teks/kartu dibesarkan sungguhan
-   (bukan cuma dipindah ke tengah) supaya sebanding dengan ukuran jendela. */
-@media (min-width:900px) and (min-height:700px){
 
-  /* Kuis Cepat */
-  .quiz-box{ max-width:760px; padding:36px 32px 32px; }
-  .quiz-title{ font-size:40px; }
-  .quiz-question{ font-size:26px; }
-  .quiz-visual{ font-size:100px; }
-  .quiz-options{ max-width:560px; gap:16px; }
-  .quiz-option{ min-height:84px; font-size:34px; }
 
-  /* Latihan Penjumlahan & Pengurangan */
-  .addbox{ max-width:620px; padding:44px 38px; }
-  .addbox h1{ font-size:32px; }
-  .addprogress{ font-size:17px; }
-  .addq{ font-size:58px; padding:24px 10px; }
-  .addhint{ font-size:17px; }
-  .addanswer-display{ font-size:52px; min-height:72px; padding:14px; }
-  .addkey{ font-size:30px; padding:22px 0; }
-  .addinput{ font-size:28px; padding:16px 20px; }
-  .math-speak-btn{ font-size:18px; padding:11px 20px; }
 
-  /* Layar Belajar Huruf/Angka & Menjiplak */
-  .topbar .title-wrap h1{ font-size:34px; }
-  .pillbtn{ font-size:19px; padding:14px 26px; }
-  .pillbtn.homebtn{ width:56px; height:56px; font-size:26px; }
-  .canvaswrap{ max-height:560px; }
-  .canvaswrap.angka{ max-height:640px; }
-  .canvaswrap.learn-letter{ max-height:640px; }
-  .canvaswrap.letter-writing{ max-height:640px; }
-  .card h3{ font-size:22px; }
-  .contoh-visual{ font-size:60px; }
-  .contoh-word{ font-size:26px; }
-  .ucap-text{ font-size:24px; }
-  .ucap-face{ font-size:38px; }
+<style id="desktop-layout-master-final">
+/* ================================================================
+   DESKTOP MASTER LAYOUT
+   Desktop uses exactly the same composition as the phone/browser:
+   main learning panel first, then the two information cards below.
+   Desktop changes SCALE only; it does not create a new grid.
+   ================================================================ */
+
+/* The learning page must have one composition at every viewport width. */
+#stage .maingrid{
+  display:block !important;
+  grid-template-columns:1fr !important;
+  width:100% !important;
+}
+#stage .tracepanel{
+  width:100% !important;
+  margin:0 0 16px !important;
+}
+#stage .sidebar{ width:100% !important; }
+#stage .siderow{
+  display:flex !important;
+  flex-direction:row !important;
+  gap:12px !important;
+  width:100% !important;
+}
+#stage .siderow .card{
+  flex:1 1 0 !important;
+  min-width:0 !important;
+}
+
+/* Desktop: take the mobile/browser composition and scale the whole stage. */
+@media (min-width:881px){
+  html,body{ width:100%; height:100%; overflow:hidden !important; }
+  body{ display:block !important; }
+
+  #stage{
+    /* 760px is the master design width used for scaling. */
+    width:760px !important;
+    max-width:none !important;
+    margin:0 auto !important;
+    box-sizing:border-box !important;
+    transform-origin:top center !important;
+    transform:scale(clamp(1, min(calc(100vw / 760), calc(100vh / 1120)), 1.65)) !important;
+  }
+
+  /* Keep every child at its normal/master size. */
+  #stage .topbar .title-wrap h1{font-size:27px !important;}
+  #stage .topbar .title-wrap{padding:10px 22px !important;}
+  #stage .pillbtn{font-size:16px !important; padding:12px 20px !important;}
+  #stage .pillbtn.homebtn{width:48px !important;height:48px !important;font-size:22px !important;}
+  #stage .chip{width:42px !important;height:42px !important;font-size:18px !important;}
+  #stage .card{padding:14px !important;border-radius:22px !important;}
+  #stage .card h3{font-size:18px !important;margin-bottom:10px !important;}
+  #stage .contoh-visual{font-size:46px !important;}
+  #stage .contoh-word{font-size:20px !important;}
+  #stage .ucap-text{font-size:18px !important;}
+  #stage .ucap-face{font-size:30px !important;}
 }
 </style>
 
