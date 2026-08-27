@@ -3276,8 +3276,16 @@ function toggleLanguage(){
 function ensureLearningLanguageButton(){
   let btn = document.getElementById('btnLanguage');
   if(btn) return;
+  // Tombol bahasa sudah ada di HTML pada halaman Belajar.
+  // Jangan langsung return, karena tombol tersebut bisa belum memiliki handler.
   const topbar = document.querySelector('#stage .topbar');
-  if(!topbar) return;
+  if(!btn && !topbar) return;
+  if(btn){
+    btn.type = 'button';
+    btn.onclick = toggleLanguage;
+    btn.textContent = T('language');
+    return;
+  }
   btn = document.createElement('button');
   btn.className = 'pillbtn orange';
   btn.id = 'btnLanguage';
@@ -3629,6 +3637,9 @@ function startApp(selectedMode, isWriting=false){
     if(languageButton) languageButton.remove();
   } else {
     ensureLearningLanguageButton();
+    // Pastikan tombol bahasa yang sudah ada di HTML langsung aktif saat
+    // pertama kali halaman Belajar Huruf/Angka dibuka.
+    applyLanguage();
   }
   index = 0;
   document.getElementById('startScreen').style.setProperty('display','none','important');
