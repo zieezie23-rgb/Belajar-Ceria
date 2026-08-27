@@ -3819,6 +3819,29 @@ if(typeof applyLanguage==='function') applyLanguage();
   .counting-score-total strong{color:#229653;font-size:22px;}
 </style>
 
+<style id="desktop-app-fix">
+/* Saat dibuka di jendela lebar (mis. aplikasi desktop), layar Belajar/Menjiplak
+   dan Kuis dulunya menempel di bagian atas jendela sehingga menyisakan celah
+   kosong raksasa di bawah (tombol jadi terasa kecil & "mengambang"). Di sini
+   layar tersebut dipusatkan secara vertikal di jendela, seimbang atas-bawah. */
+@media (min-width:640px) and (min-height:640px){
+  body{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  #stage{
+    width:100%;
+  }
+  #quizScreen[style*="display: block"]{
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+  }
+}
+</style>
+
 <div class="credit-tag">Created by: Zie</div>
 </body>
 </html>
