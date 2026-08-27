@@ -43,12 +43,12 @@
     max-width:1300px; margin:0 auto; padding:14px; background:rgba(255,255,255,0.0);
   }
   /* HEADER */
-  .topbar{ display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .topbar{ display:flex; align-items:center; gap:24px; margin-bottom:14px; flex-wrap:wrap; }
   .pillbtn{
     border:none; border-radius:40px; padding:12px 20px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
     font-weight:700; font-size:16px; color:#fff; cursor:pointer;
     box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
-    display:flex; align-items:center; gap:8px; white-space:nowrap;
+    display:flex; align-items:center; gap:24px; white-space:nowrap;
   }
   .pillbtn:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
   .pillbtn.pink{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); }
@@ -67,12 +67,12 @@
     flex:1; text-align:center; min-width:220px;
     background:linear-gradient(180deg,#FFB25E,#F08000);
     border-radius:40px; padding:10px 22px; box-shadow:0 5px 0 rgba(0,0,0,0.18);
-    display:flex; align-items:center; justify-content:center; gap:10px;
+    display:flex; align-items:center; justify-content:center; gap:24px;
   }
   .title-wrap h1{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:900; color:#fff;
     letter-spacing:.8px; line-height:1.1;
-    display:flex; flex-direction:column; align-items:center; gap:1px;
+    display:flex; flex-direction:column; align-items:center; gap:24px;
   }
   .title-wrap h1 .title-line1{
     font-size:14px; font-weight:800; letter-spacing:1.2px; opacity:.92;
@@ -83,18 +83,18 @@
 
   /* CHIP STRIP */
   .chipstrip{
-    display:flex; gap:8px; overflow-x:auto; padding:6px 2px 12px; margin-bottom:6px;
+    display:flex; gap:12px; overflow-x:auto; padding:6px 2px 12px; margin-bottom:6px;
     scrollbar-width:thin;
   }
   .chip{
-    flex:0 0 auto; width:42px; height:42px; border-radius:12px; border:none;
-    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:700; font-size:18px; color:#fff; cursor:pointer;
+    flex:0 0 auto; width:30px; height:30px; border-radius:12px; border:none;
+    font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:700; font-size:13px; color:#fff; cursor:pointer;
     background:linear-gradient(180deg,#B497FF,#8C63E8); box-shadow:0 3px 0 rgba(0,0,0,0.18);
   }
   .chip.current{ background:linear-gradient(180deg,var(--pink),var(--pink-dark)); transform:scale(1.08); }
 
   /* MAIN GRID */
-  .maingrid{ display:grid; grid-template-columns: 1fr; gap:16px; }
+  .maingrid{ display:grid; grid-template-columns: 1fr; gap:24px; }
 
   .tracepanel{
     background:var(--card); border-radius:26px; padding:16px;
@@ -140,13 +140,13 @@
   #stage.simple-learning #bottomNav{ display:none !important; }
 
   /* SIDEBAR */
-  .sidebar{ display:flex; flex-direction:column; gap:12px; }
-  .siderow{ display:flex; flex-direction:column; gap:12px; }
+  .sidebar{ display:flex; flex-direction:column; gap:24px; }
+  .siderow{ display:flex; flex-direction:column; gap:24px; }
   .siderow .card{ flex:1; min-width:0; }
   .card{ background:var(--card); border-radius:22px; padding:14px; box-shadow:0 6px 0 rgba(0,0,0,0.10); }
   .card h3{
     margin:0 0 10px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
-    font-size:18px; font-weight:800; color:#7E4CE0; display:block;
+    font-size:13px; font-weight:800; color:#7E4CE0; display:block;
     padding:0; border-radius:0; box-shadow:none; background:none;
   }
   .card.contoh h3{ color:#2FA859; }
@@ -159,10 +159,10 @@
   .contoh-word{ text-align:center; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:20px; font-weight:800; }
   .contoh-word .hl{ color:var(--pink-dark); }
 
-  .ucap-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .ucap-row{ display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
   .ucap-row > div:not(.ucap-face){ flex:1; min-width:0; }
   .ucap-face{ font-size:30px; }
-  .ucap-text{ font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:18px; font-weight:800; color:var(--orange-dark); }
+  .ucap-text{ font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-size:13px; font-weight:800; color:var(--orange-dark); }
   .ucap-sub{ font-size:11px; color:#8a7e9c; margin-top:2px; }
   .card.ucap.hide-syllable .ucap-sub{ display:none; }
 
@@ -185,7 +185,7 @@
   /* START / MENU SCREEN */
   .start-screen{
     min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center; gap:22px; padding:20px;
+    text-align:center; gap:24px; padding:20px;
     position:relative; overflow:hidden;
   }
   .start-card{
@@ -197,7 +197,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:10px;
+    gap:24px;
     width:100%;
     max-width:100%;
     margin:0 auto 10px;
@@ -226,7 +226,7 @@
     flex:0 1 auto;
   }
   @media(max-width:420px){
-    .start-title{font-size:21px;gap:6px;letter-spacing:0;}
+    .start-title{font-size:21px;gap:24px;letter-spacing:0;}
   }
   @keyframes waveTitle{
     0%{transform:translateY(0) rotate(0deg);}
@@ -254,7 +254,7 @@
      interaktif dan menarik{
     border:none; border-radius:20px; padding:17px 22px;
     font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:800; font-size:19px; letter-spacing:0.3px;
-    color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:14px;
+    color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:24px;
     position:relative; overflow:hidden;
     box-shadow:0 6px 0 rgba(0,0,0,0.16), 0 10px 18px rgba(0,0,0,0.16);
     transition:transform .12s ease, box-shadow .12s ease;
@@ -272,7 +272,7 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
+    gap:24px;
     flex-wrap:nowrap;
     white-space:nowrap;
     font-family:'Baloo 2','Trebuchet MS',sans-serif;
@@ -300,7 +300,7 @@
     background:#FFE1E1; padding:7px 14px;
     color:#D62839; font-size:14px; font-weight:800; cursor:pointer;
     box-shadow:0 3px 0 rgba(150,30,30,.25);
-    display:flex; align-items:center; gap:5px; justify-content:center;
+    display:flex; align-items:center; gap:24px; justify-content:center;
     opacity:.9; transition:opacity .2s, transform .1s;
     font-family:'Baloo 2','Trebuchet MS',sans-serif;
   }
@@ -309,19 +309,19 @@
   .reset-progress-btn .reset-icon{ color:#D62839; font-size:15px; }
 
   /* BOTTOM NAV */
-  .bottomnav{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+  .bottomnav{ display:flex; gap:24px; margin-top:14px; flex-wrap:wrap; }
   .bottomnav .pillbtn{ flex:1; justify-content:center; min-width:130px; }
 
   .panel-toolbar{
     display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
-    gap:10px; margin-bottom:10px;
+    gap:24px; margin-bottom:10px;
   }
   .speak-hint{ font-size:12px; color:#8a7e9c; font-weight:700; }
-  .toolbar-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .toolbar-actions{ display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
   .pillbtn.helpicon{ width:38px; height:38px; padding:0; border-radius:50%; font-size:20px; font-weight:900; flex:0 0 auto; justify-content:center; font-family:'Baloo 2','Trebuchet MS',sans-serif; }
 
   .colorpicker{
-    display:flex; align-items:center; gap:8px;
+    display:flex; align-items:center; gap:24px;
     background:rgba(255,255,255,0.9); padding:6px 10px; border-radius:16px; box-shadow:0 3px 0 rgba(0,0,0,0.12);
   }
   .swatch{
@@ -367,7 +367,7 @@
     font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:30px; font-weight:800; color:var(--pink-dark);
     -webkit-text-stroke:1.5px #fff; margin:6px 0 2px;
   }
-  .celebrate-sub{ font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:18px; font-weight:700; color:#7E4CE0; }
+  .celebrate-sub{ font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:13px; font-weight:700; color:#7E4CE0; }
   .confetti-layer{ position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:998; }
   .confetti-piece{
     position:absolute; top:-40px; font-size:22px; opacity:0;
@@ -397,7 +397,7 @@
   pointer-events:none;
   display:flex;
   align-items:baseline;
-  gap:4px;
+  gap:24px;
 }
 .match-pct{
   display:inline-block;
@@ -438,7 +438,7 @@
   flex-direction:column;
   align-items:center;
   justify-content:flex-start;
-  gap:4px;
+  gap:24px;
   cursor:pointer;
   font-family:'Nunito','Segoe UI',sans-serif;
   transition:transform .15s ease,filter .15s ease;
@@ -494,7 +494,7 @@
   .menu-main-btn strong{font-size:23px;margin-top:5px;}
 }
 @media(max-width:380px){
-  .main-menu-options{gap:12px;}
+  .main-menu-options{gap:24px;}
   .menu-main-btn{min-width:115px;}
   .menu-main-btn .menu-anim-icon{
     width:112px;height:100px;flex-basis:100px;transform:scale(1);
@@ -506,8 +506,8 @@
 
 <style id="submenu-text-style">
 /* Submenu tetap tanpa shape/kartu: hanya tipografi besar dan warna ceria. */
-.sub-menu{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;margin-top:26px;width:100%;flex:1;}
-.sub-menu-item{border:0;background:transparent!important;box-shadow:none!important;padding:5px 10px;margin:0;cursor:pointer;font-family:'Baloo 2','Trebuchet MS',sans-serif;font-size:25px;font-weight:800;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s ease,opacity .15s ease;}
+.sub-menu{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;margin-top:26px;width:100%;flex:1;}
+.sub-menu-item{border:0;background:transparent!important;box-shadow:none!important;padding:5px 10px;margin:0;cursor:pointer;font-family:'Baloo 2','Trebuchet MS',sans-serif;font-size:25px;font-weight:800;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:24px;transition:transform .15s ease,opacity .15s ease;}
 .sub-menu-item:hover{transform:translateY(-2px) scale(1.04);opacity:.88;}
 .sub-menu-item:active{transform:scale(.96);}
 .sub-menu-item.huruf{color:#E8437E!important}.sub-menu-item.angka{color:#237FCE!important}.sub-menu-item.menulisHuruf{color:#B92F66!important}.sub-menu-item.menulisAngka{color:#155CA0!important}.sub-menu-item.tambah{color:#229653!important}.sub-menu-item.kurang{color:#E27B10!important}
@@ -558,12 +558,6 @@
     .start-card{padding-top:58px;}
   }
 </style>
-
-
-
-
-
-
 
 
 <style id="storybook-main-screen">
@@ -821,15 +815,6 @@
 </style>
 
 
-
-
-
-
-
-
-
-
-
 <style id="responsive-nature-background">
 /* Background aplikasi menggunakan gambar alam yang diberikan.
    Rasio gambar dipertahankan tanpa distorsi dan otomatis memenuhi viewport. */
@@ -986,7 +971,7 @@ body:has(#startScreen[style*="display: none"]) {
     flex-direction:column;
     align-items:center;
     justify-content:flex-start;
-    gap:8px;
+    gap:24px;
     width:100%;
     margin:0 auto;
   }
@@ -1104,12 +1089,12 @@ body:has(#startScreen[style*="display: none"]) {
   .quiz-score{margin:5px 0 18px;color:#F08000;font-weight:900;}
   .quiz-question{font-size:21px;font-weight:900;color:var(--ink);margin:10px 0 18px;}
   .quiz-visual{font-size:76px;line-height:1;margin:8px 0 12px;}
-  .quiz-options{display:flex;flex-direction:column;gap:12px;max-width:430px;margin:auto;}
+  .quiz-options{display:flex;flex-direction:column;gap:24px;max-width:430px;margin:auto;}
   .quiz-option{
     min-height:60px;border:3px solid #D9C9FF;border-radius:18px;background:#F7F2FF;
     color:#5638A0;font:800 22px 'Baloo 2','Trebuchet MS',sans-serif;cursor:pointer;
     box-shadow:0 4px 0 #C4B0F5;
-    display:flex;align-items:center;gap:12px;padding:8px 16px;text-align:left;
+    display:flex;align-items:center;gap:24px;padding:8px 16px;text-align:left;
     animation:quizOptionPop .28s ease;
   }
   @keyframes quizOptionPop{ from{opacity:0;transform:translateY(8px) scale(.96);} to{opacity:1;transform:none;} }
@@ -1126,8 +1111,30 @@ body:has(#startScreen[style*="display: none"]) {
   .quiz-option.wrong .quiz-option-label{background:#E8437E;}
   .quiz-option:disabled{cursor:default;}
   .quiz-result{font-size:20px;font-weight:900;color:#2FA859;margin:16px 0;}
-  .quiz-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px;}
+  .quiz-actions{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:18px;}
   @media(max-width:430px){.quiz-title{font-size:27px}.quiz-option{font-size:19px}.quiz-visual{font-size:64px}}
+
+  /* POPUP HASIL KUIS */
+  #quizResultOverlay{
+    position:fixed; inset:0; z-index:5300; display:flex; align-items:center; justify-content:center;
+    padding:20px; background:rgba(43,33,64,.38); opacity:0; pointer-events:none;
+    transition:opacity .2s ease;
+  }
+  #quizResultOverlay.show{opacity:1;pointer-events:auto;}
+  .quiz-result-box{
+    width:min(430px,100%); background:var(--card); border-radius:30px; padding:26px 22px 22px;
+    text-align:center; box-shadow:0 10px 0 rgba(0,0,0,.16); border:5px solid #fff;
+    transform:scale(.88); transition:transform .2s ease;
+  }
+  #quizResultOverlay.show .quiz-result-box{transform:scale(1);}
+  .quiz-result-emoji{font-size:52px;line-height:1;margin-bottom:4px;}
+  .quiz-result-title{margin:0 0 16px;color:#7E4CE0;font:900 30px 'Baloo 2','Trebuchet MS',sans-serif;}
+  .quiz-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0 auto 16px;max-width:350px;}
+  .quiz-result-stat{background:#FFF6DC;border-radius:18px;padding:12px 8px;font-weight:900;}
+  .quiz-result-stat strong{display:block;font:900 28px 'Baloo 2','Trebuchet MS',sans-serif;color:#F08000;line-height:1.05;}
+  .quiz-result-stat span{display:block;font-size:13px;color:#6a5d82;margin-top:3px;}
+  .quiz-result-summary{font-size:15px;font-weight:800;color:#453a5c;margin:0 0 18px;line-height:1.45;}
+  .quiz-result-close{margin:0 auto;}
 </style>
 
 <script>
@@ -1332,14 +1339,6 @@ body::before {
 </style>
 
 
-
-
-
-
-
-
-
-
 <style id="mengenal-huruf-angka-grid">
 /* Tampilan baru: Mengenal Huruf & Angka */
 #stage.simple-learning{overflow:hidden !important;}
@@ -1387,7 +1386,7 @@ body::before {
 #stage.simple-learning.variant-star .chip:hover{
   transform:translateY(-4px) scale(1.045) rotate(3deg);
 }
-#stage.simple-learning.variant-star .chip:active{
+#stage.simple-learning.variant-star .chip:active{animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;
   animation:shapeTurnStar .65s cubic-bezier(.2,.8,.3,1);
 }
 
@@ -1401,7 +1400,7 @@ body::before {
              0 8px 0 #c92e68,0 12px 18px rgba(65,35,75,.16) !important;
 }
 #stage.simple-learning.variant-bubble .chip:hover{transform:translateY(-5px) scale(1.05);}
-#stage.simple-learning.variant-bubble .chip:active{animation:shapeTurnBubble .65s cubic-bezier(.2,.8,.3,1);}
+#stage.simple-learning.variant-bubble .chip:active{animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;animation:shapeTurnBubble .65s cubic-bezier(.2,.8,.3,1);}
 
 /* ③ CLOUD — bentuk awan yang jelas */
 #stage.simple-learning.variant-cloud .chipstrip .chip{
@@ -1411,7 +1410,7 @@ body::before {
   box-shadow:0 7px 0 #5d9fca,0 11px 17px rgba(45,100,140,.17) !important;
 }
 #stage.simple-learning.variant-cloud .chip:hover{transform:translateY(-5px) scale(1.05);}
-#stage.simple-learning.variant-cloud .chip:active{animation:shapeTurnCloud .65s cubic-bezier(.2,.8,.3,1);}
+#stage.simple-learning.variant-cloud .chip:active{animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;animation:shapeTurnCloud .65s cubic-bezier(.2,.8,.3,1);}
 
 /* ④ 3D TOY TILE — keping mainan */
 #stage.simple-learning.variant-toytile .chipstrip .chip{
@@ -1425,7 +1424,7 @@ body::before {
              0 9px 0 #a92458,0 13px 17px rgba(65,35,75,.2) !important;
 }
 #stage.simple-learning.variant-toytile .chip:hover{transform:translateY(-5px) scale(1.04);}
-#stage.simple-learning.variant-toytile .chip:active{animation:shapeTurnToy .65s cubic-bezier(.2,.8,.3,1);}
+#stage.simple-learning.variant-toytile .chip:active{animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;animation:shapeTurnToy .65s cubic-bezier(.2,.8,.3,1);}
 
 /* ⑤ ROUNDED SQUIRCLE */
 #stage.simple-learning.variant-squircle .chipstrip .chip{
@@ -1434,7 +1433,7 @@ body::before {
   box-shadow:0 7px 0 #c92e68,0 10px 16px rgba(65,35,75,.16) !important;
 }
 #stage.simple-learning.variant-squircle .chip:hover{transform:translateY(-4px) scale(1.04);}
-#stage.simple-learning.variant-squircle .chip:active{animation:shapeTurnSquircle .65s cubic-bezier(.2,.8,.3,1);}
+#stage.simple-learning.variant-squircle .chip:active{animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;animation:shapeTurnSquircle .65s cubic-bezier(.2,.8,.3,1);}
 
 /* Angka: aksen biru, tetapi mengikuti bentuk pilihan */
 #stage.simple-learning .chipstrip .chip.number-chip{
@@ -1516,7 +1515,7 @@ body::before {
 @media(max-width:800px){
   #stage.simple-learning .chipstrip{
     width:min(620px,calc(100vw - 22px));
-    gap:8px;
+    gap:24px;
     margin-top:14px;
   }
   #stage.simple-learning .chipstrip .chip{
@@ -1529,25 +1528,11 @@ body::before {
 </style>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <style id="brush-size-control">
 .brush-size-panel{
   display:none;
   align-items:center;
-  gap:8px;
+  gap:24px;
   padding:6px 10px;
   border-radius:14px;
   background:#fff;
@@ -1575,17 +1560,11 @@ body::before {
 </style>
 
 
-
-
-
-
-
-
 <style id="clean-learning-picker">
 .learning-variant-picker{
   width:min(760px,calc(100vw - 32px));
   margin:clamp(8px,1.5vh,14px) auto 0;
-  display:flex;justify-content:center;gap:7px;flex-wrap:wrap;
+  display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
 }
 .learning-variant-picker button{
   border:2px solid rgba(60,40,80,.15);border-radius:999px;
@@ -1605,7 +1584,7 @@ body::before {
 #stage .topbar #btnLanguage .lang-flag{display:inline-flex;flex:0 0 auto;font-size:1.05em;line-height:1;}
 #stage .topbar #btnLanguage .lang-code{display:inline-block;flex:0 0 auto;font-weight:900;line-height:1;}
 @media(max-width:800px){
-  .learning-variant-picker{gap:4px;margin-top:6px;}
+  .learning-variant-picker{gap:24px;margin-top:6px;}
   .learning-variant-picker button{padding:5px 8px;font-size:11px;}
   #stage .topbar #btnLanguage{gap:3px !important;font-size:13px !important;}
 }
@@ -1888,6 +1867,201 @@ body::before {
   pointer-events:auto;
 }
 </style>
+
+<style id="smaller-learning-buttons">
+/* Tombol Huruf & Angka di halaman Belajar dibuat lebih kecil, tetap 5 kolom. */
+#stage.simple-learning .chipstrip{
+  width:min(620px, calc(100vw - 44px)) !important;
+  gap:clamp(6px,1.1vw,10px) !important;
+}
+#stage.simple-learning .chipstrip .chip{
+  min-height:clamp(44px,5.8vw,64px) !important;
+  font-size:clamp(30px,5.8vw,56px) !important;
+}
+@media(max-width:430px){
+  #stage.simple-learning .chipstrip{
+    width:calc(100vw - 36px) !important;
+    gap:6px !important;
+  }
+  #stage.simple-learning .chipstrip .chip{
+    min-height:clamp(42px,12.5vw,54px) !important;
+    font-size:clamp(28px,7.5vw,42px) !important;
+  }
+}
+</style>
+
+
+<style id="learning-button-80-effects-on">
+/* Tombol huruf & angka pada halaman Belajar: 80% dari ukuran sebelumnya. */
+#stage.simple-learning .chipstrip .chip{
+  transform:scale(.8) !important;
+  transform-origin:center center;
+}
+#stage.simple-learning .chipstrip .chip:hover{
+  transform:translateY(-3px) scale(.84) rotate(2deg) !important;
+}
+#stage.simple-learning .chipstrip .chip:active,
+#stage.simple-learning .chipstrip .chip.chip-speaking{
+  transform:scale(.8) !important;
+}
+/* Aktifkan kembali efek visual/animasi yang sebelumnya disembunyikan pada tombol belajar. */
+#stage.simple-learning .chipstrip .chip::before,
+#stage.simple-learning .chipstrip .chip::after{
+  display:block !important;
+}
+#stage.simple-learning .chipstrip .chip{
+  animation:learningChipIdle 2.4s ease-in-out infinite;
+  transition:transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+#stage.simple-learning .chipstrip .chip:nth-child(3n){animation-delay:.15s}
+#stage.simple-learning .chipstrip .chip:nth-child(3n+1){animation-delay:.3s}
+@keyframes learningChipIdle{
+  0%,100%{filter:brightness(1) saturate(1);}
+  50%{filter:brightness(1.06) saturate(1.08);}
+}
+/* Efek aktif berbicara tetap boleh mengambil alih animasi idle. */
+#stage.simple-learning .chipstrip .chip.chip-speaking{
+  animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;
+}
+</style>
+
+
+<style id="header-one-line-fixed">
+/* Header halaman belajar: selalu 1 baris dan ukuran stabil */
+#stage.simple-learning .topbar{flex-wrap:nowrap !important; gap:10px !important; width:100% !important;}
+#stage.simple-learning .topbar .homebtn{flex:0 0 auto !important; width:48px !important; min-width:48px !important; padding:8px !important;}
+#stage.simple-learning .topbar .title-wrap{flex:1 1 auto !important; min-width:0 !important; height:58px !important; padding:6px 12px !important; gap:8px !important; overflow:hidden !important;}
+#stage.simple-learning .topbar .title-wrap h1{gap:2px !important; line-height:.95 !important; white-space:nowrap !important;}
+#stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:10px !important; line-height:1 !important;}
+#stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:20px !important; line-height:1 !important; white-space:nowrap !important;}
+#stage.simple-learning .topbar .title-wrap > span{font-size:17px !important; flex:0 0 auto !important;}
+#stage.simple-learning .topbar #btnLanguage{flex:0 0 auto !important; min-width:58px !important; padding:8px 10px !important; gap:5px !important;}
+@media(max-width:430px){
+ #stage.simple-learning .topbar{gap:6px !important;}
+ #stage.simple-learning .topbar .homebtn{width:42px !important; min-width:42px !important;}
+ #stage.simple-learning .topbar .title-wrap{height:52px !important; padding:5px 7px !important; gap:4px !important;}
+ #stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:8px !important;}
+ #stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:16px !important;}
+ #stage.simple-learning .topbar .title-wrap > span{font-size:13px !important;}
+ #stage.simple-learning .topbar #btnLanguage{min-width:52px !important; padding:7px 6px !important;}
+}
+</style>
+
+<style id="writing-grid-final-fix">
+/* ===== GRID KHUSUS MENU LATIHAN / MENULIS ===== */
+#stage.writing-mode #chipStrip.writing-number-grid{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:clamp(8px,1.4vw,14px) !important;
+  width:min(760px,calc(100vw - 32px)) !important;
+  margin:clamp(18px,3vh,28px) auto 0 !important;
+  overflow:visible !important;
+  flex-wrap:nowrap !important;
+}
+#stage.writing-mode #chipStrip.writing-number-grid .chip{
+  flex:0 0 clamp(42px,6.2vw,64px) !important;
+  width:clamp(42px,6.2vw,64px) !important;
+  height:clamp(42px,6.2vw,64px) !important;
+  min-height:0 !important;
+  aspect-ratio:1/1 !important;
+  transform:scale(.8) !important;
+  margin:0 -6px !important;
+}
+#stage.writing-mode #chipStrip.writing-letter-grid{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:clamp(7px,1.2vw,13px) !important;
+  width:min(760px,calc(100vw - 24px)) !important;
+  margin:clamp(18px,3vh,28px) auto 0 !important;
+  overflow:visible !important;
+  flex-wrap:nowrap !important;
+}
+#stage.writing-mode #chipStrip.writing-letter-grid .chip{
+  flex:0 0 clamp(44px,7vw,68px) !important;
+  width:clamp(44px,7vw,68px) !important;
+  height:clamp(44px,7vw,68px) !important;
+  min-height:0 !important;
+  aspect-ratio:1/1 !important;
+  transform:scale(.8) !important;
+  margin:0 -5px !important;
+}
+#stage.writing-mode .writing-grid-arrow{
+  flex:0 0 34px !important;
+  width:34px !important;
+  height:44px !important;
+  padding:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#7E4CE0 !important;
+  box-shadow:none !important;
+  font:900 42px/1 'Arial',sans-serif !important;
+  cursor:pointer !important;
+}
+#stage.writing-mode .writing-grid-arrow:disabled{
+  opacity:.28 !important;
+  cursor:default !important;
+}
+/* Jangan biarkan efek bentuk lama tertunda saat berpindah ke Menulis. */
+#stage.writing-mode .chip{
+  animation:none !important;
+  transition:transform .12s ease,filter .12s ease,box-shadow .12s ease !important;
+}
+#stage.writing-mode .chip:hover{
+  transform:scale(.84) translateY(-2px) !important;
+}
+#stage.writing-mode .chip:active,
+#stage.writing-mode .chip.chip-speaking{
+  animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;
+}
+@media(max-width:600px){
+  #stage.writing-mode #chipStrip.writing-number-grid{
+    width:calc(100vw - 18px) !important;
+    gap:3px !important;
+    margin-top:20px !important;
+  }
+  #stage.writing-mode #chipStrip.writing-number-grid .chip{
+    flex-basis:clamp(36px,9.2vw,52px) !important;
+    width:clamp(36px,9.2vw,52px) !important;
+    height:clamp(36px,9.2vw,52px) !important;
+    margin:0 -5px !important;
+  }
+  #stage.writing-mode #chipStrip.writing-letter-grid{
+    width:calc(100vw - 8px) !important;
+    gap:1px !important;
+    margin-top:20px !important;
+  }
+  #stage.writing-mode #chipStrip.writing-letter-grid .chip{
+    flex-basis:clamp(36px,12vw,50px) !important;
+    width:clamp(36px,12vw,50px) !important;
+    height:clamp(36px,12vw,50px) !important;
+    margin:0 -4px !important;
+  }
+  #stage.writing-mode .writing-grid-arrow{
+    flex-basis:28px !important;
+    width:28px !important;
+    font-size:36px !important;
+  }
+}
+</style>
+
+<style id="writing-match-color-and-grid-fix">
+/* Nilai kecocokan: merah -> kuning -> hijau secara kontinu dari 0-100. */
+#matchPct{
+  transition:color .25s ease, text-shadow .25s ease;
+}
+#stage.writing-mode #chipStrip.writing-letter-grid,
+#stage.writing-mode #chipStrip.writing-number-grid{
+  visibility:visible !important;
+  opacity:1 !important;
+  transform:none !important;
+}
+/* Saat pindah halaman, bentuk tombol tidak ikut membawa animasi lama. */
+#stage.writing-mode .chip{
+  animation:none;
+}
+</style>
 </head>
 <body>
 
@@ -1904,12 +2078,12 @@ body::before {
     <div class="main-menu-options" id="mainMenuOptions">
       <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar"><img src="assets/huruf.png" alt="Belajar" class="huruf-logo-img"></button>
     </div>
-    <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img src="assets/quis.png" alt="Kuis Cepat"></button>
     <button class="menu-main-btn latihan-menu has-img" id="btnMenuLatihan">
       <span class="menu-anim-icon" aria-hidden="true"></span>
       <img src="assets/latihan.png" alt="Latihan Menulis & Berhitung">
     </button>
+    <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     </div>
 
     <div class="sub-menu" id="latihanMenu" style="display:none;">
@@ -1934,7 +2108,7 @@ body::before {
     <div class="help-icon">⚠️</div>
     <h2 class="help-title">Reset Pencapaian?</h2>
     <p class="help-text">Semua bintang, lencana, dan skor berhitung akan dihapus dan tidak bisa dikembalikan. Yakin mau lanjut?</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+    <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;">
       <button class="pillbtn gray" id="btnCancelReset" type="button">Batal</button>
       <button class="pillbtn pink" id="btnConfirmReset" type="button">Ya, Reset</button>
     </div>
@@ -1979,15 +2153,16 @@ body::before {
             </label>
           </div>
 
-          <div class="brush-size-panel" id="brushSizePanel" aria-label="Ukuran kuas">
-            <span class="brush-size-label">Kuas</span>
-            <input id="brushSize" type="range" min="6" max="50" value="24" step="1" aria-label="Ukuran kuas">
-            <span id="brushSizeValue">24</span>
-          </div>
+          
           <button class="pillbtn blue helpicon" id="btnHelp" type="button" aria-label="Petunjuk" title="Petunjuk">?</button>
         </div>
       </div>
       <div class="canvaswrap" id="wrapMain">
+<div class="brush-size-panel" id="brushSizePanel" aria-label="Ukuran kuas">
+            <span class="brush-size-label">Kuas</span>
+            <input id="brushSize" type="range" min="1" max="30" value="15" step="1" aria-label="Ukuran kuas">
+            <span id="brushSizeValue">24</span>
+          </div>
         <div class="learn-canvas-title" id="learnCanvasTitle" style="display:none">Bentuk Huruf</div>
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
         <canvas id="matchAreaCanvas"></canvas>
@@ -2028,7 +2203,7 @@ body::before {
 <div id="quizScreen" aria-modal="true" role="dialog">
   <div class="quiz-box">
     <h1 class="quiz-title">🎯 Kuis Cepat</h1>
-    <div class="quiz-score" id="quizScore">Soal 1 dari 10 · ⭐ 0</div>
+    <div class="quiz-score" id="quizScore">Soal 1 dari 15 · ⭐ 0</div>
     <div class="quiz-visual" id="quizVisual">🐔</div>
     <div class="quiz-question" id="quizQuestion">Hewan apa yang berawalan huruf A?</div>
     <button class="math-speak-btn" id="quizSpeakQuestion" type="button">🔊 Ulangi Soal</button>
@@ -2038,6 +2213,21 @@ body::before {
       <button class="pillbtn orange" id="quizNextBtn" type="button" style="display:none;">➡️ Berikutnya</button>
       <button class="pillbtn gray" id="quizHomeBtn" type="button">🏠 Menu Utama</button>
     </div>
+  </div>
+</div>
+
+<div id="quizResultOverlay" aria-modal="true" role="dialog" aria-labelledby="quizResultTitle">
+  <div class="quiz-result-box">
+    <div class="quiz-result-emoji">🎉🏆🎉</div>
+    <h2 class="quiz-result-title" id="quizResultTitle">Kuis Selesai!</h2>
+    <div class="quiz-result-grid">
+      <div class="quiz-result-stat"><strong id="quizCorrectCount">0</strong><span>✅ Jawaban Benar</span></div>
+      <div class="quiz-result-stat"><strong id="quizWrongCount">0</strong><span>❌ Jawaban Salah</span></div>
+      <div class="quiz-result-stat"><strong id="quizEarnedStars">0</strong><span>⭐ Bintang Didapat</span></div>
+      <div class="quiz-result-stat"><strong id="quizEarnedMedals">0</strong><span>🏅 Medali Baru</span></div>
+    </div>
+    <p class="quiz-result-summary" id="quizResultSummary"></p>
+    <button class="pillbtn blue quiz-result-close" id="quizResultClose" type="button">🎮 Main Lagi</button>
   </div>
 </div>
 
@@ -2064,7 +2254,7 @@ body::before {
   <div class="celebrate-box">
     <div class="celebrate-title" id="actionTitle">Hebat! 🎉</div>
     <div class="celebrate-sub" id="actionSub">Mau menulis lagi atau lanjut?</div>
-    <div style="display:flex;gap:10px;justify-content:center;margin-top:15px;">
+    <div style="display:flex;gap:24px;justify-content:center;margin-top:15px;">
       <button class="pillbtn orange" id="btnTryAgain">🔄 Coba Lagi</button>
       <button class="pillbtn green" id="btnGoNext">➡️ Berikutnya</button>
     </div>
@@ -2117,7 +2307,7 @@ const NUMBERS = [
 let mode = 'huruf'; // or 'angka'
 let index = 0;
 let childGender = 'boy';
-let language = 'id'; // English is available only on the learning pages
+let language = 'id'; // English is available on the Belajar Huruf page
 let writingMode = false; // mode duplikat khusus Menulis Huruf / Menulis Angka
 
 // ---------- SVG DASHED RENDER (huruf besar+kecil atau angka+tulisan dalam satu panel) ----------
@@ -2731,66 +2921,6 @@ function renderHurufPair(svgEl, upper, lower){
 }
 // Angka: digit di atas, tulisan di bawah dalam satu kotak.
 // Tulisan otomatis mengecil supaya kata panjang (mis. "Sembilan") tidak terpotong.
-// Sama seperti huruf: mode Belajar Angka menampilkan bentuk SOLID berwarna,
-// sedangkan mode Menulis Angka menampilkan garis panduan (outline) untuk dijiplak.
-function renderAngkaPair(svgEl, digit, word){
-  svgEl.setAttribute('viewBox','0 0 520 520');
-  svgEl.innerHTML = '';
-  const ns = 'http://www.w3.org/2000/svg';
-  const fontWeight = 700;
-  // Pada mode Belajar Angka (bukan Menulis), angka digeser sedikit ke bawah
-  // supaya ada jarak yang cukup dari judul "Bentuk Angka" di atasnya.
-  // Pada mode menulis, digit dibuat lebih besar dan baseline diturunkan agar
-  // bentuk visualnya benar-benar berada di tengah viewBox 520x520.
-  // Baseline SVG bukan posisi tengah glyph, sehingga y=230 sebelumnya
-  // membuat angka terlihat terlalu kecil dan menempel ke bagian atas.
-  const digitFontSize = writingMode ? 360 : 300;
-  const digitY = writingMode ? 360 : 230 + 45;
-
-  const numberPalette = [
-    ['#FF2638','#22C55E'], ['#2563EB','#F59E0B'], ['#A855F7','#EC4899'],
-    ['#06B6D4','#F97316'], ['#10B981','#8B5CF6'], ['#F43F5E','#3B82F6'],
-    ['#EF4444','#14B8A6'], ['#F59E0B','#6366F1'], ['#22C55E','#EC4899'],
-    ['#8B5CF6','#F97316']
-  ];
-  const [digitColor, wordColor] = numberPalette[index % numberPalette.length];
-
-  const digitText = document.createElementNS(ns,'text');
-  digitText.setAttribute('x','260'); digitText.setAttribute('y', String(digitY));
-  digitText.setAttribute('text-anchor','middle');
-  digitText.setAttribute('font-family',"Arial,Helvetica,sans-serif");
-  digitText.setAttribute('font-weight', String(fontWeight));
-  digitText.setAttribute('font-size', String(digitFontSize));
-  digitText.setAttribute('fill', writingMode ? 'none' : digitColor);
-  digitText.setAttribute('stroke', writingMode ? 'none' : digitColor);
-  digitText.textContent = digit;
-  svgEl.appendChild(digitText);
-
-  const { fontSize, centers } = layoutNumberWord(word, fontWeight, 260, 480);
-  // Jarak ke baris kata dibuat proporsional terhadap ukuran hurufnya sendiri
-  // (bukan angka tetap) supaya digit dan kata selalu terlihat rapat, persis
-  // atas-bawah, berapapun panjang katanya.
-  const wordY = digitY + 25 + fontSize*0.75;
-  const wordEntries = [];
-  [...word].forEach((ch, i) => {
-    const t = document.createElementNS(ns,'text');
-    t.setAttribute('x', String(centers[i])); t.setAttribute('y', String(wordY));
-    t.setAttribute('text-anchor','middle');
-    t.setAttribute('font-family',"Arial,Helvetica,sans-serif");
-    t.setAttribute('font-weight', String(fontWeight));
-    t.setAttribute('font-size', String(fontSize));
-    t.setAttribute('fill', writingMode ? 'none' : wordColor);
-    t.setAttribute('stroke', writingMode ? 'none' : wordColor);
-    t.textContent = ch;
-    svgEl.appendChild(t);
-    wordEntries.push({text:ch, x:centers[i], y:wordY, fontSize});
-  });
-
-  // Garis panduan angka (dashed outline) hanya relevan pada mode Menulis Angka.
-  if(writingMode){
-    appendHandGuide(svgEl, ns, buildGuidePathD(digit, 260, digitY, digitFontSize, fontWeight, 520, 520));
-  }
-}
 
 // ---------- CANVAS DRAWING ----------
 function setupCanvas(canvas){
@@ -2856,6 +2986,10 @@ window.updateMatchProgress = function(pct){
   if(pctEl){
     const labelNode = el.firstChild;
     if(labelNode && labelNode.nodeType === 3){ labelNode.textContent = `${label}: `; }
+    // Warna nilai: 0% merah, 50% kuning/oranye, 100% hijau.
+    const hue = Math.round(Math.max(0, Math.min(120, rounded * 1.2)));
+    pctEl.style.color = `hsl(${hue} 78% 42%)`;
+    pctEl.style.textShadow = rounded >= 75 ? '0 1px 2px rgba(20,100,40,.22)' : '0 1px 2px rgba(120,40,40,.18)';
     if(pctEl.textContent !== `${rounded}%`){
       pctEl.textContent = `${rounded}%`;
       pctEl.classList.remove('pop');
@@ -2926,18 +3060,6 @@ function buildMask(){
     const digitY = writingMode ? 360 : 230 + 45;
     drawGlyph(item.d, offX + 260*scale, offY + digitY*scale, digitFontSize*scale, 34*scale);
 
-    // renderAngkaPair memakai currentWord(item), sedangkan sebelumnya mask
-    // selalu memakai item.word (Bahasa Indonesia). Akibatnya mode English
-    // membandingkan coretan dengan kata yang berbeda dari yang ditampilkan.
-    // Dalam mode menulis, hanya digit yang punya panduan gerakan.
-    if(!writingMode){
-      const numberWord = currentWord(item);
-      const { fontSize, centers } = layoutNumberWord(numberWord, 700, 260, 480);
-      const wordY = 230 + 25 + fontSize*0.75;
-      [...numberWord].forEach((ch,i) => {
-        drawGlyph(ch, offX + centers[i]*scale, offY + wordY*scale, fontSize*scale, 34*scale);
-      });
-    }
   }
 
   // ambil titik-titik sampel dari pola (stride biar ringan)
@@ -2960,16 +3082,48 @@ function checkCoverage(){
   if(celebrated || targetPoints.length === 0) return;
   const canvas = canvasMain.canvas;
   const drawData = canvasMain.ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  const maskData = maskCtx.getImageData(0,0,canvas.width,canvas.height).data;
   let matched = 0;
+  let outsidePixels = 0;
+  let drawnPixels = 0;
   const total = targetPoints.length / 2;
+
+  // Hitung cakupan target sekaligus coretan yang benar-benar berada
+  // di luar area kecocokan. Sampling 6 px menjaga proses tetap ringan.
+  const stride = 6;
+  for(let y=0; y<canvas.height; y+=stride){
+    for(let x=0; x<canvas.width; x+=stride){
+      const di = (y*canvas.width + x)*4;
+      const drawn = drawData[di + 3] > 40;
+      if(!drawn) continue;
+      drawnPixels++;
+      if(maskData[di + 3] > 100) {
+        // Coretan berada di dalam area target.
+      } else {
+        outsidePixels++;
+      }
+    }
+  }
+
   for(let i=0; i<targetPoints.length; i+=2){
     const x = targetPoints[i], y = targetPoints[i+1];
     if(drawData[(y*canvas.width + x)*4 + 3] > 40) matched++;
   }
-  const ratio = total > 0 ? matched/total : 0;
-  window.lastMatchPercent = ratio*100;
-  if(window.updateMatchProgress) window.updateMatchProgress(ratio*100);
-  if(ratio >= 0.8){
+
+  const coverage = total > 0 ? matched/total : 0;
+  const outsideRatio = drawnPixels > 0 ? outsidePixels/drawnPixels : 0;
+
+  // Jika lebih dari 50% coretan berada di luar area kecocokan,
+  // kurangi nilai kecocokan sebesar persentase coretan di luar tersebut.
+  let score = coverage * 100;
+  if(outsideRatio > 0.50){
+    score -= outsideRatio * 100;
+  }
+  score = Math.max(0, Math.min(100, score));
+
+  window.lastMatchPercent = score;
+  if(window.updateMatchProgress) window.updateMatchProgress(score);
+  if(score >= 80){
     celebrated = true;
     learningProgress.stars++;
     saveProgress();
@@ -3031,13 +3185,13 @@ function celebrate(){
 // ---------- RENDER STATE ----------
 const I18N = {
   id: {
-    startTitle:'Belajar Huruf & Angka',
+    startTitle:'Belajar Huruf',
     startSub:'Yuk pilih mau belajar apa dulu?',
     namePlaceholder:'Nama anak (opsional)',
-    huruf:'Belajar Huruf (A–Z)', angka:'Belajar Angka (0–9)',
+    huruf:'Belajar Huruf (A–Z)',
     tambah:'Belajar Penjumlahan', kurang:'Belajar Pengurangan',
     language:'🇮🇩 Indonesia', back:'⟵ Kembali',
-    titleHuruf:'BELAJAR HURUF', titleAngka:'BELAJAR ANGKA',
+    titleHuruf:'BELAJAR HURUF',
     contoh:'Contoh Kata', hitung:'Hitunglah', cara:'Cara Mengucapkan',
     guide:'👆 Lihat Contoh Gerakan', guideHide:'⏸️ Sembunyikan Contoh', draw:'✏️ Gambar dengan jari / mouse',
     speak:'🔊 Putar Suara', hint:'Gerakkan tangan atau mouse mengikuti bentuk',
@@ -3049,13 +3203,13 @@ const I18N = {
     smart:'Yeay, kamu pintar!', smartName:name=>`Yeay, ${name} kamu sangat pintar!`
   },
   en: {
-    startTitle:'Learn Letters & Numbers',
+    startTitle:'Learn Letters',
     startSub:'Let’s choose what to learn first!',
     namePlaceholder:'Write the child’s name here (optional)',
-    huruf:'Learn Letters (A–Z)', angka:'Learn Numbers (0–9)',
+    huruf:'Learn Letters (A–Z)',
     tambah:'Learn Addition', kurang:'Learn Subtraction',
     language:'🇬🇧 English', back:'⟵ Back',
-    titleHuruf:'LEARN LETTERS', titleAngka:'LEARN NUMBERS',
+    titleHuruf:'LEARN LETTERS',
     contoh:'Example Word', hitung:'Count', cara:'How to Say It',
     guide:'👆 Show Writing Guide', guideHide:'⏸️ Hide Example', draw:'✏️ Draw with your finger / mouse',
     speak:'🔊 Play Sound', hint:'Move your hand or mouse along the shape', helpTitle:'Instructions', helpBtn:'❓ Help', close:'Close',
@@ -3135,11 +3289,13 @@ function toggleLanguage(){
   language = language === 'id' ? 'en' : 'id';
   try{ localStorage.setItem('learningLanguage', language); }catch(e){}
   applyLanguage();
+  try{
+    if(typeof render==='function') render();
+  }catch(e){}
 }
 
 function ensureLearningLanguageButton(){
   let btn = document.getElementById('btnLanguage');
-  if(btn) return;
   // Tombol bahasa sudah ada di HTML pada halaman Belajar.
   // Jangan langsung return, karena tombol tersebut bisa belum memiliki handler.
   const topbar = document.querySelector('#stage .topbar');
@@ -3190,8 +3346,10 @@ function render(){
   // Angka, keduanya dipasang kembali seperti semula.
   const removeForWritingHuruf = writingMode && mode === 'huruf';
   if(removeForWritingHuruf){
+    // Menulis Huruf sekarang tetap memiliki grid huruf (5 huruf + panah).
+    // Hanya pemilih bentuk yang tidak diperlukan dihapus.
     if(variantPickerEl && variantPickerEl.isConnected) variantPickerEl.remove();
-    if(chipStripEl && chipStripEl.isConnected) chipStripEl.remove();
+    if(chipStripEl && !chipStripEl.isConnected) chipStripAnchor.after(chipStripEl);
   } else {
     if(variantPickerEl && !variantPickerEl.isConnected) variantPickerAnchor.after(variantPickerEl);
     if(chipStripEl && !chipStripEl.isConnected) chipStripAnchor.after(chipStripEl);
@@ -3214,7 +3372,7 @@ function render(){
     mainTitleEl.textContent = mode === 'huruf' ? 'MENULIS HURUF' : 'MENULIS ANGKA';
   } else {
     const titleLine1 = language === 'en' ? 'LEARN' : 'MENGENAL';
-    const titleLine2 = language === 'en' ? 'LETTERS' : 'HURUF DAN ANGKA';
+    const titleLine2 = language === 'en' ? 'LETTERS AND NUMBERS' : 'HURUF DAN ANGKA';
     mainTitleEl.innerHTML = '<span class="title-line1" id="mainTitleLine1">' + titleLine1 + '</span>'
       + '<span class="title-line2" id="mainTitleLine2">' + titleLine2 + '</span>';
   }
@@ -3229,10 +3387,10 @@ function render(){
       '<span class="hl">' + item.ch + '</span>' + currentWord(item).slice(1);
     document.getElementById('ucapText').textContent = '"' + currentSay(item) + '"';
   } else {
+    // Mode angka yang tersisa hanya Menulis Angka.
     wrapMain.classList.add('angka');
     const item = NUMBERS[index];
-    renderAngkaPair(svgMain, item.d, currentWord(item));
-    document.getElementById('panelTitle').textContent = writingMode ? 'Contoh Angka' : T('hitung');
+    document.getElementById('panelTitle').textContent = 'Contoh Angka';
     document.getElementById('contohVisual').textContent = currentEmoji(item) || '—';
     document.getElementById('contohWord').innerHTML =
       '<span class="hl">' + item.d + '</span> = ' + currentWord(item);
@@ -3275,9 +3433,63 @@ function renderChips(){
   strip.innerHTML = '';
   strip.classList.remove('numbers-centered');
 
-  // A–Y: 5 columns x 5 rows.
+  // Mode Menulis Angka: tampilkan angka saja, seluruhnya rata di tengah.
+  if(writingMode && mode === 'angka'){
+    strip.classList.add('writing-number-grid');
+    NUMBERS.forEach((item) => {
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='chip number-chip';
+      b.textContent=item.d;
+      b.setAttribute('aria-label',`Angka ${item.d}`);
+      b.dataset.speechCount='0';
+      b.onclick=()=>speakLearningChip(item,b,'angka');
+      strip.appendChild(b);
+    });
+    return;
+  }
+
+  // Mode Menulis Huruf: hanya 5 huruf per tampilan, dengan panah kiri/kanan.
+  if(writingMode && mode === 'huruf'){
+    strip.classList.add('writing-letter-grid');
+    const windowSize = 10;
+    const maxStart = Math.max(0, LETTERS.length - windowSize);
+    const start = Math.max(0, Math.min(maxStart, index));
+
+    const prev=document.createElement('button');
+    prev.type='button';
+    prev.className='writing-grid-arrow';
+    prev.textContent='‹';
+    prev.setAttribute('aria-label','Huruf sebelumnya');
+    prev.disabled=start===0;
+    prev.onclick=()=>{ if(index>0){ index=Math.max(0,index-1); render(); } };
+    strip.appendChild(prev);
+
+    LETTERS.slice(start,start+windowSize).forEach(item=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='chip';
+      b.textContent=item.ch;
+      b.setAttribute('aria-label',`Huruf ${item.ch}`);
+      b.dataset.speechCount='0';
+      b.onclick=()=>{ index=LETTERS.indexOf(item); render(); };
+      strip.appendChild(b);
+    });
+
+    const next=document.createElement('button');
+    next.type='button';
+    next.className='writing-grid-arrow';
+    next.textContent='›';
+    next.setAttribute('aria-label','Huruf berikutnya');
+    next.disabled=start>=maxStart;
+    next.onclick=()=>{ if(index<LETTERS.length-1){ index=Math.min(LETTERS.length-1,index+1); render(); } };
+    strip.appendChild(next);
+    return;
+  }
+
+  // Mode Belajar: grid A-Z lalu angka seperti semula.
   const letters = LETTERS;
-  letters.slice(0,25).forEach((item, pos) => {
+  letters.slice(0,25).forEach((item) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'chip';
@@ -3288,7 +3500,6 @@ function renderChips(){
     strip.appendChild(b);
   });
 
-  // Row 6: two empty cells, Z under W (column 3), two empty cells.
   for(let i=0;i<2;i++){
     const spacer=document.createElement('span');
     spacer.className='grid-spacer';
@@ -3329,7 +3540,6 @@ function renderChips(){
     strip.appendChild(b);
   });
 }
-
 function speakLearningChip(item, button, type){
   const count = Number(button.dataset.speechCount || '0');
   button.dataset.speechCount = String(count + 1);
@@ -3477,6 +3687,7 @@ document.getElementById('btnGoNext').onclick = () => {
   }
 };
 document.getElementById('btnKembali').onclick = () => {
+  if(writingMode){ document.getElementById('stage').style.display='none'; writingMode=false; const lb=document.getElementById('btnLanguage'); if(lb) lb.remove(); document.getElementById('startScreen').style.display=''; applyLanguage(); showSubMenu(); return; }
   document.getElementById('stage').style.display = 'none';
   writingMode = false;
   const languageButton = document.getElementById('btnLanguage');
@@ -3527,8 +3738,13 @@ if(brushSize){
 
 // ---------- START / MENU ----------
 function startApp(selectedMode, isWriting=false){
+  if(selectedMode === 'angka' && !isWriting) return;
   mode = selectedMode;
   writingMode = !!isWriting;
+  if(writingMode){
+    const st=document.getElementById('stage');
+    if(st) ['star','bubble','cloud','toytile','squircle'].forEach(v=>st.classList.remove('variant-'+v));
+  }
   // English is limited to the two learning pages. Writing mode is Indonesian
   // only and does not expose the language control.
   if(writingMode){
@@ -3538,7 +3754,6 @@ function startApp(selectedMode, isWriting=false){
   } else {
     ensureLearningLanguageButton();
     // Pastikan tombol bahasa yang sudah ada di HTML langsung aktif saat
-    // pertama kali halaman Belajar Huruf/Angka dibuka.
     applyLanguage();
   }
   index = 0;
@@ -3547,6 +3762,7 @@ function startApp(selectedMode, isWriting=false){
   // Render immediately. Fonts are visual-only and must never block navigation.
   // The browser will swap the web font in when it becomes available.
   render();
+  requestAnimationFrame(() => { try { render(); } catch(e) {} });
 }
 function showMainMenu(){
   // Hapus override inline agar CSS menu utama dapat tampil normal.
@@ -3566,7 +3782,6 @@ function showMainMenu(){
 }
 function showSubMenu(){
   // Gunakan !important karena CSS layout menu utama memakai display:grid !important.
-  // Ini memastikan tombol Belajar Huruf/Angka benar-benar hilang saat submenu Latihan dibuka.
   document.getElementById('mainMenuOptions').style.setProperty('display','none','important');
   document.getElementById('progressCard').style.setProperty('display','none','important');
   document.getElementById('btnStartQuiz').style.setProperty('display','none','important');
@@ -3621,7 +3836,7 @@ function resetAllProgress(){
   learningProgress = { stars: 0, addScore: 0, subScore: 0 };
   try{ localStorage.removeItem(progressStorageKey); }catch(e){}
   saveProgress();
-  quizState = { question: 0, score: 0, current: null, answered: false, revealToken: 0 };
+  quizState = { question: 0, score: 0, wrong: 0, current: null, answered: false, revealToken: 0, startStars: 0 };
 }
 (function initResetButton(){
   const btn = document.getElementById('btnResetProgress');
@@ -3637,31 +3852,93 @@ function resetAllProgress(){
   };
 })();
 
-let quizState = { question: 0, score: 0, current: null, answered: false, revealToken: 0 };
+let quizState = { question: 0, score: 0, wrong: 0, current: null, answered: false, revealToken: 0, startStars: 0 };
 function shuffle(list){
   return [...list].sort(() => Math.random() - .5);
 }
 const QUIZ_OPTION_LABELS = ['A','B','C'];
-function makeQuizQuestion(){
-  const isLetter = Math.random() < .6;
-  if(isLetter){
-    const item = LETTERS[Math.floor(Math.random() * LETTERS.length)];
-    const distractors = shuffle(LETTERS.filter(x => x.ch !== item.ch)).slice(0, 2).map(x => x.ch);
+
+// ---------- KUIS: 3 JENIS SOAL ----------
+// 1) Gambar hewan -> huruf awal, pilihan jawaban semuanya nama hewan.
+// 2) Gambar buah acak -> hitung jumlah buah.
+// 3) Gambar hewan -> tentukan huruf awal namanya.
+const QUIZ_ANIMALS = [
+  {name:'Ayam', emoji:'🐔'}, {name:'Bebek', emoji:'🦆'}, {name:'Cicak', emoji:'🦎'},
+  {name:'Domba', emoji:'🐑'}, {name:'Elang', emoji:'🦅'}, {name:'Flamingo', emoji:'🦩'},
+  {name:'Gajah', emoji:'🐘'}, {name:'Harimau', emoji:'🐯'}, {name:'Ikan', emoji:'🐟'},
+  {name:'Jerapah', emoji:'🦒'}, {name:'Kucing', emoji:'🐱'}, {name:'Lebah', emoji:'🐝'},
+  {name:'Monyet', emoji:'🐒'}, {name:'Nyamuk', emoji:'🦟'}, {name:'Onta', emoji:'🐪'},
+  {name:'Penyu', emoji:'🐢'}, {name:'Rusa', emoji:'🦌'}, {name:'Singa', emoji:'🦁'},
+  {name:'Tikus', emoji:'🐭'}, {name:'Ular', emoji:'🐍'}, {name:'Yak', emoji:'🐂'},
+  {name:'Zebra', emoji:'🦓'}, {name:'Kelinci', emoji:'🐰'}, {name:'Kambing', emoji:'🐐'},
+  {name:'Kerbau', emoji:'🐃'}, {name:'Kuda', emoji:'🐴'}, {name:'Macan', emoji:'🐅'},
+  {name:'Panda', emoji:'🐼'}, {name:'Sapi', emoji:'🐄'}, {name:'Serigala', emoji:'🐺'}
+];
+
+const QUIZ_FRUITS = [
+  {name:'pisang', emoji:'🍌'}, {name:'apel', emoji:'🍎'}, {name:'jeruk', emoji:'🍊'},
+  {name:'stroberi', emoji:'🍓'}, {name:'semangka', emoji:'🍉'}, {name:'anggur', emoji:'🍇'},
+  {name:'nanas', emoji:'🍍'}, {name:'mangga', emoji:'🥭'}, {name:'kiwi', emoji:'🥝'},
+  {name:'persik', emoji:'🍑'}, {name:'ceri', emoji:'🍒'}, {name:'melon', emoji:'🍈'}
+];
+
+function randomItem(list){ return list[Math.floor(Math.random() * list.length)]; }
+function randomDifferentNumbers(correct, count=2){
+  const values=[];
+  while(values.length<count){
+    const n = Math.max(1, Math.min(9, correct + Math.floor(Math.random()*5)-2));
+    if(n !== correct && !values.includes(n)) values.push(n);
+  }
+  return values;
+}
+function animalInitial(name){ return String(name).trim().charAt(0).toUpperCase(); }
+
+function makeAnimalInitialQuestion(reverse=false){
+  const item = randomItem(QUIZ_ANIMALS);
+  const initial = animalInitial(item.name);
+  const distractors = shuffle(
+    QUIZ_ANIMALS.filter(x => animalInitial(x.name) !== initial)
+  ).slice(0,2).map(x => x.name);
+
+  if(reverse){
+    const letters = shuffle([initial, ...['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','Y','Z']
+      .filter(x => x !== initial)]).slice(0,2);
     return {
-      visual: item.emoji,
-      text: `Huruf apa yang menjadi awal kata ${item.word}?`,
-      answer: item.ch,
-      options: shuffle([item.ch, ...distractors])
+      type:'animal-letter',
+      visual:item.emoji,
+      text:`${item.name} diawali huruf apa?`,
+      answer:initial,
+      options:shuffle([initial, ...letters])
     };
   }
-  const item = NUMBERS[Math.floor(Math.random() * NUMBERS.length)];
-  const distractors = shuffle(NUMBERS.filter(x => x.d !== item.d)).slice(0, 2).map(x => x.d);
+
   return {
-    visual: item.emoji || '🔢',
-    text: `Angka berapa yang benar untuk kata “${item.word}”?`,
-    answer: item.d,
-    options: shuffle([item.d, ...distractors])
+    type:'animal-name',
+    visual:item.emoji,
+    text:`Hewan apa yang berawalan huruf ${initial}?`,
+    answer:item.name,
+    options:shuffle([item.name, ...distractors])
   };
+}
+
+function makeFruitCountQuestion(){
+  const fruit = randomItem(QUIZ_FRUITS);
+  const count = 1 + Math.floor(Math.random()*9);
+  const distractors = randomDifferentNumbers(count,2);
+  return {
+    type:'fruit-count',
+    visual:Array(count).fill(fruit.emoji).join(' '),
+    text:`Berapa jumlah ${fruit.name} di atas?`,
+    answer:String(count),
+    options:shuffle([String(count), ...distractors.map(String)])
+  };
+}
+
+function makeQuizQuestion(){
+  const type = Math.floor(Math.random()*3);
+  if(type === 0) return makeAnimalInitialQuestion(false);
+  if(type === 1) return makeFruitCountQuestion();
+  return makeAnimalInitialQuestion(true);
 }
 function speakQuizQuestion(onend){
   const question = quizState.current?.text;
@@ -3699,7 +3976,7 @@ function renderQuizQuestion(){
   quizState.answered = false;
   quizState.revealToken = (quizState.revealToken || 0) + 1;
   const q = quizState.current;
-  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
+  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 15 · ⭐ ${quizState.score}`;
   document.getElementById('quizVisual').textContent = q.visual;
   document.getElementById('quizQuestion').textContent = q.text;
   document.getElementById('quizResult').textContent = '';
@@ -3741,39 +4018,57 @@ function answerQuiz(button, option){
     btn.disabled = true;
     if(btn.dataset.value === quizState.current.answer) btn.classList.add('correct');
   });
-  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
+  document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 15 · ⭐ ${quizState.score}`;
   if(correct){
     quizState.score++;
     learningProgress.stars++;
     saveProgress();
     document.getElementById('quizResult').textContent = '✅ Benar! Kamu hebat!';
-    document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 10 · ⭐ ${quizState.score}`;
+    document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 15 · ⭐ ${quizState.score}`;
     document.getElementById('quizNextBtn').style.display = 'none';
     speakQuizText('Benar! Kamu hebat!', () => {
       setTimeout(() => {
-        if(quizState.question >= 9){ finishQuiz(); }
+        if(quizState.question >= 14){ finishQuiz(); }
         else{ quizState.question++; renderQuizQuestion(); }
       }, 600);
     });
   }else{
+    quizState.wrong++;
     button.classList.add('wrong');
     document.getElementById('quizResult').textContent = `💡 Jawaban yang benar: ${quizState.current.answer}`;
-    document.getElementById('quizNextBtn').style.display = '';
-    speakQuizText('Yah, jawaban salah');
+    document.getElementById('quizNextBtn').style.display = 'none';
+    speakQuizText('Yah, jawaban salah', () => {
+      setTimeout(() => {
+        if(quizState.question >= 14){ finishQuiz(); }
+        else{ quizState.question++; renderQuizQuestion(); }
+      }, 600);
+    });
   }
 }
 function finishQuiz(){
   quizState.revealToken = (quizState.revealToken || 0) + 1;
-  const result = document.getElementById('quizResult');
-  const earned = quizState.score >= 5 ? ' 🏅 Lencana baru terbuka!' : '';
-  result.textContent = `🎉 Selesai! Nilaimu ${quizState.score}/10.${earned}`;
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+
+  const totalStars = Number(learningProgress.stars) || 0;
+  const startStars = Number(quizState.startStars) || 0;
+  const medalsBefore = (startStars >= 5 ? 1 : 0) + (startStars >= 15 ? 1 : 0) + (startStars >= 30 ? 1 : 0);
+  const medalsAfter = badgeTotal();
+  const newMedals = Math.max(0, medalsAfter - medalsBefore);
+
+  document.getElementById('quizCorrectCount').textContent = quizState.score;
+  document.getElementById('quizWrongCount').textContent = quizState.wrong;
+  document.getElementById('quizEarnedStars').textContent = quizState.score;
+  document.getElementById('quizEarnedMedals').textContent = newMedals;
+  document.getElementById('quizResultSummary').textContent =
+    `Kamu menjawab ${quizState.score} dari 15 soal dengan benar. Total bintangmu sekarang ${totalStars} ⭐ dan total medalimu ${medalsAfter} 🏅.`;
+
   document.getElementById('quizOptions').innerHTML = '';
   document.getElementById('quizNextBtn').style.display = 'none';
-  document.getElementById('quizQuestion').textContent = 'Mau bermain lagi untuk mengumpulkan lebih banyak bintang?';
-  document.getElementById('quizVisual').textContent = quizState.score >= 8 ? '🏆' : '🌟';
+  document.getElementById('quizResultOverlay').classList.add('show');
 }
+
 function openQuiz(){
-  quizState = { question: 0, score: 0, current: null, answered: false, revealToken: 0 };
+  quizState = { question: 0, score: 0, wrong: 0, current: null, answered: false, revealToken: 0, startStars: Number(learningProgress.stars) || 0 };
   document.getElementById('startScreen').style.display = 'none';
   document.getElementById('quizScreen').style.display = 'block';
   renderQuizQuestion();
@@ -3781,9 +4076,13 @@ function openQuiz(){
 document.getElementById('btnStartQuiz').onclick = openQuiz;
 document.getElementById('quizSpeakQuestion').onclick = () => speakQuizQuestion();
 document.getElementById('quizNextBtn').onclick = () => {
-  if(quizState.question >= 9){ finishQuiz(); return; }
+  if(quizState.question >= 14){ finishQuiz(); return; }
   quizState.question++;
   renderQuizQuestion();
+};
+document.getElementById('quizResultClose').onclick = () => {
+  document.getElementById('quizResultOverlay').classList.remove('show');
+  openQuiz();
 };
 document.getElementById('quizHomeBtn').onclick = () => {
   quizState.revealToken = (quizState.revealToken || 0) + 1;
@@ -3794,8 +4093,6 @@ document.getElementById('quizHomeBtn').onclick = () => {
 };
 
 </script>
-
-
 
 
 <!-- Addition Feature V10 -->
@@ -3824,7 +4121,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   background:#FFFDF7; border:3px solid #F3D9C4; border-radius:18px; padding:10px;
   margin-bottom:14px; min-height:56px; letter-spacing:4px;
 }
-.addkeypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+.addkeypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:16px; }
 .addkey{
   border:none; border-radius:16px; padding:16px 0; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:800; font-size:24px;
   color:#fff; cursor:pointer; box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
@@ -3833,7 +4130,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 .addkey:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
 .addkey.zero{ grid-column:2; }
 .addkey.back{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
-.addbtn-row{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.addbtn-row{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
 .math-speak-btn{
   border:0; border-radius:16px; padding:9px 16px; margin:0 auto 12px;
   background:linear-gradient(180deg,var(--orange),var(--orange-dark)); color:#fff;
@@ -4130,10 +4427,6 @@ if(typeof applyLanguage==='function') applyLanguage();
 </script>
 
 
-
-
-
-
 <!-- Rumput dihilangkan: latar hanya langit dan awan. -->
 <style id="final-top-controls-fix">
 @media(max-width:480px){
@@ -4144,7 +4437,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 /* Belajar Huruf berada di atas menu Latihan. */
 #mainMenuOptions{
   flex-wrap:wrap;
-  row-gap:10px;
+  row-gap:24px;
 }
 #mainMenuOptions .latihan-menu{
   flex:0 0 100%;
@@ -4188,7 +4481,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   display:grid !important;
   grid-template-columns:repeat(2,minmax(0,1fr));
   align-items:start !important;
-  gap:clamp(8px,1.8vw,16px) !important;
+  gap:clamp(16px,2.5vw,24px) !important;
   width:min(720px,100%) !important;
   margin:0 auto !important;
   flex:none !important;
@@ -4237,7 +4530,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   min-height:70px;
   flex:none !important;
   flex-direction:row !important;
-  gap:14px !important;
+  gap:21px !important;
   background:rgba(255,255,255,.82) !important;
   border:3px solid rgba(255,255,255,.95) !important;
   border-radius:22px !important;
@@ -4266,7 +4559,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   #startScreen #mainMenuOptions{
     grid-template-columns:repeat(2,minmax(0,1fr));
     width:min(420px,94vw) !important;
-    gap:10px !important;
+    gap:16px !important;
   }
   #startScreen #mainMenuOptions .huruf-logo-item{
     width:100% !important;
@@ -4284,6 +4577,45 @@ if(typeof applyLanguage==='function') applyLanguage();
   #startScreen #mainMenuOptions{gap:8px 16px !important;}
   #startScreen .progress-card{margin-top:6px !important;}
   #startScreen .quiz-menu-btn{margin-top:7px !important;}
+}
+/* Posisi menu utama: Kuis + Latihan sejajar, Bintang/Lencana tepat di bawah keduanya. */
+#startScreen #menuCenterWrap{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:center !important;
+  justify-items:center !important;
+  column-gap:clamp(8px,2vw,18px) !important;
+  row-gap:4px !important;
+}
+#startScreen .start-sub{grid-column:1 / -1 !important;grid-row:1 !important;}
+#startScreen .start-name-row{grid-column:1 / -1 !important;grid-row:2 !important;}
+#startScreen #mainMenuOptions{grid-column:1 / -1 !important;grid-row:3 !important;}
+#startScreen #menuCenterWrap > .quiz-menu-btn{
+  grid-column:1 !important;grid-row:4 !important;
+  width:100% !important;margin:0 !important;
+}
+#startScreen #menuCenterWrap > .latihan-menu{
+  grid-column:2 !important;grid-row:4 !important;
+  width:100% !important;margin:0 !important;
+}
+#startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
+#startScreen #menuCenterWrap > .latihan-menu.has-img img{
+  width:min(100%,220px) !important;height:auto !important;margin:0 auto !important;
+}
+#startScreen .progress-card{
+  grid-column:1 / -1 !important;grid-row:5 !important;
+  width:min(430px,100%) !important;margin:4px auto 0 !important;
+}
+@media(max-width:600px){
+  #startScreen #menuCenterWrap{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    width:100% !important;
+  }
+  #startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
+  #startScreen #menuCenterWrap > .latihan-menu.has-img img{
+    width:min(100%,170px) !important;
+  }
+  #startScreen .progress-card{font-size:13px !important;}
 }
 </style>
 
@@ -4330,23 +4662,19 @@ if(typeof applyLanguage==='function') applyLanguage();
     font-family:'Nunito','Segoe UI',sans-serif;
   }
   .counting-score-title{
-    margin-bottom:7px; color:#E27B10; font-size:18px; font-weight:900;
+    margin-bottom:7px; color:#E27B10; font-size:13px; font-weight:900;
   }
   .counting-score-row,.counting-score-total{
     display:flex; align-items:center; justify-content:space-between;
-    gap:18px; padding:5px 0; font-size:15px; font-weight:800;
+    gap:24px; padding:5px 0; font-size:15px; font-weight:800;
   }
-  .counting-score-row strong{color:#7E4CE0;font-size:18px;}
+  .counting-score-row strong{color:#7E4CE0;font-size:13px;}
   .counting-score-total{
     margin-top:5px; padding-top:9px; border-top:2px dashed #F3D9C4;
     color:#2FA859; font-size:16px;
   }
   .counting-score-total strong{color:#229653;font-size:22px;}
 </style>
-
-
-
-
 
 
 <div class="credit-tag">Created by: Zie</div>
@@ -4429,5 +4757,456 @@ if(typeof applyLanguage==='function') applyLanguage();
   if(b) b.addEventListener('click',()=>setTimeout(syncLanguageButton,60));
 })();
 </script>
+
+<style id="v26-stability-fixes">
+/* Panel kuas kembali DI ATAS kanvas, tetapi tetap selebar kanvas. */
+#stage.writing-mode .tracepanel > .brush-size-panel{
+  display:flex !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:0 0 10px !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#stage.writing-mode .tracepanel > .brush-size-panel #brushSize{
+  flex:1 1 auto !important;
+  width:auto !important;
+  max-width:none !important;
+}
+/* Tombol speaker pada panel Cara Mengucapkan. */
+#stage.writing-mode .ucap-speak-btn{
+  flex:0 0 auto;
+  margin-left:auto;
+  min-width:52px;
+  min-height:46px;
+  padding:8px 12px;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(145deg,#ffd45a,#ffad33);
+  box-shadow:0 4px 0 rgba(184,112,20,.25);
+  font-size:22px;
+  cursor:pointer;
+}
+#stage.writing-mode .ucap-speak-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(184,112,20,.25);}
+#stage.stage-entering{opacity:0 !important;}
+#stage.stage-ready{opacity:1 !important;transition:opacity .12s ease;}
+</style>
+<script id="v26-stability-init">
+(function(){
+  const stage = document.getElementById('stage');
+  const brush = document.getElementById('brushSizePanel');
+  const trace = document.querySelector('#stage .tracepanel');
+  const wrap = document.getElementById('wrapMain');
+  if(brush && trace && wrap && brush.parentElement !== trace){
+    trace.insertBefore(brush, wrap);
+  }
+
+  // Speaker manual di kanan panel Cara Mengucapkan.
+  const ucap = document.querySelector('#stage .card.ucap');
+  if(ucap && !document.getElementById('writingSpeakBtn')){
+    const row = ucap.querySelector('.ucap-row');
+    if(row){
+      const b=document.createElement('button');
+      b.id='writingSpeakBtn';
+      b.type='button';
+      b.className='ucap-speak-btn';
+      b.textContent='🔊';
+      b.title='Putar Suara';
+      b.setAttribute('aria-label','Putar Suara');
+      row.appendChild(b);
+      b.addEventListener('click', function(){
+        try{
+          const item = mode === 'huruf' ? LETTERS[index] : NUMBERS[index];
+          if(!item) return;
+          const lang = 'id-ID';
+          speechSynthesis.cancel();
+          const text = mode === 'huruf'
+            ? (item.say || item.ch)
+            : (item.say || item.word || currentWord(item) || item.d);
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang=lang; u.rate=.82; u.pitch=1.05;
+          speechSynthesis.speak(u);
+        }catch(e){}
+      });
+    }
+  }
+
+  // Hindari flash/lag saat masuk pertama kali: render dulu dalam keadaan transparan.
+  if(stage){
+    const originalStart = window.startApp;
+    if(typeof originalStart === 'function' && !window.__v26WrappedStart){
+      window.__v26WrappedStart = true;
+      window.startApp = function(selectedMode, isWriting){
+        stage.classList.remove('stage-ready');
+        stage.classList.add('stage-entering');
+        try{
+          // Bersihkan state visual yang tertinggal dari halaman sebelumnya.
+          stage.classList.remove('simple-learning','writing-mode','writing-huruf',
+            'variant-star','variant-bubble','variant-cloud','variant-toytile','variant-squircle');
+          if(isWriting){
+            stage.classList.add('writing-mode');
+          }else{
+            stage.classList.add('simple-learning');
+            stage.classList.add('variant-toytile');
+          }
+        }catch(e){}
+        originalStart(selectedMode,isWriting);
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){
+            stage.classList.remove('stage-entering');
+            stage.classList.add('stage-ready');
+            // Pastikan panel kuas tetap berada di atas kanvas setelah render.
+            if(brush && trace && wrap && brush.parentElement !== trace) trace.insertBefore(brush,wrap);
+          });
+        });
+      };
+    }
+
+    // Home pada semua halaman latihan/menulis kembali ke submenu Latihan.
+    const home=document.getElementById('btnKembali');
+    if(home && !window.__v26HomeWrapped){
+      window.__v26HomeWrapped=true;
+      home.onclick=function(){
+        stage.style.display='none';
+        writingMode=false;
+        try{speechSynthesis.cancel();}catch(e){}
+        const languageButton=document.getElementById('btnLanguage');
+        if(languageButton) languageButton.remove();
+        language='id';
+        try{localStorage.setItem('learningLanguage','id');}catch(e){}
+        const start=document.getElementById('startScreen');
+        if(start) start.style.display='';
+        if(typeof applyLanguage==='function') applyLanguage();
+        if(typeof showSubMenu==='function') showSubMenu();
+      };
+    }
+  }
+})();
+</script>
+
 </body>
+
+
+<style id="main-page-requested-layout">
+/* ===== HALAMAN UTAMA: posisi nama + subjudul, serta Kuis/Latihan 2 kolom ===== */
+#startScreen #menuCenterWrap{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  grid-template-areas:
+    "name name"
+    "sub sub"
+    "belajar belajar"
+    "progress progress"
+    "quiz latihan";
+  align-items:center !important;
+  justify-items:center;
+  width:100% !important;
+  gap:8px 12px !important;
+}
+
+/* Kotak nama dinaikkan: sekarang berada di atas tulisan "Yuk..." */
+#startScreen #menuCenterWrap > .start-name-row{
+  grid-area:name;
+  margin:0 auto !important;
+}
+#startScreen #menuCenterWrap > .start-sub{
+  grid-area:sub;
+  margin:0 auto 4px !important;
+}
+
+/* Belajar Huruf tetap menjadi pilihan utama di baris sendiri. */
+#startScreen #menuCenterWrap > #mainMenuOptions{
+  grid-area:belajar;
+  width:min(420px,100%) !important;
+  margin:0 auto !important;
+}
+
+#startScreen #menuCenterWrap > #progressCard{
+  grid-area:progress;
+  margin:4px auto 0 !important;
+}
+
+/* Kuis dan Latihan sejajar: tepat 2 kolom. */
+#startScreen #menuCenterWrap > #btnStartQuiz,
+#startScreen #menuCenterWrap > #btnMenuLatihan{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:260px !important;
+  margin:0 !important;
+  justify-self:center;
+}
+#startScreen #menuCenterWrap > #btnStartQuiz{
+  grid-area:quiz;
+}
+#startScreen #menuCenterWrap > #btnMenuLatihan{
+  grid-area:latihan;
+}
+
+/* Ukuran gambar dibuat seimbang agar dua tombol aman di HP. */
+#startScreen #menuCenterWrap > #btnStartQuiz img{
+  width:min(210px,100%) !important;
+  max-width:100% !important;
+}
+#startScreen #menuCenterWrap > #btnMenuLatihan img{
+  width:min(230px,100%) !important;
+  max-width:100% !important;
+}
+
+@media(max-width:430px){
+  #startScreen #menuCenterWrap{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:6px 8px !important;
+  }
+  #startScreen #menuCenterWrap > #btnStartQuiz,
+  #startScreen #menuCenterWrap > #btnMenuLatihan{
+    max-width:100% !important;
+  }
+  #startScreen #menuCenterWrap > #btnStartQuiz img{
+    width:min(160px,100%) !important;
+  }
+  #startScreen #menuCenterWrap > #btnMenuLatihan img{
+    width:min(175px,100%) !important;
+  }
+}
+
+/* Pada layar pendek, tetap pertahankan 2 kolom tanpa membuat halaman melebar. */
+@media(max-height:650px){
+  #startScreen #menuCenterWrap{gap:4px 8px !important;}
+  #startScreen #menuCenterWrap > #btnStartQuiz img{width:min(150px,100%) !important;}
+  #startScreen #menuCenterWrap > #btnMenuLatihan img{width:min(165px,100%) !important;}
+}
+</style>
+
+
+<style id="learning-vertical-gap-final">
+/* Perlebar sedikit jarak vertikal antar baris tombol huruf & angka. */
+#stage.simple-learning .chipstrip{
+  row-gap:21px !important;
+}
+@media(max-width:800px){
+  #stage.simple-learning .chipstrip{row-gap:18px !important;}
+}
+</style>
 </html>
+
+<style id="focus-letter-number-final">
+/* Fokus utama: huruf & angka, bukan bentuk tombol */
+#stage.simple-learning .chipstrip .chip{
+  border:0 !important;
+  border-radius:18px !important;
+  background:rgba(255,255,255,.38) !important;
+  box-shadow:none !important;
+  color:#1B2945 !important;
+  font-size:clamp(52px,9.5vw,92px) !important;
+  font-weight:1000 !important;
+  line-height:1 !important;
+  text-shadow:0 3px 0 rgba(255,255,255,.95), 0 5px 10px rgba(30,70,110,.18) !important;
+  -webkit-text-stroke:0 !important;
+  transform:translateZ(0) scale(1) !important;
+}
+#stage.simple-learning .chipstrip .chip:hover{
+  background:rgba(255,255,255,.52) !important;
+  box-shadow:0 5px 12px rgba(30,70,110,.10) !important;
+  transform:translateY(-2px) scale(1.04) !important;
+}
+#stage.simple-learning .chipstrip .chip:active{animation:learningTurnAround .68s cubic-bezier(.2,.8,.3,1) !important;
+  background:rgba(255,255,255,.62) !important;
+  transform:scale(.96) !important;
+}
+#stage.simple-learning .chipstrip .chip.number-chip{
+  color:#1267A8 !important;
+  border:0 !important;
+  background:rgba(255,255,255,.38) !important;
+  box-shadow:none !important;
+  text-shadow:0 3px 0 rgba(255,255,255,.95), 0 5px 10px rgba(30,100,160,.18) !important;
+}
+/* Hilangkan efek bentuk lama agar fokus tetap pada karakter */
+#stage.simple-learning .chipstrip .chip::before,
+#stage.simple-learning .chipstrip .chip::after{display:none !important;}
+
+/* Header diperbesar dan dibuat lebih dominan */
+#stage.simple-learning .topbar{
+  gap:21px !important;
+  margin-bottom:8px !important;
+  min-height:clamp(64px,9vh,92px) !important;
+}
+#stage.simple-learning .title-wrap{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  gap:16px !important;
+}
+#stage.simple-learning .title-wrap h1{
+  margin:0 !important;
+  line-height:.95 !important;
+  font-size:clamp(34px,6.2vw,58px) !important;
+  font-weight:1000 !important;
+  letter-spacing:.5px !important;
+}
+#stage.simple-learning .title-wrap h1 .title-line1{
+  font-size:1em !important;
+}
+#stage.simple-learning .title-wrap h1 .title-line2{
+  font-size:.72em !important;
+}
+#stage.simple-learning .title-wrap > span{
+  font-size:clamp(24px,4vw,34px) !important;
+}
+#stage.simple-learning .chipstrip{
+  margin-top:clamp(8px,1.5vh,16px) !important;
+}
+@media(max-width:600px){
+  #stage.simple-learning .topbar{min-height:58px !important;gap:7px !important;}
+  #stage.simple-learning .title-wrap{gap:5px !important;}
+  #stage.simple-learning .title-wrap h1{font-size:clamp(27px,8vw,42px) !important;}
+  #stage.simple-learning .title-wrap > span{font-size:20px !important;}
+  #stage.simple-learning .chipstrip .chip{
+    font-size:clamp(48px,13vw,72px) !important;
+    border-radius:14px !important;
+  }
+}
+</style>
+
+<style id="learning-buttons-final-80-effects">
+/* ===== FINAL: TOMBOL HURUF & ANGKA 80% + EFEK VISUAL AKTIF ===== */
+#stage.simple-learning .chipstrip .chip{
+  width:80% !important;
+  height:auto !important;
+  min-height:0 !important;
+  aspect-ratio:1/1 !important;
+  justify-self:center !important;
+  align-self:center !important;
+  transform:scale(1) !important;
+  animation:learningChipIdle 2.4s ease-in-out infinite !important;
+}
+
+/* Bentuk dan efek dikembalikan */
+#stage.simple-learning .chipstrip .chip::before,
+#stage.simple-learning .chipstrip .chip::after{
+  display:block !important;
+}
+
+/* Efek per bentuk */
+#stage.simple-learning.variant-star .chipstrip .chip{
+  border:0 !important;
+  background:linear-gradient(145deg,#fff8ad 0%,#ffd94c 50%,#efa500 100%) !important;
+  filter:drop-shadow(0 6px 0 #c78900) drop-shadow(0 9px 12px rgba(80,55,0,.18)) !important;
+}
+#stage.simple-learning.variant-bubble .chipstrip .chip{
+  border:4px solid #E8437E !important;
+  border-radius:45% !important;
+  background:radial-gradient(circle at 28% 19%,rgba(255,255,255,.95) 0 11%,transparent 12%),linear-gradient(145deg,#fff,#ffe8f4 50%,#ffb4d5) !important;
+  box-shadow:inset 0 4px 7px rgba(255,255,255,.9),0 8px 0 #c92e68,0 12px 18px rgba(65,35,75,.16) !important;
+}
+#stage.simple-learning.variant-cloud .chipstrip .chip{
+  border:3px solid #4c9ed0 !important;
+  border-radius:50% 50% 42% 42% / 48% 48% 36% 36% !important;
+  background:linear-gradient(145deg,#fff,#f1faff 52%,#bfe5ff) !important;
+  box-shadow:0 7px 0 #5d9fca,0 11px 17px rgba(45,100,140,.17) !important;
+}
+#stage.simple-learning.variant-toytile .chipstrip .chip{
+  border:4px solid rgba(255,255,255,.95) !important;
+  border-radius:21% !important;
+  background:linear-gradient(145deg,#fff0f7 0%,#ff9fc8 47%,#df3978 100%) !important;
+  color:#fff !important;
+  text-shadow:0 2px 0 rgba(140,25,75,.35) !important;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.8),inset 0 -6px 0 rgba(120,20,65,.2),0 9px 0 #a92458,0 13px 17px rgba(65,35,75,.2) !important;
+}
+#stage.simple-learning.variant-squircle .chipstrip .chip{
+  border-radius:27% !important;
+  background:linear-gradient(145deg,#fff,#fff4fa 52%,#ffd5e8) !important;
+  box-shadow:0 7px 0 #c92e68,0 10px 16px rgba(65,35,75,.16) !important;
+}
+
+/* Angka tetap biru tetapi ikut memakai efek tombol */
+#stage.simple-learning .chipstrip .chip.number-chip{
+  border-color:#237FCE !important;
+  color:#1267A8 !important;
+  background:linear-gradient(145deg,#fff,#eef8ff 52%,#b9e0ff) !important;
+  box-shadow:0 7px 0 #17639e,0 10px 16px rgba(35,76,120,.16) !important;
+}
+
+/* Hover/tekan */
+#stage.simple-learning .chipstrip .chip:hover{
+  transform:translateY(-3px) scale(1.05) !important;
+  filter:brightness(1.08) saturate(1.08) !important;
+}
+#stage.simple-learning .chipstrip .chip:active{
+  transform:scale(.94) !important;
+}
+
+/* Animasi idle tidak mengubah ukuran fisik tombol */
+@keyframes learningChipIdle{
+  0%,100%{filter:brightness(1) saturate(1);transform:scale(1);}
+  50%{filter:brightness(1.06) saturate(1.08);transform:scale(1.025);}
+}
+#stage.simple-learning .chipstrip .chip.chip-speaking{
+  animation:learningTurnAround80 .68s cubic-bezier(.2,.8,.3,1) !important;
+}
+@keyframes learningTurnAround80{
+  0%{transform:scale(1) rotate(0deg)}
+  22%{transform:scale(.86) rotate(80deg)}
+  50%{transform:scale(1.08) rotate(190deg)}
+  100%{transform:scale(1) rotate(360deg)}
+}
+
+@media(max-width:800px){
+  #stage.simple-learning .chipstrip .chip{
+    width:80% !important;
+    min-height:0 !important;
+    font-size:clamp(30px,9.2vw,62px) !important;
+  }
+}
+@media(max-width:600px){
+  #stage.simple-learning .chipstrip .chip{
+    width:80% !important;
+    font-size:clamp(40px,13vw,72px) !important;
+  }
+}
+</style>
+
+<style id="header-spacing-home-language-final">
+#stage.simple-learning .topbar{margin-bottom:28px !important; flex-wrap:nowrap !important;}
+#stage.simple-learning .topbar #btnKembali,
+#stage.simple-learning .topbar #btnLanguage{width:58px !important; min-width:58px !important; height:58px !important; min-height:58px !important; padding:0 !important; flex:0 0 58px !important; box-sizing:border-box !important;}
+#stage.simple-learning .topbar .title-wrap{min-width:0 !important; flex:1 1 auto !important; height:58px !important; padding:6px 10px !important; box-sizing:border-box !important; gap:8px !important;}
+#stage.simple-learning .topbar .title-wrap h1{gap:0 !important; line-height:1 !important; white-space:nowrap !important;}
+#stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:11px !important;}
+#stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:20px !important; white-space:nowrap !important;}
+@media(max-width:430px){#stage.simple-learning .topbar{margin-bottom:24px !important;}#stage.simple-learning .topbar #btnKembali,#stage.simple-learning .topbar #btnLanguage{width:50px !important;min-width:50px !important;height:50px !important;min-height:50px !important;flex-basis:50px !important;}#stage.simple-learning .topbar .title-wrap{height:50px !important;}#stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:16px !important;}}
+</style>
+
+<style id="final-user-layout-v21">
+/* Home: tukar posisi Latihan dan Kuis */
+#startScreen #btnStartQuiz{grid-column:2 !important;grid-row:1 !important;}
+#startScreen #btnMenuLatihan{grid-column:1 !important;grid-row:1 !important;}
+/* Belajar: tambah sedikit jarak header ke pilihan bentuk */
+#stage.simple-learning .learning-variant-picker{margin-top:24px !important;}
+@media(max-width:800px){#stage.simple-learning .learning-variant-picker{margin-top:18px !important;}}
+</style>
+
+<style id="writing-v24-fixes">
+/* Setting ukuran coretan hanya untuk halaman Menulis, 1-30px. */
+#stage.writing-mode .brush-size-panel{display:flex !important;align-items:center !important;}
+#stage.writing-mode #brushSize{min-width:140px;width:140px !important;}
+/* Grid huruf/angka dibuat lebih mudah dibaca. */
+#stage.writing-mode #chipStrip.writing-letter-grid .chip,
+#stage.writing-mode #chipStrip.writing-number-grid .chip{font-size:clamp(28px,4vw,42px) !important;font-weight:900 !important;}
+/* Menulis Angka tidak membutuhkan pemilih bentuk. */
+#stage.writing-mode #variantPickerAnchor,
+#stage.writing-mode .learning-variant-picker{display:none !important;}
+</style>
+<script id="writing-v24-init">
+(function(){
+ const r=document.getElementById('brushSize');
+ const v=document.getElementById('brushSizeValue');
+ if(r){ r.min='1'; r.max='30'; if(Number(r.value)>30) r.value='15'; if(v) v.textContent=r.value; r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
+})();
+</script>
+
+<style id="writing-v26-layout">#stage.writing-mode .canvaswrap{display:flex !important;flex-direction:column !important;}#stage.writing-mode .canvaswrap > .brush-size-panel{display:flex !important;width:100% !important;box-sizing:border-box !important;margin:0 0 8px !important;align-items:center !important;justify-content:center !important;}#stage.writing-mode .brush-size-panel #brushSize{flex:1 1 auto !important;width:auto !important;max-width:none !important;}</style>
+
+<style id="fix-home-quiz-latihan-v27">
+/* Home: posisi Latihan dan Kuis benar-benar ditukar */
+#startScreen #menuCenterWrap > #btnMenuLatihan{grid-area:quiz !important;}
+#startScreen #menuCenterWrap > #btnStartQuiz{grid-area:latihan !important;}
+</style>
