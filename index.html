@@ -2686,8 +2686,8 @@ body::before {
       <div class="canvaswrap" id="wrapMain">
 <div class="brush-size-panel" id="brushSizePanel" aria-label="Ukuran kuas">
             <span class="brush-size-label">Kuas</span>
-            <input id="brushSize" type="range" min="15" max="100" value="15" step="1" aria-label="Ukuran kuas">
-            <span id="brushSizeValue">24</span>
+            <input id="brushSize" type="range" min="30" max="100" value="60" step="1" aria-label="Ukuran kuas">
+            <span id="brushSizeValue">60</span>
           </div>
         <div class="learn-canvas-title" id="learnCanvasTitle" style="display:none">Bentuk Huruf</div>
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
@@ -5437,6 +5437,7 @@ if(typeof applyLanguage==='function') applyLanguage();
     if(home && !window.__v26HomeWrapped){
       window.__v26HomeWrapped=true;
       home.onclick=function(){
+        const wasWriting = writingMode;
         stage.style.display='none';
         writingMode=false;
         try{speechSynthesis.cancel();}catch(e){}
@@ -5447,10 +5448,11 @@ if(typeof applyLanguage==='function') applyLanguage();
         const start=document.getElementById('startScreen');
         if(start) start.style.display='';
         if(typeof applyLanguage==='function') applyLanguage();
-        if(typeof showSubMenu==='function') {
-           if(writingMode) showSubMenu();
-           else showMainMenu();
-         }
+        if(wasWriting){
+           if(typeof showSubMenu==='function') showSubMenu();
+        } else {
+           if(typeof showMainMenu==='function') showMainMenu();
+        }
       };
     }
   }
@@ -6113,7 +6115,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 (function(){
  const r=document.getElementById('brushSize');
  const v=document.getElementById('brushSizeValue');
- if(r){ r.min='15'; r.max='100'; if(Number(r.value)>100||Number(r.value)<15) r.value='15'; if(v) v.textContent=r.value; r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
+ if(r){ r.min='30'; r.max='100'; if(Number(r.value)>100||Number(r.value)<30) r.value='60'; if(v) v.textContent=r.value; r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
 })();
 </script>
 
@@ -6327,12 +6329,21 @@ if(typeof applyLanguage==='function') applyLanguage();
     text-align:center !important;
     width:100% !important;
   }
-  /* Teks pengucapan tetap sejajar (baris) dengan emoji wajah. */
+  /* Teks pengucapan diposisikan tepat di bawah emoji wajah (kolom),
+     supaya sejajar dengan pola ikon contoh + kata di sebelahnya. */
   #stage.writing-mode .siderow .card.ucap .ucap-row{
     display:flex !important;
-    flex-direction:row !important;
+    flex-direction:column !important;
     align-items:center !important;
     justify-content:center !important;
+    gap:6px !important;
+  }
+  #stage.writing-mode .siderow .card.ucap .ucap-row > div:not(.ucap-face){
+    flex:0 0 auto !important;
+    width:100% !important;
+  }
+  #stage.writing-mode .siderow .card.ucap .ucap-content{
+    text-align:center !important;
   }
   #stage.writing-mode .siderow .card.ucap .ucap-face{
     font-size:clamp(120px,10vw,164px) !important;
@@ -6360,13 +6371,23 @@ if(typeof applyLanguage==='function') applyLanguage();
     font-size:20px !important;
   }
   #stage.writing-mode .panel-toolbar #btnHandGuide{
-    font-size:20px !important;
-    padding:12px 20px !important;
+    font-size:23px !important;
+    padding:14px 24px !important;
+  }
+  #stage.writing-mode .panel-toolbar .colorpicker{
+    gap:14px !important;
+    padding:9px 14px !important;
+    border-radius:20px !important;
+  }
+  #stage.writing-mode .panel-toolbar .swatch{
+    width:32px !important;
+    height:32px !important;
+    border-width:4px !important;
   }
   #stage.writing-mode .panel-toolbar .helpicon{
-    width:52px !important;
-    height:52px !important;
-    font-size:28px !important;
+    width:62px !important;
+    height:62px !important;
+    font-size:32px !important;
   }
   #stage.writing-mode .brush-size-label{
     font-size:22px !important;
@@ -6381,3 +6402,172 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
 }
 </style>
+
+<style id="desktop-writing-chipstrip-enlarge-v28">
+@media (min-width:801px){
+  /* Submenu Menulis Huruf/Angka (desktop): perbesar strip huruf/angka. */
+  #stage.writing-mode #chipStrip.writing-letter-grid,
+  #stage.writing-mode #chipStrip.writing-number-grid{
+    width:min(1280px,96vw) !important;
+    gap:clamp(12px,1.6vw,24px) !important;
+  }
+  #stage.writing-mode #chipStrip.writing-letter-grid .chip{
+    flex:0 0 clamp(64px,7.8vw,98px) !important;
+    width:clamp(64px,7.8vw,98px) !important;
+    height:clamp(64px,7.8vw,98px) !important;
+    font-size:clamp(30px,3.2vw,46px) !important;
+    transform:scale(1) !important;
+    margin:0 !important;
+  }
+  #stage.writing-mode #chipStrip.writing-number-grid .chip{
+    flex:0 0 clamp(60px,7.2vw,92px) !important;
+    width:clamp(60px,7.2vw,92px) !important;
+    height:clamp(60px,7.2vw,92px) !important;
+    font-size:clamp(28px,3vw,42px) !important;
+    transform:scale(1) !important;
+    margin:0 !important;
+  }
+  #stage.writing-mode .writing-grid-arrow{
+    flex:0 0 46px !important;
+    width:46px !important;
+    height:64px !important;
+    font-size:50px !important;
+  }
+}
+</style>
+
+<style id="desktop-writing-popups-2x-v29">
+@media (min-width:801px){
+  /* Popup 1: Petunjuk (helpOverlay) - perbesar 2x lipat. Selektor dibatasi
+     ke #helpOverlay saja supaya popup Reset Progres (resetConfirmOverlay)
+     yang memakai class sama tidak ikut berubah. */
+  #helpOverlay .help-box{
+    width:min(1040px,96vw) !important;
+    padding:48px !important;
+    border-radius:56px !important;
+    border-width:10px !important;
+    box-shadow:0 20px 0 rgba(0,0,0,.18) !important;
+  }
+  #helpOverlay .help-icon{ font-size:88px !important; margin-bottom:8px !important; }
+  #helpOverlay .help-title{ font-size:50px !important; margin:0 0 20px !important; }
+  #helpOverlay .help-text{ font-size:32px !important; line-height:1.55 !important; margin:0 0 36px !important; }
+  #helpOverlay .help-box .pillbtn{ font-size:32px !important; padding:24px 44px !important; }
+
+  /* Popup 2: selebrasi setelah menulis benar. celebrateOverlay dan
+     actionOverlay sama-sama memakai class .celebrate-box, jadi keduanya
+     otomatis berukuran identik selama diperbesar lewat selector ini. */
+  #celebrateOverlay .celebrate-box,
+  #actionOverlay .celebrate-box{
+    padding:68px 80px !important;
+    border-radius:64px !important;
+    border-width:12px !important;
+    box-shadow:0 20px 0 rgba(0,0,0,.2) !important;
+  }
+  #celebrateOverlay .celebrate-emoji{ font-size:112px !important; }
+  #celebrateOverlay .celebrate-title,
+  #actionOverlay .celebrate-title{ font-size:60px !important; }
+  #celebrateOverlay .celebrate-sub,
+  #actionOverlay .celebrate-sub{ font-size:26px !important; }
+  #actionOverlay .pillbtn{ font-size:32px !important; padding:24px 44px !important; }
+  #actionOverlay .celebrate-box > div[style]{ gap:48px !important; margin-top:30px !important; }
+}
+</style>
+
+<style id="desktop-writing-toolbar-corner-v30">
+@media (min-width:801px){
+  /* Kelompok tombol (Contoh Gerakan, pilihan warna, Petunjuk) dipindah
+     menjadi satu kelompok mengambang di pojok kanan atas tracepanel. */
+  #stage.writing-mode .tracepanel .panel-toolbar{
+    justify-content:flex-start !important;
+  }
+  #stage.writing-mode .tracepanel .panel-toolbar .toolbar-actions{
+    position:absolute !important;
+    top:14px !important;
+    right:14px !important;
+    left:auto !important;
+    z-index:7 !important;
+    gap:12px !important;
+    background:rgba(255,255,255,.92) !important;
+    padding:8px 12px !important;
+    border-radius:22px !important;
+    box-shadow:0 4px 0 rgba(0,0,0,.12) !important;
+  }
+
+  /* Nama tracepanel (petunjuk "Gambar dengan jari / mouse") diperbesar. */
+  #stage.writing-mode .panel-toolbar .speak-hint{
+    font-size:26px !important;
+  }
+
+  /* Pilihan warna: hanya warna aktif yang terlihat; warna lain muncul
+     saat tombol warna ditekan. */
+  #stage.writing-mode .panel-toolbar .colorpicker .swatch:not(.active){
+    display:none !important;
+  }
+  #stage.writing-mode .panel-toolbar .colorpicker.expanded .swatch{
+    display:inline-block !important;
+  }
+  #stage.writing-mode .panel-toolbar .colorpicker.expanded .swatch.custom{
+    display:flex !important;
+  }
+
+  /* Judul kartu di sidebar (Contoh Kata / Cara Mengucapkan) di tengah atas. */
+  #stage.writing-mode .siderow .card h3{
+    text-align:center !important;
+    width:100% !important;
+  }
+}
+</style>
+<script id="desktop-writing-colorpicker-collapse-v30">
+(function(){
+  function initColorpickerCollapse(){
+    const picker = document.getElementById('colorPicker');
+    if(!picker || picker.__collapseBound) return;
+    picker.__collapseBound = true;
+    const collapse = () => picker.classList.remove('expanded');
+    const expand = () => picker.classList.add('expanded');
+    // Capture phase supaya klik pertama (saat tertutup) bisa dihentikan
+    // sebelum sampai ke tombol warna itu sendiri -- klik pertama hanya
+    // membuka pilihan warna, belum memilih warna.
+    picker.addEventListener('click', function(e){
+      if(!picker.classList.contains('expanded')){
+        e.preventDefault();
+        e.stopPropagation();
+        expand();
+        return;
+      }
+      const target = e.target.closest ? e.target.closest('.swatch') : null;
+      if(target){
+        setTimeout(collapse, 150);
+      }
+    }, true);
+    document.addEventListener('click', function(e){
+      if(picker.classList.contains('expanded') && !picker.contains(e.target)){
+        collapse();
+      }
+    });
+    // Tandai swatch kustom sebagai aktif saat warna kustom dipilih, supaya
+    // tetap ada satu warna yang terlihat ketika pilihan warna tertutup.
+    const customInput = document.getElementById('colorCustom');
+    if(customInput && !customInput.__collapseMarkBound){
+      customInput.__collapseMarkBound = true;
+      customInput.addEventListener('input', function(){
+        const customSwatch = picker.querySelector('.swatch.custom');
+        if(customSwatch) customSwatch.classList.add('active');
+      });
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initColorpickerCollapse,{once:true});
+  else initColorpickerCollapse();
+})();
+</script>
+
+<style id="desktop-writing-brush-panel-lower-v31">
+@media (min-width:801px){
+  /* Turunkan panel ukuran kuas supaya tidak tertumpuk dengan kelompok
+     tombol yang mengambang di pojok kanan atas tracepanel. */
+  #stage.writing-mode .tracepanel > .brush-size-panel{
+    margin-top:88px !important;
+  }
+}
+</style>
+
