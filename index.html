@@ -4702,7 +4702,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 </style>
 <div id="additionScreen">
  <div class="addbox">
-  <h1 class="display" id="addTitle">➕ Belajar Penjumlahan</h1>
+  <h1 class="display" id="addTitle"><span id="addTitleText">➕ Penjumlahan</span><img src="assets/penjumlahan.png" alt="Penjumlahan" id="addTitleImg" class="math-title-img" style="display:none;"></h1>
   <div class="addprogress" id="addProgress"></div>
   <div class="addq" id="addQuestion"></div>
   <p class="addhint" id="addHint">🔢 Tekan angka jawabannya:</p>
@@ -4824,15 +4824,18 @@ document.getElementById('quizHomeBtn').onclick = () => {
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1} · Skor: ${addScore}`;
    window._lastAddOk=ok;
+   if(window.innerWidth>=801){
+     setTimeout(()=>{ ok ? nextAddQuestion() : retryAdd(); }, 1800);
+   }
  }
  window.applyAddSubLanguage=function(){
     const setText=(id,text)=>{ const el=document.getElementById(id); if(el) el.textContent=text; };
-    setText('addTitle','➕ Belajar Penjumlahan');
+    setText('addTitleText','➕ Penjumlahan');
     setText('addHint','🔢 Tekan angka jawabannya:');
     setText('addCheckBtn','✅ Periksa');
     setText('addRetryBtn','🔄 Coba Lagi');
     setText('addNextBtn','➡️ Berikutnya');
-    setText('subTitle','➖ Belajar Pengurangan');
+    setText('subTitleText','➖ Pengurangan');
     setText('subHint','🔢 Tekan angka jawabannya:');
     setText('subCheckBtn','✅ Periksa');
     setText('subRetryBtn','🔄 Coba Lagi');
@@ -4870,7 +4873,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 </style>
 <div id="subtractionScreen">
  <div class="addbox subbox">
-  <h1 class="display" id="subTitle">➖ Belajar Pengurangan</h1>
+  <h1 class="display" id="subTitle"><span id="subTitleText">➖ Pengurangan</span><img src="assets/pengurangan.png" alt="Pengurangan" id="subTitleImg" class="math-title-img" style="display:none;"></h1>
   <div class="addprogress" id="subProgress"></div>
   <div class="addq" id="subQuestion"></div>
   <p class="addhint" id="subHint">🔢 Tekan angka jawabannya:</p>
@@ -4966,6 +4969,9 @@ document.getElementById('quizHomeBtn').onclick = () => {
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1} · Skor: ${subScore}`;
    window._lastSubOk=ok;
+   if(window.innerWidth>=801){
+     setTimeout(()=>{ ok ? nextSubQuestion() : retrySub(); }, 1800);
+   }
  }
  window.retrySub=function(){
    document.getElementById('subPopup').classList.remove('show');
@@ -6654,4 +6660,139 @@ if(typeof applyLanguage==='function') applyLanguage();
   window.addEventListener('resize', applyDesktopHomeOrder);
 })();
 </script>
+
+<style id="desktop-math-custom-v1">
+@media (min-width:801px){
+  /* Judul: teks disembunyikan, diganti gambar penjumlahan.png / pengurangan.png */
+  #additionScreen .addbox h1,#subtractionScreen .addbox h1{
+    margin-bottom:clamp(6px,1vh,12px) !important;
+  }
+  #additionScreen #addTitleText,#subtractionScreen #subTitleText{
+    display:none !important;
+  }
+  #additionScreen #addTitleImg,#subtractionScreen #subTitleImg{
+    display:block !important;
+    height:clamp(70px,9vh,120px) !important;
+    width:auto !important;
+    margin:0 auto !important;
+  }
+
+  /* Progres soal & skor: sedikit diperbesar dan diberi warna emas */
+  #additionScreen .addprogress,#subtractionScreen .addprogress{
+    margin-top:clamp(24px,3vh,40px) !important;
+    font-size:clamp(20px,1.6vw,28px) !important;
+    color:#D4A017 !important;
+    font-weight:800 !important;
+  }
+
+  /* Teks soal & tampilan jawaban: soal diperbesar 50% lagi tanpa mengubah ukuran kotaknya. */
+  #additionScreen .addq,#subtractionScreen .addq{
+    font-size:clamp(144px,13.5vw,192px) !important;
+    padding:clamp(6px,1vh,12px) 12px !important;
+  }
+  #additionScreen .addanswer-display,#subtractionScreen .addanswer-display{
+    font-size:clamp(96px,9vw,128px) !important;
+    padding:6px 24px !important;
+  }
+
+  /* Keypad: tinggi 2x, jarak horizontal dipersempit lagi, jarak dengan kotak jawaban ditambah lagi,
+     tulisan di tengah tombol */
+  #additionScreen .addkeypad,#subtractionScreen .addkeypad{
+    row-gap:clamp(10px,1.1vw,16px) !important;
+    column-gap:clamp(6px,.6vw,10px) !important;
+    margin-top:clamp(36px,4.5vh,56px) !important;
+  }
+  #additionScreen .addkey,#subtractionScreen .addkey{
+    height:clamp(108px,12vh,144px) !important;
+    min-height:clamp(108px,12vh,144px) !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+
+  /* Tombol Periksa: dihilangkan */
+  #additionScreen .addbtn-row #addCheckBtn,
+  #subtractionScreen .addbtn-row #subCheckBtn{
+    display:none !important;
+  }
+
+  /* Tombol rumah: digeser ke tengah baris (otomatis jadi satu-satunya elemen)
+     dan diubah dari ikon menjadi tulisan "Kembali ke Menu" lewat script di bawah. */
+  #additionScreen .addbtn-row,#subtractionScreen .addbtn-row{
+    justify-content:center !important;
+  }
+  #additionScreen .addbtn-row .homebtn,#subtractionScreen .addbtn-row .homebtn{
+    width:auto !important;
+    min-width:0 !important;
+    height:auto !important;
+    background:none !important;
+    box-shadow:none !important;
+    border-radius:0 !important;
+    color:var(--ink) !important;
+    font-size:clamp(30px,2.8vw,42px) !important;
+    padding:8px 12px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+  #additionScreen .addbtn-row .homebtn:active,#subtractionScreen .addbtn-row .homebtn:active{
+    box-shadow:none !important;
+  }
+
+  /* Popup hasil: dibesarkan 2x, tombol Coba Lagi & Berikutnya dihilangkan
+     (soal berikutnya/ulang otomatis dijalankan lewat script). */
+  #addPopup .celebrate-box,#subPopup .celebrate-box{
+    width:min(1200px,90vw) !important;
+    padding:clamp(60px,8vh,104px) clamp(68px,8vw,120px) !important;
+    border-radius:68px !important;
+  }
+  #addPopup .celebrate-title,#subPopup .celebrate-title{
+    font-size:clamp(56px,5vw,84px) !important;
+  }
+  #addPopup .celebrate-emoji,#subPopup .celebrate-emoji{
+    font-size:clamp(108px,10vw,160px) !important;
+  }
+  #addPopup #addRetryBtn,#addPopup #addNextBtn,
+  #subPopup #subRetryBtn,#subPopup #subNextBtn{
+    display:none !important;
+  }
+}
+</style>
+<script id="desktop-math-homebtn-label-v1">
+(function(){
+  function updateMathHomeBtnLabel(){
+    const isDesktop = window.innerWidth >= 801;
+    document.querySelectorAll('#additionScreen .addbtn-row .homebtn, #subtractionScreen .addbtn-row .homebtn').forEach(btn=>{
+      btn.textContent = isDesktop ? '← Kembali ke Menu' : '🏠';
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', updateMathHomeBtnLabel, {once:true});
+  else updateMathHomeBtnLabel();
+  window.addEventListener('resize', updateMathHomeBtnLabel);
+})();
+</script>
+
+<style id="desktop-writing-title-images-v1">
+@media (min-width:801px){
+  /* Halaman Menulis Huruf & Menulis Angka: judul teks diganti gambar
+     menulis_huruf.png / menulis_angka.png. #stage sudah punya class
+     'writing-huruf' hanya saat mode huruf, jadi dipakai untuk membedakan. */
+  #stage.writing-mode .topbar .title-wrap h1#mainTitle{
+    color:transparent !important;
+    font-size:0 !important;
+    line-height:0 !important;
+    width:clamp(140px,12vw,220px) !important;
+    height:100% !important;
+    background-repeat:no-repeat !important;
+    background-position:center !important;
+    background-size:contain !important;
+  }
+  #stage.writing-mode.writing-huruf .topbar .title-wrap h1#mainTitle{
+    background-image:url('assets/menulis_huruf.png') !important;
+  }
+  #stage.writing-mode:not(.writing-huruf) .topbar .title-wrap h1#mainTitle{
+    background-image:url('assets/menulis_angka.png') !important;
+  }
+}
+</style>
 
