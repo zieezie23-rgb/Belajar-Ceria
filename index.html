@@ -4162,7 +4162,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   </div>
   <div class="addbtn-row">
    <button class="pillbtn green" id="addCheckBtn" onclick="checkAddAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showMainMenu();">🏠</button>
+   <button class="pillbtn gray homebtn" aria-label="Latihan" title="Latihan" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();">🏠</button>
   </div>
  </div>
 </div>
@@ -4324,7 +4324,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   </div>
   <div class="addbtn-row">
    <button class="pillbtn orange" id="subCheckBtn" onclick="checkSubAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray homebtn" aria-label="Beranda" title="Beranda" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showMainMenu();">🏠</button>
+   <button class="pillbtn gray homebtn" aria-label="Latihan" title="Latihan" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();">🏠</button>
   </div>
  </div>
 </div>
@@ -4862,7 +4862,8 @@ if(typeof applyLanguage==='function') applyLanguage();
       };
     }
 
-    // Home pada semua halaman latihan/menulis kembali ke submenu Latihan.
+    // Home pada halaman Belajar kembali ke Menu Utama;
+    // Home pada halaman Menulis/Latihan kembali ke submenu Latihan.
     const home=document.getElementById('btnKembali');
     if(home && !window.__v26HomeWrapped){
       window.__v26HomeWrapped=true;
@@ -4877,7 +4878,10 @@ if(typeof applyLanguage==='function') applyLanguage();
         const start=document.getElementById('startScreen');
         if(start) start.style.display='';
         if(typeof applyLanguage==='function') applyLanguage();
-        if(typeof showSubMenu==='function') showSubMenu();
+        if(typeof showSubMenu==='function') {
+           if(writingMode) showSubMenu();
+           else showMainMenu();
+         }
       };
     }
   }
