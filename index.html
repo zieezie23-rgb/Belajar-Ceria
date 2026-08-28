@@ -2737,7 +2737,7 @@ body::before {
     <div class="quiz-result" id="quizResult"></div>
     <div class="quiz-actions">
       <button class="pillbtn orange" id="quizNextBtn" type="button" style="display:none;">➡️ Berikutnya</button>
-      <button class="pillbtn gray" id="quizHomeBtn" type="button">🏠 Menu Utama</button>
+      <button class="pillbtn gray" id="quizHomeBtn" type="button">🏠 Kembali ke Menu Utama</button>
     </div>
   </div>
 </div>
@@ -4533,6 +4533,7 @@ function renderQuizQuestion(){
   document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 15 · ⭐ ${quizState.score}`;
   document.getElementById('quizVisual').textContent = q.visual;
   document.getElementById('quizVisual').classList.toggle('quiz-visual-animal', q.type === 'animal-letter' || q.type === 'animal-name');
+  document.getElementById('quizVisual').classList.toggle('quiz-visual-fruit', q.type === 'fruit-count');
   document.getElementById('quizQuestion').textContent = q.text;
   document.getElementById('quizResult').textContent = '';
   document.getElementById('quizNextBtn').style.display = 'none';
@@ -5528,6 +5529,19 @@ if(typeof applyLanguage==='function') applyLanguage();
 }
 </style>
 
+
+<style id="desktop-quiz-title-single-line">
+@media (min-width:801px){
+  #quizScreen .quiz-title{
+    white-space:nowrap !important;
+    width:100% !important;
+    max-width:none !important;
+    font-size:clamp(72px,8vw,140px) !important;
+    letter-spacing:-1px !important;
+  }
+}
+</style>
+
 </body>
 
 <style id="desktop-v6-home-initial-state">
@@ -5933,6 +5947,102 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
 }
 </style>
+
+<style id="desktop-quiz-refinement-v1">
+@media (min-width:801px){
+  /* KUIS DESKTOP */
+  #quizScreen .quiz-title{
+    font-size:clamp(92px,8.4vw,132px) !important;
+    line-height:.95 !important;
+    margin-bottom:clamp(18px,2.2vh,30px) !important;
+  }
+  #quizScreen .quiz-score{
+    font-size:clamp(34px,2.6vw,44px) !important;
+    margin-top:clamp(22px,2.5vh,34px) !important;
+    margin-bottom:clamp(18px,2vh,28px) !important;
+    line-height:1.05 !important;
+  }
+  #quizScreen .quiz-visual.quiz-visual-animal{
+    font-size:clamp(120px,16vw,220px) !important;
+    line-height:1 !important;
+    margin:clamp(8px,1vh,16px) 0 !important;
+  }
+  /* Buah: maksimal 5 per baris, otomatis menjadi baris kedua bila >5. */
+  #quizScreen .quiz-visual.quiz-visual-fruit{
+    display:block !important;
+    width:min(900px,100%) !important;
+    margin:clamp(10px,1.5vh,18px) auto !important;
+    font-size:clamp(87px,9vw,141px) !important;
+    line-height:1.05 !important;
+    letter-spacing:clamp(2px,.35vw,6px) !important;
+    white-space:normal !important;
+    overflow-wrap:anywhere !important;
+  }
+  #quizScreen .quiz-question{
+    font-size:clamp(56px,5vw,82px) !important;
+  }
+  #quizScreen .quiz-options{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:clamp(12px,1.4vh,20px) !important;
+    width:min(1100px,100%) !important;
+  }
+  #quizScreen .quiz-option{
+    min-height:clamp(100px,11vh,140px) !important;
+    border-radius:999px !important;
+    font-size:clamp(84px,8vw,128px) !important;
+    line-height:1 !important;
+    padding:16px 34px !important;
+    gap:clamp(24px,2vw,36px) !important;
+  }
+  #quizScreen .quiz-option-label{
+    width:clamp(64px,5vw,84px) !important;
+    height:clamp(64px,5vw,84px) !important;
+    font-size:clamp(36px,3vw,48px) !important;
+    flex-basis:clamp(64px,5vw,84px) !important;
+  }
+  #quizScreen .quiz-actions #quizNextBtn{display:none !important;}
+  #quizScreen .quiz-actions #quizHomeBtn{
+    background:transparent !important;
+    border:0 !important;
+    box-shadow:none !important;
+    min-height:0 !important;
+    padding:10px 8px !important;
+    color:#5638A0 !important;
+    font-size:clamp(30px,2.4vw,40px) !important;
+    font-weight:900 !important;
+    border-radius:0 !important;
+  }
+  #quizScreen .quiz-actions #quizHomeBtn:hover{
+    background:transparent !important;
+    transform:none !important;
+    text-decoration:underline;
+  }
+}
+</style>
+
+<style id="desktop-quiz-refinement-v2-user">
+@media (min-width:801px){
+  /* Hanya perubahan lanjutan dari baseline Kuis revisi pertama */
+  #quizScreen .quiz-title{
+    font-size:clamp(138px,12.6vw,198px) !important;
+  }
+
+  #quizScreen .quiz-score{
+    margin-top:clamp(40px,4.5vh,58px) !important;
+  }
+
+  #quizScreen .quiz-visual.quiz-visual-animal{
+    font-size:clamp(240px,32vw,440px) !important;
+  }
+
+  #quizScreen .quiz-visual.quiz-visual-fruit{
+    font-size:clamp(131px,13.5vw,212px) !important;
+  }
+}
+</style>
+
 </html>
 
 <style id="focus-letter-number-final">
