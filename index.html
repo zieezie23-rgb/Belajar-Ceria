@@ -2623,7 +2623,7 @@ body::before {
         <div class="counting-score-row"><span>➖ Pengurangan</span><strong id="subtractionScoreMenu">0</strong></div>
         <div class="counting-score-total"><span>Total Score</span><strong id="countingScoreMenu">0</strong></div>
       </div>
-      <button class="sub-menu-title" type="button" id="backMainFromLatihan">← Kembali ke Menu Utama</button>
+      <button class="sub-menu-title" type="button" id="backMainFromLatihan">🏠 Kembali ke Menu Utama</button>
     </div>
   </div>
   <button class="reset-progress-btn" id="btnResetProgress" type="button" aria-label="Reset Pencapaian" title="Reset Pencapaian"><span class="reset-icon">↺</span> Reset</button>
@@ -5530,14 +5530,59 @@ if(typeof applyLanguage==='function') applyLanguage();
 </style>
 
 
-<style id="desktop-quiz-title-single-line">
+<style id="desktop-training-score-v2">
 @media (min-width:801px){
-  #quizScreen .quiz-title{
-    white-space:nowrap !important;
-    width:100% !important;
-    max-width:none !important;
-    font-size:clamp(72px,8vw,140px) !important;
-    letter-spacing:-1px !important;
+  /* Papan Score: perbesar teks 100% lagi */
+  #stage .counting-score-card,
+  #stage .counting-score-card *{
+    font-size:200% !important;
+  }
+
+  /* Kembali ke Menu Utama: ganti ikon panah menjadi ikon Home */
+  #stage .btn-back-menu{
+    font-size:clamp(20px,1.8vw,30px) !important;
+  }
+}
+</style>
+<script id="desktop-training-home-label-v2">
+(function(){
+  function updateTrainingBackLabel(){
+    const btn = document.querySelector('#stage .btn-back-menu');
+    if(!btn) return;
+    if(btn.dataset.homeLabelDone === '1') return;
+    btn.textContent = '🏠 Kembali ke Menu Utama';
+    btn.dataset.homeLabelDone = '1';
+  }
+  document.addEventListener('DOMContentLoaded', updateTrainingBackLabel);
+  const obs = new MutationObserver(updateTrainingBackLabel);
+  obs.observe(document.documentElement, {childList:true, subtree:true});
+})();
+</script>
+
+
+<style id="desktop-training-score-v3">
+@media (min-width:801px){
+  /* Hanya teks Papan Score yang diperbesar 100% (2x ukuran awal). */
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard .counting-score-title{
+    font-size:26px !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard .counting-score-row,
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard .counting-score-total{
+    font-size:30px !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard .counting-score-row strong{
+    font-size:26px !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard .counting-score-total{
+    font-size:32px !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard .counting-score-total strong{
+    font-size:44px !important;
+  }
+
+  /* Home: sedikit diperbesar, tanpa membuat tombol/shape baru. */
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #backMainFromLatihan{
+    font-size:28px !important;
   }
 }
 </style>
@@ -6021,28 +6066,6 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
 }
 </style>
-
-<style id="desktop-quiz-refinement-v2-user">
-@media (min-width:801px){
-  /* Hanya perubahan lanjutan dari baseline Kuis revisi pertama */
-  #quizScreen .quiz-title{
-    font-size:clamp(138px,12.6vw,198px) !important;
-  }
-
-  #quizScreen .quiz-score{
-    margin-top:clamp(40px,4.5vh,58px) !important;
-  }
-
-  #quizScreen .quiz-visual.quiz-visual-animal{
-    font-size:clamp(240px,32vw,440px) !important;
-  }
-
-  #quizScreen .quiz-visual.quiz-visual-fruit{
-    font-size:clamp(131px,13.5vw,212px) !important;
-  }
-}
-</style>
-
 </html>
 
 <style id="focus-letter-number-final">
