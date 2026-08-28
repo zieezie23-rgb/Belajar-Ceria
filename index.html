@@ -3452,9 +3452,10 @@ function renderHurufPair(svgEl, upper, lower){
 function setupCanvas(canvas){
   const ctx = canvas.getContext('2d');
   let currentColor = '#0B1F4E';
+  let currentBrushSize = 24;
   function applyStyle(){
     ctx.strokeStyle = currentColor;
-    ctx.lineWidth = 24;
+    ctx.lineWidth = currentBrushSize;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
   }
@@ -3490,7 +3491,7 @@ function setupCanvas(canvas){
     clear: () => ctx.clearRect(0,0,canvas.width,canvas.height),
     resize,
     setColor: (c) => { currentColor = c; ctx.strokeStyle = c; },
-    setBrushSize: (size) => { ctx.lineWidth = Number(size) || 24; },
+    setBrushSize: (size) => { currentBrushSize = Number(size) || 24; ctx.lineWidth = currentBrushSize; },
     setOnStrokeEnd: (fn) => { onStrokeEnd = fn; }
   };
 }
@@ -5400,6 +5401,29 @@ if(typeof applyLanguage==='function') applyLanguage();
     }
   }
 
+  // Ikon Contoh (buah/kata contoh): tekan untuk memutar suara kata contoh,
+  // tanpa menampilkan gelembung/tooltip apa pun.
+  const contohVisual = document.getElementById('contohVisual');
+  if(contohVisual && !contohVisual.__speakOnClickBound){
+    contohVisual.__speakOnClickBound = true;
+    contohVisual.style.cursor = 'pointer';
+    contohVisual.title = 'Putar Suara';
+    contohVisual.setAttribute('role','button');
+    contohVisual.setAttribute('aria-label','Putar Suara');
+    contohVisual.addEventListener('click', function(){
+      try{
+        const item = mode === 'huruf' ? LETTERS[index] : NUMBERS[index];
+        if(!item) return;
+        const text = currentWord(item);
+        if(!text) return;
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'id-ID'; u.rate = .82; u.pitch = 1.05;
+        speechSynthesis.speak(u);
+      }catch(e){}
+    });
+  }
+
   // Hindari flash/lag saat masuk pertama kali: render dulu dalam keadaan transparan.
   if(stage){
     const originalStart = window.startApp;
@@ -6561,13 +6585,73 @@ if(typeof applyLanguage==='function') applyLanguage();
 })();
 </script>
 
-<style id="desktop-writing-brush-panel-lower-v31">
+<style id="desktop-writing-brush-panel-lower-v32">
 @media (min-width:801px){
   /* Turunkan panel ukuran kuas supaya tidak tertumpuk dengan kelompok
-     tombol yang mengambang di pojok kanan atas tracepanel. */
+     tombol yang mengambang di pojok kanan atas tracepanel (dinaikkan
+     sedikit lagi dari versi sebelumnya). */
   #stage.writing-mode .tracepanel > .brush-size-panel{
-    margin-top:88px !important;
+    margin-top:60px !important;
   }
 }
 </style>
+
+<style id="desktop-home-reorder-v34">
+@media (min-width:801px){
+  /* Halaman utama (desktop): urutan baru dari atas ke bawah adalah
+     Judul -> Input Nama -> Subjudul (5px di bawah input nama) -> Belajar ->
+     Latihan & Kuis -> Bintang/Medali.
+     Catatan: posisi baris grid untuk .start-sub / .start-name-row juga
+     dipaksa lewat skrip di bawah karena ada aturan !important lama yang
+     lebih kuat dari override CSS biasa. */
+  #startScreen .start-sub{
+    margin-top:-3px !important;
+  }
+
+  /* Bintang & Medali: diperkecil lagi dari versi sebelumnya. */
+  #startScreen .progress-card{
+    font-size:20px !important;
+    padding:16px 24px !important;
+    border-radius:24px !important;
+    width:min(450px,96%) !important;
+    margin:14px auto 0 !important;
+  }
+  #startScreen .progress-card strong{
+    font-size:28px !important;
+  }
+}
+</style>
+<script id="desktop-home-order-force-v34">
+(function(){
+  function applyDesktopHomeOrder(){
+    if(window.innerWidth < 801) return;
+    var wrap = document.getElementById('menuCenterWrap');
+    if(!wrap) return;
+    var nameRow = wrap.querySelector('.start-name-row');
+    var sub = wrap.querySelector('.start-sub');
+    var belajar = document.getElementById('mainMenuOptions');
+    var progress = document.getElementById('progressCard');
+    wrap.style.setProperty('row-gap','8px','important');
+    if(nameRow){
+      nameRow.style.setProperty('grid-row','1','important');
+      nameRow.style.setProperty('grid-column','1 / -1','important');
+    }
+    if(sub){
+      sub.style.setProperty('grid-row','2','important');
+      sub.style.setProperty('grid-column','1 / -1','important');
+    }
+    if(belajar){
+      belajar.style.setProperty('grid-row','3','important');
+      belajar.style.setProperty('grid-column','1 / -1','important');
+    }
+    if(progress){
+      progress.style.setProperty('grid-row','5','important');
+      progress.style.setProperty('grid-column','1 / -1','important');
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', applyDesktopHomeOrder, {once:true});
+  else applyDesktopHomeOrder();
+  window.addEventListener('resize', applyDesktopHomeOrder);
+})();
+</script>
 
