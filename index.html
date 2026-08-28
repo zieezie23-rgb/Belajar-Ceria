@@ -2724,6 +2724,8 @@ body::before {
     <button class="pillbtn green" id="btnNext">Berikutnya ⟶</button>
   </div>
 
+  <div class="writing-home-row" id="writingHomeRow"></div>
+
 </div>
 
 <div id="quizScreen" aria-modal="true" role="dialog">
@@ -6993,3 +6995,82 @@ if(typeof applyLanguage==='function') applyLanguage();
 })();
 </script>
 
+
+<style id="desktop-writing-home-relocate-v1">
+@media (min-width:801px){
+  /* Submenu Menulis Huruf/Angka (desktop): tombol Home dipindah ke baris
+     baru di bawah bottom nav (lihat script pendampingnya), bentuk pil
+     dihapus dan ikon diganti teks "← Kembali ke Menu Utama". Karena
+     topbar tidak lagi memuat tombol Home, header jadi lebih lega,
+     sehingga logo judul (menulis_huruf.png / menulis_angka.png) ikut
+     diperbesar. */
+
+  #stage.writing-mode .writing-home-row{
+    display:flex !important;
+    justify-content:center !important;
+    margin-top:16px !important;
+  }
+  #stage.writing-mode .writing-home-row #btnKembali{
+    width:auto !important;
+    min-width:0 !important;
+    height:auto !important;
+    min-height:0 !important;
+    background:none !important;
+    box-shadow:none !important;
+    border:none !important;
+    border-radius:0 !important;
+    color:var(--ink) !important;
+    font-size:clamp(24px,2vw,30px) !important;
+    font-weight:800 !important;
+    padding:10px 20px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+  #stage.writing-mode .writing-home-row #btnKembali:active{
+    box-shadow:none !important;
+    transform:scale(.97);
+  }
+
+  /* Header lebih lega (tanpa tombol Home) + logo judul diperbesar. */
+  #stage.writing-mode .topbar{
+    min-height:clamp(150px,19vh,204px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap{
+    height:clamp(146px,18vh,196px) !important;
+    max-width:min(1000px,78vw) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap h1#mainTitle{
+    width:clamp(190px,16vw,300px) !important;
+  }
+}
+</style>
+<script id="desktop-writing-home-relocate-v1-js">
+(function(){
+  const stage = document.getElementById('stage');
+  const topbar = stage ? stage.querySelector('.topbar') : null;
+  const homeBtn = document.getElementById('btnKembali');
+  const homeRow = document.getElementById('writingHomeRow');
+  if(!stage || !topbar || !homeBtn || !homeRow) return;
+
+  const homeAnchor = document.createComment('home-btn-anchor');
+  topbar.insertBefore(homeAnchor, homeBtn);
+  const homeLabelDefault = homeBtn.textContent;
+
+  function relocateHomeBtn(){
+    const isDesktop = window.innerWidth >= 801;
+    const isWriting = stage.classList.contains('writing-mode');
+    if(isDesktop && isWriting){
+      if(homeBtn.parentElement !== homeRow) homeRow.appendChild(homeBtn);
+      homeBtn.textContent = '← Kembali ke Menu Utama';
+    } else {
+      if(homeBtn.parentElement !== topbar) homeAnchor.after(homeBtn);
+      homeBtn.textContent = homeLabelDefault;
+    }
+  }
+
+  relocateHomeBtn();
+  window.addEventListener('resize', relocateHomeBtn);
+  new MutationObserver(relocateHomeBtn).observe(stage, {attributes:true, attributeFilter:['class']});
+})();
+</script>
