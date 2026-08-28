@@ -2062,6 +2062,449 @@ body::before {
   animation:none;
 }
 </style>
+
+<style id="desktop-v4-visibility-and-learning-fix">
+/* ===== V4: screen isolation + single learning button style ===== */
+#quizScreen[style*="display: none"],
+#additionScreen[style*="display: none"],
+#subtractionScreen[style*="display: none"],
+#stage[style*="display: none"],
+#startScreen[style*="display: none"]{
+  display:none !important;
+}
+/* Pilihan shape sudah tidak ditampilkan; Belajar memakai 3D Toy saja. */
+.learning-variant-picker{display:none !important;}
+</style>
+
+<style id="desktop-v4-layout">
+@media (min-width:801px){
+  html,body{width:100%;height:100%;overflow:hidden !important;}
+  body{min-height:100dvh;}
+
+  /* Hanya satu screen aktif pada satu waktu. */
+  #startScreen[style*="display: none"],
+  #stage[style*="display: none"],
+  #quizScreen[style*="display: none"],
+  #additionScreen[style*="display: none"],
+  #subtractionScreen[style*="display: none"]{display:none !important;}
+
+  /* Halaman utama/submenu: kartu memakai ruang desktop tanpa mengubah struktur. */
+  #startScreen{inset:0 !important;width:100vw !important;height:100dvh !important;min-height:100dvh !important;overflow:hidden !important;}
+  #startScreen .start-card{width:100% !important;max-width:1400px !important;height:100% !important;max-height:none !important;margin:0 auto !important;}
+  #startScreen #menuCenterWrap{width:min(1180px,92vw) !important;max-width:none !important;}
+
+  /* Stage umum: gunakan viewport, tetapi isi tetap mengikuti struktur asli. */
+  #stage{width:100vw !important;max-width:none !important;height:100dvh !important;min-height:100dvh !important;margin:0 !important;padding:clamp(18px,2.2vh,30px) clamp(28px,3vw,56px) !important;overflow:hidden !important;display:block;}
+  #stage .topbar{width:100% !important;}
+
+  /* Belajar: header + grid huruf memenuhi lebar desktop secara proporsional. */
+  #stage.simple-learning{display:flex !important;flex-direction:column !important;justify-content:center !important;align-items:center !important;gap:clamp(18px,3vh,34px) !important;}
+  #stage.simple-learning .topbar{flex:0 0 auto !important;width:100% !important;margin:0 !important;}
+  #stage.simple-learning .chipstrip{width:min(1280px,96vw) !important;flex:0 0 auto !important;display:grid !important;grid-template-columns:repeat(5,minmax(0,1fr)) !important;gap:clamp(14px,2vw,28px) !important;overflow:visible !important;padding:0 !important;margin:0 !important;}
+  #stage.simple-learning .chipstrip .chip{width:100% !important;max-width:none !important;aspect-ratio:1/1 !important;font-size:clamp(34px,4vw,72px) !important;}
+
+  /* Menulis: gunakan area tengah secara penuh tanpa membuat panel menempel ke tepi. */
+  #stage.writing-mode{display:flex !important;flex-direction:column !important;justify-content:center !important;align-items:center !important;}
+  #stage.writing-mode .topbar{flex:0 0 auto !important;}
+  #stage.writing-mode .chipstrip{width:min(1200px,94vw) !important;flex:0 0 auto !important;}
+  #stage.writing-mode .maingrid{width:min(1280px,94vw) !important;flex:1 1 auto !important;min-height:0 !important;grid-template-columns:minmax(0,1.6fr) minmax(320px,.9fr) !important;gap:clamp(18px,2vw,34px) !important;align-items:stretch !important;}
+  #stage.writing-mode .tracepanel{min-height:0 !important;height:100% !important;display:flex !important;flex-direction:column !important;}
+  #stage.writing-mode .canvaswrap{flex:1 1 auto !important;min-height:0 !important;max-height:none !important;aspect-ratio:auto !important;}
+  #stage.writing-mode .sidebar{min-height:0 !important;justify-content:center !important;}
+  #stage.writing-mode .siderow{gap:clamp(14px,2vh,24px) !important;}
+  #stage.writing-mode .bottomnav{width:min(1280px,94vw) !important;flex:0 0 auto !important;justify-content:center !important;}
+  #stage.writing-mode .bottomnav .pillbtn{flex:1 1 0 !important;justify-content:center !important;min-height:clamp(52px,6vh,70px) !important;font-size:clamp(17px,1.4vw,24px) !important;}
+
+  /* Kuis: box membesar mengikuti layar tetapi tetap menyisakan margin aman. */
+  #quizScreen{padding:clamp(24px,4vh,50px) clamp(30px,4vw,70px) !important;}
+  #quizScreen .quiz-box{width:min(1100px,92vw) !important;min-height:min(86dvh,900px) !important;margin:auto !important;padding:clamp(34px,4vh,58px) clamp(42px,5vw,80px) !important;display:flex !important;flex-direction:column !important;justify-content:center !important;}
+  #quizScreen .quiz-options{width:min(900px,100%) !important;max-width:none !important;display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:clamp(16px,1.5vw,26px) !important;}
+  #quizScreen .quiz-option{min-height:clamp(64px,7vh,86px) !important;font-size:clamp(20px,1.8vw,30px) !important;}
+
+  /* Penjumlahan & pengurangan: panel besar dan terpusat. */
+  #additionScreen,#subtractionScreen{padding:clamp(24px,4vh,48px) clamp(30px,4vw,70px) !important;align-items:center !important;justify-content:center !important;}
+  #additionScreen .addbox,#subtractionScreen .addbox{width:min(900px,88vw) !important;max-width:none !important;max-height:92dvh !important;margin:0 !important;padding:clamp(34px,4vh,60px) clamp(40px,5vw,72px) !important;overflow:auto !important;}
+  #additionScreen .addkeypad,#subtractionScreen .addkeypad{gap:clamp(12px,1.4vw,24px) !important;}
+  #additionScreen .addkey,#subtractionScreen .addkey{min-height:clamp(64px,7vh,90px) !important;font-size:clamp(22px,2vw,34px) !important;}
+}
+</style>
+
+<style id="desktop-v7-page-refinement">
+@media (min-width:801px){
+  /* =========================================================
+     DESKTOP V7 — refinement per halaman
+     HP tidak disentuh.
+     ========================================================= */
+
+  /* 1. HALAMAN BELAJAR ------------------------------------- */
+  #stage.simple-learning{
+    justify-content:flex-start !important;
+    align-items:center !important;
+    gap:clamp(18px,2.2vh,30px) !important;
+    padding-top:clamp(22px,3vh,38px) !important;
+    padding-bottom:clamp(18px,2.5vh,30px) !important;
+  }
+  #stage.simple-learning .topbar{
+    width:min(1500px,96vw) !important;
+    min-height:clamp(82px,11vh,112px) !important;
+    gap:clamp(16px,2vw,30px) !important;
+    margin:0 !important;
+    flex:0 0 auto !important;
+  }
+  #stage.simple-learning .topbar .homebtn,
+  #stage.simple-learning .topbar #btnLanguage{
+    width:clamp(64px,5.5vw,82px) !important;
+    height:clamp(64px,5.5vw,82px) !important;
+    min-width:64px !important;
+    padding:0 !important;
+    font-size:clamp(28px,2.5vw,38px) !important;
+    border-radius:50% !important;
+    justify-content:center !important;
+  }
+  #stage.simple-learning .topbar #btnLanguage{
+    width:auto !important;
+    min-width:clamp(88px,7vw,116px) !important;
+    padding:0 clamp(18px,1.5vw,26px) !important;
+    border-radius:42px !important;
+    gap:8px !important;
+  }
+  #stage.simple-learning .topbar #btnLanguage .lang-flag{font-size:1.25em !important;}
+  #stage.simple-learning .topbar #btnLanguage .lang-code{font-size:clamp(18px,1.5vw,24px) !important;}
+  #stage.simple-learning .topbar .title-wrap{
+    height:clamp(78px,10vh,108px) !important;
+    min-width:0 !important;
+    padding:clamp(8px,1vh,14px) clamp(18px,2vw,30px) !important;
+    border-radius:42px !important;
+    gap:clamp(10px,1.2vw,20px) !important;
+  }
+  #stage.simple-learning .topbar .title-wrap > span{font-size:clamp(24px,2.1vw,34px) !important;}
+  #stage.simple-learning .topbar .title-wrap h1{gap:3px !important;line-height:1 !important;}
+  #stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:clamp(16px,1.35vw,22px) !important;}
+  #stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:clamp(30px,2.8vw,46px) !important;}
+
+  /* Isi tetap di atas, tetapi mengambil ruang yang tersisa. */
+  #stage.simple-learning .chipstrip{
+    width:min(1500px,96vw) !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    display:grid !important;
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+    grid-template-rows:repeat(6,minmax(0,1fr)) !important;
+    gap:clamp(10px,1.35vw,22px) clamp(12px,1.6vw,26px) !important;
+    overflow:visible !important;
+    align-content:stretch !important;
+  }
+  #stage.simple-learning .chipstrip .chip{
+    width:100% !important;
+    height:100% !important;
+    max-width:none !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    aspect-ratio:auto !important;
+    font-size:clamp(42px,5.2vw,82px) !important;
+    border-radius:18% !important;
+  }
+
+  /* 2. SUBMENU LATIHAN ------------------------------------ */
+  #startScreen:has(#latihanMenu[style*="display: flex"]){
+    padding:0 !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-card{
+    width:min(1500px,96vw) !important;
+    max-width:none !important;
+    height:100% !important;
+    justify-content:flex-start !important;
+    padding-top:clamp(18px,3vh,34px) !important;
+    padding-bottom:clamp(18px,3vh,34px) !important;
+    box-sizing:border-box !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-title{
+    width:100% !important;
+    margin:0 auto clamp(18px,3vh,30px) !important;
+    flex:0 0 auto !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
+    width:min(1200px,92vw) !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    grid-template-rows:repeat(2,minmax(0,1fr)) auto auto !important;
+    gap:clamp(18px,2.4vw,34px) !important;
+    align-content:stretch !important;
+    justify-content:center !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    padding:clamp(8px,1vh,16px) !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .submenu-img{
+    width:min(100%,420px) !important;
+    max-height:100% !important;
+    object-fit:contain !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .counting-score-card{
+    grid-column:1 / -1 !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:clamp(12px,1.4vh,18px) clamp(20px,2vw,30px) !important;
+    box-sizing:border-box !important;
+    font-size:clamp(16px,1.4vw,22px) !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-title{
+    grid-column:1 / -1 !important;
+    margin:0 !important;
+    padding:clamp(10px,1.2vh,16px) !important;
+    font-size:clamp(18px,1.5vw,25px) !important;
+  }
+
+  /* 4. MENULIS HURUF & ANGKA ------------------------------ */
+  #stage.writing-mode{
+    justify-content:flex-start !important;
+    padding-top:clamp(18px,2.5vh,30px) !important;
+    padding-bottom:clamp(16px,2vh,26px) !important;
+    gap:clamp(10px,1.5vh,18px) !important;
+  }
+  #stage.writing-mode .topbar{
+    width:min(1500px,96vw) !important;
+    min-height:clamp(76px,10vh,104px) !important;
+    margin:0 !important;
+    gap:clamp(16px,2vw,30px) !important;
+  }
+  #stage.writing-mode .topbar .homebtn{
+    width:clamp(62px,5.2vw,80px) !important;
+    height:clamp(62px,5.2vw,80px) !important;
+    font-size:clamp(28px,2.5vw,38px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap{
+    height:clamp(74px,9.5vh,100px) !important;
+    padding:clamp(8px,1vh,14px) clamp(18px,2vw,30px) !important;
+    border-radius:42px !important;
+  }
+  #stage.writing-mode .topbar .title-wrap h1 .title-line1{font-size:clamp(15px,1.3vw,21px) !important;}
+  #stage.writing-mode .topbar .title-wrap h1 .title-line2{font-size:clamp(28px,2.7vw,44px) !important;}
+
+  #stage.writing-mode .chipstrip{
+    width:min(1500px,96vw) !important;
+    flex:0 0 auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    gap:clamp(8px,1vw,16px) !important;
+  }
+  #stage.writing-mode .chipstrip .chip{
+    width:clamp(58px,5.5vw,88px) !important;
+    height:clamp(58px,5.5vw,88px) !important;
+    flex-basis:clamp(58px,5.5vw,88px) !important;
+    font-size:clamp(32px,3.2vw,54px) !important;
+    margin:0 !important;
+  }
+  #stage.writing-mode .maingrid{
+    width:min(1500px,96vw) !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    grid-template-columns:minmax(0,2.15fr) minmax(360px,.85fr) !important;
+    gap:clamp(18px,2vw,32px) !important;
+    align-items:stretch !important;
+  }
+  #stage.writing-mode .tracepanel{
+    height:100% !important;
+    min-height:0 !important;
+    padding:clamp(12px,1.2vw,20px) !important;
+  }
+  #stage.writing-mode .canvaswrap{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    width:100% !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+  }
+  #stage.writing-mode .sidebar{
+    min-width:0 !important;
+    min-height:0 !important;
+    height:100% !important;
+    justify-content:stretch !important;
+  }
+  #stage.writing-mode .siderow{
+    height:100% !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:clamp(14px,1.5vw,24px) !important;
+  }
+  #stage.writing-mode .siderow .card{
+    flex:1 1 0 !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+    padding:clamp(18px,1.8vw,28px) !important;
+  }
+  #stage.writing-mode .card h3{font-size:clamp(17px,1.5vw,24px) !important;margin-bottom:clamp(10px,1vh,16px) !important;}
+  #stage.writing-mode .contoh-visual{font-size:clamp(56px,5vw,82px) !important;padding:clamp(16px,1.5vw,24px) 8px !important;}
+  #stage.writing-mode .contoh-word{font-size:clamp(24px,2.2vw,36px) !important;}
+  #stage.writing-mode .ucap-face{font-size:clamp(40px,3.5vw,58px) !important;}
+  #stage.writing-mode .ucap-text{font-size:clamp(18px,1.7vw,28px) !important;}
+  #stage.writing-mode .ucap-sub{font-size:clamp(13px,1.2vw,18px) !important;}
+  #stage.writing-mode .bottomnav{
+    width:min(1500px,96vw) !important;
+    flex:0 0 auto !important;
+    margin:0 !important;
+    gap:clamp(12px,1.5vw,24px) !important;
+  }
+  #stage.writing-mode .bottomnav .pillbtn{
+    min-height:clamp(54px,6vh,72px) !important;
+    font-size:clamp(18px,1.5vw,25px) !important;
+  }
+
+  /* 5. PENJUMLAHAN & PENGURANGAN -------------------------- */
+  #additionScreen,#subtractionScreen{
+    padding:0 !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
+  }
+  #additionScreen .addbox,#subtractionScreen .addbox{
+    width:min(1100px,92vw) !important;
+    height:calc(100dvh - 32px) !important;
+    max-height:none !important;
+    margin:16px auto !important;
+    box-sizing:border-box !important;
+    padding:clamp(22px,3vh,38px) clamp(28px,3.5vw,52px) !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+    overflow:hidden !important;
+    border-radius:32px !important;
+  }
+  #additionScreen .addbox h1,#subtractionScreen .addbox h1{
+    font-size:clamp(30px,2.8vw,46px) !important;
+    margin-bottom:clamp(6px,1vh,12px) !important;
+  }
+  #additionScreen .addprogress,#subtractionScreen .addprogress{font-size:clamp(16px,1.3vw,22px) !important;margin-bottom:clamp(8px,1.2vh,14px) !important;}
+  #additionScreen .addq,#subtractionScreen .addq{
+    font-size:clamp(50px,5vw,82px) !important;
+    padding:clamp(16px,2vh,28px) 12px !important;
+    margin:6px 0 clamp(12px,1.5vh,18px) !important;
+  }
+  #additionScreen .addhint,#subtractionScreen .addhint{font-size:clamp(16px,1.3vw,22px) !important;}
+  #additionScreen .math-speak-btn,#subtractionScreen .math-speak-btn{
+    font-size:clamp(17px,1.3vw,22px) !important;
+    padding:clamp(11px,1.1vh,16px) clamp(20px,1.8vw,30px) !important;
+    margin-bottom:clamp(10px,1.2vh,16px) !important;
+  }
+  #additionScreen .addanswer-display,#subtractionScreen .addanswer-display{
+    font-size:clamp(44px,4vw,66px) !important;
+    min-height:clamp(62px,7vh,88px) !important;
+    padding:clamp(8px,1vh,14px) !important;
+    margin-bottom:clamp(10px,1.2vh,16px) !important;
+  }
+  #additionScreen .addkeypad,#subtractionScreen .addkeypad{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    grid-auto-rows:1fr !important;
+    gap:clamp(10px,1.2vw,18px) !important;
+    margin-bottom:clamp(10px,1.2vh,16px) !important;
+  }
+  #additionScreen .addkey,#subtractionScreen .addkey{
+    min-height:0 !important;
+    height:100% !important;
+    font-size:clamp(26px,2.2vw,38px) !important;
+    padding:8px 0 !important;
+    border-radius:18px !important;
+  }
+  #additionScreen .addbtn-row,#subtractionScreen .addbtn-row{
+    flex:0 0 auto !important;
+    gap:clamp(14px,1.5vw,24px) !important;
+  }
+  #additionScreen .addbtn-row .pillbtn,#subtractionScreen .addbtn-row .pillbtn{
+    min-height:clamp(58px,6.5vh,78px) !important;
+    padding:0 clamp(24px,2.2vw,36px) !important;
+    font-size:clamp(19px,1.6vw,27px) !important;
+  }
+  #additionScreen .addbtn-row .homebtn,#subtractionScreen .addbtn-row .homebtn{
+    width:clamp(62px,5.5vw,82px) !important;
+    height:clamp(62px,6.5vh,78px) !important;
+    font-size:clamp(28px,2.4vw,38px) !important;
+    padding:0 !important;
+  }
+
+  /* Popup matematika: lebih besar agar jelas di desktop. */
+  #addPopup .celebrate-box,#subPopup .celebrate-box{
+    width:min(620px,72vw) !important;
+    padding:clamp(30px,4vh,52px) clamp(34px,4vw,60px) !important;
+    border-radius:34px !important;
+  }
+  #addPopup .celebrate-title,#subPopup .celebrate-title{font-size:clamp(28px,2.5vw,42px) !important;}
+  #addPopup .celebrate-emoji,#subPopup .celebrate-emoji{font-size:clamp(54px,5vw,80px) !important;}
+  #addPopup .addbtn-row,#subPopup .addbtn-row{gap:clamp(14px,1.5vw,24px) !important;}
+  #addPopup .pillbtn,#subPopup .pillbtn{min-height:clamp(56px,6vh,74px) !important;font-size:clamp(18px,1.5vw,25px) !important;}
+
+  /* 6. KUIS ------------------------------------------------ */
+  #quizScreen{
+    padding:0 !important;
+    align-items:stretch !important;
+    justify-content:stretch !important;
+  }
+  #quizScreen .quiz-box{
+    width:min(1180px,92vw) !important;
+    height:calc(100dvh - 32px) !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:16px auto !important;
+    box-sizing:border-box !important;
+    padding:clamp(24px,3vh,42px) clamp(30px,4vw,60px) !important;
+    border-radius:34px !important;
+    justify-content:flex-start !important;
+    overflow:hidden !important;
+  }
+  #quizScreen .quiz-title{font-size:clamp(34px,3vw,50px) !important;margin-bottom:clamp(6px,1vh,12px) !important;}
+  #quizScreen .quiz-score{font-size:clamp(17px,1.3vw,22px) !important;}
+  #quizScreen .quiz-visual{font-size:clamp(58px,6vw,94px) !important;margin:clamp(10px,1.5vh,18px) 0 !important;}
+  #quizScreen .quiz-question{font-size:clamp(26px,2.2vw,38px) !important;}
+  #quizScreen .math-speak-btn{font-size:clamp(17px,1.3vw,22px) !important;padding:clamp(11px,1.1vh,16px) clamp(20px,1.8vw,30px) !important;}
+  #quizScreen .quiz-options{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    grid-auto-rows:1fr !important;
+    gap:clamp(14px,1.5vw,24px) !important;
+    margin:clamp(10px,1.5vh,18px) 0 !important;
+  }
+  #quizScreen .quiz-option{
+    min-height:0 !important;
+    height:100% !important;
+    font-size:clamp(22px,1.8vw,32px) !important;
+  }
+  #quizScreen .quiz-actions{
+    flex:0 0 auto !important;
+    gap:clamp(14px,1.5vw,24px) !important;
+  }
+  #quizScreen .quiz-actions .pillbtn{
+    min-height:clamp(58px,6.5vh,78px) !important;
+    padding:0 clamp(24px,2.2vw,36px) !important;
+    font-size:clamp(19px,1.6vw,27px) !important;
+  }
+  #quizScreen .quiz-actions #quizHomeBtn{
+    min-width:clamp(180px,16vw,240px) !important;
+  }
+  #quizScreen .quiz-actions #quizNextBtn{
+    min-width:clamp(180px,16vw,240px) !important;
+  }
+  #quizResultOverlay .quiz-result-box{
+    width:min(760px,76vw) !important;
+    padding:clamp(32px,4vh,54px) clamp(38px,4vw,64px) !important;
+    border-radius:36px !important;
+  }
+  #quizResultOverlay .quiz-result-title{font-size:clamp(30px,2.7vw,46px) !important;}
+  #quizResultOverlay .quiz-result-emoji{font-size:clamp(52px,5vw,82px) !important;}
+  #quizResultOverlay .quiz-result-close{min-height:clamp(58px,6vh,76px) !important;font-size:clamp(18px,1.5vw,25px) !important;}
+}
+</style>
 </head>
 <body>
 
@@ -3738,6 +4181,15 @@ if(brushSize){
 
 // ---------- START / MENU ----------
 function startApp(selectedMode, isWriting=false){
+  // Masuk ke Belajar/Menulis: tutup semua screen lain terlebih dahulu.
+  const start = document.getElementById('startScreen');
+  const quiz = document.getElementById('quizScreen');
+  const add = document.getElementById('additionScreen');
+  const sub = document.getElementById('subtractionScreen');
+  if(start) start.style.setProperty('display','none','important');
+  if(quiz) quiz.style.setProperty('display','none','important');
+  if(add) add.style.setProperty('display','none','important');
+  if(sub) sub.style.setProperty('display','none','important');
   if(selectedMode === 'angka' && !isWriting) return;
   mode = selectedMode;
   writingMode = !!isWriting;
@@ -3765,6 +4217,15 @@ function startApp(selectedMode, isWriting=false){
   requestAnimationFrame(() => { try { render(); } catch(e) {} });
 }
 function showMainMenu(){
+  // Pastikan hanya Menu Utama yang terlihat.
+  const stage = document.getElementById('stage');
+  const quiz = document.getElementById('quizScreen');
+  const add = document.getElementById('additionScreen');
+  const sub = document.getElementById('subtractionScreen');
+  if(stage) stage.style.setProperty('display','none','important');
+  if(quiz) quiz.style.setProperty('display','none','important');
+  if(add) add.style.setProperty('display','none','important');
+  if(sub) sub.style.setProperty('display','none','important');
   // Hapus override inline agar CSS menu utama dapat tampil normal.
   document.getElementById('mainMenuOptions').style.removeProperty('display');
   document.getElementById('progressCard').style.removeProperty('display');
@@ -3781,6 +4242,15 @@ function showMainMenu(){
   updateStartTitleVisual(language === 'id');
 }
 function showSubMenu(){
+  // Pastikan hanya Submenu Latihan yang terlihat.
+  const stage = document.getElementById('stage');
+  const quiz = document.getElementById('quizScreen');
+  const add = document.getElementById('additionScreen');
+  const sub = document.getElementById('subtractionScreen');
+  if(stage) stage.style.setProperty('display','none','important');
+  if(quiz) quiz.style.setProperty('display','none','important');
+  if(add) add.style.setProperty('display','none','important');
+  if(sub) sub.style.setProperty('display','none','important');
   // Gunakan !important karena CSS layout menu utama memakai display:grid !important.
   document.getElementById('mainMenuOptions').style.setProperty('display','none','important');
   document.getElementById('progressCard').style.setProperty('display','none','important');
@@ -4068,6 +4538,12 @@ function finishQuiz(){
 }
 
 function openQuiz(){
+  const stage=document.getElementById('stage');
+  const add=document.getElementById('additionScreen');
+  const sub=document.getElementById('subtractionScreen');
+  if(stage) stage.style.setProperty('display','none','important');
+  if(add) add.style.setProperty('display','none','important');
+  if(sub) sub.style.setProperty('display','none','important');
   quizState = { question: 0, score: 0, wrong: 0, current: null, answered: false, revealToken: 0, startStars: Number(learningProgress.stars) || 0 };
   document.getElementById('startScreen').style.display = 'none';
   document.getElementById('quizScreen').style.display = 'block';
@@ -4230,6 +4706,12 @@ document.getElementById('quizHomeBtn').onclick = () => {
  }
  window.openAddition=function(){
     language='id';
+    const stage=document.getElementById('stage');
+    const quiz=document.getElementById('quizScreen');
+    const sub=document.getElementById('subtractionScreen');
+    if(stage) stage.style.setProperty('display','none','important');
+    if(quiz) quiz.style.setProperty('display','none','important');
+    if(sub) sub.style.setProperty('display','none','important');
     document.getElementById('startScreen').style.setProperty('display','none','important');
    addQuestions=[makeAddQuestion(0)];
    addIndex=0;
@@ -4366,6 +4848,12 @@ document.getElementById('quizHomeBtn').onclick = () => {
  }
  window.openSubtraction=function(){
     language='id';
+    const stage=document.getElementById('stage');
+    const quiz=document.getElementById('quizScreen');
+    const add=document.getElementById('additionScreen');
+    if(stage) stage.style.setProperty('display','none','important');
+    if(quiz) quiz.style.setProperty('display','none','important');
+    if(add) add.style.setProperty('display','none','important');
    document.getElementById('startScreen').style.setProperty('display','none','important');
    subQuestions=[makeSubQuestion(0)];
    subIndex=0;
@@ -4691,7 +5179,7 @@ if(typeof applyLanguage==='function') applyLanguage();
     picker.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.variant===v));
   }
   picker.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>setVariant(b.dataset.variant)));
-  setVariant('squircle');
+  setVariant('toytile');
 })();
 </script>
 <script id="final-learning-init">
@@ -4704,7 +5192,7 @@ if(typeof applyLanguage==='function') applyLanguage();
        !stage.classList.contains('variant-cloud') &&
        !stage.classList.contains('variant-toytile') &&
        !stage.classList.contains('variant-squircle')){
-      stage.classList.add('variant-squircle');
+      stage.classList.add('variant-toytile');
     }
     if(picker){
       const buttons=picker.querySelectorAll('button[data-variant]');
@@ -4888,8 +5376,53 @@ if(typeof applyLanguage==='function') applyLanguage();
 })();
 </script>
 
+
+<script id="desktop-v4-screen-guard">
+(function(){
+  const ids=['startScreen','stage','quizScreen','additionScreen','subtractionScreen'];
+  const hidden=['stage','quizScreen','additionScreen','subtractionScreen'];
+  function hide(id){const e=document.getElementById(id); if(e) e.style.setProperty('display','none','important');}
+  function showOnly(id){
+    ids.forEach(x=>{if(x!==id) hide(x);});
+    const e=document.getElementById(id); if(e) e.style.removeProperty('display');
+  }
+  // Tidak mengambil alih navigasi; hanya mengoreksi kondisi ketika dua screen
+  // terlanjur aktif bersamaan.
+  const start=document.getElementById('startScreen');
+  const stage=document.getElementById('stage');
+  const quiz=document.getElementById('quizScreen');
+  const add=document.getElementById('additionScreen');
+  const sub=document.getElementById('subtractionScreen');
+  if(start) start.addEventListener('transitionend',()=>{});
+})();
+</script>
+
+<style id="desktop-v6-initial-screen-fix">
+@media (min-width:801px){
+  /* Initial state: secondary screens stay hidden unless JavaScript explicitly
+     opens them. Do NOT infer visibility from a missing style attribute. */
+  #quizScreen,
+  #additionScreen,
+  #subtractionScreen,
+  #stage{display:none !important;}
+
+  /* JavaScript opens a screen by writing its explicit display value. */
+  #quizScreen[style*="display: block"]{display:block !important;}
+  #additionScreen[style*="display: block"]{display:flex !important;}
+  #subtractionScreen[style*="display: block"]{display:block !important;}
+  #stage.simple-learning,
+  #stage.writing-mode{display:flex !important;}
+}
+</style>
+
 </body>
 
+<style id="desktop-v6-home-initial-state">
+@media (min-width:801px){
+  #startScreen{display:flex !important;}
+  #startScreen[style*="display: none"]{display:none !important;}
+}
+</style>
 
 <style id="main-page-requested-layout">
 /* ===== HALAMAN UTAMA: posisi nama + subjudul, serta Kuis/Latihan 2 kolom ===== */
@@ -4989,6 +5522,283 @@ if(typeof applyLanguage==='function') applyLanguage();
 }
 @media(max-width:800px){
   #stage.simple-learning .chipstrip{row-gap:18px !important;}
+}
+</style>
+
+
+
+<style id="desktop-v9-final-refinement">
+@media (min-width:801px){
+  /* 1. MENU BELAJAR — header lebih besar, isi tetap di atas */
+  #stage.simple-learning .topbar{
+    width:97vw !important;
+    min-height:clamp(135px,17vh,175px) !important;
+    height:clamp(135px,17vh,175px) !important;
+    gap:clamp(28px,3vw,48px) !important;
+    margin:0 0 clamp(8px,1vh,14px) !important;
+  }
+  #stage.simple-learning .topbar #btnKembali,
+  #stage.simple-learning .topbar #btnLanguage{
+    height:clamp(108px,9vw,132px) !important;
+    min-height:clamp(108px,9vw,132px) !important;
+  }
+  #stage.simple-learning .topbar #btnKembali{
+    width:clamp(108px,9vw,132px) !important;
+    min-width:clamp(108px,9vw,132px) !important;
+    font-size:clamp(48px,3.8vw,62px) !important;
+  }
+  #stage.simple-learning .topbar #btnLanguage{
+    min-width:clamp(155px,12vw,205px) !important;
+    padding:0 clamp(26px,2.3vw,40px) !important;
+    font-size:clamp(28px,2.1vw,36px) !important;
+    gap:14px !important;
+  }
+  #stage.simple-learning .topbar #btnLanguage .lang-flag{font-size:1.4em !important;}
+  #stage.simple-learning .topbar #btnLanguage .lang-code{font-size:clamp(28px,2.1vw,36px) !important;}
+  #stage.simple-learning .topbar .title-wrap{
+    height:clamp(126px,15vh,156px) !important;
+    padding:clamp(14px,1.6vh,24px) clamp(32px,2.8vw,48px) !important;
+    border-radius:54px !important;
+    gap:clamp(14px,1.6vw,28px) !important;
+  }
+  #stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:clamp(26px,2vw,34px) !important;}
+  #stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:clamp(50px,4.5vw,72px) !important;}
+  #stage.simple-learning .topbar .title-wrap > span{font-size:clamp(34px,2.8vw,46px) !important;}
+
+  /* 2. MENU LATIHAN — icon dan label dibuat besar */
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
+    width:min(1450px,94vw) !important;
+    gap:clamp(26px,2.6vw,44px) !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
+    min-height:clamp(270px,31vh,390px) !important;
+    padding:clamp(20px,1.8vw,32px) !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .submenu-img{
+    width:min(100%,600px) !important;
+    max-height:clamp(210px,27vh,330px) !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-title{
+    font-size:clamp(30px,2.4vw,42px) !important;
+    padding:clamp(16px,1.5vh,24px) !important;
+  }
+
+  /* 3. MENULIS — kanvas horizontal penuh, informasi di bawahnya */
+  #stage.writing-mode .maingrid{
+    width:97vw !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:clamp(14px,1.8vh,24px) !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow:auto !important;
+  }
+  #stage.writing-mode .tracepanel{
+    width:100% !important;
+    min-width:0 !important;
+    flex:0 0 auto !important;
+  }
+  #stage.writing-mode .canvaswrap{
+    width:100% !important;
+    height:clamp(360px,52vh,620px) !important;
+    min-height:360px !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+  }
+  #stage.writing-mode .canvaswrap canvas,
+  #stage.writing-mode .canvaswrap svg{
+    width:100% !important;
+    height:100% !important;
+  }
+  #stage.writing-mode .sidebar{
+    width:100% !important;
+    flex:0 0 auto !important;
+  }
+  #stage.writing-mode .siderow{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    width:100% !important;
+    gap:clamp(14px,1.8vw,26px) !important;
+  }
+  #stage.writing-mode .sidebar .card{min-height:clamp(150px,18vh,220px) !important;}
+  #stage.writing-mode .card h3{font-size:clamp(28px,2.2vw,38px) !important;}
+  #stage.writing-mode .contoh-visual{font-size:clamp(80px,7vw,120px) !important;}
+  #stage.writing-mode .contoh-word{font-size:clamp(38px,3.2vw,54px) !important;}
+  #stage.writing-mode .ucap-face{font-size:clamp(60px,5vw,82px) !important;}
+  #stage.writing-mode .ucap-text{font-size:clamp(28px,2.4vw,40px) !important;}
+  #stage.writing-mode .ucap-sub{font-size:clamp(20px,1.6vw,26px) !important;}
+  #stage.writing-mode .chipstrip .chip{
+    width:clamp(90px,8vw,130px) !important;
+    height:clamp(90px,8vw,130px) !important;
+    flex-basis:clamp(90px,8vw,130px) !important;
+    font-size:clamp(54px,4.8vw,78px) !important;
+  }
+
+  /* 4. PENJUMLAHAN & PENGURANGAN — soal + jawaban lebih dominan */
+  #additionScreen .addbox,#subtractionScreen .addbox{
+    width:min(1400px,95vw) !important;
+    height:calc(100dvh - 12px) !important;
+    margin:6px auto !important;
+    padding:clamp(20px,2.2vh,30px) clamp(32px,4vw,58px) !important;
+  }
+  #additionScreen .addq,#subtractionScreen .addq{
+    font-size:clamp(78px,8vw,124px) !important;
+    min-height:clamp(150px,22vh,230px) !important;
+    padding:clamp(24px,3vh,42px) 18px !important;
+  }
+  #additionScreen .addanswer-display,#subtractionScreen .addanswer-display{
+    font-size:clamp(68px,6vw,96px) !important;
+    min-height:clamp(100px,12vh,140px) !important;
+    padding:12px 24px !important;
+  }
+  #additionScreen .addkeypad,#subtractionScreen .addkeypad{
+    width:min(620px,54vw) !important;
+    gap:clamp(7px,.8vw,12px) !important;
+    margin:clamp(6px,1vh,12px) auto !important;
+  }
+  #additionScreen .addkey,#subtractionScreen .addkey{
+    height:clamp(48px,5.2vh,64px) !important;
+    min-height:48px !important;
+    font-size:clamp(28px,2.4vw,40px) !important;
+  }
+  #additionScreen .addbtn-row .pillbtn,#subtractionScreen .addbtn-row .pillbtn{
+    min-height:clamp(82px,8.5vh,104px) !important;
+    font-size:clamp(26px,2.2vw,36px) !important;
+  }
+  #additionScreen .addbtn-row .homebtn,#subtractionScreen .addbtn-row .homebtn{
+    width:clamp(96px,7vw,120px) !important;
+    height:clamp(82px,8.5vh,104px) !important;
+    font-size:clamp(44px,3.5vw,58px) !important;
+  }
+
+  /* 5. KUIS — pertanyaan dan jawaban diperbesar, jawaban tetap vertikal */
+  #quizScreen .quiz-box{
+    width:min(1400px,95vw) !important;
+    height:calc(100dvh - 12px) !important;
+    margin:6px auto !important;
+    padding:clamp(26px,3vh,44px) clamp(42px,4.5vw,72px) !important;
+  }
+  #quizScreen .quiz-title{font-size:clamp(46px,4.2vw,66px) !important;}
+  #quizScreen .quiz-question{font-size:clamp(48px,4.5vw,72px) !important;line-height:1.08 !important;font-weight:900 !important;}
+  #quizScreen .quiz-options{
+    display:flex !important;
+    flex-direction:column !important;
+    width:min(1050px,100%) !important;
+    gap:clamp(14px,1.5vh,20px) !important;
+  }
+  #quizScreen .quiz-option{
+    width:100% !important;
+    min-height:clamp(72px,8vh,100px) !important;
+    font-size:clamp(30px,2.6vw,42px) !important;
+    line-height:1.1 !important;
+  }
+  #quizScreen .quiz-actions .pillbtn{
+    min-height:clamp(80px,8.5vh,104px) !important;
+    font-size:clamp(26px,2.2vw,36px) !important;
+  }
+}
+</style>
+
+<style id="desktop-v10-final-user-fixes">
+@media (min-width:801px){
+  /* 1. MENU LATIHAN: rapatkan 4 kartu agar tombol kembali tetap terlihat */
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
+    width:min(1180px,88vw) !important;
+    gap:clamp(14px,1.2vw,22px) !important;
+    margin:0 auto !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
+    min-height:clamp(190px,22vh,260px) !important;
+    padding:clamp(12px,1vw,20px) !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .submenu-img{
+    width:min(100%,430px) !important;
+    max-height:clamp(145px,20vh,220px) !important;
+    object-fit:contain !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-title{
+    font-size:clamp(24px,2vw,34px) !important;
+    padding:8px !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #countingScoreCard{
+    margin-top:clamp(8px,1vh,14px) !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #backMainFromLatihan{
+    margin-top:clamp(8px,1vh,14px) !important;
+    min-height:58px !important;
+  }
+
+  /* 2. MENULIS: kanvas horizontal penuh, panel informasi tetap di bawah */
+  #stage.writing-mode .maingrid{
+    width:97vw !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:14px !important;
+    overflow:auto !important;
+  }
+  #stage.writing-mode .tracepanel{width:100% !important;}
+  #stage.writing-mode .canvaswrap{
+    width:100% !important;
+    height:clamp(300px,46vh,520px) !important;
+    min-height:300px !important;
+    max-height:none !important;
+  }
+  #stage.writing-mode .canvaswrap canvas,
+  #stage.writing-mode .canvaswrap svg{width:100% !important;height:100% !important;}
+  #stage.writing-mode .sidebar{width:100% !important;display:block !important;}
+  #stage.writing-mode .siderow{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:14px !important;
+    width:100% !important;
+  }
+  #stage.writing-mode .sidebar .card{min-height:140px !important;}
+  #stage.writing-mode .contoh-visual{font-size:clamp(70px,6vw,105px) !important;}
+  #stage.writing-mode .contoh-word{font-size:clamp(34px,3vw,50px) !important;}
+  #stage.writing-mode .ucap-text{font-size:clamp(26px,2.8vw,42px) !important;}
+  #stage.writing-mode .ucap-sub{font-size:clamp(20px,1.8vw,28px) !important;}
+
+  /* 3. PENJUMLAHAN & PENGURANGAN: ketiganya sama besar */
+  #additionScreen .addq,#additionScreen .addanswer-display,#additionScreen .addkey,
+  #subtractionScreen .addq,#subtractionScreen .addanswer-display,#subtractionScreen .addkey{
+    font-size:clamp(48px,4.5vw,64px) !important;
+    font-weight:900 !important;
+  }
+  #additionScreen .addq,#subtractionScreen .addq{
+    min-height:clamp(130px,17vh,190px) !important;
+  }
+  #additionScreen .addanswer-display,#subtractionScreen .addanswer-display{
+    min-height:clamp(90px,12vh,125px) !important;
+  }
+  #additionScreen .addkey,#subtractionScreen .addkey{
+    min-height:clamp(54px,6vh,72px) !important;
+  }
+
+  /* 4. KUIS: gambar 200%, jawaban besar dan teks tepat di tengah */
+  #quizScreen .quiz-visual{
+    font-size:clamp(120px,16vw,220px) !important;
+    line-height:1 !important;
+  }
+  #quizScreen .quiz-question{
+    font-size:clamp(56px,5vw,82px) !important;
+  }
+  #quizScreen .quiz-options{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:14px !important;
+    width:min(1000px,100%) !important;
+  }
+  #quizScreen .quiz-option{
+    min-height:clamp(78px,9vh,108px) !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    font-size:clamp(42px,4vw,64px) !important;
+    line-height:1.1 !important;
+    padding:12px 24px !important;
+  }
 }
 </style>
 </html>
@@ -5214,3 +6024,25 @@ if(typeof applyLanguage==='function') applyLanguage();
 #startScreen #menuCenterWrap > #btnMenuLatihan{grid-area:quiz !important;}
 #startScreen #menuCenterWrap > #btnStartQuiz{grid-area:latihan !important;}
 </style>
+
+<script id="initial-home-state-fix">
+(function(){
+  function forceInitialHome(){
+    const start=document.getElementById('startScreen');
+    const stage=document.getElementById('stage');
+    const quiz=document.getElementById('quizScreen');
+    const add=document.getElementById('additionScreen');
+    const sub=document.getElementById('subtractionScreen');
+    if(!start) return;
+    // On a fresh load the only visible screen must be Home.
+    if(stage) stage.style.setProperty('display','none','important');
+    if(quiz) quiz.style.setProperty('display','none','important');
+    if(add) add.style.setProperty('display','none','important');
+    if(sub) sub.style.setProperty('display','none','important');
+    start.style.removeProperty('display');
+    if(typeof showMainMenu==='function') showMainMenu();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',forceInitialHome,{once:true});
+  else forceInitialHome();
+})();
+</script>
