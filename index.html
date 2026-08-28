@@ -3463,8 +3463,18 @@ function setupCanvas(canvas){
   }
   function resize(){
     const rect = canvas.parentElement.getBoundingClientRect();
-    canvas.width = rect.width; canvas.height = rect.height;
+    const newW = Math.round(rect.width), newH = Math.round(rect.height);
+    if(newW === canvas.width && newH === canvas.height) return; // ukuran sebenarnya tidak berubah, jangan hapus coretan
+    let snapshot = null;
+    if(canvas.width > 0 && canvas.height > 0){
+      snapshot = document.createElement('canvas');
+      snapshot.width = canvas.width;
+      snapshot.height = canvas.height;
+      snapshot.getContext('2d').drawImage(canvas, 0, 0);
+    }
+    canvas.width = newW; canvas.height = newH;
     applyStyle(); // resizing clears the canvas AND resets context style, so re-apply it
+    if(snapshot) ctx.drawImage(snapshot, 0, 0, snapshot.width, snapshot.height, 0, 0, newW, newH);
   }
   resize();
   window.addEventListener('resize', resize);
@@ -3918,6 +3928,7 @@ function render(){
   } else {
     // Mode angka yang tersisa hanya Menulis Angka.
     wrapMain.classList.add('angka');
+    svgMain.innerHTML = ''; // bersihkan sisa gambar huruf (svgMain) agar tidak bertumpuk di kanvas angka
     const item = NUMBERS[index];
     document.getElementById('panelTitle').textContent = 'Contoh Angka';
     document.getElementById('contohVisual').textContent = currentEmoji(item) || '—';
@@ -3972,7 +3983,7 @@ function renderChips(){
       b.textContent=item.d;
       b.setAttribute('aria-label',`Angka ${item.d}`);
       b.dataset.speechCount='0';
-      b.onclick=()=>speakLearningChip(item,b,'angka');
+      b.onclick=()=>{ index=NUMBERS.indexOf(item); render(); };
       strip.appendChild(b);
     });
     return;
@@ -5879,6 +5890,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
     width:min(1180px,88vw) !important;
     gap:clamp(14px,1.2vw,22px) !important;
+    row-gap:clamp(6px,0.6vh,10px) !important;
     margin:0 auto !important;
   }
   #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
@@ -7034,14 +7046,14 @@ if(typeof applyLanguage==='function') applyLanguage();
 
   /* Header lebih lega (tanpa tombol Home) + logo judul diperbesar. */
   #stage.writing-mode .topbar{
-    min-height:clamp(150px,19vh,204px) !important;
+    min-height:clamp(144px,16vh,184px) !important;
   }
   #stage.writing-mode .topbar .title-wrap{
-    height:clamp(146px,18vh,196px) !important;
-    max-width:min(1000px,78vw) !important;
+    height:clamp(140px,15vh,180px) !important;
+    max-width:min(1100px,80vw) !important;
   }
   #stage.writing-mode .topbar .title-wrap h1#mainTitle{
-    width:clamp(190px,16vw,300px) !important;
+    width:clamp(500px,40vw,700px) !important;
   }
 }
 </style>
@@ -7074,3 +7086,34 @@ if(typeof applyLanguage==='function') applyLanguage();
   new MutationObserver(relocateHomeBtn).observe(stage, {attributes:true, attributeFilter:['class']});
 })();
 </script>
+
+<style id="desktop-all-back-to-menu-200pct-v1">
+@media (min-width:801px){
+  /* Semua tombol "Kembali ke Menu Utama" (varian panah-teks maupun ikon
+     rumah) dibesarkan jadi 200% dari ukuran sebelumnya, khusus desktop. */
+
+  /* 1) Menulis Huruf/Angka: "← Kembali ke Menu Utama" (di bawah bottom nav) */
+  #stage.writing-mode .writing-home-row #btnKembali{
+    font-size:clamp(48px,4vw,60px) !important;
+    padding:20px 40px !important;
+  }
+
+  /* 3) Submenu Latihan: "🏠 Kembali ke Menu Utama" */
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #backMainFromLatihan{
+    font-size:clamp(96px,8vw,136px) !important;
+    min-height:200px !important;
+  }
+
+  /* 4) Kuis: "🏠 Kembali ke Menu Utama" */
+  #quizScreen .quiz-actions #quizHomeBtn{
+    font-size:clamp(60px,4.8vw,80px) !important;
+    padding:20px 16px !important;
+  }
+
+  /* 5) Penjumlahan/Pengurangan: "← Kembali ke Menu" */
+  #additionScreen .addbtn-row .homebtn,#subtractionScreen .addbtn-row .homebtn{
+    font-size:clamp(60px,5.6vw,84px) !important;
+    padding:16px 24px !important;
+  }
+}
+</style>
