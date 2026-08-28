@@ -2505,6 +2505,89 @@ body::before {
   #quizResultOverlay .quiz-result-close{min-height:clamp(58px,6vh,76px) !important;font-size:clamp(18px,1.5vw,25px) !important;}
 }
 </style>
+
+<style id="desktop-v14-targeted-fixes">
+@media (min-width:801px){
+  /* 1. MENU LATIHAN: rapatkan kartu agar tombol kembali selalu terlihat */
+  #startScreen #latihanMenu[style*="display: flex"]{
+    width:min(1180px,88vw) !important;
+    gap:clamp(10px,.9vw,16px) !important;
+    row-gap:clamp(10px,1vh,16px) !important;
+    padding-bottom:0 !important;
+  }
+  #startScreen #latihanMenu[style*="display: flex"] .sub-menu-item{
+    min-height:clamp(170px,19vh,225px) !important;
+    padding:clamp(8px,.7vw,14px) !important;
+  }
+  #startScreen #latihanMenu[style*="display: flex"] .submenu-img{
+    max-height:clamp(125px,16vh,180px) !important;
+    width:min(100%,360px) !important;
+  }
+  #startScreen #latihanMenu[style*="display: flex"] #countingScoreCard{
+    margin-top:clamp(6px,.7vh,10px) !important;
+  }
+  #startScreen #latihanMenu[style*="display: flex"] #backMainFromLatihan{
+    margin-top:clamp(5px,.6vh,9px) !important;
+    min-height:clamp(50px,6vh,64px) !important;
+  }
+
+  /* 2. MENULIS: kanvas horizontal + dua panel informasi di bawahnya */
+  #stage.writing-mode .maingrid{
+    width:97vw !important;
+    display:flex !important;
+    flex-direction:column !important;
+    gap:clamp(10px,1.2vh,16px) !important;
+    overflow:auto !important;
+  }
+  #stage.writing-mode .tracepanel{
+    width:100% !important;
+    flex:0 0 auto !important;
+  }
+  #stage.writing-mode .canvaswrap{
+    width:100% !important;
+    height:clamp(320px,45vh,500px) !important;
+    min-height:320px !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+  }
+  #stage.writing-mode .canvaswrap canvas,
+  #stage.writing-mode .canvaswrap svg{width:100% !important;height:100% !important;}
+  #stage.writing-mode .sidebar{
+    width:100% !important;
+    display:block !important;
+    flex:0 0 auto !important;
+  }
+  #stage.writing-mode .siderow{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:clamp(10px,1.2vw,18px) !important;
+    width:100% !important;
+  }
+  #stage.writing-mode .sidebar .card.contoh,
+  #stage.writing-mode .sidebar .card.ucap{
+    display:block !important;
+    width:100% !important;
+    min-height:clamp(130px,16vh,180px) !important;
+  }
+
+  /* 3. PENJUMLAHAN/PENGURANGAN: tiga kelompok teks dibuat sama besar */
+  #additionScreen .addq,#additionScreen .addanswer-display,#additionScreen .addkey,
+  #subtractionScreen .addq,#subtractionScreen .addanswer-display,#subtractionScreen .addkey{
+    font-size:clamp(56px,5vw,76px) !important;
+    font-weight:900 !important;
+  }
+  #additionScreen .addq,#subtractionScreen .addq{
+    min-height:clamp(140px,18vh,200px) !important;
+  }
+  #additionScreen .addanswer-display,#subtractionScreen .addanswer-display{
+    min-height:clamp(100px,13vh,135px) !important;
+  }
+  #additionScreen .addkey,#subtractionScreen .addkey{
+    min-height:clamp(58px,6.2vh,76px) !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
