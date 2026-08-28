@@ -2686,7 +2686,7 @@ body::before {
       <div class="canvaswrap" id="wrapMain">
 <div class="brush-size-panel" id="brushSizePanel" aria-label="Ukuran kuas">
             <span class="brush-size-label">Kuas</span>
-            <input id="brushSize" type="range" min="1" max="30" value="15" step="1" aria-label="Ukuran kuas">
+            <input id="brushSize" type="range" min="15" max="100" value="15" step="1" aria-label="Ukuran kuas">
             <span id="brushSizeValue">24</span>
           </div>
         <div class="learn-canvas-title" id="learnCanvasTitle" style="display:none">Bentuk Huruf</div>
@@ -4531,6 +4531,7 @@ function renderQuizQuestion(){
   const q = quizState.current;
   document.getElementById('quizScore').textContent = `Soal ${quizState.question + 1} dari 15 · ⭐ ${quizState.score}`;
   document.getElementById('quizVisual').textContent = q.visual;
+  document.getElementById('quizVisual').classList.toggle('quiz-visual-animal', q.type === 'animal-letter' || q.type === 'animal-name');
   document.getElementById('quizQuestion').textContent = q.text;
   document.getElementById('quizResult').textContent = '';
   document.getElementById('quizNextBtn').style.display = 'none';
@@ -5372,20 +5373,17 @@ if(typeof applyLanguage==='function') applyLanguage();
     trace.insertBefore(brush, wrap);
   }
 
-  // Speaker manual di kanan panel Cara Mengucapkan.
+  // Fungsi "Putar Suara" dipindahkan ke emoji wajah (bukan tombol speaker terpisah).
   const ucap = document.querySelector('#stage .card.ucap');
-  if(ucap && !document.getElementById('writingSpeakBtn')){
-    const row = ucap.querySelector('.ucap-row');
-    if(row){
-      const b=document.createElement('button');
-      b.id='writingSpeakBtn';
-      b.type='button';
-      b.className='ucap-speak-btn';
-      b.textContent='🔊';
-      b.title='Putar Suara';
-      b.setAttribute('aria-label','Putar Suara');
-      row.appendChild(b);
-      b.addEventListener('click', function(){
+  if(ucap && !ucap.__speakOnFaceBound){
+    const face = ucap.querySelector('.ucap-face');
+    if(face){
+      ucap.__speakOnFaceBound = true;
+      face.style.cursor = 'pointer';
+      face.title = 'Putar Suara';
+      face.setAttribute('role','button');
+      face.setAttribute('aria-label','Putar Suara');
+      face.addEventListener('click', function(){
         try{
           const item = mode === 'huruf' ? LETTERS[index] : NUMBERS[index];
           if(!item) return;
@@ -5836,6 +5834,23 @@ if(typeof applyLanguage==='function') applyLanguage();
     width:100% !important;
   }
   #stage.writing-mode .sidebar .card{min-height:140px !important;}
+
+  /* FIX: panel gambar (kanvas + tangan panduan) yang terlalu tinggi membuat
+     panel "Contoh Kata" dan "Cara Mengucapkan" di bawahnya tertutup/tak
+     terlihat karena #stage membatasi tinggi (overflow:hidden). Batasi tinggi
+     kanvas dan biarkan area konten bisa menggulir sendiri jika masih kurang
+     muat, supaya sidebar tidak pernah tertutup. */
+  #stage.writing-mode{overflow-y:auto !important;}
+  #stage.writing-mode .maingrid{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    max-height:100% !important;
+    overflow-y:auto !important;
+  }
+  #stage.writing-mode .canvaswrap{
+    height:clamp(240px,36vh,380px) !important;
+    min-height:240px !important;
+  }
   #stage.writing-mode .contoh-visual{font-size:clamp(70px,6vw,105px) !important;}
   #stage.writing-mode .contoh-word{font-size:clamp(34px,3vw,50px) !important;}
   #stage.writing-mode .ucap-text{font-size:clamp(26px,2.8vw,42px) !important;}
@@ -5858,7 +5873,9 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
 
   /* 4. KUIS: gambar 200%, jawaban besar dan teks tepat di tengah */
-  #quizScreen .quiz-visual{
+  /* Perbesaran 200% hanya untuk soal gambar hewan (animal-letter/animal-name).
+     Soal hitung buah (fruit-count) tetap memakai ukuran semula. */
+  #quizScreen .quiz-visual.quiz-visual-animal{
     font-size:clamp(120px,16vw,220px) !important;
     line-height:1 !important;
   }
@@ -6096,7 +6113,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 (function(){
  const r=document.getElementById('brushSize');
  const v=document.getElementById('brushSizeValue');
- if(r){ r.min='1'; r.max='30'; if(Number(r.value)>30) r.value='15'; if(v) v.textContent=r.value; r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
+ if(r){ r.min='15'; r.max='100'; if(Number(r.value)>100||Number(r.value)<15) r.value='15'; if(v) v.textContent=r.value; r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
 })();
 </script>
 
@@ -6129,3 +6146,238 @@ if(typeof applyLanguage==='function') applyLanguage();
   else forceInitialHome();
 })();
 </script>
+
+<style id="desktop-writing-final-layout-fix">
+@media (min-width:801px){
+  /* Khusus halaman Menulis Huruf & Menulis Angka (desktop):
+     Tombol ganti bahasa di topbar dihapus bersih (topbar menyesuaikan tanpa celah kosong). */
+  #stage.writing-mode .topbar #btnLanguage{
+    display:none !important;
+  }
+  #stage.writing-mode .topbar{
+    justify-content:center !important;
+  }
+  #stage.writing-mode .topbar .title-wrap{
+    flex:1 1 auto !important;
+    max-width:min(900px,70vw) !important;
+  }
+}
+</style>
+
+<style id="desktop-writing-tracepanel-height-fix">
+@media (min-width:801px){
+  /* Khusus halaman Menulis Huruf & Menulis Angka (desktop):
+     Tracepanel dan sidebar ditempatkan berdampingan (baris/row) mengisi
+     penuh ruang di antara chip strip dan bottom nav, dengan rasio lebar
+     2:1 (tracepanel:sidebar). Sidebar (Contoh Kata + Cara Mengucapkan,
+     termasuk tombol 🔊 pemutar suara) mengikuti tinggi penuh area ini
+     sehingga selalu terlihat utuh, tidak terpotong dan tidak menutupi
+     bagian lain. */
+  /* Tracepanel dan sidebar ditempatkan bertumpuk vertikal (kolom) mengisi
+     penuh ruang di antara chip strip dan bottom nav, dengan rasio tinggi
+     2:1 (tracepanel:sidebar). Sidebar (Contoh Kata + Cara Mengucapkan,
+     termasuk tombol 🔊 pemutar suara) mengikuti porsi tinggi tersebut
+     sehingga selalu terlihat utuh, tidak terpotong dan tidak menutupi
+     bagian lain. */
+  #stage.writing-mode .maingrid{
+    display:flex !important;
+    flex-direction:column !important;
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    align-items:stretch !important;
+    overflow:hidden !important;
+  }
+  #stage.writing-mode .tracepanel{
+    flex:2 1 0 !important;
+    width:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    height:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  #stage.writing-mode .canvaswrap{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    height:auto !important;
+    max-height:none !important;
+  }
+  #stage.writing-mode .sidebar{
+    flex:1 1 0 !important;
+    width:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    height:auto !important;
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  #stage.writing-mode .siderow{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:row !important;
+  }
+}
+</style>
+
+<style id="desktop-belajar-header-2x">
+@media (min-width:801px){
+  /* Khusus halaman Belajar (desktop): tinggi header (topbar) dijadikan
+     2x dari ukuran saat ini, serta tulisan judul header diperbesar
+     sepadan. */
+  #stage.simple-learning .topbar #btnKembali,
+  #stage.simple-learning .topbar #btnLanguage{
+    width:116px !important;
+    min-width:116px !important;
+    height:116px !important;
+    min-height:116px !important;
+    font-size:44px !important;
+  }
+  #stage.simple-learning .topbar .title-wrap{
+    height:116px !important;
+    padding:12px 20px !important;
+  }
+  #stage.simple-learning .topbar .title-wrap h1 .title-line1{
+    font-size:22px !important;
+  }
+  #stage.simple-learning .topbar .title-wrap h1 .title-line2{
+    font-size:40px !important;
+  }
+}
+</style>
+
+<style id="desktop-writing-header-2x-and-sidebar-center">
+@media (min-width:801px){
+  /* Khusus halaman Menulis Huruf & Menulis Angka (desktop):
+     1) Tinggi header (topbar) dijadikan 2x dari ukuran saat ini. */
+  #stage.writing-mode .topbar{
+    min-height:clamp(152px,20vh,208px) !important;
+  }
+  #stage.writing-mode .topbar .homebtn{
+    width:clamp(124px,10.4vw,160px) !important;
+    height:clamp(124px,10.4vw,160px) !important;
+    font-size:clamp(56px,5vw,76px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap{
+    height:clamp(148px,19vh,200px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap h1 .title-line1{
+    font-size:clamp(30px,2.6vw,42px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap h1 .title-line2{
+    font-size:clamp(56px,5.4vw,88px) !important;
+  }
+
+  /* 2) Di sidebar, judul kartu tetap di posisi semula (atas), sedangkan
+     isi kartu di bawah judul diposisikan di tengah sisa ruang panel. */
+  #stage.writing-mode .siderow .card{
+    justify-content:flex-start !important;
+  }
+  #stage.writing-mode .siderow .card h3{
+    flex:0 0 auto !important;
+  }
+  #stage.writing-mode .siderow .card.contoh .contoh-visual{
+    margin-top:auto !important;
+  }
+  #stage.writing-mode .siderow .card.contoh .contoh-word{
+    margin-bottom:auto !important;
+  }
+  #stage.writing-mode .siderow .card.ucap .ucap-row{
+    margin-top:auto !important;
+    margin-bottom:auto !important;
+  }
+
+}
+</style>
+
+<style id="desktop-writing-v2-header-sidebar-bottomnav-tracepanel">
+@media (min-width:801px){
+  /* ============ 1. HEADER: dikecilkan jadi 75% dari ukuran sekarang,
+     diameter tombol home disamakan dengan tinggi header. ============ */
+  #stage.writing-mode .topbar{
+    min-height:clamp(114px,15vh,156px) !important;
+  }
+  #stage.writing-mode .topbar .homebtn{
+    width:clamp(114px,15vh,156px) !important;
+    height:clamp(114px,15vh,156px) !important;
+    font-size:clamp(50px,6.5vh,68px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap{
+    height:clamp(111px,14vh,150px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap h1 .title-line1{
+    font-size:clamp(23px,2vw,32px) !important;
+  }
+  #stage.writing-mode .topbar .title-wrap h1 .title-line2{
+    font-size:clamp(42px,4vw,66px) !important;
+  }
+
+  /* ============ 2. SIDEBAR ============ */
+  /* Emoji contoh & emoji wajah diperbesar 2x, ditempatkan di tengah panel;
+     kata contoh tetap di bawah emoji contoh (grup tetap dipusatkan). */
+  #stage.writing-mode .siderow .card.contoh{
+    align-items:center !important;
+  }
+  #stage.writing-mode .siderow .card.contoh .contoh-visual{
+    font-size:clamp(140px,12vw,210px) !important;
+    text-align:center !important;
+    width:100% !important;
+  }
+  #stage.writing-mode .siderow .card.contoh .contoh-word{
+    text-align:center !important;
+    width:100% !important;
+  }
+  /* Teks pengucapan tetap sejajar (baris) dengan emoji wajah. */
+  #stage.writing-mode .siderow .card.ucap .ucap-row{
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+  #stage.writing-mode .siderow .card.ucap .ucap-face{
+    font-size:clamp(120px,10vw,164px) !important;
+    cursor:pointer !important;
+  }
+  /* Judul kartu diperbesar, posisi tetap di atas seperti sekarang. */
+  #stage.writing-mode .siderow .card h3{
+    font-size:clamp(42px,3.3vw,57px) !important;
+  }
+  /* Tombol speaker terpisah dihilangkan -- fungsinya sudah dipindah ke emoji wajah. */
+  #stage.writing-mode .ucap-speak-btn,
+  #stage.writing-mode #writingSpeakBtn{
+    display:none !important;
+  }
+
+  /* ============ 3. BOTTOM NAV: tinggi 1.5x, tulisan diperbesar. ============ */
+  #stage.writing-mode .bottomnav .pillbtn{
+    min-height:clamp(81px,9vh,108px) !important;
+    font-size:clamp(25px,2.1vw,35px) !important;
+  }
+
+  /* ============ 4. TRACE PANEL: tulisan diperbesar, panel ukuran kuas
+     memakai rentang 15-100. ============ */
+  #stage.writing-mode .panel-toolbar .speak-hint{
+    font-size:20px !important;
+  }
+  #stage.writing-mode .panel-toolbar #btnHandGuide{
+    font-size:20px !important;
+    padding:12px 20px !important;
+  }
+  #stage.writing-mode .panel-toolbar .helpicon{
+    width:52px !important;
+    height:52px !important;
+    font-size:28px !important;
+  }
+  #stage.writing-mode .brush-size-label{
+    font-size:22px !important;
+  }
+  #stage.writing-mode #brushSizeValue{
+    font-size:22px !important;
+    min-width:44px !important;
+  }
+  #stage.writing-mode #matchProgress{
+    font-size:20px !important;
+    padding:10px 16px !important;
+  }
+}
+</style>
