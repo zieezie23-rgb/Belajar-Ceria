@@ -2508,28 +2508,7 @@ body::before {
 
 <style id="desktop-v14-targeted-fixes">
 @media (min-width:801px){
-  /* 1. MENU LATIHAN: rapatkan kartu agar tombol kembali selalu terlihat */
-  #startScreen #latihanMenu[style*="display: flex"]{
-    width:min(1180px,88vw) !important;
-    gap:clamp(10px,.9vw,16px) !important;
-    row-gap:clamp(10px,1vh,16px) !important;
-    padding-bottom:0 !important;
-  }
-  #startScreen #latihanMenu[style*="display: flex"] .sub-menu-item{
-    min-height:clamp(170px,19vh,225px) !important;
-    padding:clamp(8px,.7vw,14px) !important;
-  }
-  #startScreen #latihanMenu[style*="display: flex"] .submenu-img{
-    max-height:clamp(125px,16vh,180px) !important;
-    width:min(100%,360px) !important;
-  }
-  #startScreen #latihanMenu[style*="display: flex"] #countingScoreCard{
-    margin-top:clamp(6px,.7vh,10px) !important;
-  }
-  #startScreen #latihanMenu[style*="display: flex"] #backMainFromLatihan{
-    margin-top:clamp(5px,.6vh,9px) !important;
-    min-height:clamp(50px,6vh,64px) !important;
-  }
+  /* 1. MENU LATIHAN: proporsi diatur di blok "desktop-v10-final-user-fixes" (paling akhir & paling spesifik). */
 
   /* 2. MENULIS: kanvas horizontal + dua panel informasi di bawahnya */
   #stage.writing-mode .maingrid{
@@ -5750,23 +5729,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   #stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:clamp(50px,4.5vw,72px) !important;}
   #stage.simple-learning .topbar .title-wrap > span{font-size:clamp(34px,2.8vw,46px) !important;}
 
-  /* 2. MENU LATIHAN — icon dan label dibuat besar */
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
-    width:min(1450px,94vw) !important;
-    gap:clamp(26px,2.6vw,44px) !important;
-  }
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
-    min-height:clamp(270px,31vh,390px) !important;
-    padding:clamp(20px,1.8vw,32px) !important;
-  }
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .submenu-img{
-    width:min(100%,600px) !important;
-    max-height:clamp(210px,27vh,330px) !important;
-  }
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-title{
-    font-size:clamp(30px,2.4vw,42px) !important;
-    padding:clamp(16px,1.5vh,24px) !important;
-  }
+  /* 2. MENU LATIHAN — proporsi diatur di blok "desktop-v10-final-user-fixes" (paling akhir & paling spesifik). */
 
   /* 3. MENULIS — kanvas horizontal penuh, informasi di bawahnya */
   #stage.writing-mode .maingrid{
@@ -5886,7 +5849,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 <style id="desktop-v10-final-user-fixes">
 @media (min-width:801px){
-  /* 1. MENU LATIHAN: rapatkan 4 kartu agar tombol kembali tetap terlihat */
+  /* 1. MENU LATIHAN: rapatkan 4 kartu agar tombol kembali tetap terlihat, gambar mengisi penuh kartu (tanpa dibatasi ukuran piksel tetap) */
   #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
     width:min(1180px,88vw) !important;
     gap:clamp(14px,1.2vw,22px) !important;
@@ -5895,11 +5858,15 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
   #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-item{
     min-height:clamp(190px,22vh,260px) !important;
+    height:clamp(190px,22vh,260px) !important;
     padding:clamp(12px,1vw,20px) !important;
+    box-sizing:border-box !important;
   }
   #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .submenu-img{
-    width:min(100%,430px) !important;
-    max-height:clamp(145px,20vh,220px) !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
     object-fit:contain !important;
   }
   #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu .sub-menu-title{
@@ -5911,7 +5878,9 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
   #startScreen:has(#latihanMenu[style*="display: flex"]) #backMainFromLatihan{
     margin-top:clamp(8px,1vh,14px) !important;
-    min-height:58px !important;
+    min-height:clamp(58px,7vh,84px) !important;
+    width:100% !important;
+    box-sizing:border-box !important;
   }
 
   /* 2. MENULIS: kanvas horizontal penuh, panel informasi tetap di bawah */
@@ -6810,17 +6779,23 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 <style id="desktop-math-custom-v1">
 @media (min-width:801px){
-  /* Judul: teks disembunyikan, diganti gambar penjumlahan.png / pengurangan.png */
+  /* Judul: teks disembunyikan, diganti gambar penjumlahan.png / pengurangan.png — kotak header mengikuti tinggi layar, gambar mengisi penuh kotak (tidak dibatasi piksel tetap) */
   #additionScreen .addbox h1,#subtractionScreen .addbox h1{
+    height:clamp(70px,12vh,150px) !important;
     margin-bottom:clamp(6px,1vh,12px) !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
   }
   #additionScreen #addTitleText,#subtractionScreen #subTitleText{
     display:none !important;
   }
   #additionScreen #addTitleImg,#subtractionScreen #subTitleImg{
     display:block !important;
-    height:clamp(70px,9vh,120px) !important;
-    width:auto !important;
+    width:100% !important;
+    height:100% !important;
+    max-width:min(700px,90%) !important;
+    object-fit:contain !important;
     margin:0 auto !important;
   }
 
@@ -6933,7 +6908,7 @@ if(typeof applyLanguage==='function') applyLanguage();
     color:transparent !important;
     font-size:0 !important;
     line-height:0 !important;
-    width:clamp(140px,12vw,220px) !important;
+    width:100% !important;
     height:100% !important;
     background-repeat:no-repeat !important;
     background-position:center !important;
@@ -7053,7 +7028,7 @@ if(typeof applyLanguage==='function') applyLanguage();
     max-width:min(1100px,80vw) !important;
   }
   #stage.writing-mode .topbar .title-wrap h1#mainTitle{
-    width:clamp(500px,40vw,700px) !important;
+    /* lebar mengikuti title-wrap 100% (diatur di blok "desktop-writing-title-images-v1") */
   }
 }
 </style>
@@ -7114,6 +7089,29 @@ if(typeof applyLanguage==='function') applyLanguage();
   #additionScreen .addbtn-row .homebtn,#subtractionScreen .addbtn-row .homebtn{
     font-size:clamp(60px,5.6vw,84px) !important;
     padding:16px 24px !important;
+  }
+}
+</style>
+
+<style id="desktop-menu-logo-360">
+@media (min-width:801px){
+  /* Perbesar logo tombol menu Belajar, Latihan, dan Kuis di halaman utama menjadi 360px (khusus desktop). */
+  #startScreen #mainMenuOptions .huruf-logo-item{
+    max-width:380px !important;
+  }
+  #startScreen #mainMenuOptions .huruf-logo-item img,
+  #btnStartHuruf .huruf-logo-img{
+    width:360px !important;
+    max-width:100% !important;
+  }
+  #startScreen #menuCenterWrap > #btnStartQuiz,
+  #startScreen #menuCenterWrap > #btnMenuLatihan{
+    max-width:380px !important;
+  }
+  #startScreen #menuCenterWrap > #btnStartQuiz img,
+  #startScreen #menuCenterWrap > #btnMenuLatihan img{
+    width:360px !important;
+    max-width:100% !important;
   }
 }
 </style>
