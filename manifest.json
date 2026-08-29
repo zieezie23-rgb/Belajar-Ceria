@@ -5,22 +5,25 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",
-  "display_override": [
-    "fullscreen",
-    "standalone"
-  ],
+  "display_override": ["fullscreen", "standalone"],
   "orientation": "portrait",
   "background_color": "#6EC6FF",
   "theme_color": "#2E9EF5",
   "icons": [
     {
-      "src": "assets/judul.png",
+      "src": "assets/belajar.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "assets/judul.png",
+      "src": "assets/belajar.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/belajar.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "monochrome"
