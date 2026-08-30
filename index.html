@@ -295,10 +295,10 @@
   }
 
   .reset-progress-btn{
-    position:fixed; right:14px; bottom:10px; z-index:50;
+    position:fixed; right:24px; bottom:10px; z-index:50;
     width:auto; height:auto; border-radius:20px; border:2px solid #D62839;
-    background:#FFE1E1; padding:7px 14px;
-    color:#D62839; font-size:14px; font-weight:800; cursor:pointer;
+    background:#D62839; padding:7px 14px;
+    color:#fff; font-size:17px; font-weight:800; cursor:pointer;
     box-shadow:0 3px 0 rgba(150,30,30,.25);
     display:flex; align-items:center; gap:24px; justify-content:center;
     opacity:.9; transition:opacity .2s, transform .1s;
@@ -306,7 +306,7 @@
   }
   .reset-progress-btn:hover{ opacity:1; }
   .reset-progress-btn:active{ transform:translateY(2px); box-shadow:0 1px 0 rgba(150,30,30,.25); }
-  .reset-progress-btn .reset-icon{ color:#D62839; font-size:15px; }
+  .reset-progress-btn .reset-icon{ color:#fff; font-size:18px; }
 
   /* BOTTOM NAV */
   .bottomnav{ display:flex; gap:24px; margin-top:14px; flex-wrap:wrap; }
@@ -620,7 +620,7 @@
 
 /* Kotak nama lebih seperti name-tag di bagian bawah */
 .start-name-row{
-  width:min(360px,72vw)!important;
+  width:min(240px,60vw)!important;
   margin:auto auto 2px!important;
   order:5;
   position:relative;
@@ -793,7 +793,7 @@
 }
 #startScreen .start-title-img{
   box-sizing:border-box;
-  width:min(500px,100%);
+  width:min(400px,100%);
   max-width:100%;
 }
 </style>
@@ -4533,7 +4533,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   min-height:0;
   gap:0 !important;
 }
-#startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;color:#000 !important;text-shadow:none !important;}
+#startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;color:#FFCB3C !important;text-shadow:0 2px 0 rgba(0,0,0,.25) !important;}
 #startScreen .start-name-row{order:3 !important;margin:0 auto 12px !important;}
 #startScreen #mainMenuOptions{
   order:4 !important;
@@ -4548,7 +4548,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 #startScreen #mainMenuOptions .huruf-logo-item{
   order:initial !important;
   width:100% !important;
-  max-width:min(180px,100%) !important;
+  max-width:min(100px,100%) !important;
   min-width:0 !important;
   margin:0 auto !important;
   grid-column:1 / -1 !important;
@@ -4659,7 +4659,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 }
 #startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
 #startScreen #menuCenterWrap > .latihan-menu.has-img img{
-  width:min(100%,180px) !important;height:auto !important;margin:0 auto !important;
+  width:min(100%,100px) !important;height:auto !important;margin:0 auto !important;
 }
 #startScreen .progress-card{
   grid-column:1 / -1 !important;grid-row:5 !important;
@@ -4672,7 +4672,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
   #startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
   #startScreen #menuCenterWrap > .latihan-menu.has-img img{
-    width:min(100%,180px) !important;
+    width:min(100%,100px) !important;
   }
   #startScreen .progress-card{font-size:13px !important;}
 }
@@ -4978,8 +4978,8 @@ if(typeof applyLanguage==='function') applyLanguage();
   display:grid !important;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   grid-template-areas:
-    "name name"
     "sub sub"
+    "name name"
     "belajar belajar"
     "progress progress"
     "quiz latihan";
@@ -5030,11 +5030,11 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 /* Ukuran gambar dibuat seimbang agar dua tombol aman di HP. */
 #startScreen #menuCenterWrap > #btnStartQuiz img{
-  width:min(180px,100%) !important;
+  width:min(100px,100%) !important;
   max-width:100% !important;
 }
 #startScreen #menuCenterWrap > #btnMenuLatihan img{
-  width:min(180px,100%) !important;
+  width:min(100px,100%) !important;
   max-width:100% !important;
 }
 
@@ -5048,18 +5048,18 @@ if(typeof applyLanguage==='function') applyLanguage();
     max-width:100% !important;
   }
   #startScreen #menuCenterWrap > #btnStartQuiz img{
-    width:min(180px,100%) !important;
+    width:min(100px,100%) !important;
   }
   #startScreen #menuCenterWrap > #btnMenuLatihan img{
-    width:min(180px,100%) !important;
+    width:min(100px,100%) !important;
   }
 }
 
 /* Pada layar pendek, tetap pertahankan 2 kolom tanpa membuat halaman melebar. */
 @media(max-height:650px){
   #startScreen #menuCenterWrap{gap:4px 8px !important;}
-  #startScreen #menuCenterWrap > #btnStartQuiz img{width:min(180px,100%) !important;}
-  #startScreen #menuCenterWrap > #btnMenuLatihan img{width:min(180px,100%) !important;}
+  #startScreen #menuCenterWrap > #btnStartQuiz img{width:min(100px,100%) !important;}
+  #startScreen #menuCenterWrap > #btnMenuLatihan img{width:min(100px,100%) !important;}
 }
 </style>
 
