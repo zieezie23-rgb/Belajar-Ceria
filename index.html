@@ -4672,7 +4672,7 @@ if(typeof applyLanguage==='function') applyLanguage();
   }
   #startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
   #startScreen #menuCenterWrap > .latihan-menu.has-img img{
-    width:min(100%,170px) !important;
+    width:min(100%,180px) !important;
   }
   #startScreen .progress-card{font-size:13px !important;}
 }
@@ -4984,6 +4984,7 @@ if(typeof applyLanguage==='function') applyLanguage();
     "progress progress"
     "quiz latihan";
   align-items:center !important;
+  align-content:start !important;
   justify-items:center;
   width:100% !important;
   gap:8px 12px !important;
@@ -5029,11 +5030,11 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 /* Ukuran gambar dibuat seimbang agar dua tombol aman di HP. */
 #startScreen #menuCenterWrap > #btnStartQuiz img{
-  width:min(210px,100%) !important;
+  width:min(180px,100%) !important;
   max-width:100% !important;
 }
 #startScreen #menuCenterWrap > #btnMenuLatihan img{
-  width:min(230px,100%) !important;
+  width:min(180px,100%) !important;
   max-width:100% !important;
 }
 
@@ -5047,18 +5048,18 @@ if(typeof applyLanguage==='function') applyLanguage();
     max-width:100% !important;
   }
   #startScreen #menuCenterWrap > #btnStartQuiz img{
-    width:min(160px,100%) !important;
+    width:min(180px,100%) !important;
   }
   #startScreen #menuCenterWrap > #btnMenuLatihan img{
-    width:min(175px,100%) !important;
+    width:min(180px,100%) !important;
   }
 }
 
 /* Pada layar pendek, tetap pertahankan 2 kolom tanpa membuat halaman melebar. */
 @media(max-height:650px){
   #startScreen #menuCenterWrap{gap:4px 8px !important;}
-  #startScreen #menuCenterWrap > #btnStartQuiz img{width:min(150px,100%) !important;}
-  #startScreen #menuCenterWrap > #btnMenuLatihan img{width:min(165px,100%) !important;}
+  #startScreen #menuCenterWrap > #btnStartQuiz img{width:min(180px,100%) !important;}
+  #startScreen #menuCenterWrap > #btnMenuLatihan img{width:min(180px,100%) !important;}
 }
 </style>
 
