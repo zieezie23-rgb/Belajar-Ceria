@@ -2156,8 +2156,8 @@ body::before {
       <div class="canvaswrap" id="wrapMain">
 <div class="brush-size-panel" id="brushSizePanel" aria-label="Ukuran kuas">
             <span class="brush-size-label">Kuas</span>
-            <input id="brushSize" type="range" min="30" max="100" value="60" step="1" aria-label="Ukuran kuas">
-            <span id="brushSizeValue">60</span>
+            <input id="brushSize" type="range" min="10" max="100" value="24" step="1" aria-label="Ukuran kuas">
+            <span id="brushSizeValue">24</span>
           </div>
         <div class="learn-canvas-title" id="learnCanvasTitle" style="display:none">Bentuk Huruf</div>
         <svg viewBox="0 0 600 300" id="svgMain"></svg>
@@ -3333,6 +3333,20 @@ const chipStripAnchor = document.createComment('chip-strip-anchor');
 if(variantPickerEl) variantPickerEl.after(variantPickerAnchor);
 if(chipStripEl) chipStripEl.after(chipStripAnchor);
 
+// Tombol kembali (btnKembali): pada mode Menulis, tombol ini dipindahkan ke
+// baris khusus di bagian bawah halaman (writingHomeRow), tanpa lingkaran/ikon
+// rumah, diganti label panah + "Kembali ke Menu".
+const btnKembaliEl = document.getElementById('btnKembali');
+const btnKembaliAnchor = document.createComment('btn-kembali-anchor');
+const writingHomeRowEl = document.getElementById('writingHomeRow');
+if(btnKembaliEl) btnKembaliEl.after(btnKembaliAnchor);
+
+// Tombol Bersihkan (btnClear): pada mode Menulis dipindahkan ke pojok kanan
+// bawah kanvas, sejajar dengan nilai kecocokan, jadi ikon tempat sampah saja.
+const btnClearEl = document.getElementById('btnClear');
+const btnClearAnchor = document.createComment('btn-clear-anchor');
+if(btnClearEl) btnClearEl.after(btnClearAnchor);
+
 function render(){
   const svgMain = document.getElementById('svgMain');
   const wrapMain = document.getElementById('wrapMain');
@@ -3363,6 +3377,33 @@ function render(){
     if(variantPickerEl && !variantPickerEl.isConnected) variantPickerAnchor.after(variantPickerEl);
     if(chipStripEl && !chipStripEl.isConnected) chipStripAnchor.after(chipStripEl);
   }
+
+  // Tombol kembali: pindah ke tengah bawah halaman khusus mode Menulis,
+  // dengan label panah + teks (bukan ikon rumah bulat).
+  if(btnKembaliEl){
+    if(writingMode){
+      if(writingHomeRowEl && !writingHomeRowEl.contains(btnKembaliEl)) writingHomeRowEl.appendChild(btnKembaliEl);
+      btnKembaliEl.innerHTML = '<span class="kembali-arrow" aria-hidden="true">←</span><span class="kembali-text">Kembali ke Menu</span>';
+    } else {
+      if(writingHomeRowEl && writingHomeRowEl.contains(btnKembaliEl)) btnKembaliAnchor.after(btnKembaliEl);
+      btnKembaliEl.innerHTML = '🏠';
+    }
+  }
+
+  // Tombol Bersihkan: pindah ke pojok kanan bawah kanvas (sejajar dengan
+  // nilai kecocokan), jadi ikon tempat sampah saja tanpa teks.
+  if(btnClearEl){
+    if(writingMode){
+      if(wrapMain && !wrapMain.contains(btnClearEl)) wrapMain.appendChild(btnClearEl);
+      btnClearEl.innerHTML = '🗑️';
+      btnClearEl.setAttribute('aria-label','Bersihkan');
+      btnClearEl.setAttribute('title','Bersihkan');
+    } else {
+      if(wrapMain && wrapMain.contains(btnClearEl)) btnClearAnchor.after(btnClearEl);
+      btnClearEl.textContent = '🗑️ Bersihkan';
+    }
+  }
+
   const ucapCard = document.querySelector('.card.ucap');
   if(ucapCard) ucapCard.classList.toggle('hide-syllable', mode === 'huruf');
   wrapMain.classList.toggle('learn-letter', cleanLearning && mode === 'huruf');
@@ -3378,7 +3419,9 @@ function render(){
 
   const mainTitleEl = document.getElementById('mainTitle');
   if(writingMode){
-    mainTitleEl.textContent = mode === 'huruf' ? 'MENULIS HURUF' : 'MENULIS ANGKA';
+    const titleImgSrc = mode === 'huruf' ? 'assets/menulis_huruf.png' : 'assets/menulis_angka.png';
+    const titleImgAlt = mode === 'huruf' ? 'Menulis Huruf' : 'Menulis Angka';
+    mainTitleEl.innerHTML = '<img src="' + titleImgSrc + '" alt="' + titleImgAlt + '" class="title-img">';
   } else {
     const titleLine1 = language === 'en' ? 'LEARN' : 'MENGENAL';
     const titleLine2 = language === 'en' ? 'LETTERS AND NUMBERS' : 'HURUF DAN ANGKA';
@@ -3459,23 +3502,11 @@ function renderChips(){
     return;
   }
 
-  // Mode Menulis Huruf: hanya 5 huruf per tampilan, dengan panah kiri/kanan.
+  // Mode Menulis Huruf: seluruh huruf A-Z ditampilkan, digeser dengan scroll
+  // kiri/kanan (tidak lagi memakai tombol panah).
   if(writingMode && mode === 'huruf'){
     strip.classList.add('writing-letter-grid');
-    const windowSize = 10;
-    const maxStart = Math.max(0, LETTERS.length - windowSize);
-    const start = Math.max(0, Math.min(maxStart, index));
-
-    const prev=document.createElement('button');
-    prev.type='button';
-    prev.className='writing-grid-arrow';
-    prev.textContent='‹';
-    prev.setAttribute('aria-label','Huruf sebelumnya');
-    prev.disabled=start===0;
-    prev.onclick=()=>{ if(index>0){ index=Math.max(0,index-1); render(); } };
-    strip.appendChild(prev);
-
-    LETTERS.slice(start,start+windowSize).forEach(item=>{
+    LETTERS.forEach(item=>{
       const b=document.createElement('button');
       b.type='button';
       b.className='chip';
@@ -3485,15 +3516,6 @@ function renderChips(){
       b.onclick=()=>{ index=LETTERS.indexOf(item); render(); };
       strip.appendChild(b);
     });
-
-    const next=document.createElement('button');
-    next.type='button';
-    next.className='writing-grid-arrow';
-    next.textContent='›';
-    next.setAttribute('aria-label','Huruf berikutnya');
-    next.disabled=start>=maxStart;
-    next.onclick=()=>{ if(index<LETTERS.length-1){ index=Math.min(LETTERS.length-1,index+1); render(); } };
-    strip.appendChild(next);
     return;
   }
 
@@ -4872,14 +4894,13 @@ if(typeof applyLanguage==='function') applyLanguage();
         try{
           const item = mode === 'huruf' ? LETTERS[index] : NUMBERS[index];
           if(!item) return;
-          const lang = 'id-ID';
-          speechSynthesis.cancel();
-          const text = mode === 'huruf'
-            ? (item.say || item.ch)
-            : (item.say || item.word || currentWord(item) || item.d);
-          const u = new SpeechSynthesisUtterance(text);
-          u.lang=lang; u.rate=.82; u.pitch=1.05;
-          speechSynthesis.speak(u);
+          if(mode === 'huruf'){
+            speakTTS(item.ch, 'id-ID');
+          } else {
+            const digit = item.d;
+            const spelled = currentSyllable(item) || item.word || '';
+            speakSequence([digit, spelled, digit], 'id-ID', 420);
+          }
         }catch(e){}
       });
     }
@@ -5285,7 +5306,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 (function(){
  const r=document.getElementById('brushSize');
  const v=document.getElementById('brushSizeValue');
- if(r){ r.min='30'; r.max='100'; if(Number(r.value)>100||Number(r.value)<30) r.value='60'; if(v) v.textContent=r.value; r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
+ if(r){ r.min='10'; r.max='100'; r.value='24'; if(v) v.textContent=r.value; r.dispatchEvent(new Event('input',{bubbles:true})); r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
 })();
 </script>
 
@@ -5337,3 +5358,473 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 
 
+
+<style id="learning-header-v29-enlarge-flat">
+/* === Menu Belajar: header diperbesar, pilihan bentuk dihapus, jarak ke grid ditambah,
+   dan bentuk pil pada tombol home/judul/tombol bahasa dihilangkan === */
+
+/* 1) Perbesar ukuran header */
+#stage.simple-learning .topbar{
+  margin-bottom:20px !important;
+}
+#stage.simple-learning .topbar #btnKembali,
+#stage.simple-learning .topbar #btnLanguage{
+  width:76px !important; min-width:76px !important;
+  height:76px !important; min-height:76px !important;
+  flex:0 0 76px !important;
+  font-size:34px !important;
+}
+#stage.simple-learning .topbar .title-wrap{
+  height:76px !important;
+  padding:6px 16px !important;
+}
+#stage.simple-learning .topbar .title-wrap h1 .title-line1{
+  font-size:15px !important;
+}
+#stage.simple-learning .topbar .title-wrap h1 .title-line2{
+  font-size:30px !important;
+}
+#stage.simple-learning .topbar .title-wrap > span{
+  font-size:28px !important;
+}
+#stage.simple-learning .topbar #btnLanguage .lang-flag{ font-size:26px !important; }
+#stage.simple-learning .topbar #btnLanguage .lang-code{ font-size:16px !important; }
+
+@media(max-width:430px){
+  #stage.simple-learning .topbar #btnKembali,
+  #stage.simple-learning .topbar #btnLanguage{
+    width:62px !important; min-width:62px !important;
+    height:62px !important; min-height:62px !important;
+    flex-basis:62px !important;
+    font-size:28px !important;
+  }
+  #stage.simple-learning .topbar .title-wrap{ height:62px !important; }
+  #stage.simple-learning .topbar .title-wrap h1 .title-line1{ font-size:12px !important; }
+  #stage.simple-learning .topbar .title-wrap h1 .title-line2{ font-size:22px !important; }
+  #stage.simple-learning .topbar .title-wrap > span{ font-size:22px !important; }
+}
+
+/* 2) Hapus opsi pilihan bentuk pada menu Belajar */
+#stage.simple-learning .learning-variant-picker,
+#stage.simple-learning #variantPickerAnchor{
+  display:none !important;
+}
+
+/* 3) Beri jarak lebih antara header dan grid huruf/angka */
+#stage.simple-learning .chipstrip{
+  margin-top:32px !important;
+}
+@media(max-width:800px){
+  #stage.simple-learning .chipstrip{ margin-top:24px !important; }
+}
+
+/* 4) Hilangkan bentuk pil (background/shadow) pada tombol home, judul, dan tombol bahasa */
+#stage.simple-learning .topbar #btnKembali,
+#stage.simple-learning .topbar #btnLanguage,
+#stage.simple-learning .topbar .title-wrap{
+  background:none !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+#stage.simple-learning .topbar #btnKembali{
+  color:var(--pink-dark) !important;
+}
+#stage.simple-learning .topbar #btnLanguage{
+  color:var(--orange-dark) !important;
+}
+#stage.simple-learning .topbar .title-wrap h1{
+  color:var(--ink) !important;
+}
+#stage.simple-learning .topbar #btnKembali:active,
+#stage.simple-learning .topbar #btnLanguage:active{
+  transform:scale(.92) !important;
+  box-shadow:none !important;
+}
+</style>
+
+<style id="writing-practice-v30-overrides">
+/* === Sub-menu Latihan Menulis: tombol kembali, judul gambar, chip strip
+   scroll, dan hint area tulis === */
+
+/* 1) Tombol kembali dipindah ke tengah bawah halaman, tanpa lingkaran/ikon rumah */
+#writingHomeRow{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  margin-top:18px !important;
+  padding-bottom:6px !important;
+}
+#stage.writing-mode #btnKembali{
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:0 !important;
+  border-radius:14px !important;
+  background:none !important;
+  box-shadow:none !important;
+  padding:10px 18px !important;
+  color:var(--pink-dark) !important;
+  font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif !important;
+  font-weight:800 !important;
+  font-size:17px !important;
+  gap:8px !important;
+}
+#stage.writing-mode #btnKembali .kembali-arrow{ font-size:22px; line-height:1; }
+#stage.writing-mode #btnKembali:active{
+  transform:scale(.94) !important;
+  box-shadow:none !important;
+}
+@media(max-width:600px){
+  #stage.writing-mode #btnKembali{ font-size:15px !important; padding:9px 14px !important; }
+  #stage.writing-mode #btnKembali .kembali-arrow{ font-size:19px; }
+}
+
+/* 2) Judul: perbesar, hilangkan bentuk pil + teks, ganti dengan gambar */
+#stage.writing-mode .title-wrap{
+  background:none !important;
+  box-shadow:none !important;
+  padding:4px 10px !important;
+}
+#stage.writing-mode .title-wrap > span{
+  display:none !important;
+}
+#stage.writing-mode .title-wrap h1{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100%;
+}
+#stage.writing-mode .title-wrap .title-img{
+  height:72px !important;
+  width:auto !important;
+  max-width:100%;
+  display:block;
+  object-fit:contain;
+}
+@media(max-width:600px){
+  #stage.writing-mode .title-wrap .title-img{ height:54px !important; }
+}
+
+/* 3) Chip strip: hapus panah, jadikan scroll kiri-kanan */
+#stage.writing-mode .writing-grid-arrow{
+  display:none !important;
+}
+#stage.writing-mode #chipStrip.writing-letter-grid{
+  display:flex !important;
+  justify-content:flex-start !important;
+  align-items:center !important;
+  gap:10px !important;
+  width:min(760px,calc(100vw - 24px)) !important;
+  margin:clamp(18px,3vh,28px) auto 0 !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  flex-wrap:nowrap !important;
+  -webkit-overflow-scrolling:touch !important;
+  scroll-snap-type:x proximity !important;
+  padding:2px 4px 10px !important;
+}
+#stage.writing-mode #chipStrip.writing-letter-grid .chip{
+  flex:0 0 56px !important;
+  width:56px !important;
+  height:56px !important;
+  min-height:0 !important;
+  aspect-ratio:1/1 !important;
+  transform:none !important;
+  margin:0 !important;
+  scroll-snap-align:center !important;
+}
+@media(max-width:600px){
+  #stage.writing-mode #chipStrip.writing-letter-grid{
+    width:calc(100vw - 16px) !important;
+    gap:8px !important;
+  }
+  #stage.writing-mode #chipStrip.writing-letter-grid .chip{
+    flex:0 0 48px !important;
+    width:48px !important;
+    height:48px !important;
+  }
+}
+
+/* 4) Hint "Gambar dengan jari / mouse": perbesar & tengahkan */
+#stage.writing-mode .panel-toolbar{
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:12px !important;
+}
+#stage.writing-mode .speak-hint{
+  font-size:20px !important;
+  text-align:center !important;
+  width:100%;
+}
+</style>
+
+<style id="writing-show-contoh-v31">
+/* Tampilkan kembali kartu "Contoh Kata" di sub-menu Menulis */
+#stage.writing-mode .card.contoh{
+  display:block !important;
+}
+#stage.writing-mode .sidebar .siderow{
+  justify-content:flex-start !important;
+}
+#stage.writing-mode .sidebar .card.ucap{
+  width:100% !important;
+}
+</style>
+
+<style id="writing-practice-v32-refinements">
+/* === Sub-menu Latihan Menulis: penyempurnaan chip strip, trace panel,
+   sidebar 2 kolom, tombol bersihkan, dan tombol kembali === */
+
+/* 1) Chip strip huruf: tetap scroll, maksimal 7 chip terlihat */
+#stage.writing-mode #chipStrip.writing-letter-grid{
+  width:min(426px, calc(100vw - 24px)) !important;
+  gap:8px !important;
+}
+#stage.writing-mode #chipStrip.writing-letter-grid .chip{
+  flex:0 0 54px !important;
+  width:54px !important;
+  height:54px !important;
+}
+@media(max-width:600px){
+  #stage.writing-mode #chipStrip.writing-letter-grid{
+    width:min(344px, calc(100vw - 16px)) !important;
+    gap:6px !important;
+  }
+  #stage.writing-mode #chipStrip.writing-letter-grid .chip{
+    flex:0 0 44px !important;
+    width:44px !important;
+    height:44px !important;
+  }
+}
+
+/* Chip strip angka: semua digit tampil sekaligus kiri ke kanan, tanpa scroll */
+#stage.writing-mode #chipStrip.writing-number-grid{
+  display:grid !important;
+  grid-template-columns:repeat(10, minmax(0,1fr)) !important;
+  gap:8px !important;
+  width:min(760px, calc(100vw - 24px)) !important;
+  overflow:visible !important;
+}
+#stage.writing-mode #chipStrip.writing-number-grid .chip{
+  width:100% !important;
+  height:auto !important;
+  aspect-ratio:1/1 !important;
+  min-height:0 !important;
+  transform:none !important;
+  margin:0 !important;
+  font-size:clamp(16px,3.2vw,26px) !important;
+}
+@media(max-width:600px){
+  #stage.writing-mode #chipStrip.writing-number-grid{
+    width:calc(100vw - 16px) !important;
+    gap:5px !important;
+  }
+}
+
+/* 2) Trace panel: hint dipertebal + garis bawah */
+#stage.writing-mode .speak-hint{
+  font-weight:900 !important;
+  text-decoration:underline !important;
+  text-underline-offset:4px !important;
+}
+
+/* Efek bergoyang pada contoh menulis (bentuk panduan di kanvas) */
+@keyframes writingExampleWiggle{
+  0%,100%{ transform:rotate(0deg); }
+  25%{ transform:rotate(-2.5deg); }
+  75%{ transform:rotate(2.5deg); }
+}
+#stage.writing-mode #svgMain{
+  transform-origin:50% 50%;
+  animation:writingExampleWiggle 2.6s ease-in-out infinite;
+}
+
+/* Tombol Bersihkan: ikon tempat sampah bulat, pojok kanan bawah kanvas,
+   sejajar horizontal dengan nilai kecocokan */
+#stage.writing-mode #btnClear{
+  position:absolute !important;
+  right:12px !important;
+  bottom:12px !important;
+  left:auto !important;
+  top:auto !important;
+  z-index:8 !important;
+  width:44px !important;
+  height:44px !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  padding:0 !important;
+  border-radius:50% !important;
+  background:rgba(255,255,255,.92) !important;
+  border:1px solid rgba(15,23,42,.12) !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.08) !important;
+  color:#D62839 !important;
+  font-size:20px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:none !important;
+  cursor:pointer !important;
+}
+#stage.writing-mode #btnClear:active{
+  transform:scale(.92) !important;
+  box-shadow:0 2px 6px rgba(0,0,0,.08) !important;
+}
+
+/* 3) Sidebar: 2 kolom sejajar, ukuran sama */
+#stage.writing-mode .sidebar .siderow{
+  flex-direction:row !important;
+  align-items:stretch !important;
+}
+#stage.writing-mode .sidebar .siderow .card{
+  flex:1 1 0 !important;
+  width:0 !important;
+  min-width:0 !important;
+}
+#stage.writing-mode .sidebar .card.ucap{
+  width:0 !important;
+}
+#stage.writing-mode .sidebar .card{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+}
+#stage.writing-mode .sidebar .card h3{
+  font-size:20px !important;
+  font-weight:900 !important;
+  text-decoration:underline !important;
+  text-underline-offset:4px !important;
+  text-align:center !important;
+  display:block !important;
+  width:100% !important;
+  margin:0 0 12px !important;
+}
+#stage.writing-mode .sidebar .card.ucap .ucap-row{
+  flex-direction:column !important;
+  align-items:center !important;
+  text-align:center !important;
+  gap:8px !important;
+  width:100% !important;
+}
+#stage.writing-mode .sidebar .card.ucap .ucap-content{
+  width:100% !important;
+}
+#stage.writing-mode .sidebar .card.ucap .ucap-face{
+  font-size:36px !important;
+}
+
+/* 5) Tombol kembali: diperbesar lagi */
+#stage.writing-mode #btnKembali{
+  font-size:22px !important;
+  padding:14px 26px !important;
+  gap:10px !important;
+}
+#stage.writing-mode #btnKembali .kembali-arrow{
+  font-size:28px !important;
+}
+@media(max-width:600px){
+  #stage.writing-mode #btnKembali{
+    font-size:18px !important;
+    padding:12px 20px !important;
+  }
+  #stage.writing-mode #btnKembali .kembali-arrow{
+    font-size:24px !important;
+  }
+}
+</style>
+
+<style id="writing-practice-v33-fixes">
+/* === Perbaikan: hint = ukuran judul sidebar, sidebar benar-benar 2 kolom
+   di semua ukuran layar, hapus tombol Sebelumnya & Berikutnya === */
+
+/* Tombol Sebelumnya & Berikutnya tidak lagi diperlukan di mode Menulis */
+#stage.writing-mode #bottomNav{
+  display:none !important;
+}
+
+/* Sidebar tetap 2 kolom sejajar di layar sempit; ukuran judul & hint
+   disesuaikan agar tetap nyaman dibaca tanpa kembali menumpuk vertikal */
+@media(max-width:600px){
+  #stage.writing-mode .sidebar .card h3,
+  #stage.writing-mode .speak-hint{
+    font-size:15px !important;
+  }
+  #stage.writing-mode .sidebar .card{
+    padding:10px !important;
+  }
+  #stage.writing-mode .sidebar .card.ucap .ucap-face{
+    font-size:26px !important;
+  }
+}
+</style>
+
+<style id="writing-sidebar-v34-layout">
+/* === Sidebar: judul selalu di atas, gambar di tengah, teks di bawah;
+   gambar contoh diperbesar 100% dan gambar wajah disamakan ukurannya === */
+
+#stage.writing-mode .sidebar .card{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  text-align:center !important;
+}
+#stage.writing-mode .sidebar .card h3{
+  flex:0 0 auto !important;
+  order:1;
+}
+
+/* Kartu Contoh Kata: judul - gambar (mengisi ruang tengah) - teks */
+#stage.writing-mode .sidebar .card.contoh .contoh-visual{
+  order:2;
+  flex:1 1 auto !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  font-size:92px !important;
+  line-height:1.05 !important;
+  padding:16px 8px !important;
+  margin:6px 0 !important;
+}
+#stage.writing-mode .sidebar .card.contoh .contoh-word{
+  order:3;
+  flex:0 0 auto !important;
+  width:100% !important;
+}
+
+/* Kartu Cara Mengucapkan: judul - gambar wajah (mengisi ruang tengah) - teks */
+#stage.writing-mode .sidebar .card.ucap .ucap-row{
+  order:2;
+  flex:1 1 auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  width:100% !important;
+}
+#stage.writing-mode .sidebar .card.ucap .ucap-face{
+  flex:1 1 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:92px !important;
+  line-height:1 !important;
+}
+#stage.writing-mode .sidebar .card.ucap .ucap-content{
+  flex:0 0 auto !important;
+  width:100% !important;
+}
+
+@media(max-width:600px){
+  #stage.writing-mode .sidebar .card.contoh .contoh-visual{
+    font-size:56px !important;
+  }
+  #stage.writing-mode .sidebar .card.ucap .ucap-face{
+    font-size:56px !important;
+  }
+}
+</style>
