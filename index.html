@@ -4211,25 +4211,12 @@ document.getElementById('quizHomeBtn').onclick = () => {
   <h1 class="display" id="addTitle"><span id="addTitleText">➕ Penjumlahan</span><img src="assets/penjumlahan.png" alt="Penjumlahan" id="addTitleImg" class="math-title-img" style="display:none;"></h1>
   <div class="addprogress" id="addProgress"></div>
   <div class="addq" id="addQuestion"></div>
-  <p class="addhint" id="addHint">🔢 Tekan angka jawabannya:</p>
+  <p class="addhint" id="addHint">🖐️ Geser jawaban ke kotak:</p>
   <button class="math-speak-btn" id="addSpeakQuestion" type="button">🔊 Ulangi Soal</button>
   <div class="addanswer-display" id="addAnswerDisplay">_</div>
-  <div class="addkeypad" id="addKeypad">
-    <button class="addkey" data-d="1">1</button>
-    <button class="addkey" data-d="2">2</button>
-    <button class="addkey" data-d="3">3</button>
-    <button class="addkey" data-d="4">4</button>
-    <button class="addkey" data-d="5">5</button>
-    <button class="addkey" data-d="6">6</button>
-    <button class="addkey" data-d="7">7</button>
-    <button class="addkey" data-d="8">8</button>
-    <button class="addkey" data-d="9">9</button>
-    <button class="addkey zero" data-d="0">0</button>
-    <button class="addkey back" id="addBackspace">⌫</button>
-  </div>
+  <div class="answer-options" id="addOptions"></div>
   <div class="addbtn-row">
-   <button class="pillbtn green" id="addCheckBtn" onclick="checkAddAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray homebtn" aria-label="Latihan" title="Latihan" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();">🏠</button>
+   <button class="pillbtn gray homebtn mathback" id="addHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
   </div>
  </div>
 </div>
@@ -4284,16 +4271,13 @@ document.getElementById('quizHomeBtn').onclick = () => {
  window.updateAddDisplay=function(){
    document.getElementById('addAnswerDisplay').textContent = addTyped || '_';
  }
- document.querySelectorAll('#addKeypad .addkey[data-d]').forEach(btn=>{
-   btn.onclick=()=>{ if(addTyped.length<3) addTyped+=btn.dataset.d; updateAddDisplay(); };
- });
- document.getElementById('addBackspace').onclick=()=>{ addTyped=addTyped.slice(0,-1); updateAddDisplay(); };
  window.renderAdd=function(){
    let q=addQuestions[addIndex];
    document.getElementById('addQuestion').textContent=`${q.a} + ${q.b} = ?`;
     document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1} · Skor: ${addScore}`;
    addTyped='';
    updateAddDisplay();
+   renderAnswerOptions('add', q.ans);
  }
  window.openAddition=function(){
     language='id';
@@ -4321,25 +4305,31 @@ document.getElementById('quizHomeBtn').onclick = () => {
    let p=document.getElementById('addPopup');
    document.getElementById('addPopupEmoji').textContent=ok?'🎉':'😥';
     document.getElementById('addPopupTitle').textContent = ok ? 'Hebat, Jawaban Benar!' : 'Yah, Jawaban Salah!';
-    document.getElementById('addRetryBtn').textContent = '🔄 Coba Lagi';
-    document.getElementById('addNextBtn').textContent = '➡️ Berikutnya';
-   document.getElementById('addRetryBtn').style.display=ok?'none':'';
-   document.getElementById('addNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
     let u=new SpeechSynthesisUtterance(ok ? 'Hebat, Kamu pintar' : 'Yah, Jawaban salah');
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    document.getElementById('addProgress').textContent = `Soal ke-${addIndex+1} · Skor: ${addScore}`;
    window._lastAddOk=ok;
+   setTimeout(()=>{
+     p.classList.remove('show');
+     if(ok){
+       nextAddQuestion();
+     } else {
+       addTyped='';
+       updateAddDisplay();
+       document.querySelectorAll('#addOptions .answer-chip').forEach(c=>{ c.disabled=false; c.classList.remove('picked'); });
+     }
+   },1200);
  }
  window.applyAddSubLanguage=function(){
     const setText=(id,text)=>{ const el=document.getElementById(id); if(el) el.textContent=text; };
     setText('addTitleText','➕ Penjumlahan');
-    setText('addHint','🔢 Tekan angka jawabannya:');
+    setText('addHint','🖐️ Geser jawaban ke kotak:');
     setText('addCheckBtn','✅ Periksa');
     setText('addRetryBtn','🔄 Coba Lagi');
     setText('addNextBtn','➡️ Berikutnya');
     setText('subTitleText','➖ Pengurangan');
-    setText('subHint','🔢 Tekan angka jawabannya:');
+    setText('subHint','🖐️ Geser jawaban ke kotak:');
     setText('subCheckBtn','✅ Periksa');
     setText('subRetryBtn','🔄 Coba Lagi');
     setText('subNextBtn','➡️ Berikutnya');
@@ -4379,25 +4369,12 @@ document.getElementById('quizHomeBtn').onclick = () => {
   <h1 class="display" id="subTitle"><span id="subTitleText">➖ Pengurangan</span><img src="assets/pengurangan.png" alt="Pengurangan" id="subTitleImg" class="math-title-img" style="display:none;"></h1>
   <div class="addprogress" id="subProgress"></div>
   <div class="addq" id="subQuestion"></div>
-  <p class="addhint" id="subHint">🔢 Tekan angka jawabannya:</p>
+  <p class="addhint" id="subHint">🖐️ Geser jawaban ke kotak:</p>
   <button class="math-speak-btn" id="subSpeakQuestion" type="button">🔊 Ulangi Soal</button>
   <div class="addanswer-display" id="subAnswerDisplay">_</div>
-  <div class="addkeypad" id="subKeypad">
-    <button class="addkey subkey" data-d="1">1</button>
-    <button class="addkey subkey" data-d="2">2</button>
-    <button class="addkey subkey" data-d="3">3</button>
-    <button class="addkey subkey" data-d="4">4</button>
-    <button class="addkey subkey" data-d="5">5</button>
-    <button class="addkey subkey" data-d="6">6</button>
-    <button class="addkey subkey" data-d="7">7</button>
-    <button class="addkey subkey" data-d="8">8</button>
-    <button class="addkey subkey" data-d="9">9</button>
-    <button class="addkey subkey zero" data-d="0">0</button>
-    <button class="addkey back" id="subBackspace">⌫</button>
-  </div>
+  <div class="answer-options" id="subOptions"></div>
   <div class="addbtn-row">
-   <button class="pillbtn orange" id="subCheckBtn" onclick="checkSubAnswer()">✅ Periksa</button>
-   <button class="pillbtn gray homebtn" aria-label="Latihan" title="Latihan" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();">🏠</button>
+   <button class="pillbtn gray homebtn mathback" id="subHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
   </div>
  </div>
 </div>
@@ -4426,16 +4403,13 @@ document.getElementById('quizHomeBtn').onclick = () => {
  window.updateSubDisplay=function(){
    document.getElementById('subAnswerDisplay').textContent = subTyped || '_';
  }
- document.querySelectorAll('#subKeypad .addkey[data-d]').forEach(btn=>{
-   btn.onclick=()=>{ if(subTyped.length<3) subTyped+=btn.dataset.d; updateSubDisplay(); };
- });
- document.getElementById('subBackspace').onclick=()=>{ subTyped=subTyped.slice(0,-1); updateSubDisplay(); };
  window.renderSub=function(){
    let q=subQuestions[subIndex];
    document.getElementById('subQuestion').textContent=`${q.a} - ${q.b} = ?`;
     document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1} · Skor: ${subScore}`;
    subTyped='';
    updateSubDisplay();
+   renderAnswerOptions('sub', q.ans);
  }
  window.openSubtraction=function(){
     language='id';
@@ -4463,15 +4437,21 @@ document.getElementById('quizHomeBtn').onclick = () => {
    let p=document.getElementById('subPopup');
    document.getElementById('subPopupEmoji').textContent=ok?'🎉':'😥';
     document.getElementById('subPopupTitle').textContent = ok ? 'Hebat, Jawaban Benar!' : 'Yah, Jawaban Salah!';
-    document.getElementById('subRetryBtn').textContent = '🔄 Coba Lagi';
-    document.getElementById('subNextBtn').textContent = '➡️ Berikutnya';
-   document.getElementById('subRetryBtn').style.display=ok?'none':'';
-   document.getElementById('subNextBtn').style.display=ok?'':'none';
    p.classList.add('show');
     let u=new SpeechSynthesisUtterance(ok ? 'Hebat, Kamu pintar' : 'Yah, Jawaban salah');
     u.lang='id-ID'; speechSynthesis.cancel(); speechSynthesis.speak(u);
    document.getElementById('subProgress').textContent = `Soal ke-${subIndex+1} · Skor: ${subScore}`;
    window._lastSubOk=ok;
+   setTimeout(()=>{
+     p.classList.remove('show');
+     if(ok){
+       nextSubQuestion();
+     } else {
+       subTyped='';
+       updateSubDisplay();
+       document.querySelectorAll('#subOptions .answer-chip').forEach(c=>{ c.disabled=false; c.classList.remove('picked'); });
+     }
+   },1200);
  }
  window.retrySub=function(){
    document.getElementById('subPopup').classList.remove('show');
@@ -5826,5 +5806,319 @@ if(typeof applyLanguage==='function') applyLanguage();
   #stage.writing-mode .sidebar .card.ucap .ucap-face{
     font-size:56px !important;
   }
+}
+</style>
+
+<style id="mathscreen-v35-overrides">
+/* === Penjumlahan & Pengurangan: judul gambar, jarak progres, ukuran soal,
+   sembunyikan tombol popup, sembunyikan tombol Periksa (sudah dihapus di HTML) === */
+
+/* 1-3) Judul: hapus shape & teks, ganti dengan gambar */
+#addTitleText, #subTitleText{
+  display:none !important;
+}
+#addTitleImg, #subTitleImg{
+  display:block !important;
+  height:64px !important;
+  width:auto !important;
+  margin:0 auto !important;
+}
+.addbox h1, .subbox h1{
+  background:none !important;
+  -webkit-text-stroke:0 !important;
+  color:transparent !important;
+  display:flex !important;
+  justify-content:center !important;
+}
+
+/* 4) Jarak lebih antara judul dan progres soal */
+.addbox h1{
+  margin-bottom:22px !important;
+}
+
+/* 5) Perbesar teks soal tanpa memperbesar kotak soal */
+.addq{
+  font-size:60px !important;
+  padding:18px 8px !important;
+}
+
+/* 7) Tombol Periksa sudah dihapus dari HTML; sembunyikan juga tombol
+   Coba Lagi / Berikutnya pada popup karena alurnya kini otomatis */
+#addPopup .addbtn-row,
+#subPopup .addbtn-row{
+  display:none !important;
+}
+
+@media(max-width:480px){
+  #addTitleImg, #subTitleImg{ height:48px !important; }
+  .addq{ font-size:44px !important; }
+}
+</style>
+
+<script id="answer-drag-v36">
+(function(){
+  function shuffleArr(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
+  function makeAnswerOptions(ans){
+    const opts=new Set([ans]);
+    let guard=0;
+    while(opts.size<4 && guard<60){
+      guard++;
+      const delta=Math.floor(Math.random()*9)-4; // -4..4
+      let val=ans+delta;
+      if(val<0) val=ans+Math.abs(delta)+1;
+      if(val!==ans && val>=0) opts.add(val);
+    }
+    return shuffleArr([...opts]);
+  }
+
+  function bindChipDrag(chip, dropZoneId, onDrop){
+    let dragging=false;
+    let startX=0,startY=0,origX=0,origY=0;
+
+    chip.addEventListener('pointerdown', function(e){
+      if(chip.disabled) return;
+      dragging=true;
+      try{ chip.setPointerCapture(e.pointerId); }catch(err){}
+      chip.classList.add('dragging');
+      const rect=chip.getBoundingClientRect();
+      origX=rect.left; origY=rect.top;
+      startX=e.clientX; startY=e.clientY;
+      chip.style.position='fixed';
+      chip.style.left=origX+'px';
+      chip.style.top=origY+'px';
+      chip.style.width=rect.width+'px';
+      chip.style.zIndex='9999';
+      e.preventDefault();
+    });
+
+    chip.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      const dx=e.clientX-startX, dy=e.clientY-startY;
+      chip.style.left=(origX+dx)+'px';
+      chip.style.top=(origY+dy)+'px';
+      const dz=document.getElementById(dropZoneId);
+      if(dz){
+        const dzRect=dz.getBoundingClientRect();
+        const chipRect=chip.getBoundingClientRect();
+        const overlap=!(chipRect.right<dzRect.left||chipRect.left>dzRect.right||chipRect.bottom<dzRect.top||chipRect.top>dzRect.bottom);
+        dz.classList.toggle('drag-over', overlap);
+      }
+    });
+
+    function endDrag(){
+      if(!dragging) return;
+      dragging=false;
+      chip.classList.remove('dragging');
+      const dz=document.getElementById(dropZoneId);
+      let overlap=false;
+      if(dz){
+        const dzRect=dz.getBoundingClientRect();
+        const chipRect=chip.getBoundingClientRect();
+        overlap=!(chipRect.right<dzRect.left||chipRect.left>dzRect.right||chipRect.bottom<dzRect.top||chipRect.top>dzRect.bottom);
+        dz.classList.remove('drag-over');
+      }
+      chip.style.position='';
+      chip.style.left='';
+      chip.style.top='';
+      chip.style.width='';
+      chip.style.zIndex='';
+      if(overlap) onDrop(chip);
+    }
+    chip.addEventListener('pointerup', endDrag);
+    chip.addEventListener('pointercancel', endDrag);
+  }
+
+  window.renderAnswerOptions=function(type, ans){
+    const wrapId = type==='add' ? 'addOptions' : 'subOptions';
+    const dropZoneId = type==='add' ? 'addAnswerDisplay' : 'subAnswerDisplay';
+    const wrap=document.getElementById(wrapId);
+    if(!wrap) return;
+    wrap.innerHTML='';
+    const options=makeAnswerOptions(ans);
+    options.forEach(val=>{
+      const chip=document.createElement('button');
+      chip.type='button';
+      chip.className='answer-chip';
+      chip.textContent=val;
+      chip.dataset.value=val;
+      bindChipDrag(chip, dropZoneId, function(chosenChip){
+        document.querySelectorAll('#'+wrapId+' .answer-chip').forEach(c=>{ c.disabled=true; });
+        chosenChip.classList.add('picked');
+        if(type==='add'){
+          window.addTyped=String(chosenChip.dataset.value);
+          window.updateAddDisplay();
+          setTimeout(window.checkAddAnswer,150);
+        } else {
+          window.subTyped=String(chosenChip.dataset.value);
+          window.updateSubDisplay();
+          setTimeout(window.checkSubAnswer,150);
+        }
+      });
+      wrap.appendChild(chip);
+    });
+  };
+})();
+</script>
+
+<style id="answer-drag-v37-theme">
+.answer-options{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:18px;
+  justify-items:stretch;
+  margin:6px 0 18px;
+}
+@keyframes chipPopIn{
+  0%{ transform:scale(.5); opacity:0; }
+  70%{ transform:scale(1.08); opacity:1; }
+  100%{ transform:scale(1); opacity:1; }
+}
+.answer-chip{
+  width:100%;
+  min-height:112px;
+  padding:10px 14px;
+  border:4px solid rgba(255,255,255,.95);
+  border-radius:26px;
+  font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
+  font-weight:900;
+  font-size:42px;
+  color:#fff;
+  text-shadow:0 2px 0 rgba(0,0,0,.16);
+  cursor:grab;
+  box-shadow:0 7px 0 rgba(0,0,0,0.18), 0 11px 16px rgba(0,0,0,.12);
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+  transition:opacity .15s ease, transform .12s ease, box-shadow .12s ease;
+  animation:chipPopIn .35s cubic-bezier(.34,1.56,.64,1) backwards;
+}
+.answer-chip:nth-child(1){ background:linear-gradient(145deg,#ff8fb8,var(--pink-dark)); animation-delay:.02s; }
+.answer-chip:nth-child(2){ background:linear-gradient(145deg,#b497ff,var(--purple-dark)); animation-delay:.07s; }
+.answer-chip:nth-child(3){ background:linear-gradient(145deg,#ffc064,var(--orange-dark)); animation-delay:.12s; }
+.answer-chip:nth-child(4){ background:linear-gradient(145deg,#6fe09c,var(--green-dark)); animation-delay:.17s; }
+.answer-chip:hover{ filter:brightness(1.06); }
+.answer-chip:active{ cursor:grabbing; transform:scale(.96); }
+.answer-chip.dragging{
+  opacity:.92;
+  transform:scale(1.1) rotate(-2deg);
+  box-shadow:0 18px 28px rgba(0,0,0,.32);
+}
+.answer-chip.picked{
+  opacity:.35;
+}
+.answer-chip:disabled{
+  opacity:.35;
+  cursor:default;
+}
+.addanswer-display{
+  transition:border-color .15s ease, background .15s ease, transform .15s ease;
+}
+.addanswer-display.drag-over{
+  border-color:var(--green) !important;
+  background:#EFFFF4 !important;
+  transform:scale(1.04);
+}
+@media(max-width:480px){
+  .answer-chip{
+    min-height:88px;
+    font-size:32px;
+    border-width:3px;
+  }
+}
+
+/* Tombol kembali: hapus lingkaran & ikon rumah, ganti panah + teks */
+.mathback{
+  width:auto !important;
+  min-width:0 !important;
+  height:auto !important;
+  min-height:0 !important;
+  border-radius:14px !important;
+  background:none !important;
+  box-shadow:none !important;
+  padding:12px 20px !important;
+  color:#6a5d82 !important;
+  font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif !important;
+  font-weight:800 !important;
+  font-size:16px !important;
+  gap:8px !important;
+}
+.mathback .mathback-arrow{ font-size:22px; line-height:1; }
+.mathback:active{
+  transform:scale(.94) !important;
+  box-shadow:none !important;
+}
+</style>
+
+<style id="mathscreen-v38-theme">
+/* === Perbesar & pertebal teks soal (bukan kartu jawaban), dan tema
+   keseluruhan halaman Penjumlahan/Pengurangan dibuat lebih ceria === */
+
+/* Teks soal: lebih besar & tebal, kotak soal tidak diubah ukurannya */
+.addq{
+  font-size:72px !important;
+  font-weight:900 !important;
+  letter-spacing:1px !important;
+  padding:18px 8px !important;
+}
+@media(max-width:480px){
+  .addq{ font-size:48px !important; }
+}
+
+/* Kartu utama: gradasi pastel ceria + border warna-warni + aksen bintang */
+.addbox{
+  background:linear-gradient(160deg,#FFFDF7 0%,#FFF6DC 55%,#FFEAC2 100%) !important;
+  border:6px solid #FFD166 !important;
+  box-shadow:0 14px 0 rgba(0,0,0,0.12), 0 20px 30px rgba(0,0,0,.10) !important;
+  position:relative;
+  overflow:hidden;
+}
+.subbox{
+  background:linear-gradient(160deg,#F5FBFF 0%,#E4F4FF 55%,#CFEBFF 100%) !important;
+  border-color:#7EC8FF !important;
+}
+.addbox::before, .addbox::after{
+  content:"⭐";
+  position:absolute;
+  top:10px;
+  font-size:22px;
+  opacity:.55;
+  pointer-events:none;
+}
+.addbox::before{ left:16px; }
+.addbox::after{ right:16px; }
+
+/* Progres soal: jadi badge bulat berwarna */
+.addprogress{
+  display:inline-block !important;
+  background:#fff !important;
+  border-radius:20px !important;
+  padding:6px 18px !important;
+  box-shadow:0 3px 0 rgba(0,0,0,.10) !important;
+  color:var(--purple-dark) !important;
+  font-size:15px !important;
+  font-weight:900 !important;
+}
+
+/* Hint & kotak jawaban: lebih hidup */
+.addhint{
+  color:var(--orange-dark) !important;
+  font-weight:800 !important;
+  font-size:15px !important;
+}
+.addanswer-display{
+  border:4px dashed #FFB25E !important;
+  background:#fff !important;
+  font-size:46px !important;
+}
+
+/* Tombol putar suara: sedikit lebih menonjol */
+.math-speak-btn{
+  border-radius:20px !important;
 }
 </style>
