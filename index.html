@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Belajar Huruf & Angka</title>
+<link rel="preload" as="image" href="assets/background.png" fetchpriority="high">
+<link rel="preload" as="image" href="assets/judul.png" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Bubblegum+Sans&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 
@@ -1147,25 +1149,8 @@ body:has(#startScreen[style*="display: none"]) {
   .quiz-result-close{margin:0 auto;}
 </style>
 
-<script>
-/* Performance: warm only the assets that are used by the menus, without blocking startup. */
-(function(){
-  const assets = [
-    'assets/background.png','assets/judul.png','assets/belajar.png','assets/angka.png',
-    'assets/quis_ic.png','assets/latihan.png',
-    'assets/mengenal_id.png','assets/mengenal_en.png',
-    'assets/menulis_huruf_ic.png',
-    'assets/menulis_angka_ic.png',
-    'assets/penjumlahan_ic.png','assets/berhitung.png',
-    'assets/pengurangan_ic.png','assets/pengurangan_txt.png'
-  ];
-  function warm(){
-    assets.forEach(src => { const img = new Image(); img.decoding='async'; img.src=src; });
-  }
-  if('requestIdleCallback' in window) requestIdleCallback(warm,{timeout:1200});
-  else setTimeout(warm,200);
-})();
-</script>
+<!-- Startup optimization: non-critical assets are loaded only when their screen is opened. -->
+
 
 <style id="final-fullscreen-fix">
 /* ===== FINAL FULLSCREEN FIX =====
@@ -1920,12 +1905,17 @@ body::before {
 
 
 
+<style id="home-first-paint">
+/* Home diprioritaskan agar browser dapat menampilkan halaman awal sebelum inisialisasi berat. */
+#startScreen{display:block;}
+#stage,#quizScreen,#additionScreen,#subtractionScreen{display:none;}
+</style>
 </head>
 <body>
 
 <div class="start-screen" id="startScreen">
   <div class="start-card">
-    <h1 class="start-title display" id="startTitle"><img src="assets/judul.png" alt="Belajar Huruf & Angka" class="start-title-img" id="startTitleImg"><span id="startTitleText" aria-label="Belajar Huruf & Angka">Belajar Huruf &amp; Angka</span></h1>
+    <h1 class="start-title display" id="startTitle"><img decoding="async" src="assets/judul.png" alt="Belajar Huruf & Angka" class="start-title-img" id="startTitleImg"><span id="startTitleText" aria-label="Belajar Huruf & Angka">Belajar Huruf &amp; Angka</span></h1>
     <div id="menuCenterWrap">
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
@@ -1934,29 +1924,29 @@ body::before {
       <span class="start-name-icon right" aria-hidden="true">🪐</span>
     </div>
     <div class="main-menu-options" id="mainMenuOptions">
-      <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar"><img src="assets/belajar.png" alt="Belajar" class="huruf-logo-img"></button>
+      <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar"><img decoding="async" src="assets/belajar.png" alt="Belajar" class="huruf-logo-img"></button>
     </div>
-    <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img src="assets/quis_ic.png" alt="Kuis Cepat" class="quiz-icon-img"></button>
+    <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img decoding="async" src="assets/quis_ic.png" alt="Kuis Cepat" class="quiz-icon-img"></button>
     <button class="menu-main-btn latihan-menu has-img" id="btnMenuMenulis">
       <span class="menu-anim-icon" aria-hidden="true"></span>
-      <img src="assets/menulis.png" alt="Menulis">
+      <img decoding="async" src="assets/menulis.png" alt="Menulis">
     </button>
     <button class="menu-main-btn latihan-menu has-img" id="btnMenuBerhitung">
       <span class="menu-anim-icon" aria-hidden="true"></span>
-      <img src="assets/berhitung.png" alt="Berhitung">
+      <img decoding="async" src="assets/berhitung.png" alt="Berhitung">
     </button>
     <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     </div>
 
     <div class="sub-menu" id="menulisMenu" style="display:none;">
-      <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img src="assets/menulis_huruf_ic.png" alt="Menulis Huruf" class="submenu-icon-img"></button>
-      <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img src="assets/menulis_angka_ic.png" alt="Menulis Angka" class="submenu-icon-img"></button>
+      <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img decoding="async" loading="lazy" src="assets/menulis_huruf_ic.png" alt="Menulis Huruf" class="submenu-icon-img"></button>
+      <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img decoding="async" loading="lazy" src="assets/menulis_angka_ic.png" alt="Menulis Angka" class="submenu-icon-img"></button>
       <button class="sub-menu-title" type="button" id="backMainFromMenulis">🏠 Kembali ke Menu Utama</button>
     </div>
 
     <div class="sub-menu" id="berhitungMenu" style="display:none;">
-      <button class="sub-menu-item tambah has-img" id="btnStartAddition"><img src="assets/penjumlahan_ic.png" alt="Penjumlahan" class="submenu-icon-img"><img src="assets/berhitung.png" alt="Penjumlahan" class="submenu-title-img"></button>
-      <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img src="assets/pengurangan_ic.png" alt="Pengurangan" class="submenu-icon-img"></button>
+      <button class="sub-menu-item tambah has-img" id="btnStartAddition"><img decoding="async" loading="lazy" src="assets/penjumlahan_ic.png" alt="Penjumlahan" class="submenu-icon-img"><img decoding="async" src="assets/berhitung.png" alt="Penjumlahan" class="submenu-title-img"></button>
+      <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img decoding="async" loading="lazy" src="assets/pengurangan_ic.png" alt="Pengurangan" class="submenu-icon-img"></button>
       <div class="counting-score-card" id="countingScoreCard">
         <div class="counting-score-title">🧮 Score Berhitung</div>
         <div class="counting-score-row"><span>➕ Penjumlahan</span><strong id="additionScoreMenu">0</strong></div>
@@ -1987,7 +1977,7 @@ body::before {
     <button class="pillbtn pink homebtn" id="btnKembali" aria-label="Beranda" title="Beranda">🏠</button>
     <div class="title-wrap">
       <span style="font-size:22px;">⭐</span>
-      <h1 class="display" id="mainTitle"><img src="assets/mengenal_id.png" alt="Mengenal Huruf dan Angka" class="title-img"></h1>
+      <h1 class="display" id="mainTitle"><img decoding="async" loading="lazy" src="assets/mengenal_id.png" alt="Mengenal Huruf dan Angka" class="title-img"></h1>
       <span style="font-size:22px;">⭐</span>
     </div>
     <button class="pillbtn orange" id="btnLanguage"><span class="lang-flag" aria-hidden="true">🇬🇧</span><span class="lang-code">EN</span></button>
@@ -2129,7 +2119,417 @@ body::before {
   </div>
 </div>
 
-<script>
+
+
+
+<!-- Addition Feature V10 -->
+<style>
+#additionScreen{
+  position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
+  background:url('assets/background.png') center center / cover no-repeat fixed;
+}
+.addbox{
+  max-width:480px; margin:40px auto; text-align:center;
+  background:var(--card); border-radius:32px; padding:34px 28px;
+  box-shadow:0 10px 0 rgba(0,0,0,0.12);
+}
+.addbox h1{
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px #2FA859;
+  margin:0 0 6px; letter-spacing:1px;
+}
+.addprogress{ font-size:14px; font-weight:800; color:#B9AEDD; margin-bottom:14px; }
+.addq{
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:44px; font-weight:800; color:#2B2140;
+  background:#FFF6DC; border-radius:18px; padding:18px 8px; margin:6px 0 16px;
+}
+.addhint{ font-size:14px; color:#B9AEDD; font-weight:700; margin:0 0 10px; }
+.addanswer-display{
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:40px; font-weight:800; color:#2B2140;
+  background:#FFFDF7; border:3px solid #F3D9C4; border-radius:18px; padding:10px;
+  margin-bottom:14px; min-height:56px; letter-spacing:4px;
+}
+.addkeypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:16px; }
+.addkey{
+  border:none; border-radius:16px; padding:16px 0; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:800; font-size:24px;
+  color:#fff; cursor:pointer; box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
+  background:linear-gradient(180deg,var(--purple),var(--purple-dark));
+}
+.addkey:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
+.addkey.zero{ grid-column:2; }
+.addkey.back{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
+.addbtn-row{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
+.math-speak-btn{
+  border:0; border-radius:16px; padding:9px 16px; margin:0 auto 12px;
+  background:linear-gradient(180deg,var(--orange),var(--orange-dark)); color:#fff;
+  font:800 15px 'Baloo 2','Trebuchet MS',sans-serif; cursor:pointer;
+  box-shadow:0 4px 0 rgba(0,0,0,.16);
+}
+.math-speak-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.16);}
+</style>
+<div id="additionScreen">
+ <div class="addbox">
+  <h1 class="display" id="addTitle"><span id="addTitleText">➕ Penjumlahan</span><img decoding="async" src="assets/berhitung.png" alt="Penjumlahan" id="addTitleImg" class="math-title-img" style="display:none;"></h1>
+  <div class="addprogress" id="addProgress"></div>
+  <div class="addq" id="addQuestion"></div>
+  <p class="addhint" id="addHint">🖐️ Geser jawaban ke kotak:</p>
+  <button class="math-speak-btn" id="addSpeakQuestion" type="button">🔊 Ulangi Soal</button>
+  <div class="addanswer-display" id="addAnswerDisplay">_</div>
+  <div class="answer-options" id="addOptions"></div>
+  <div class="addbtn-row">
+   <button class="pillbtn gray homebtn mathback" id="addHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu('berhitung');"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
+  </div>
+ </div>
+</div>
+<div id="addPopup" class="celebrate-overlay" style="z-index:6000;">
+ <div class="celebrate-box">
+  <div class="celebrate-emoji" id="addPopupEmoji">🎉</div>
+  <div class="celebrate-title" id="addPopupTitle">Jawaban Benar!</div>
+  <div class="addbtn-row" style="margin-top:15px;">
+   <button class="pillbtn orange" id="addRetryBtn" onclick="retryAdd()">🔄 Coba Lagi</button>
+   <button class="pillbtn green" id="addNextBtn" onclick="nextAddQuestion()">➡️ Berikutnya</button>
+  </div>
+ </div>
+</div>
+
+
+<!-- Subtraction Feature -->
+<style>
+#subtractionScreen{
+  position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
+  background:url('assets/background.png') center center / cover no-repeat fixed;
+}
+.subbox h1{
+  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px var(--orange-dark);
+  margin:0 0 6px; letter-spacing:1px;
+}
+.subkey{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
+</style>
+<div id="subtractionScreen">
+ <div class="addbox subbox">
+  <h1 class="display" id="subTitle"><span id="subTitleText">➖ Pengurangan</span></h1>
+  <div class="addprogress" id="subProgress"></div>
+  <div class="addq" id="subQuestion"></div>
+  <p class="addhint" id="subHint">🖐️ Geser jawaban ke kotak:</p>
+  <button class="math-speak-btn" id="subSpeakQuestion" type="button">🔊 Ulangi Soal</button>
+  <div class="addanswer-display" id="subAnswerDisplay">_</div>
+  <div class="answer-options" id="subOptions"></div>
+  <div class="addbtn-row">
+   <button class="pillbtn gray homebtn mathback" id="subHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu('berhitung');"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
+  </div>
+ </div>
+</div>
+<div id="subPopup" class="celebrate-overlay" style="z-index:6000;">
+ <div class="celebrate-box">
+  <div class="celebrate-emoji" id="subPopupEmoji">🎉</div>
+  <div class="celebrate-title" id="subPopupTitle">Jawaban Benar!</div>
+  <div class="addbtn-row" style="margin-top:15px;">
+   <button class="pillbtn orange" id="subRetryBtn" onclick="retrySub()">🔄 Coba Lagi</button>
+   <button class="pillbtn green" id="subNextBtn" onclick="nextSubQuestion()">➡️ Berikutnya</button>
+  </div>
+ </div>
+</div>
+
+
+
+
+
+<!-- Rumput dihilangkan: latar hanya langit dan awan. -->
+<style id="final-top-controls-fix">
+@media(max-width:480px){
+}
+</style>
+
+<style id="main-menu-layout-fix">
+/* Belajar Huruf berada di atas menu Latihan. */
+#mainMenuOptions{
+  flex-wrap:wrap;
+  row-gap:24px;
+}
+#mainMenuOptions .latihan-menu{
+  flex:0 0 100%;
+  width:100%;
+}
+#mainMenuOptions .huruf-logo-item{
+  order:1;
+  width:min(300px,70vw);
+  flex:0 1 min(300px,70vw);
+  margin:0 auto;
+}
+#mainMenuOptions .latihan-menu{
+  order:2;
+}
+</style>
+
+<style id="main-menu-clean-layout">
+/* Tata ulang halaman utama: hierarki konten dibuat konsisten dan tidak berdesakan. */
+#startScreen .start-card{
+  justify-content:flex-start !important;
+  gap:0 !important;
+  padding:clamp(22px,4vh,48px) clamp(14px,3vw,28px) 18px !important;
+  overflow-y:auto !important;
+}
+#startScreen .start-title{order:1 !important;margin:5px auto 0 !important;flex:0 0 auto !important;}
+#startScreen #menuCenterWrap{
+  order:2 !important;
+  flex:1 1 auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:100% !important;
+  min-height:0;
+  gap:0 !important;
+}
+#startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;color:#FFCB3C !important;text-shadow:0 2px 0 rgba(0,0,0,.25) !important;}
+#startScreen .start-name-row{order:3 !important;margin:0 auto 12px !important;}
+#startScreen #mainMenuOptions{
+  order:4 !important;
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:start !important;
+  gap:clamp(16px,2.5vw,24px) !important;
+  width:min(720px,100%) !important;
+  margin:0 auto !important;
+  flex:none !important;
+}
+#startScreen #mainMenuOptions .huruf-logo-item{
+  order:initial !important;
+  width:100% !important;
+  max-width:min(120px,100%) !important;
+  min-width:0 !important;
+  margin:0 auto !important;
+  grid-column:1 / -1 !important;
+  flex:none !important;
+}
+#startScreen #mainMenuOptions .latihan-menu{
+  order:initial !important;
+  grid-column:1 / -1;
+  width:100% !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:14px 18px !important;
+  min-height:70px;
+  background:rgba(255,255,255,.82) !important;
+  border:3px solid rgba(255,255,255,.95) !important;
+  border-radius:22px !important;
+  box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
+}
+#startScreen #mainMenuOptions .latihan-menu strong{
+  color:#E27B10 !important;
+  -webkit-text-stroke:0 !important;
+  font-size:clamp(22px,3vw,30px) !important;
+}
+#startScreen #mainMenuOptions .latihan-menu small{
+  color:#5A4A3A !important;
+}
+#startScreen .progress-card{
+  order:5 !important;
+  width:min(430px,100%) !important;
+  margin:10px auto 0 !important;
+}
+#startScreen #menuCenterWrap > .latihan-menu{
+  order:6 !important;
+  width:min(520px,100%) !important;
+  min-width:0 !important;
+  margin:8px auto 0 !important;
+  padding:14px 18px !important;
+  min-height:70px;
+  flex:none !important;
+  flex-direction:row !important;
+  gap:21px !important;
+  background:rgba(255,255,255,.82) !important;
+  border:3px solid rgba(255,255,255,.95) !important;
+  border-radius:22px !important;
+  box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
+}
+#startScreen #menuCenterWrap > .latihan-menu .menu-anim-icon{display:none !important;}
+#startScreen #menuCenterWrap > .latihan-menu.has-img{
+  background:none !important;
+  border:none !important;
+  box-shadow:none !important;
+  padding:0 !important;
+}
+#startScreen #menuCenterWrap > .latihan-menu strong{
+  color:#E27B10 !important;
+  -webkit-text-stroke:0 !important;
+  font-size:clamp(22px,3vw,30px) !important;
+}
+#startScreen #menuCenterWrap > .latihan-menu small{
+  color:#5A4A3A !important;
+}
+#startScreen .quiz-menu-btn{
+  order:7 !important;
+  margin:6px auto 0 !important;
+}
+@media(max-width:600px){
+  #startScreen #mainMenuOptions{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    width:min(420px,94vw) !important;
+    gap:16px !important;
+  }
+  #startScreen #mainMenuOptions .huruf-logo-item{
+    width:100% !important;
+  }
+  #startScreen #mainMenuOptions .huruf-logo-item img{
+    width:100% !important;
+  }
+  #startScreen #mainMenuOptions .latihan-menu{grid-column:1 / -1;}
+  #startScreen .start-title{margin-top:0 !important;margin-bottom:12px !important;}
+  #startScreen #menuCenterWrap > .latihan-menu{margin-top:8px !important;}
+}
+@media(max-height:650px) and (min-width:601px){
+  #startScreen .start-title{margin-top:0 !important;margin-bottom:10px !important;}
+  #startScreen .start-name-row{margin-bottom:8px !important;}
+  #startScreen #mainMenuOptions{gap:8px 16px !important;}
+  #startScreen .progress-card{margin-top:6px !important;}
+  #startScreen .quiz-menu-btn{margin-top:7px !important;}
+}
+/* Posisi menu utama: Kuis + Latihan sejajar, Bintang/Lencana tepat di bawah keduanya. */
+#startScreen #menuCenterWrap{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:center !important;
+  justify-items:center !important;
+  column-gap:clamp(8px,2vw,18px) !important;
+  row-gap:4px !important;
+}
+#startScreen .start-sub{grid-column:1 / -1 !important;grid-row:1 !important;}
+#startScreen .start-name-row{grid-column:1 / -1 !important;grid-row:2 !important;}
+#startScreen #mainMenuOptions{grid-column:1 / -1 !important;grid-row:3 !important;}
+#startScreen #menuCenterWrap > .quiz-menu-btn{
+  grid-column:1 !important;grid-row:4 !important;
+  width:100% !important;margin:0 !important;
+}
+#startScreen #menuCenterWrap > .latihan-menu{
+  grid-column:2 !important;grid-row:4 !important;
+  width:100% !important;margin:0 !important;
+}
+#startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
+#startScreen #menuCenterWrap > .latihan-menu.has-img img{
+  width:min(100%,120px) !important;height:auto !important;margin:0 auto !important;
+}
+#startScreen .progress-card{
+  grid-column:1 / -1 !important;grid-row:5 !important;
+  width:min(430px,100%) !important;margin:4px auto 0 !important;
+}
+@media(max-width:600px){
+  #startScreen #menuCenterWrap{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    width:100% !important;
+  }
+  #startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
+  #startScreen #menuCenterWrap > .latihan-menu.has-img img{
+    width:min(100%,120px) !important;
+  }
+  #startScreen .progress-card{font-size:13px !important;}
+}
+</style>
+
+<style id="counting-score-style">
+  /* Menu utama juga dipusatkan secara vertikal di viewport. */
+  #startScreen .start-card{
+    justify-content:center !important;
+  }
+
+  /* Pusatkan isi submenu Latihan; judul tetap 5px di atas seperti menu utama. */
+  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-card{
+    justify-content:flex-start !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-title{
+    margin:5px auto 0 !important;
+  }
+  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
+    margin:0 auto !important;
+  }
+
+  /* Saat submenu latihan aktif, jadikan ia satu halaman menu tersendiri. */
+  #startScreen #latihanMenu{
+    order:2 !important;
+    flex:1 1 auto !important;
+    justify-content:center !important;
+    width:min(520px,100%) !important;
+    margin:0 auto !important;
+    min-height:0;
+  }
+  #startScreen #latihanMenu[style*="display: flex"]{
+    display:flex !important;
+  }
+  #startScreen #latihanMenu .sub-menu-item{
+    width:min(360px,86vw);
+    min-height:44px;
+    padding:8px 14px;
+    line-height:1.1;
+  }
+
+  .counting-score-card{
+    order:10; width:min(390px,100%); margin:8px auto 0; padding:14px 18px;
+    background:rgba(255,255,255,.94); border:3px solid #FFE1A8; border-radius:20px;
+    box-shadow:0 5px 0 rgba(100,65,20,.14); color:#4b3c52;
+    font-family:'Nunito','Segoe UI',sans-serif;
+  }
+  .counting-score-title{
+    margin-bottom:7px; color:#E27B10; font-size:13px; font-weight:900;
+  }
+  .counting-score-row,.counting-score-total{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:24px; padding:5px 0; font-size:15px; font-weight:800;
+  }
+  .counting-score-row strong{color:#7E4CE0;font-size:13px;}
+  .counting-score-total{
+    margin-top:5px; padding-top:9px; border-top:2px dashed #F3D9C4;
+    color:#2FA859; font-size:16px;
+  }
+  .counting-score-total strong{color:#229653;font-size:22px;}
+</style>
+
+
+<div class="credit-tag">Created by: Zie</div>
+
+
+
+
+
+
+<style id="v26-stability-fixes">
+/* Panel kuas kembali DI ATAS kanvas, tetapi tetap selebar kanvas. */
+#stage.writing-mode .tracepanel > .brush-size-panel{
+  display:flex !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  margin:0 0 10px !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+#stage.writing-mode .tracepanel > .brush-size-panel #brushSize{
+  flex:1 1 auto !important;
+  width:auto !important;
+  max-width:none !important;
+}
+/* Tombol speaker pada panel Cara Mengucapkan. */
+#stage.writing-mode .ucap-speak-btn{
+  flex:0 0 auto;
+  margin-left:auto;
+  min-width:52px;
+  min-height:46px;
+  padding:8px 12px;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(145deg,#ffd45a,#ffad33);
+  box-shadow:0 4px 0 rgba(184,112,20,.25);
+  font-size:22px;
+  cursor:pointer;
+}
+#stage.writing-mode .ucap-speak-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(184,112,20,.25);}
+#stage.stage-entering{opacity:0 !important;}
+#stage.stage-ready{opacity:1 !important;transition:opacity .12s ease;}
+</style>
+
+
+
+
+
+<script type="text/plain" id="__deferredAppCode">
+
 // ---------- DATA ----------
 const LETTERS = [
   {ch:'A', word:'Ayam', wordEN:'Ant', emoji:'🐔', emojiEN:'🐜', say:'Aaa...', sayEN:'Ei...'},
@@ -4045,78 +4445,9 @@ document.getElementById('quizHomeBtn').onclick = () => {
   showMainMenu();
 };
 
-</script>
 
 
-<!-- Addition Feature V10 -->
-<style>
-#additionScreen{
-  position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
-  background:url('assets/background.png') center center / cover no-repeat fixed;
-}
-.addbox{
-  max-width:480px; margin:40px auto; text-align:center;
-  background:var(--card); border-radius:32px; padding:34px 28px;
-  box-shadow:0 10px 0 rgba(0,0,0,0.12);
-}
-.addbox h1{
-  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px #2FA859;
-  margin:0 0 6px; letter-spacing:1px;
-}
-.addprogress{ font-size:14px; font-weight:800; color:#B9AEDD; margin-bottom:14px; }
-.addq{
-  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:44px; font-weight:800; color:#2B2140;
-  background:#FFF6DC; border-radius:18px; padding:18px 8px; margin:6px 0 16px;
-}
-.addhint{ font-size:14px; color:#B9AEDD; font-weight:700; margin:0 0 10px; }
-.addanswer-display{
-  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:40px; font-weight:800; color:#2B2140;
-  background:#FFFDF7; border:3px solid #F3D9C4; border-radius:18px; padding:10px;
-  margin-bottom:14px; min-height:56px; letter-spacing:4px;
-}
-.addkeypad{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:16px; }
-.addkey{
-  border:none; border-radius:16px; padding:16px 0; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif; font-weight:800; font-size:24px;
-  color:#fff; cursor:pointer; box-shadow:0 5px 0 rgba(0,0,0,0.18); transition:transform .08s;
-  background:linear-gradient(180deg,var(--purple),var(--purple-dark));
-}
-.addkey:active{ transform:translateY(4px); box-shadow:0 1px 0 rgba(0,0,0,0.18); }
-.addkey.zero{ grid-column:2; }
-.addkey.back{ background:linear-gradient(180deg,#9aa2ad,#767e88); }
-.addbtn-row{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
-.math-speak-btn{
-  border:0; border-radius:16px; padding:9px 16px; margin:0 auto 12px;
-  background:linear-gradient(180deg,var(--orange),var(--orange-dark)); color:#fff;
-  font:800 15px 'Baloo 2','Trebuchet MS',sans-serif; cursor:pointer;
-  box-shadow:0 4px 0 rgba(0,0,0,.16);
-}
-.math-speak-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.16);}
-</style>
-<div id="additionScreen">
- <div class="addbox">
-  <h1 class="display" id="addTitle"><span id="addTitleText">➕ Penjumlahan</span><img src="assets/berhitung.png" alt="Penjumlahan" id="addTitleImg" class="math-title-img" style="display:none;"></h1>
-  <div class="addprogress" id="addProgress"></div>
-  <div class="addq" id="addQuestion"></div>
-  <p class="addhint" id="addHint">🖐️ Geser jawaban ke kotak:</p>
-  <button class="math-speak-btn" id="addSpeakQuestion" type="button">🔊 Ulangi Soal</button>
-  <div class="addanswer-display" id="addAnswerDisplay">_</div>
-  <div class="answer-options" id="addOptions"></div>
-  <div class="addbtn-row">
-   <button class="pillbtn gray homebtn mathback" id="addHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu('berhitung');"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
-  </div>
- </div>
-</div>
-<div id="addPopup" class="celebrate-overlay" style="z-index:6000;">
- <div class="celebrate-box">
-  <div class="celebrate-emoji" id="addPopupEmoji">🎉</div>
-  <div class="celebrate-title" id="addPopupTitle">Jawaban Benar!</div>
-  <div class="addbtn-row" style="margin-top:15px;">
-   <button class="pillbtn orange" id="addRetryBtn" onclick="retryAdd()">🔄 Coba Lagi</button>
-   <button class="pillbtn green" id="addNextBtn" onclick="nextAddQuestion()">➡️ Berikutnya</button>
-  </div>
- </div>
-</div>
-<script>
+
 (function(){
  window.mathNumberWords=['nol','satu','dua','tiga','empat','lima','enam','tujuh','delapan','sembilan','sepuluh','sebelas'];
  window.mathNumberToWords=function(n){
@@ -4236,45 +4567,9 @@ document.getElementById('quizHomeBtn').onclick = () => {
  }
   document.getElementById('addSpeakQuestion').onclick=()=>speakMathQuestion('add');
 })();
-</script>
 
-<!-- Subtraction Feature -->
-<style>
-#subtractionScreen{
-  position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
-  background:url('assets/background.png') center center / cover no-repeat fixed;
-}
-.subbox h1{
-  font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px var(--orange-dark);
-  margin:0 0 6px; letter-spacing:1px;
-}
-.subkey{ background:linear-gradient(180deg,var(--blue),var(--blue-dark)); }
-</style>
-<div id="subtractionScreen">
- <div class="addbox subbox">
-  <h1 class="display" id="subTitle"><span id="subTitleText">➖ Pengurangan</span></h1>
-  <div class="addprogress" id="subProgress"></div>
-  <div class="addq" id="subQuestion"></div>
-  <p class="addhint" id="subHint">🖐️ Geser jawaban ke kotak:</p>
-  <button class="math-speak-btn" id="subSpeakQuestion" type="button">🔊 Ulangi Soal</button>
-  <div class="addanswer-display" id="subAnswerDisplay">_</div>
-  <div class="answer-options" id="subOptions"></div>
-  <div class="addbtn-row">
-   <button class="pillbtn gray homebtn mathback" id="subHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu('berhitung');"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
-  </div>
- </div>
-</div>
-<div id="subPopup" class="celebrate-overlay" style="z-index:6000;">
- <div class="celebrate-box">
-  <div class="celebrate-emoji" id="subPopupEmoji">🎉</div>
-  <div class="celebrate-title" id="subPopupTitle">Jawaban Benar!</div>
-  <div class="addbtn-row" style="margin-top:15px;">
-   <button class="pillbtn orange" id="subRetryBtn" onclick="retrySub()">🔄 Coba Lagi</button>
-   <button class="pillbtn green" id="subNextBtn" onclick="nextSubQuestion()">➡️ Berikutnya</button>
-  </div>
- </div>
-</div>
-<script>
+
+
 (function(){
  window.subQuestions=[];
  window.subIndex=0;
@@ -4353,9 +4648,9 @@ document.getElementById('quizHomeBtn').onclick = () => {
  }
   document.getElementById('subSpeakQuestion').onclick=()=>speakMathQuestion('sub');
 })();
-</script>
 
-<script>
+
+
 window.updateCountingScoreUI=function(){
   const add=Number(learningProgress.addScore)||0;
   const sub=Number(learningProgress.subScore)||0;
@@ -4369,262 +4664,9 @@ window.updateCountingScoreUI=function(){
 };
 window.updateCountingScoreUI();
 if(typeof applyLanguage==='function') applyLanguage();
-</script>
 
 
-<!-- Rumput dihilangkan: latar hanya langit dan awan. -->
-<style id="final-top-controls-fix">
-@media(max-width:480px){
-}
-</style>
 
-<style id="main-menu-layout-fix">
-/* Belajar Huruf berada di atas menu Latihan. */
-#mainMenuOptions{
-  flex-wrap:wrap;
-  row-gap:24px;
-}
-#mainMenuOptions .latihan-menu{
-  flex:0 0 100%;
-  width:100%;
-}
-#mainMenuOptions .huruf-logo-item{
-  order:1;
-  width:min(300px,70vw);
-  flex:0 1 min(300px,70vw);
-  margin:0 auto;
-}
-#mainMenuOptions .latihan-menu{
-  order:2;
-}
-</style>
-
-<style id="main-menu-clean-layout">
-/* Tata ulang halaman utama: hierarki konten dibuat konsisten dan tidak berdesakan. */
-#startScreen .start-card{
-  justify-content:flex-start !important;
-  gap:0 !important;
-  padding:clamp(22px,4vh,48px) clamp(14px,3vw,28px) 18px !important;
-  overflow-y:auto !important;
-}
-#startScreen .start-title{order:1 !important;margin:5px auto 0 !important;flex:0 0 auto !important;}
-#startScreen #menuCenterWrap{
-  order:2 !important;
-  flex:1 1 auto !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-  width:100% !important;
-  min-height:0;
-  gap:0 !important;
-}
-#startScreen .start-sub{order:2 !important;margin:0 auto 8px !important;color:#FFCB3C !important;text-shadow:0 2px 0 rgba(0,0,0,.25) !important;}
-#startScreen .start-name-row{order:3 !important;margin:0 auto 12px !important;}
-#startScreen #mainMenuOptions{
-  order:4 !important;
-  display:grid !important;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  align-items:start !important;
-  gap:clamp(16px,2.5vw,24px) !important;
-  width:min(720px,100%) !important;
-  margin:0 auto !important;
-  flex:none !important;
-}
-#startScreen #mainMenuOptions .huruf-logo-item{
-  order:initial !important;
-  width:100% !important;
-  max-width:min(120px,100%) !important;
-  min-width:0 !important;
-  margin:0 auto !important;
-  grid-column:1 / -1 !important;
-  flex:none !important;
-}
-#startScreen #mainMenuOptions .latihan-menu{
-  order:initial !important;
-  grid-column:1 / -1;
-  width:100% !important;
-  min-width:0 !important;
-  margin:0 !important;
-  padding:14px 18px !important;
-  min-height:70px;
-  background:rgba(255,255,255,.82) !important;
-  border:3px solid rgba(255,255,255,.95) !important;
-  border-radius:22px !important;
-  box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
-}
-#startScreen #mainMenuOptions .latihan-menu strong{
-  color:#E27B10 !important;
-  -webkit-text-stroke:0 !important;
-  font-size:clamp(22px,3vw,30px) !important;
-}
-#startScreen #mainMenuOptions .latihan-menu small{
-  color:#5A4A3A !important;
-}
-#startScreen .progress-card{
-  order:5 !important;
-  width:min(430px,100%) !important;
-  margin:10px auto 0 !important;
-}
-#startScreen #menuCenterWrap > .latihan-menu{
-  order:6 !important;
-  width:min(520px,100%) !important;
-  min-width:0 !important;
-  margin:8px auto 0 !important;
-  padding:14px 18px !important;
-  min-height:70px;
-  flex:none !important;
-  flex-direction:row !important;
-  gap:21px !important;
-  background:rgba(255,255,255,.82) !important;
-  border:3px solid rgba(255,255,255,.95) !important;
-  border-radius:22px !important;
-  box-shadow:0 5px 0 rgba(23,93,155,.18) !important;
-}
-#startScreen #menuCenterWrap > .latihan-menu .menu-anim-icon{display:none !important;}
-#startScreen #menuCenterWrap > .latihan-menu.has-img{
-  background:none !important;
-  border:none !important;
-  box-shadow:none !important;
-  padding:0 !important;
-}
-#startScreen #menuCenterWrap > .latihan-menu strong{
-  color:#E27B10 !important;
-  -webkit-text-stroke:0 !important;
-  font-size:clamp(22px,3vw,30px) !important;
-}
-#startScreen #menuCenterWrap > .latihan-menu small{
-  color:#5A4A3A !important;
-}
-#startScreen .quiz-menu-btn{
-  order:7 !important;
-  margin:6px auto 0 !important;
-}
-@media(max-width:600px){
-  #startScreen #mainMenuOptions{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    width:min(420px,94vw) !important;
-    gap:16px !important;
-  }
-  #startScreen #mainMenuOptions .huruf-logo-item{
-    width:100% !important;
-  }
-  #startScreen #mainMenuOptions .huruf-logo-item img{
-    width:100% !important;
-  }
-  #startScreen #mainMenuOptions .latihan-menu{grid-column:1 / -1;}
-  #startScreen .start-title{margin-top:0 !important;margin-bottom:12px !important;}
-  #startScreen #menuCenterWrap > .latihan-menu{margin-top:8px !important;}
-}
-@media(max-height:650px) and (min-width:601px){
-  #startScreen .start-title{margin-top:0 !important;margin-bottom:10px !important;}
-  #startScreen .start-name-row{margin-bottom:8px !important;}
-  #startScreen #mainMenuOptions{gap:8px 16px !important;}
-  #startScreen .progress-card{margin-top:6px !important;}
-  #startScreen .quiz-menu-btn{margin-top:7px !important;}
-}
-/* Posisi menu utama: Kuis + Latihan sejajar, Bintang/Lencana tepat di bawah keduanya. */
-#startScreen #menuCenterWrap{
-  display:grid !important;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  align-items:center !important;
-  justify-items:center !important;
-  column-gap:clamp(8px,2vw,18px) !important;
-  row-gap:4px !important;
-}
-#startScreen .start-sub{grid-column:1 / -1 !important;grid-row:1 !important;}
-#startScreen .start-name-row{grid-column:1 / -1 !important;grid-row:2 !important;}
-#startScreen #mainMenuOptions{grid-column:1 / -1 !important;grid-row:3 !important;}
-#startScreen #menuCenterWrap > .quiz-menu-btn{
-  grid-column:1 !important;grid-row:4 !important;
-  width:100% !important;margin:0 !important;
-}
-#startScreen #menuCenterWrap > .latihan-menu{
-  grid-column:2 !important;grid-row:4 !important;
-  width:100% !important;margin:0 !important;
-}
-#startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
-#startScreen #menuCenterWrap > .latihan-menu.has-img img{
-  width:min(100%,120px) !important;height:auto !important;margin:0 auto !important;
-}
-#startScreen .progress-card{
-  grid-column:1 / -1 !important;grid-row:5 !important;
-  width:min(430px,100%) !important;margin:4px auto 0 !important;
-}
-@media(max-width:600px){
-  #startScreen #menuCenterWrap{
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-    width:100% !important;
-  }
-  #startScreen #menuCenterWrap > .quiz-menu-btn.has-img img,
-  #startScreen #menuCenterWrap > .latihan-menu.has-img img{
-    width:min(100%,120px) !important;
-  }
-  #startScreen .progress-card{font-size:13px !important;}
-}
-</style>
-
-<style id="counting-score-style">
-  /* Menu utama juga dipusatkan secara vertikal di viewport. */
-  #startScreen .start-card{
-    justify-content:center !important;
-  }
-
-  /* Pusatkan isi submenu Latihan; judul tetap 5px di atas seperti menu utama. */
-  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-card{
-    justify-content:flex-start !important;
-  }
-  #startScreen:has(#latihanMenu[style*="display: flex"]) .start-title{
-    margin:5px auto 0 !important;
-  }
-  #startScreen:has(#latihanMenu[style*="display: flex"]) #latihanMenu{
-    margin:0 auto !important;
-  }
-
-  /* Saat submenu latihan aktif, jadikan ia satu halaman menu tersendiri. */
-  #startScreen #latihanMenu{
-    order:2 !important;
-    flex:1 1 auto !important;
-    justify-content:center !important;
-    width:min(520px,100%) !important;
-    margin:0 auto !important;
-    min-height:0;
-  }
-  #startScreen #latihanMenu[style*="display: flex"]{
-    display:flex !important;
-  }
-  #startScreen #latihanMenu .sub-menu-item{
-    width:min(360px,86vw);
-    min-height:44px;
-    padding:8px 14px;
-    line-height:1.1;
-  }
-
-  .counting-score-card{
-    order:10; width:min(390px,100%); margin:8px auto 0; padding:14px 18px;
-    background:rgba(255,255,255,.94); border:3px solid #FFE1A8; border-radius:20px;
-    box-shadow:0 5px 0 rgba(100,65,20,.14); color:#4b3c52;
-    font-family:'Nunito','Segoe UI',sans-serif;
-  }
-  .counting-score-title{
-    margin-bottom:7px; color:#E27B10; font-size:13px; font-weight:900;
-  }
-  .counting-score-row,.counting-score-total{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:24px; padding:5px 0; font-size:15px; font-weight:800;
-  }
-  .counting-score-row strong{color:#7E4CE0;font-size:13px;}
-  .counting-score-total{
-    margin-top:5px; padding-top:9px; border-top:2px dashed #F3D9C4;
-    color:#2FA859; font-size:16px;
-  }
-  .counting-score-total strong{color:#229653;font-size:22px;}
-</style>
-
-
-<div class="credit-tag">Created by: Zie</div>
-
-<script id="clean-learning-variant-script">
 (function(){
   const stage=document.getElementById('stage');
   const picker=document.querySelector('.learning-variant-picker');
@@ -4638,8 +4680,9 @@ if(typeof applyLanguage==='function') applyLanguage();
   picker.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>setVariant(b.dataset.variant)));
   setVariant('toytile');
 })();
-</script>
-<script id="final-learning-init">
+
+
+
 (function(){
   function initLearningUI(){
     const stage=document.getElementById('stage');
@@ -4676,9 +4719,9 @@ if(typeof applyLanguage==='function') applyLanguage();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initLearningUI);
   else initLearningUI();
 })();
-</script>
 
-<script id="language-flag-final-sync">
+
+
 (function(){
   function syncLanguageButton(){
     const b=document.getElementById('btnLanguage');
@@ -4701,42 +4744,9 @@ if(typeof applyLanguage==='function') applyLanguage();
   const b=document.getElementById('btnLanguage');
   if(b) b.addEventListener('click',()=>setTimeout(syncLanguageButton,60));
 })();
-</script>
 
-<style id="v26-stability-fixes">
-/* Panel kuas kembali DI ATAS kanvas, tetapi tetap selebar kanvas. */
-#stage.writing-mode .tracepanel > .brush-size-panel{
-  display:flex !important;
-  width:100% !important;
-  box-sizing:border-box !important;
-  margin:0 0 10px !important;
-  align-items:center !important;
-  justify-content:center !important;
-}
-#stage.writing-mode .tracepanel > .brush-size-panel #brushSize{
-  flex:1 1 auto !important;
-  width:auto !important;
-  max-width:none !important;
-}
-/* Tombol speaker pada panel Cara Mengucapkan. */
-#stage.writing-mode .ucap-speak-btn{
-  flex:0 0 auto;
-  margin-left:auto;
-  min-width:52px;
-  min-height:46px;
-  padding:8px 12px;
-  border:0;
-  border-radius:14px;
-  background:linear-gradient(145deg,#ffd45a,#ffad33);
-  box-shadow:0 4px 0 rgba(184,112,20,.25);
-  font-size:22px;
-  cursor:pointer;
-}
-#stage.writing-mode .ucap-speak-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(184,112,20,.25);}
-#stage.stage-entering{opacity:0 !important;}
-#stage.stage-ready{opacity:1 !important;transition:opacity .12s ease;}
-</style>
-<script id="v26-stability-init">
+
+
 (function(){
   const stage = document.getElementById('stage');
   const brush = document.getElementById('brushSizePanel');
@@ -4852,11 +4862,163 @@ if(typeof applyLanguage==='function') applyLanguage();
     }
   }
 })();
+
+
+
+(function(){
+ const r=document.getElementById('brushSize');
+ const v=document.getElementById('brushSizeValue');
+ if(r){ r.min='10'; r.max='100'; r.value='24'; if(v) v.textContent=r.value; r.dispatchEvent(new Event('input',{bubbles:true})); r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
+})();
+
+
+
+(function(){
+  function forceInitialHome(){
+    const start=document.getElementById('startScreen');
+    const stage=document.getElementById('stage');
+    const quiz=document.getElementById('quizScreen');
+    const add=document.getElementById('additionScreen');
+    const sub=document.getElementById('subtractionScreen');
+    if(!start) return;
+    // On a fresh load the only visible screen must be Home.
+    if(stage) stage.style.setProperty('display','none','important');
+    if(quiz) quiz.style.setProperty('display','none','important');
+    if(add) add.style.setProperty('display','none','important');
+    if(sub) sub.style.setProperty('display','none','important');
+    start.style.removeProperty('display');
+    if(typeof showMainMenu==='function') showMainMenu();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',forceInitialHome,{once:true});
+  else forceInitialHome();
+})();
+
+
+
+(function(){
+  function shuffleArr(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
+  function makeAnswerOptions(ans){
+    const opts=new Set([ans]);
+    let guard=0;
+    while(opts.size<4 && guard<60){
+      guard++;
+      const delta=Math.floor(Math.random()*9)-4; // -4..4
+      let val=ans+delta;
+      if(val<0) val=ans+Math.abs(delta)+1;
+      if(val!==ans && val>=0) opts.add(val);
+    }
+    return shuffleArr([...opts]);
+  }
+
+  function bindChipDrag(chip, dropZoneId, onDrop){
+    let dragging=false;
+    let startX=0,startY=0,origX=0,origY=0;
+
+    chip.addEventListener('pointerdown', function(e){
+      if(chip.disabled) return;
+      dragging=true;
+      try{ chip.setPointerCapture(e.pointerId); }catch(err){}
+      chip.classList.add('dragging');
+      const rect=chip.getBoundingClientRect();
+      origX=rect.left; origY=rect.top;
+      startX=e.clientX; startY=e.clientY;
+      chip.style.position='fixed';
+      chip.style.left=origX+'px';
+      chip.style.top=origY+'px';
+      chip.style.width=rect.width+'px';
+      chip.style.zIndex='9999';
+      e.preventDefault();
+    });
+
+    chip.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      const dx=e.clientX-startX, dy=e.clientY-startY;
+      chip.style.left=(origX+dx)+'px';
+      chip.style.top=(origY+dy)+'px';
+      const dz=document.getElementById(dropZoneId);
+      if(dz){
+        const dzRect=dz.getBoundingClientRect();
+        const chipRect=chip.getBoundingClientRect();
+        const overlap=!(chipRect.right<dzRect.left||chipRect.left>dzRect.right||chipRect.bottom<dzRect.top||chipRect.top>dzRect.bottom);
+        dz.classList.toggle('drag-over', overlap);
+      }
+    });
+
+    function endDrag(){
+      if(!dragging) return;
+      dragging=false;
+      chip.classList.remove('dragging');
+      const dz=document.getElementById(dropZoneId);
+      let overlap=false;
+      if(dz){
+        const dzRect=dz.getBoundingClientRect();
+        const chipRect=chip.getBoundingClientRect();
+        overlap=!(chipRect.right<dzRect.left||chipRect.left>dzRect.right||chipRect.bottom<dzRect.top||chipRect.top>dzRect.bottom);
+        dz.classList.remove('drag-over');
+      }
+      chip.style.position='';
+      chip.style.left='';
+      chip.style.top='';
+      chip.style.width='';
+      chip.style.zIndex='';
+      if(overlap) onDrop(chip);
+    }
+    chip.addEventListener('pointerup', endDrag);
+    chip.addEventListener('pointercancel', endDrag);
+  }
+
+  window.renderAnswerOptions=function(type, ans){
+    const wrapId = type==='add' ? 'addOptions' : 'subOptions';
+    const dropZoneId = type==='add' ? 'addAnswerDisplay' : 'subAnswerDisplay';
+    const wrap=document.getElementById(wrapId);
+    if(!wrap) return;
+    wrap.innerHTML='';
+    const options=makeAnswerOptions(ans);
+    options.forEach(val=>{
+      const chip=document.createElement('button');
+      chip.type='button';
+      chip.className='answer-chip';
+      chip.textContent=val;
+      chip.dataset.value=val;
+      bindChipDrag(chip, dropZoneId, function(chosenChip){
+        document.querySelectorAll('#'+wrapId+' .answer-chip').forEach(c=>{ c.disabled=true; });
+        chosenChip.classList.add('picked');
+        if(type==='add'){
+          window.addTyped=String(chosenChip.dataset.value);
+          window.updateAddDisplay();
+          setTimeout(window.checkAddAnswer,150);
+        } else {
+          window.subTyped=String(chosenChip.dataset.value);
+          window.updateSubDisplay();
+          setTimeout(window.checkSubAnswer,150);
+        }
+      });
+      wrap.appendChild(chip);
+    });
+  };
+})();
+
 </script>
-
-
-
-
+<script id="__deferredAppBoot">
+(function(){
+  function boot(){
+    var el=document.getElementById("__deferredAppCode");
+    if(!el)return;
+    var code=el.textContent||el.innerText||"";
+    try{ (0,eval)(code); }catch(e){ console.error("App initialization error:",e); }
+  }
+  // Beri browser kesempatan mengecat Home terlebih dahulu.
+  var run=function(){ requestAnimationFrame(function(){ requestAnimationFrame(boot); }); };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run,{once:true});
+  else run();
+})();
+</script>
 </body>
 <style id="main-page-requested-layout">
 /* ===== HALAMAN UTAMA: grid dasar + penentuan grid-area elemen anak =====
@@ -5113,37 +5275,11 @@ if(typeof applyLanguage==='function') applyLanguage();
 #stage.writing-mode #variantPickerAnchor,
 #stage.writing-mode .learning-variant-picker{display:none !important;}
 </style>
-<script id="writing-v24-init">
-(function(){
- const r=document.getElementById('brushSize');
- const v=document.getElementById('brushSizeValue');
- if(r){ r.min='10'; r.max='100'; r.value='24'; if(v) v.textContent=r.value; r.dispatchEvent(new Event('input',{bubbles:true})); r.addEventListener('input',()=>{if(v)v.textContent=r.value;}); }
-})();
-</script>
+
 
 <style id="writing-v26-layout">#stage.writing-mode .canvaswrap{display:flex !important;flex-direction:column !important;}#stage.writing-mode .canvaswrap > .brush-size-panel{display:flex !important;width:100% !important;box-sizing:border-box !important;margin:0 0 8px !important;align-items:center !important;justify-content:center !important;}#stage.writing-mode .brush-size-panel #brushSize{flex:1 1 auto !important;width:auto !important;max-width:none !important;}</style>
 
-<script id="initial-home-state-fix">
-(function(){
-  function forceInitialHome(){
-    const start=document.getElementById('startScreen');
-    const stage=document.getElementById('stage');
-    const quiz=document.getElementById('quizScreen');
-    const add=document.getElementById('additionScreen');
-    const sub=document.getElementById('subtractionScreen');
-    if(!start) return;
-    // On a fresh load the only visible screen must be Home.
-    if(stage) stage.style.setProperty('display','none','important');
-    if(quiz) quiz.style.setProperty('display','none','important');
-    if(add) add.style.setProperty('display','none','important');
-    if(sub) sub.style.setProperty('display','none','important');
-    start.style.removeProperty('display');
-    if(typeof showMainMenu==='function') showMainMenu();
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',forceInitialHome,{once:true});
-  else forceInitialHome();
-})();
-</script>
+
 
 
 
@@ -5694,116 +5830,7 @@ if(typeof applyLanguage==='function') applyLanguage();
 }
 </style>
 
-<script id="answer-drag-v36">
-(function(){
-  function shuffleArr(arr){
-    for(let i=arr.length-1;i>0;i--){
-      const j=Math.floor(Math.random()*(i+1));
-      [arr[i],arr[j]]=[arr[j],arr[i]];
-    }
-    return arr;
-  }
-  function makeAnswerOptions(ans){
-    const opts=new Set([ans]);
-    let guard=0;
-    while(opts.size<4 && guard<60){
-      guard++;
-      const delta=Math.floor(Math.random()*9)-4; // -4..4
-      let val=ans+delta;
-      if(val<0) val=ans+Math.abs(delta)+1;
-      if(val!==ans && val>=0) opts.add(val);
-    }
-    return shuffleArr([...opts]);
-  }
 
-  function bindChipDrag(chip, dropZoneId, onDrop){
-    let dragging=false;
-    let startX=0,startY=0,origX=0,origY=0;
-
-    chip.addEventListener('pointerdown', function(e){
-      if(chip.disabled) return;
-      dragging=true;
-      try{ chip.setPointerCapture(e.pointerId); }catch(err){}
-      chip.classList.add('dragging');
-      const rect=chip.getBoundingClientRect();
-      origX=rect.left; origY=rect.top;
-      startX=e.clientX; startY=e.clientY;
-      chip.style.position='fixed';
-      chip.style.left=origX+'px';
-      chip.style.top=origY+'px';
-      chip.style.width=rect.width+'px';
-      chip.style.zIndex='9999';
-      e.preventDefault();
-    });
-
-    chip.addEventListener('pointermove', function(e){
-      if(!dragging) return;
-      const dx=e.clientX-startX, dy=e.clientY-startY;
-      chip.style.left=(origX+dx)+'px';
-      chip.style.top=(origY+dy)+'px';
-      const dz=document.getElementById(dropZoneId);
-      if(dz){
-        const dzRect=dz.getBoundingClientRect();
-        const chipRect=chip.getBoundingClientRect();
-        const overlap=!(chipRect.right<dzRect.left||chipRect.left>dzRect.right||chipRect.bottom<dzRect.top||chipRect.top>dzRect.bottom);
-        dz.classList.toggle('drag-over', overlap);
-      }
-    });
-
-    function endDrag(){
-      if(!dragging) return;
-      dragging=false;
-      chip.classList.remove('dragging');
-      const dz=document.getElementById(dropZoneId);
-      let overlap=false;
-      if(dz){
-        const dzRect=dz.getBoundingClientRect();
-        const chipRect=chip.getBoundingClientRect();
-        overlap=!(chipRect.right<dzRect.left||chipRect.left>dzRect.right||chipRect.bottom<dzRect.top||chipRect.top>dzRect.bottom);
-        dz.classList.remove('drag-over');
-      }
-      chip.style.position='';
-      chip.style.left='';
-      chip.style.top='';
-      chip.style.width='';
-      chip.style.zIndex='';
-      if(overlap) onDrop(chip);
-    }
-    chip.addEventListener('pointerup', endDrag);
-    chip.addEventListener('pointercancel', endDrag);
-  }
-
-  window.renderAnswerOptions=function(type, ans){
-    const wrapId = type==='add' ? 'addOptions' : 'subOptions';
-    const dropZoneId = type==='add' ? 'addAnswerDisplay' : 'subAnswerDisplay';
-    const wrap=document.getElementById(wrapId);
-    if(!wrap) return;
-    wrap.innerHTML='';
-    const options=makeAnswerOptions(ans);
-    options.forEach(val=>{
-      const chip=document.createElement('button');
-      chip.type='button';
-      chip.className='answer-chip';
-      chip.textContent=val;
-      chip.dataset.value=val;
-      bindChipDrag(chip, dropZoneId, function(chosenChip){
-        document.querySelectorAll('#'+wrapId+' .answer-chip').forEach(c=>{ c.disabled=true; });
-        chosenChip.classList.add('picked');
-        if(type==='add'){
-          window.addTyped=String(chosenChip.dataset.value);
-          window.updateAddDisplay();
-          setTimeout(window.checkAddAnswer,150);
-        } else {
-          window.subTyped=String(chosenChip.dataset.value);
-          window.updateSubDisplay();
-          setTimeout(window.checkSubAnswer,150);
-        }
-      });
-      wrap.appendChild(chip);
-    });
-  };
-})();
-</script>
 
 <style id="answer-drag-v37-theme">
 .answer-options{
