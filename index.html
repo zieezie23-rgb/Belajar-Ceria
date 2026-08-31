@@ -35,7 +35,7 @@
   html,body{ height:100%; }
   body{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
-    background:none;
+    background:url('assets/background.png') center center / cover no-repeat fixed;
     height:100%; padding:0; overflow:hidden;
   }
   .display{font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;}
@@ -118,7 +118,7 @@
   .canvaswrap.letter-writing{ aspect-ratio:1 / 1; max-height:520px; }
   .canvaswrap.learn-letter .learn-canvas-title{
     position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:6;
-    background:none; color:#E83B78;
+    background:url('assets/background.png') center center / cover no-repeat fixed; color:#E83B78;
     font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:900; font-size:24px; line-height:1.1;
     padding:0; border-radius:0; box-shadow:none;
     white-space:nowrap; pointer-events:none;
@@ -147,7 +147,7 @@
   .card h3{
     margin:0 0 10px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
     font-size:13px; font-weight:800; color:#7E4CE0; display:block;
-    padding:0; border-radius:0; box-shadow:none; background:none;
+    padding:0; border-radius:0; box-shadow:none; background:url('assets/background.png') center center / cover no-repeat fixed;
   }
   .card.contoh h3{ color:#2FA859; }
   .card.ucap h3{ color:#F08000; }
@@ -836,7 +836,7 @@ body::before {
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background-color:#000000;
+  background-color:transparent;
 }
 </style>
 
@@ -2055,7 +2055,7 @@ body::before {
 
 <div id="quizScreen" aria-modal="true" role="dialog">
   <div class="quiz-box">
-    <h1 class="quiz-title"><img src="assets/quis_txt.png" alt="Kuis Cepat" class="quiz-title-img"></h1>
+    <h1 class="quiz-title"></h1>
     <div class="quiz-score" id="quizScore">Soal 1 dari 15 · ⭐ 0</div>
     <div class="quiz-visual" id="quizVisual">🐔</div>
     <div class="quiz-question" id="quizQuestion">Hewan apa yang berawalan huruf A?</div>
@@ -4037,7 +4037,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 <style>
 #additionScreen{
   position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
-  background:none;
+  background:url('assets/background.png') center center / cover no-repeat fixed;
 }
 .addbox{
   max-width:480px; margin:40px auto; text-align:center;
@@ -4227,7 +4227,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 <style>
 #subtractionScreen{
   position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
-  background:none;
+  background:url('assets/background.png') center center / cover no-repeat fixed;
 }
 .subbox h1{
   font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px var(--orange-dark);
