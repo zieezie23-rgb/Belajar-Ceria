@@ -1151,12 +1151,12 @@ body:has(#startScreen[style*="display: none"]) {
 /* Performance: warm only the assets that are used by the menus, without blocking startup. */
 (function(){
   const assets = [
-    'assets/background.png','assets/judul.png','assets/belajar.png','assets/angka.png',
+    'assets/beckground.png','assets/judul.png','assets/belajar.png','assets/angka.png',
     'assets/quis_ic.png','assets/quis_txt.png','assets/latihan.png',
     'assets/mengenal_id.png','assets/mengenal_en.png',
     'assets/menulis_huruf_ic.png','assets/menulis_huruf_txt.png',
     'assets/menulis_angka_ic.png','assets/menulis_angka_txt.png',
-    'assets/penjumlahan_ic.png','assets/penjumlahan_txt.png',
+    'assets/penjumlahan_ic.png','assets/berhitung.png',
     'assets/pengurangan_ic.png','assets/pengurangan_txt.png'
   ];
   function warm(){
@@ -3719,7 +3719,7 @@ function showSubMenu(type){
   document.getElementById('startTitleText').textContent = '';
   const titleImg = document.getElementById('startTitleImg');
   if(titleImg){
-    if(type==='berhitung'){ titleImg.src='assets/penjumlahan_txt.png'; titleImg.alt='Berhitung'; }
+    if(type==='berhitung'){ titleImg.src='assets/berhitung.png'; titleImg.alt='Berhitung'; }
     else { titleImg.src='assets/menulis_huruf_txt.png'; titleImg.alt='Menulis'; }
     titleImg.style.display='block';
   }
@@ -4079,7 +4079,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 </style>
 <div id="additionScreen">
  <div class="addbox">
-  <h1 class="display" id="addTitle"><span id="addTitleText">➕ Penjumlahan</span><img src="assets/penjumlahan_txt.png" alt="Penjumlahan" id="addTitleImg" class="math-title-img" style="display:none;"></h1>
+  <h1 class="display" id="addTitle"><span id="addTitleText">➕ Penjumlahan</span><img src="assets/berhitung.png" alt="Penjumlahan" id="addTitleImg" class="math-title-img" style="display:none;"></h1>
   <div class="addprogress" id="addProgress"></div>
   <div class="addq" id="addQuestion"></div>
   <p class="addhint" id="addHint">🖐️ Geser jawaban ke kotak:</p>
