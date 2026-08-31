@@ -821,7 +821,7 @@
 html, body {
   min-height:100%;
   width:100%;
-  background:#72D2F8;
+  background:#000000;
 }
 
 body {
@@ -836,10 +836,7 @@ body::before {
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background-image:url("assets/background.png");
-  background-repeat:no-repeat;
-  background-position:center center;
-  background-size:cover;
+  background-color:#000000;
 }
 </style>
 
@@ -1569,17 +1566,9 @@ body::before {
 .learning-variant-picker button.active{
   transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.12);filter:saturate(1.1);
 }
-#stage .topbar #btnLanguage{
-  display:inline-flex !important;align-items:center !important;justify-content:center !important;
-  gap:5px !important;white-space:nowrap !important;overflow:hidden !important;
-  box-sizing:border-box !important;line-height:1 !important;
-}
-#stage .topbar #btnLanguage .lang-flag{display:inline-flex;flex:0 0 auto;font-size:1.05em;line-height:1;}
-#stage .topbar #btnLanguage .lang-code{display:inline-block;flex:0 0 auto;font-weight:900;line-height:1;}
 @media(max-width:800px){
   .learning-variant-picker{gap:24px;margin-top:6px;}
   .learning-variant-picker button{padding:5px 8px;font-size:11px;}
-  #stage .topbar #btnLanguage{gap:3px !important;font-size:13px !important;}
 }
 </style>
 
@@ -1707,31 +1696,6 @@ body::before {
   100%{transform:scale(1) rotate(360deg)}
 }
 
-/* Language: flag and ID/EN never overlap. */
-#stage .topbar #btnLanguage{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  flex-direction:row !important;
-  gap:5px !important;
-  white-space:nowrap !important;
-  padding-left:14px !important;
-  padding-right:14px !important;
-}
-#stage .topbar #btnLanguage .lang-flag{
-  position:static !important;
-  display:inline-flex !important;
-  flex:0 0 auto !important;
-  font-size:1em !important;
-  line-height:1 !important;
-}
-#stage .topbar #btnLanguage .lang-code{
-  position:static !important;
-  display:inline-block !important;
-  flex:0 0 auto !important;
-  line-height:1 !important;
-  font-weight:900 !important;
-}
 @media(max-width:800px){
   #stage.simple-learning .chipstrip{
     width:min(620px,calc(100vw - 22px)) !important;
@@ -1744,90 +1708,9 @@ body::before {
     font-size:clamp(30px,9.2vw,62px) !important;
   }
   #stage.simple-learning.variant-star .chipstrip .chip{border:0 !important;}
-  #stage .topbar #btnLanguage{
-    width:78px !important;
-    min-width:78px !important;
-    height:78px !important;
-    min-height:78px !important;
-    padding:0 !important;
-    gap:4px !important;
-    font-size:15px !important;
-  }
 }
 </style>
 
-<style id="language-flag-final-fix">
-#stage .topbar #btnLanguage{
-  display:inline-flex !important;
-  flex-direction:row !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:6px !important;
-  white-space:nowrap !important;
-  overflow:visible !important;
-}
-#stage .topbar #btnLanguage .lang-flag{
-  display:inline-block !important;
-  position:static !important;
-  width:auto !important;
-  height:auto !important;
-  margin:0 !important;
-  padding:0 !important;
-  font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif !important;
-  font-size:18px !important;
-  line-height:1 !important;
-  transform:none !important;
-}
-#stage .topbar #btnLanguage .lang-code{
-  display:inline-block !important;
-  position:static !important;
-  width:auto !important;
-  height:auto !important;
-  margin:0 !important;
-  padding:0 !important;
-  font-size:14px !important;
-  line-height:1 !important;
-  font-weight:900 !important;
-}
-@media(max-width:800px){
-  #stage .topbar #btnLanguage{
-    width:82px !important;
-    min-width:82px !important;
-    height:82px !important;
-    min-height:82px !important;
-    gap:5px !important;
-  }
-  #stage .topbar #btnLanguage .lang-flag{font-size:17px !important;}
-  #stage .topbar #btnLanguage .lang-code{font-size:14px !important;}
-}
-</style>
-
-<style id="home-language-match-shape">
-/* Tombol Bahasa dibuat sama persis bentuk (lingkaran) & ukurannya dengan tombol Home,
-   mengikuti nilai .pillbtn.homebtn di setiap breakpoint. */
-#stage .topbar #btnLanguage{
-  width:48px !important;
-  height:48px !important;
-  min-width:48px !important;
-  min-height:48px !important;
-  padding:0 !important;
-  border-radius:50% !important;
-  display:flex !important;
-  flex-direction:column !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:0 !important;
-}
-#stage .topbar #btnLanguage .lang-flag{
-  font-size:15px !important;
-  line-height:1 !important;
-}
-#stage .topbar #btnLanguage .lang-code{
-  font-size:9px !important;
-  line-height:1 !important;
-}
-
-</style>
 
 <style id="learning-mode-cleanup">
 /* =========================================================
@@ -1928,7 +1811,6 @@ body::before {
 #stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:10px !important; line-height:1 !important;}
 #stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:20px !important; line-height:1 !important; white-space:nowrap !important;}
 #stage.simple-learning .topbar .title-wrap > span{font-size:17px !important; flex:0 0 auto !important;}
-#stage.simple-learning .topbar #btnLanguage{flex:0 0 auto !important; min-width:58px !important; padding:8px 10px !important; gap:5px !important;}
 @media(max-width:430px){
  #stage.simple-learning .topbar{gap:6px !important;}
  #stage.simple-learning .topbar .homebtn{width:42px !important; min-width:42px !important;}
@@ -1936,7 +1818,6 @@ body::before {
  #stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:8px !important;}
  #stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:16px !important;}
  #stage.simple-learning .topbar .title-wrap > span{font-size:13px !important;}
- #stage.simple-learning .topbar #btnLanguage{min-width:52px !important; padding:7px 6px !important;}
 }
 </style>
 
@@ -2075,16 +1956,24 @@ body::before {
       <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar"><img src="assets/belajar.png" alt="Belajar" class="huruf-logo-img"></button>
     </div>
     <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img src="assets/quis.png" alt="Kuis Cepat"></button>
-    <button class="menu-main-btn latihan-menu has-img" id="btnMenuLatihan">
+    <button class="menu-main-btn latihan-menu has-img" id="btnMenuMenulis">
       <span class="menu-anim-icon" aria-hidden="true"></span>
-      <img src="assets/latihan.png" alt="Latihan Menulis & Berhitung">
+      <img src="assets/menulis_huruf.png" alt="Menulis">
+    </button>
+    <button class="menu-main-btn latihan-menu has-img" id="btnMenuBerhitung">
+      <span class="menu-anim-icon" aria-hidden="true"></span>
+      <img src="assets/penjumlahan.png" alt="Berhitung">
     </button>
     <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     </div>
 
-    <div class="sub-menu" id="latihanMenu" style="display:none;">
+    <div class="sub-menu" id="menulisMenu" style="display:none;">
       <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img src="assets/menulis_huruf.png" alt="Menulis Huruf" class="submenu-img"></button>
       <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img src="assets/menulis_angka.png" alt="Menulis Angka" class="submenu-img"></button>
+      <button class="sub-menu-title" type="button" id="backMainFromMenulis">🏠 Kembali ke Menu Utama</button>
+    </div>
+
+    <div class="sub-menu" id="berhitungMenu" style="display:none;">
       <button class="sub-menu-item tambah has-img" id="btnStartAddition"><img src="assets/penjumlahan.png" alt="Penjumlahan" class="submenu-img"></button>
       <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img src="assets/pengurangan.png" alt="Pengurangan" class="submenu-img"></button>
       <div class="counting-score-card" id="countingScoreCard">
@@ -2093,7 +1982,7 @@ body::before {
         <div class="counting-score-row"><span>➖ Pengurangan</span><strong id="subtractionScoreMenu">0</strong></div>
         <div class="counting-score-total"><span>Total Score</span><strong id="countingScoreMenu">0</strong></div>
       </div>
-      <button class="sub-menu-title" type="button" id="backMainFromLatihan">🏠 Kembali ke Menu Utama</button>
+      <button class="sub-menu-title" type="button" id="backMainFromBerhitung">🏠 Kembali ke Menu Utama</button>
     </div>
   </div>
   <button class="reset-progress-btn" id="btnResetProgress" type="button" aria-label="Reset Pencapaian" title="Reset Pencapaian"><span class="reset-icon">↺</span> Reset</button>
@@ -3719,7 +3608,7 @@ document.getElementById('btnGoNext').onclick = () => {
   }
 };
 document.getElementById('btnKembali').onclick = () => {
-  if(writingMode){ document.getElementById('stage').style.display='none'; writingMode=false; const lb=document.getElementById('btnLanguage'); if(lb) lb.remove(); document.getElementById('startScreen').style.display=''; applyLanguage(); showSubMenu(); return; }
+  if(writingMode){ document.getElementById('stage').style.display='none'; writingMode=false; const lb=document.getElementById('btnLanguage'); if(lb) lb.remove(); document.getElementById('startScreen').style.display=''; applyLanguage(); showSubMenu('menulis'); return; }
   document.getElementById('stage').style.display = 'none';
   writingMode = false;
   const languageButton = document.getElementById('btnLanguage');
@@ -3819,8 +3708,10 @@ function showMainMenu(){
   document.getElementById('mainMenuOptions').style.removeProperty('display');
   document.getElementById('progressCard').style.removeProperty('display');
   document.getElementById('btnStartQuiz').style.removeProperty('display');
-  document.getElementById('latihanMenu').style.setProperty('display','none','important');
-  document.getElementById('btnMenuLatihan').style.removeProperty('display');
+  document.getElementById('menulisMenu').style.setProperty('display','none','important');
+  document.getElementById('berhitungMenu').style.setProperty('display','none','important');
+  document.getElementById('btnMenuMenulis').style.removeProperty('display');
+  document.getElementById('btnMenuBerhitung').style.removeProperty('display');
 
   // Kembalikan elemen informasi yang hanya diperlukan di menu utama.
   document.getElementById('startSub').style.removeProperty('display');
@@ -3830,8 +3721,9 @@ function showMainMenu(){
   if(titleImg) titleImg.src='assets/judul.png';
   updateStartTitleVisual(language === 'id');
 }
-function showSubMenu(){
-  // Pastikan hanya Submenu Latihan yang terlihat.
+function showSubMenu(type){
+  type = (type === 'berhitung') ? 'berhitung' : 'menulis';
+  // Pastikan hanya Submenu yang sesuai (Menulis atau Berhitung) yang terlihat.
   const stage = document.getElementById('stage');
   const quiz = document.getElementById('quizScreen');
   const add = document.getElementById('additionScreen');
@@ -3844,8 +3736,10 @@ function showSubMenu(){
   document.getElementById('mainMenuOptions').style.setProperty('display','none','important');
   document.getElementById('progressCard').style.setProperty('display','none','important');
   document.getElementById('btnStartQuiz').style.setProperty('display','none','important');
-  document.getElementById('latihanMenu').style.setProperty('display','flex','important');
-  document.getElementById('btnMenuLatihan').style.setProperty('display','none','important');
+  document.getElementById('menulisMenu').style.setProperty('display', type==='menulis' ? 'flex' : 'none','important');
+  document.getElementById('berhitungMenu').style.setProperty('display', type==='berhitung' ? 'flex' : 'none','important');
+  document.getElementById('btnMenuMenulis').style.setProperty('display','none','important');
+  document.getElementById('btnMenuBerhitung').style.setProperty('display','none','important');
 
   // Di submenu dibuat lebih sederhana: hanya judul + pilihan menu.
   // Bahasa, sapaan, dan kolom nama disembunyikan agar fokus ke pilihan.
@@ -3853,11 +3747,17 @@ function showSubMenu(){
   document.querySelector('.start-name-row').style.setProperty('display','none','important');
   document.getElementById('startTitleText').textContent = '';
   const titleImg = document.getElementById('startTitleImg');
-  if(titleImg){ titleImg.src='assets/latihan.png'; titleImg.alt='Latihan Menulis & Berhitung'; titleImg.style.display='block'; }
+  if(titleImg){
+    if(type==='berhitung'){ titleImg.src='assets/penjumlahan.png'; titleImg.alt='Berhitung'; }
+    else { titleImg.src='assets/menulis_huruf.png'; titleImg.alt='Menulis'; }
+    titleImg.style.display='block';
+  }
   document.getElementById('startTitleText').style.display='none';
 }
-document.getElementById('btnMenuLatihan').onclick=showSubMenu;
-document.getElementById('backMainFromLatihan').onclick=showMainMenu;
+document.getElementById('btnMenuMenulis').onclick=()=>showSubMenu('menulis');
+document.getElementById('btnMenuBerhitung').onclick=()=>showSubMenu('berhitung');
+document.getElementById('backMainFromMenulis').onclick=showMainMenu;
+document.getElementById('backMainFromBerhitung').onclick=showMainMenu;
 document.getElementById('btnStartHuruf').onclick = () => startApp('huruf', false);
 document.getElementById('btnStartMenulisHuruf').onclick = () => startApp('huruf', true);
 document.getElementById('btnStartMenulisAngka').onclick = () => startApp('angka', true);
@@ -4216,7 +4116,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   <div class="addanswer-display" id="addAnswerDisplay">_</div>
   <div class="answer-options" id="addOptions"></div>
   <div class="addbtn-row">
-   <button class="pillbtn gray homebtn mathback" id="addHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
+   <button class="pillbtn gray homebtn mathback" id="addHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('additionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu('berhitung');"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
   </div>
  </div>
 </div>
@@ -4374,7 +4274,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
   <div class="addanswer-display" id="subAnswerDisplay">_</div>
   <div class="answer-options" id="subOptions"></div>
   <div class="addbtn-row">
-   <button class="pillbtn gray homebtn mathback" id="subHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu();"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
+   <button class="pillbtn gray homebtn mathback" id="subHomeBtn" aria-label="Kembali ke Menu" title="Kembali ke Menu" onclick="document.getElementById('subtractionScreen').style.display='none';document.getElementById('startScreen').style.display='';showSubMenu('berhitung');"><span class="mathback-arrow" aria-hidden="true">←</span><span class="mathback-text">Kembali ke Menu</span></button>
   </div>
  </div>
 </div>
@@ -4958,7 +4858,7 @@ if(typeof applyLanguage==='function') applyLanguage();
         if(start) start.style.display='';
         if(typeof applyLanguage==='function') applyLanguage();
         if(wasWriting){
-           if(typeof showSubMenu==='function') showSubMenu();
+           if(typeof showSubMenu==='function') showSubMenu('menulis');
         } else {
            if(typeof showMainMenu==='function') showMainMenu();
         }
@@ -5261,13 +5161,12 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 <style id="header-spacing-home-language-final">
 #stage.simple-learning .topbar{margin-bottom:28px !important; flex-wrap:nowrap !important;}
-#stage.simple-learning .topbar #btnKembali,
-#stage.simple-learning .topbar #btnLanguage{width:58px !important; min-width:58px !important; height:58px !important; min-height:58px !important; padding:0 !important; flex:0 0 58px !important; box-sizing:border-box !important;}
+#stage.simple-learning .topbar #btnKembali{width:58px !important; min-width:58px !important; height:58px !important; min-height:58px !important; padding:0 !important; flex:0 0 58px !important; box-sizing:border-box !important;}
 #stage.simple-learning .topbar .title-wrap{min-width:0 !important; flex:1 1 auto !important; height:58px !important; padding:6px 10px !important; box-sizing:border-box !important; gap:8px !important;}
 #stage.simple-learning .topbar .title-wrap h1{gap:0 !important; line-height:1 !important; white-space:nowrap !important;}
 #stage.simple-learning .topbar .title-wrap h1 .title-line1{font-size:11px !important;}
 #stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:20px !important; white-space:nowrap !important;}
-@media(max-width:430px){#stage.simple-learning .topbar{margin-bottom:24px !important;}#stage.simple-learning .topbar #btnKembali,#stage.simple-learning .topbar #btnLanguage{width:50px !important;min-width:50px !important;height:50px !important;min-height:50px !important;flex-basis:50px !important;}#stage.simple-learning .topbar .title-wrap{height:50px !important;}#stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:16px !important;}}
+@media(max-width:430px){#stage.simple-learning .topbar{margin-bottom:24px !important;}#stage.simple-learning .topbar #btnKembali{width:50px !important;min-width:50px !important;height:50px !important;min-height:50px !important;flex-basis:50px !important;}#stage.simple-learning .topbar .title-wrap{height:50px !important;}#stage.simple-learning .topbar .title-wrap h1 .title-line2{font-size:16px !important;}}
 </style>
 
 <style id="final-user-layout-v21">
@@ -6131,8 +6030,196 @@ if(typeof applyLanguage==='function') applyLanguage();
 }
 </style>
 
-<style id="lang-flag-only">
-/* Tombol bahasa: hanya tampilkan bendera, teks EN/ID disembunyikan */
+<style id="btn-language-final">
+/* Tombol Bahasa — versi bersih & terkonsolidasi (menggantikan beberapa
+   aturan lama yang sebelumnya saling menimpa/bertumpuk).
+   Hanya menampilkan ikon bendera; kode bahasa (EN/ID) disembunyikan. */
+#stage .topbar #btnLanguage{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:48px !important;
+  height:48px !important;
+  min-width:48px !important;
+  min-height:48px !important;
+  padding:0 !important;
+  border-radius:50% !important;
+  white-space:nowrap !important;
+  box-sizing:border-box !important;
+}
+#stage .topbar #btnLanguage .lang-flag{
+  display:inline-flex;
+  font-size:15px;
+  line-height:1;
+}
 #btnLanguage .lang-code{ display:none !important; }
-#btnLanguage{ padding-left:12px !important; padding-right:12px !important; min-width:0 !important; }
+</style>
+
+<style id="menulis-berhitung-split-v28">
+/* Pisah menu Latihan menjadi dua menu utama: Menulis dan Berhitung */
+#startScreen #btnMenuMenulis,
+#startScreen #btnMenuBerhitung{
+  animation:playfulBob 2.5s ease-in-out infinite;
+  transform-origin:center bottom;
+}
+#startScreen #btnMenuMenulis{animation-delay:1.05s}
+#startScreen #btnMenuBerhitung{animation-delay:1.3s}
+
+/* Baris menu utama: Menulis & Berhitung sejajar 2 kolom, Kuis di bawahnya.
+   Semua tombol berukuran 120px dan kolom dibuat sesempit isinya (bukan 1fr
+   penuh) serta dipusatkan, supaya selalu berkumpul rapat di layar manapun. */
+#startScreen #menuCenterWrap{
+  grid-template-columns:repeat(2,minmax(0,120px)) !important;
+  justify-content:center !important;
+  column-gap:18px !important;
+  grid-template-areas:
+    "name name"
+    "sub sub"
+    "belajar belajar"
+    "progress progress"
+    "menulis berhitung"
+    "quiz quiz" !important;
+}
+#startScreen #menuCenterWrap > #btnStartQuiz,
+#startScreen #menuCenterWrap > #btnMenuMenulis,
+#startScreen #menuCenterWrap > #btnMenuBerhitung{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:120px !important;
+  margin:0 !important;
+  justify-self:center;
+}
+#startScreen #menuCenterWrap > #btnMenuMenulis{grid-area:menulis !important;}
+#startScreen #menuCenterWrap > #btnMenuBerhitung{grid-area:berhitung !important;}
+#startScreen #menuCenterWrap > #btnStartQuiz{
+  grid-area:quiz !important;
+  margin-top:8px !important;
+}
+#startScreen #menuCenterWrap > #btnStartQuiz img,
+#startScreen #menuCenterWrap > #btnMenuMenulis img,
+#startScreen #menuCenterWrap > #btnMenuBerhitung img{
+  width:120px !important;
+  max-width:100% !important;
+}
+
+/* Bintang/Lencana: dipindahkan ke position:fixed, 200px dari bawah halaman. */
+#startScreen #menuCenterWrap > #progressCard{
+  grid-area:progress !important;
+  position:fixed !important;
+  left:50% !important;
+  bottom:200px !important;
+  transform:translateX(-50%) !important;
+  width:min(430px,90vw) !important;
+  margin:0 !important;
+  z-index:50;
+}
+
+/* Submenu Menulis & Berhitung: pusatkan tampilan seperti submenu lama */
+#startScreen:has(#menulisMenu[style*="display: flex"]) .start-card,
+#startScreen:has(#berhitungMenu[style*="display: flex"]) .start-card{
+  justify-content:flex-start !important;
+}
+#startScreen:has(#menulisMenu[style*="display: flex"]) .start-title,
+#startScreen:has(#berhitungMenu[style*="display: flex"]) .start-title{
+  margin:5px auto 0 !important;
+}
+#startScreen:has(#menulisMenu[style*="display: flex"]) #menulisMenu,
+#startScreen:has(#berhitungMenu[style*="display: flex"]) #berhitungMenu{
+  margin:0 auto !important;
+}
+#startScreen #menulisMenu,
+#startScreen #berhitungMenu{
+  order:2 !important;
+  flex:1 1 auto !important;
+  justify-content:center !important;
+  width:min(520px,100%) !important;
+  margin:0 auto !important;
+  min-height:0;
+}
+#startScreen #menulisMenu[style*="display: flex"],
+#startScreen #berhitungMenu[style*="display: flex"]{
+  display:flex !important;
+}
+#startScreen #menulisMenu .sub-menu-item,
+#startScreen #berhitungMenu .sub-menu-item{
+  width:min(360px,86vw);
+  min-height:44px;
+  padding:8px 14px;
+  line-height:1.1;
+}
+</style>
+
+<style id="progress-card-glam-v1">
+/* Tampilan Bintang/Lencana dipercantik: kartu emas berkilau dengan animasi lembut */
+#startScreen #menuCenterWrap > #progressCard{
+  width:fit-content !important;
+  max-width:90vw !important;
+  background:
+    radial-gradient(circle at 20% 25%, rgba(255,255,255,.9) 0 2px, transparent 3px),
+    radial-gradient(circle at 75% 20%, rgba(255,255,255,.7) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 60% 70%, rgba(255,255,255,.85) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 90% 65%, rgba(255,255,255,.6) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 35% 80%, rgba(255,255,255,.7) 0 1.5px, transparent 2.5px),
+    linear-gradient(135deg,#1B0F45 0%,#3A1E7A 45%,#0D0630 100%) !important;
+  border:3px solid #9B6BFF !important;
+  border-radius:20px !important;
+  padding:8px 14px !important;
+  box-shadow:
+    0 6px 0 rgba(30,10,70,.5),
+    0 12px 24px rgba(0,0,0,.55),
+    0 0 26px rgba(155,107,255,.65) !important;
+  animation:progressCardGlow 2.6s ease-in-out infinite;
+}
+#startScreen .progress-card{
+  color:#E4DBFF !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.6) !important;
+  font-size:14px !important;
+  letter-spacing:.1px;
+  white-space:nowrap;
+}
+#startScreen .progress-card strong{
+  color:#FFE16A !important;
+  -webkit-text-stroke:.5px #7E4CE0;
+  text-shadow:0 0 8px rgba(255,225,106,.8) !important;
+  font-size:18px !important;
+}
+@keyframes progressCardGlow{
+  0%,100%{
+    transform:translateX(-50%) scale(1);
+    box-shadow:
+      0 6px 0 rgba(30,10,70,.5),
+      0 12px 24px rgba(0,0,0,.55),
+      0 0 26px rgba(155,107,255,.65);
+  }
+  50%{
+    transform:translateX(-50%) scale(1.035);
+    box-shadow:
+      0 6px 0 rgba(30,10,70,.5),
+      0 14px 30px rgba(0,0,0,.6),
+      0 0 42px rgba(155,107,255,.95);
+  }
+}
+</style>
+
+<style id="belajar-grid-vcenter">
+/* Menu Belajar: grid huruf/angka diposisikan rata tengah vertikal,
+   di antara bagian bawah judul dan bagian bawah halaman. */
+#stage.simple-learning{
+  display:flex !important;
+  flex-direction:column !important;
+  height:100vh !important;
+  height:100dvh !important;
+  max-height:100vh !important;
+  box-sizing:border-box !important;
+}
+#stage.simple-learning .topbar{
+  flex:0 0 auto !important;
+  width:100% !important;
+}
+#stage.simple-learning .chipstrip{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  margin:auto !important;
+  overflow-y:auto !important;
+}
 </style>
