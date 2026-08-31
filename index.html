@@ -32,7 +32,7 @@
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   button, .pillbtn, a, [role="button"], input, select, textarea{ outline:none; -webkit-tap-highlight-color:transparent; }
   button:focus, .pillbtn:focus, a:focus, [role="button"]:focus{ outline:none; box-shadow:none; }
-  html,body{ height:100%; }
+  html,body{background:transparent !important;}
   body{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
     background:url('assets/background.png') center center / cover no-repeat fixed;
@@ -830,14 +830,7 @@ body {
 }
 
 /* Background fixed agar menyatu dengan viewport pada semua halaman. */
-body::before {
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  background-color:transparent;
-}
+body::before{content:'';position:fixed;inset:0;z-index:-1;background:url('assets/background.png') center center/cover no-repeat;}
 </style>
 
 
@@ -1157,7 +1150,7 @@ body:has(#startScreen[style*="display: none"]) {
     'assets/menulis_huruf_ic.png',
     'assets/menulis_angka_ic.png',
     'assets/penjumlahan_ic.png','assets/berhitung.png',
-    'assets/pengurangan_ic.png','assets/pengurangan_txt.png'
+    'assets/pengurangan_ic.png',''
   ];
   function warm(){
     assets.forEach(src => { const img = new Image(); img.decoding='async'; img.src=src; });
@@ -1934,14 +1927,14 @@ body::before {
     </div>
 
     <div class="sub-menu" id="menulisMenu" style="display:none;">
-      <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img src="assets/menulis_huruf_ic.png" alt="Menulis Huruf" class="submenu-icon-img"><img src="assets/menulis_huruf_txt.png" alt="Menulis Huruf" class="submenu-title-img"></button>
-      <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img src="assets/menulis_angka_ic.png" alt="Menulis Angka" class="submenu-icon-img"><img src="assets/menulis_angka_txt.png" alt="Menulis Angka" class="submenu-title-img"></button>
+      <button class="sub-menu-item menulisHuruf has-img" id="btnStartMenulisHuruf"><img src="assets/menulis_huruf_ic.png" alt="Menulis Huruf" class="submenu-icon-img"><img src="" alt="Menulis Huruf" class="submenu-title-img"></button>
+      <button class="sub-menu-item menulisAngka has-img" id="btnStartMenulisAngka"><img src="assets/menulis_angka_ic.png" alt="Menulis Angka" class="submenu-icon-img"><img src="" alt="Menulis Angka" class="submenu-title-img"></button>
       <button class="sub-menu-title" type="button" id="backMainFromMenulis">🏠 Kembali ke Menu Utama</button>
     </div>
 
     <div class="sub-menu" id="berhitungMenu" style="display:none;">
       <button class="sub-menu-item tambah has-img" id="btnStartAddition"><img src="assets/penjumlahan_ic.png" alt="Penjumlahan" class="submenu-icon-img"><img src="assets/berhitung.png" alt="Penjumlahan" class="submenu-title-img"></button>
-      <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img src="assets/pengurangan_ic.png" alt="Pengurangan" class="submenu-icon-img"><img src="assets/pengurangan_txt.png" alt="Pengurangan" class="submenu-title-img"></button>
+      <button class="sub-menu-item kurang has-img" id="btnStartSubtraction"><img src="assets/pengurangan_ic.png" alt="Pengurangan" class="submenu-icon-img"><img src="" alt="Pengurangan" class="submenu-title-img"></button>
       <div class="counting-score-card" id="countingScoreCard">
         <div class="counting-score-title">🧮 Score Berhitung</div>
         <div class="counting-score-row"><span>➕ Penjumlahan</span><strong id="additionScoreMenu">0</strong></div>
@@ -3274,7 +3267,7 @@ function render(){
 
   const mainTitleEl = document.getElementById('mainTitle');
   if(writingMode){
-    const titleImgSrc = mode === 'huruf' ? 'assets/menulis_huruf_txt.png' : 'assets/menulis_angka_txt.png';
+    const titleImgSrc = mode === 'huruf' ? '' : '';
     const titleImgAlt = mode === 'huruf' ? 'Menulis Huruf' : 'Menulis Angka';
     mainTitleEl.innerHTML = '<img src="' + titleImgSrc + '" alt="' + titleImgAlt + '" class="title-img">';
   } else {
@@ -4237,7 +4230,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 </style>
 <div id="subtractionScreen">
  <div class="addbox subbox">
-  <h1 class="display" id="subTitle"><span id="subTitleText">➖ Pengurangan</span><img src="assets/pengurangan_txt.png" alt="Pengurangan" id="subTitleImg" class="math-title-img" style="display:none;"></h1>
+  <h1 class="display" id="subTitle"><span id="subTitleText">➖ Pengurangan</span><img src="" alt="Pengurangan" id="subTitleImg" class="math-title-img" style="display:none;"></h1>
   <div class="addprogress" id="subProgress"></div>
   <div class="addq" id="subQuestion"></div>
   <p class="addhint" id="subHint">🖐️ Geser jawaban ke kotak:</p>
