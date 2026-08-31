@@ -836,7 +836,7 @@ body::before {
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background-color:transparent;
+  background:url('assets/background.png') center center / cover no-repeat;
 }
 </style>
 
@@ -1240,6 +1240,21 @@ body::before {
   width:100vw !important;
   height:100dvh !important;
 }
+</style>
+
+<style id="background-final-fix">
+  html, body { background: transparent !important; }
+  body::before {
+    content:"" !important;
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    z-index:-1 !important;
+    pointer-events:none !important;
+    background:url('assets/background.png') center center / cover no-repeat !important;
+  }
+  #startScreen { background:transparent !important; }
 </style>
 
 
