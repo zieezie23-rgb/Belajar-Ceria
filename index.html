@@ -1492,7 +1492,7 @@ body::before {
 }
 #stage.simple-learning .chipstrip .grid-divider{
   grid-column:1 / -1;
-  height:clamp(12px,2.2vh,24px);
+  height:0;
 }
 /* Sembunyikan seluruh area belajar lama: hanya header + grid yang tersisa. */
 #stage.simple-learning .maingrid,
@@ -3163,7 +3163,7 @@ function applyLanguage(){
   const kb=document.getElementById('btnKembali'); if(kb){ const homeLabel = language==='en'?'Home':'Beranda'; kb.setAttribute('aria-label',homeLabel); kb.setAttribute('title',homeLabel); }
   set('btnHandGuide','guide');
   set('btnPrev','prev'); set('btnClear','clear'); set('btnNext','next');
-  const lm=document.getElementById('btnLanguage'); if(lm) lm.textContent=(language==='en'?'EN':'ID');
+  const lm=document.getElementById('btnLanguage'); if(lm){ const lc=lm.querySelector('.lang-code'); if(lc) lc.textContent=(language==='en'?'EN':'ID'); }
   const ph=document.getElementById('panelTitle'); if(ph) ph.textContent=mode==='huruf'?T('contoh'):T('hitung');
   const uh=document.querySelector('.card.ucap h3'); if(uh) uh.textContent=T('cara');
   const ht=document.getElementById('helpTitle'); if(ht) ht.textContent=T('helpTitle');
@@ -3380,7 +3380,7 @@ function renderChips(){
       b.type='button';
       b.className='chip number-chip';
       b.textContent=item.d;
-      b.setAttribute('aria-label',`Angka ${item.d}`);
+      b.setAttribute('aria-label', language==='en'?`Number ${item.d}`:`Angka ${item.d}`);
       b.dataset.speechCount='0';
       b.onclick=()=>{ index=NUMBERS.indexOf(item); render(); };
       strip.appendChild(b);
@@ -3397,7 +3397,7 @@ function renderChips(){
       b.type='button';
       b.className='chip';
       b.textContent=item.ch;
-      b.setAttribute('aria-label',`Huruf ${item.ch}`);
+      b.setAttribute('aria-label', language==='en'?`Letter ${item.ch}`:`Huruf ${item.ch}`);
       b.dataset.speechCount='0';
       b.onclick=()=>{ index=LETTERS.indexOf(item); render(); };
       strip.appendChild(b);
@@ -3412,7 +3412,7 @@ function renderChips(){
     b.type = 'button';
     b.className = 'chip';
     b.textContent = item.ch;
-    b.setAttribute('aria-label', `Huruf ${item.ch}`);
+    b.setAttribute('aria-label', language==='en'?`Letter ${item.ch}`:`Huruf ${item.ch}`);
     b.dataset.speechCount = '0';
     b.onclick = () => speakLearningChip(item, b, 'huruf');
     strip.appendChild(b);
@@ -3430,7 +3430,7 @@ function renderChips(){
   zb.type='button';
   zb.className='chip';
   zb.textContent=z.ch;
-  zb.setAttribute('aria-label',`Huruf ${z.ch}`);
+  zb.setAttribute('aria-label', language==='en'?`Letter ${z.ch}`:`Huruf ${z.ch}`);
   zb.dataset.speechCount='0';
   zb.onclick=()=>speakLearningChip(z,zb,'huruf');
   strip.appendChild(zb);
@@ -3452,7 +3452,7 @@ function renderChips(){
     b.type='button';
     b.className='chip number-chip';
     b.textContent=item.d;
-    b.setAttribute('aria-label',`Angka ${item.d}`);
+    b.setAttribute('aria-label', language==='en'?`Number ${item.d}`:`Angka ${item.d}`);
     b.dataset.speechCount='0';
     b.onclick=()=>speakLearningChip(item,b,'angka');
     strip.appendChild(b);
@@ -3461,6 +3461,12 @@ function renderChips(){
 function speakLearningChip(item, button, type){
   const count = Number(button.dataset.speechCount || '0');
   button.dataset.speechCount = String(count + 1);
+
+  // Tandai huruf/angka yang sedang aktif dilihat, agar sesuai dengan
+  // gaya CSS .chip.current (highlight pink) yang sudah disediakan.
+  const strip = document.getElementById('chipStrip');
+  if(strip) strip.querySelectorAll('.chip.current').forEach(c=>c.classList.remove('current'));
+  button.classList.add('current');
 
   /*
     TTS pertama dibuat sebagai beberapa bagian terpisah agar ada jeda jelas:
