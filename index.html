@@ -821,7 +821,7 @@
 html, body {
   min-height:100%;
   width:100%;
-  background:#000000;
+  background:transparent;
 }
 
 body {
@@ -1152,10 +1152,10 @@ body:has(#startScreen[style*="display: none"]) {
 (function(){
   const assets = [
     'assets/background.png','assets/judul.png','assets/belajar.png','assets/angka.png',
-    'assets/quis_ic.png','assets/quis_txt.png','assets/latihan.png',
+    'assets/quis_ic.png','assets/latihan.png',
     'assets/mengenal_id.png','assets/mengenal_en.png',
-    'assets/menulis_huruf_ic.png','assets/menulis_huruf_txt.png',
-    'assets/menulis_angka_ic.png','assets/menulis_angka_txt.png',
+    'assets/menulis_huruf_ic.png',
+    'assets/menulis_angka_ic.png',
     'assets/penjumlahan_ic.png','assets/berhitung.png',
     'assets/pengurangan_ic.png','assets/pengurangan_txt.png'
   ];
@@ -3720,7 +3720,7 @@ function showSubMenu(type){
   const titleImg = document.getElementById('startTitleImg');
   if(titleImg){
     if(type==='berhitung'){ titleImg.src='assets/berhitung.png'; titleImg.alt='Berhitung'; }
-    else { titleImg.src='assets/menulis_huruf_txt.png'; titleImg.alt='Menulis'; }
+    else { titleImg.src='assets/menulis.png'; titleImg.alt='Menulis'; }
     titleImg.style.display='block';
   }
   document.getElementById('startTitleText').style.display='none';
