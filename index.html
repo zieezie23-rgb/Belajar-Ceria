@@ -1258,14 +1258,12 @@ body::before {
 
 /* Menu utama */
 #startScreen .main-menu-options > button,
-#startScreen #btnStartQuiz,
-#startScreen #btnMenuLatihan{
+#startScreen #btnStartQuiz{
   animation:playfulBob 2.5s ease-in-out infinite;
   transform-origin:center bottom;
 }
 #startScreen .main-menu-options > button:nth-child(2){animation-delay:.35s}
 #startScreen #btnStartQuiz{animation-delay:.7s}
-#startScreen #btnMenuLatihan{animation-delay:1.05s}
 
 /* Ikon/gambar menu ikut bergerak sedikit lebih hidup */
 #startScreen .menu-anim-icon,
@@ -1313,7 +1311,6 @@ body::before {
   #startScreen .start-title-img,
   #startScreen .main-menu-options > button,
   #startScreen #btnStartQuiz,
-  #startScreen #btnMenuLatihan,
   #startScreen .menu-anim-icon,
   #startScreen .huruf-logo-img,
   #startScreen .submenu-img,
@@ -1948,9 +1945,9 @@ body::before {
     <div id="menuCenterWrap">
     <p class="start-sub" id="startSub">Yuk pilih mau belajar apa dulu?</p>
     <div class="start-name-row">
-      <span class="start-name-icon" aria-hidden="true">✏️</span>
-      <input type="text" id="childName" class="start-name-input" placeholder="Nama anak (opsional)" maxlength="20">
-      <span class="start-name-icon right" aria-hidden="true">⭐</span>
+      <span class="start-name-icon" aria-hidden="true">🚀</span>
+      <input type="text" id="childName" class="start-name-input" placeholder="Nama Astronot Kecil" maxlength="20">
+      <span class="start-name-icon right" aria-hidden="true">🪐</span>
     </div>
     <div class="main-menu-options" id="mainMenuOptions">
       <button class="sub-menu-item huruf huruf-logo-item" id="btnStartHuruf" type="button" aria-label="Belajar"><img src="assets/belajar.png" alt="Belajar" class="huruf-logo-img"></button>
@@ -1958,11 +1955,11 @@ body::before {
     <button class="quiz-menu-btn has-img" id="btnStartQuiz" type="button"><img src="assets/quis.png" alt="Kuis Cepat"></button>
     <button class="menu-main-btn latihan-menu has-img" id="btnMenuMenulis">
       <span class="menu-anim-icon" aria-hidden="true"></span>
-      <img src="assets/menulis_huruf.png" alt="Menulis">
+      <img src="assets/menulis.png" alt="Menulis">
     </button>
     <button class="menu-main-btn latihan-menu has-img" id="btnMenuBerhitung">
       <span class="menu-anim-icon" aria-hidden="true"></span>
-      <img src="assets/penjumlahan.png" alt="Berhitung">
+      <img src="assets/berhitung.png" alt="Berhitung">
     </button>
     <div class="progress-card" id="progressCard">⭐ Bintang: <strong id="starCount">0</strong> &nbsp; 🏅 Lencana: <strong id="badgeCount">0</strong></div>
     </div>
@@ -4873,16 +4870,14 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 </body>
 <style id="main-page-requested-layout">
-/* ===== HALAMAN UTAMA: posisi nama + subjudul, serta Kuis/Latihan 2 kolom ===== */
+/* ===== HALAMAN UTAMA: grid dasar + penentuan grid-area elemen anak =====
+   Catatan: grid-template-columns/areas, gap kolom, serta tata letak tombol
+   Kuis/Menulis/Berhitung final ditentukan belakangan oleh
+   #menulis-berhitung-split-v28 (mengganti susunan lama "quiz latihan"
+   menjadi "menulis berhitung" + "quiz"). Blok ini hanya menyisakan
+   deklarasi dasar & grid-area yang masih dipakai. */
 #startScreen #menuCenterWrap{
   display:grid !important;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  grid-template-areas:
-    "name name"
-    "sub sub"
-    "belajar belajar"
-    "progress progress"
-    "quiz latihan";
   align-items:center !important;
   align-content:start !important;
   justify-items:center;
@@ -4910,63 +4905,6 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 #startScreen #menuCenterWrap > #progressCard{
   grid-area:progress;
-  position:fixed !important;
-  left:0 !important; right:0 !important;
-  bottom:170px !important;
-  top:auto !important;
-  width:min(430px,90vw) !important;
-  margin:0 auto !important;
-  z-index:20;
-}
-
-/* Kuis dan Latihan sejajar: tepat 2 kolom. */
-#startScreen #menuCenterWrap > #btnStartQuiz,
-#startScreen #menuCenterWrap > #btnMenuLatihan{
-  width:100% !important;
-  min-width:0 !important;
-  max-width:260px !important;
-  margin:0 !important;
-  justify-self:center;
-}
-#startScreen #menuCenterWrap > #btnStartQuiz{
-  grid-area:quiz;
-}
-#startScreen #menuCenterWrap > #btnMenuLatihan{
-  grid-area:latihan;
-}
-
-/* Ukuran gambar dibuat seimbang agar dua tombol aman di HP. */
-#startScreen #menuCenterWrap > #btnStartQuiz img{
-  width:min(120px,100%) !important;
-  max-width:100% !important;
-}
-#startScreen #menuCenterWrap > #btnMenuLatihan img{
-  width:min(120px,100%) !important;
-  max-width:100% !important;
-}
-
-@media(max-width:430px){
-  #startScreen #menuCenterWrap{
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    gap:6px 8px !important;
-  }
-  #startScreen #menuCenterWrap > #btnStartQuiz,
-  #startScreen #menuCenterWrap > #btnMenuLatihan{
-    max-width:100% !important;
-  }
-  #startScreen #menuCenterWrap > #btnStartQuiz img{
-    width:min(120px,100%) !important;
-  }
-  #startScreen #menuCenterWrap > #btnMenuLatihan img{
-    width:min(120px,100%) !important;
-  }
-}
-
-/* Pada layar pendek, tetap pertahankan 2 kolom tanpa membuat halaman melebar. */
-@media(max-height:650px){
-  #startScreen #menuCenterWrap{gap:4px 8px !important;}
-  #startScreen #menuCenterWrap > #btnStartQuiz img{width:min(120px,100%) !important;}
-  #startScreen #menuCenterWrap > #btnMenuLatihan img{width:min(120px,100%) !important;}
 }
 </style>
 
@@ -5170,9 +5108,6 @@ if(typeof applyLanguage==='function') applyLanguage();
 </style>
 
 <style id="final-user-layout-v21">
-/* Home: tukar posisi Latihan dan Kuis */
-#startScreen #btnStartQuiz{grid-column:2 !important;grid-row:1 !important;}
-#startScreen #btnMenuLatihan{grid-column:1 !important;grid-row:1 !important;}
 /* Belajar: tambah sedikit jarak header ke pilihan bentuk */
 #stage.simple-learning .learning-variant-picker{margin-top:24px !important;}
 @media(max-width:800px){#stage.simple-learning .learning-variant-picker{margin-top:18px !important;}}
@@ -5198,12 +5133,6 @@ if(typeof applyLanguage==='function') applyLanguage();
 </script>
 
 <style id="writing-v26-layout">#stage.writing-mode .canvaswrap{display:flex !important;flex-direction:column !important;}#stage.writing-mode .canvaswrap > .brush-size-panel{display:flex !important;width:100% !important;box-sizing:border-box !important;margin:0 0 8px !important;align-items:center !important;justify-content:center !important;}#stage.writing-mode .brush-size-panel #brushSize{flex:1 1 auto !important;width:auto !important;max-width:none !important;}</style>
-
-<style id="fix-home-quiz-latihan-v27">
-/* Home: posisi Latihan dan Kuis benar-benar ditukar */
-#startScreen #menuCenterWrap > #btnMenuLatihan{grid-area:quiz !important;}
-#startScreen #menuCenterWrap > #btnStartQuiz{grid-area:latihan !important;}
-</style>
 
 <script id="initial-home-state-fix">
 (function(){
@@ -6221,5 +6150,41 @@ if(typeof applyLanguage==='function') applyLanguage();
   min-height:0 !important;
   margin:auto !important;
   overflow-y:auto !important;
+}
+</style>
+
+<style id="start-name-space-theme">
+/* Kolom nama anak — tema luar angkasa: kartu gelap berbintang dengan
+   border neon dan efek berkelap-kelip lembut. */
+#startScreen .start-name-input{
+  background:
+    radial-gradient(circle at 12% 30%, rgba(255,255,255,.9) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 28% 75%, rgba(255,255,255,.7) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 50% 20%, rgba(255,255,255,.85) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 68% 60%, rgba(255,255,255,.6) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 85% 35%, rgba(255,255,255,.8) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 92% 80%, rgba(255,255,255,.55) 0 1px, transparent 1.5px),
+    linear-gradient(160deg,#1B0F45 0%,#3A1E7A 55%,#0D0630 100%) !important;
+  border:3px solid #7FD8FF !important;
+  color:#FFE16A !important;
+  box-shadow:
+    0 5px 0 rgba(20,10,50,.5),
+    0 0 14px rgba(127,216,255,.55) !important;
+  animation:startNameTwinkle 3.4s ease-in-out infinite;
+}
+#startScreen .start-name-input::placeholder{
+  color:#B9C6FF !important;
+  font-weight:700 !important;
+}
+#startScreen .start-name-input:focus{
+  border-color:#FFE16A !important;
+  box-shadow:
+    0 5px 0 rgba(20,10,50,.5),
+    0 0 0 5px rgba(255,225,106,.28),
+    0 0 20px rgba(127,216,255,.75) !important;
+}
+@keyframes startNameTwinkle{
+  0%,100%{ box-shadow:0 5px 0 rgba(20,10,50,.5),0 0 14px rgba(127,216,255,.55); }
+  50%{ box-shadow:0 5px 0 rgba(20,10,50,.5),0 0 22px rgba(127,216,255,.85); }
 }
 </style>
