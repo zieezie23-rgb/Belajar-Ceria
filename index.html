@@ -35,7 +35,7 @@
   html,body{ height:100%; }
   body{
     margin:0; font-family:'Nunito','Segoe UI',Verdana,sans-serif; color:var(--ink);
-    background:url('assets/background.png') center center / cover no-repeat fixed;
+    
     height:100%; padding:0; overflow:hidden;
   }
   .display{font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive;}
@@ -118,7 +118,7 @@
   .canvaswrap.letter-writing{ aspect-ratio:1 / 1; max-height:520px; }
   .canvaswrap.learn-letter .learn-canvas-title{
     position:absolute; left:50%; top:14px; transform:translateX(-50%); z-index:6;
-    background:url('assets/background.png') center center / cover no-repeat fixed; color:#E83B78;
+    background:transparent; color:#E83B78;
     font-family:'Nunito','Segoe UI',Verdana,sans-serif; font-weight:900; font-size:24px; line-height:1.1;
     padding:0; border-radius:0; box-shadow:none;
     white-space:nowrap; pointer-events:none;
@@ -147,7 +147,7 @@
   .card h3{
     margin:0 0 10px; font-family:'Baloo 2','Trebuchet MS','Arial Rounded MT Bold',sans-serif;
     font-size:13px; font-weight:800; color:#7E4CE0; display:block;
-    padding:0; border-radius:0; box-shadow:none; background:url('assets/background.png') center center / cover no-repeat fixed;
+    padding:0; border-radius:0; box-shadow:none; background:transparent;
   }
   .card.contoh h3{ color:#2FA859; }
   .card.ucap h3{ color:#F08000; }
@@ -1087,7 +1087,7 @@ body:has(#startScreen[style*="display: none"]) {
   .quiz-menu-btn.has-img:active,.latihan-menu.has-img:active{ transform:translateY(3px); }
   #quizScreen{
     position:fixed; inset:0; z-index:5200; display:none; overflow:auto;
-    padding:20px; background:linear-gradient(180deg,#0B1440,#1E1A5E);
+    padding:20px; background:transparent;
   }
   .quiz-box{
     width:min(620px,100%); margin:20px auto; padding:25px 20px 22px;
@@ -4019,7 +4019,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 <style>
 #additionScreen{
   position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
-  background:url('assets/background.png') center center / cover no-repeat fixed;
+  background:transparent;
 }
 .addbox{
   max-width:480px; margin:40px auto; text-align:center;
@@ -4209,7 +4209,7 @@ document.getElementById('quizHomeBtn').onclick = () => {
 <style>
 #subtractionScreen{
   position:fixed; inset:0; z-index:5000; display:none; padding:20px; overflow:auto;
-  background:url('assets/background.png') center center / cover no-repeat fixed;
+  background:transparent;
 }
 .subbox h1{
   font-family:'Baloo 2','Trebuchet MS',sans-serif,cursive; font-size:26px; color:#fff; -webkit-text-stroke:2px var(--orange-dark);
@@ -4823,6 +4823,57 @@ if(typeof applyLanguage==='function') applyLanguage();
 
 
 
+
+
+
+<style id="background-system-final">
+/* ===== FINAL BACKGROUND SYSTEM =====
+   Background langsung pada BODY agar stabil di desktop & HP.
+   Tidak memakai pseudo-element/z-index negatif. */
+html {
+  width: 100%;
+  min-height: 100%;
+  background: #000;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  background-image: url('assets/background.png') !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  background-color: #000 !important;
+  overflow-x: hidden !important;
+}
+
+/* Jangan membuat background kedua pada halaman/overlay. */
+#additionScreen,
+#subtractionScreen,
+#quizScreen {
+  background: transparent !important;
+}
+
+/* Elemen kecil tidak boleh mengulang background halaman. */
+#stage .learn-canvas-title,
+#stage .card h3 {
+  background: transparent !important;
+}
+
+/* Pada layar sentuh/mobile, fixed background dinonaktifkan agar
+   rendering lebih stabil dan tetap memenuhi viewport. */
+@media (max-width: 768px) {
+  body {
+    min-height: 100dvh;
+    background-attachment: scroll !important;
+    background-position: center center !important;
+    background-size: cover !important;
+  }
+}
+</style>
 
 </body>
 <style id="main-page-requested-layout">
