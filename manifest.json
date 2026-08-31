@@ -11,19 +11,19 @@
   "theme_color": "#2E9EF5",
   "icons": [
     {
-      "src": "assets/belajar.png",
+      "src": "assets/splash.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/belajar.png",
+      "src": "assets/splash.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "assets/belajar.png",
+      "src": "assets/splash.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "monochrome"
