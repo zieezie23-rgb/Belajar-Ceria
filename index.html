@@ -561,11 +561,12 @@ input[type=range]{width:100px;}
    V2 PLAYER PROFILE / PROGRESS / REWARD
 ============================================================ */
 .player-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--white);border-radius:18px;padding:9px 12px;box-shadow:var(--shadow);margin:4px 0 8px;}
-.player-main{display:flex;align-items:center;gap:9px;min-width:0}.player-avatar{font-size:28px}.player-name{font-family:"Fredoka";font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-meta{font-size:11px;font-weight:800;color:#6b6082}.player-stats{display:flex;gap:8px;font-weight:900;font-size:clamp(15px,4vw,20px);white-space:nowrap}.stat-pill{background:#fff8dc;border-radius:999px;padding:clamp(7px,1.6vh,10px) clamp(10px,2.6vw,15px)}.profile-edit{font-size:20px;padding:4px 6px}
+.player-main{display:flex;align-items:center;gap:9px;min-width:0}.player-avatar{font-size:28px}.player-name{font-family:"Fredoka";font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-meta{font-size:11px;font-weight:800;color:#6b6082}.player-stats{display:flex;gap:8px;font-weight:900;font-size:clamp(15px,4vw,20px);white-space:nowrap}.stat-pill{background:#fff8dc;border-radius:999px;padding:clamp(7px,1.6vh,10px) clamp(10px,2.6vw,15px)}.profile-edit{font-size:20px;padding:4px 6px}#homeProfileBtn{font-size:30px;padding:2px 4px}
 .progress-mini{height:7px;background:#eadfc8;border-radius:99px;overflow:hidden;margin-top:4px}.progress-mini>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sky),var(--leaf));border-radius:inherit;transition:width .35s ease}
 .dashboard{display:grid;gap:12px}.dash-hero{background:var(--white);border-radius:24px;padding:18px;box-shadow:var(--shadow);text-align:center}.dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.dash-card{background:var(--white);border-radius:20px;padding:14px;box-shadow:var(--shadow)}.dash-card h3{margin:0 0 8px;font-size:18px}.dash-value{font-family:"Fredoka";font-size:28px}.topic-progress{margin:9px 0}.topic-progress-head{display:flex;justify-content:space-between;font-size:12px;font-weight:900}.bar{height:9px;background:#eee4cf;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--sky);border-radius:inherit}.achievement-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.badge-item{text-align:center;background:#faf4e5;border-radius:14px;padding:10px 4px;font-size:11px;font-weight:900}.badge-item .bi{font-size:25px;display:block;margin-bottom:3px}.badge-item.locked{opacity:.4;filter:grayscale(1)}
 .mission{background:linear-gradient(135deg,#fff8dc,#fff);border:2px dashed var(--sun);border-radius:20px;padding:13px;text-align:left}.mission b{font-family:"Fredoka";font-size:18px}.mission p{margin:5px 0;font-size:12px;font-weight:800;color:#6b6082}
 .name-dialog{position:fixed;inset:0;background:rgba(43,27,18,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.name-dialog.show{display:flex}.name-box{width:min(420px,100%);background:var(--white);border-radius:28px;padding:22px;box-shadow:0 15px 40px rgba(43,27,18,.25);text-align:center}.name-box h2{margin:0 0 8px}.name-box p{font-size:13px;font-weight:700;color:#6b6082}.name-input{width:100%;border:2px solid #eadfc8;border-radius:16px;padding:12px 14px;font:800 16px Nunito;outline:none}.name-actions{display:flex;gap:10px;margin-top:12px}.name-actions .btn{flex:1}
+.gender-picker{display:flex;gap:10px;margin-top:12px}.gender-opt{flex:1;border:2px solid #eadfc8;border-radius:16px;padding:10px 6px;font:800 13px Nunito;background:#fdfaf2;display:flex;flex-direction:column;align-items:center;gap:2px}.gender-opt .ge{font-size:26px}.gender-opt.active{border-color:var(--sky);background:#eaf6fb}
 @media(min-width:900px){.screen{max-width:980px}.dashboard{grid-template-columns:1.2fr .8fr}.dash-grid{grid-template-columns:repeat(3,1fr)}#screen-home{max-width:980px}#screen-home .topic-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,minmax(0,1fr));}}
 
 
@@ -1110,10 +1111,9 @@ input[type=range]{width:100px;}
 <!-- HOME -->
 <section id="screen-home" class="screen active">
   <div class="player-bar">
-    <div class="player-main"><span class="player-avatar">🎪</span><div style="min-width:0"><div class="player-name" id="homePlayerName">Anak Ceria</div><div class="player-meta" id="homePlayerLevel">Level 1 • Ayo mulai belajar!</div><div class="progress-mini"><i id="homeProgressBar"></i></div></div></div>
+    <div class="player-main"><button class="profile-edit" id="homeProfileBtn" onclick="openProfile()" aria-label="Profil anak">👤</button><div style="min-width:0"><div class="player-name" id="homePlayerName">Anak Ceria</div><div class="player-meta" id="homePlayerLevel">Level 1 • Ayo mulai belajar!</div><div class="progress-mini"><i id="homeProgressBar"></i></div></div></div>
     <div class="player-stats"><span class="stat-pill" id="homeStars">⭐ 0</span><span class="stat-pill" id="homeCoins">🪙 0</span></div>
     <button class="profile-edit" id="soundToggleBtn" onclick="toggleSound()" aria-label="Suara">🔊</button>
-    <button class="profile-edit" onclick="openProfile()" aria-label="Profil anak">👤</button>
   </div>
   <div class="hero">
     <h1 class="home-title">🎪 Playground Belajar Ceria</h1>
@@ -1279,7 +1279,7 @@ input[type=range]{width:100px;}
 <!-- BALLOON -->
 <section id="screen-balloon" class="screen">
   <div class="topbar">
-    <button class="icon-btn" onclick="goGamesHub()">←</button>
+    <button class="icon-btn" onclick="stopBalloon();goGamesHub()">←</button>
     <h2>Tangkap Balon</h2>
     <div style="width:44px"></div>
   </div>
@@ -1302,7 +1302,19 @@ input[type=range]{width:100px;}
     <h2 id="nameDialogTitle">🎪 Profil Anak Ceria</h2>
     <p>Masukkan nama anak agar progres belajar bisa disimpan di perangkat ini.</p>
     <input id="playerNameInput" class="name-input" maxlength="24" placeholder="Nama anak" autocomplete="off">
+    <div class="gender-picker" id="genderPicker">
+      <button type="button" class="gender-opt" data-g="L" onclick="selectGender('L')"><span class="ge">👦</span>Laki-laki</button>
+      <button type="button" class="gender-opt" data-g="P" onclick="selectGender('P')"><span class="ge">👧</span>Perempuan</button>
+    </div>
     <div class="name-actions"><button class="btn btn-ghost" onclick="closeProfile()">Nanti</button><button class="btn btn-sky" onclick="saveProfile()">Simpan</button></div>
+  </div>
+</div>
+
+<div class="name-dialog" id="resetConfirmDialog" role="dialog" aria-modal="true" aria-labelledby="resetConfirmTitle">
+  <div class="name-box">
+    <h2 id="resetConfirmTitle">↻ Reset Perkembangan?</h2>
+    <p>Semua bintang, koin, level, lencana, dan profil akan dihapus. Tindakan ini tidak bisa dibatalkan.</p>
+    <div class="name-actions"><button class="btn btn-ghost" onclick="closeResetConfirm()">Batal</button><button class="btn btn-sky" onclick="confirmResetProgress()">Ya, Reset</button></div>
   </div>
 </div>
 
@@ -1557,8 +1569,14 @@ input[type=range]{width:100px;}
       for (const audio of this.currentEffects) {
         audio.volume = this.effectVolume;
       }
-      if (this.music && this.started) {
-        this._fadeMusicTo(this._targetMusicVolume(), 250);
+      if (this.music) {
+        if (!this.started || this.music.paused) {
+          // Belum pernah berhasil diputar (mis. autoplay pertama gagal) —
+          // tombol unmute ini adalah gesture user yang sah, jadi coba mulai langsung.
+          await this.start();
+        } else {
+          this._fadeMusicTo(this._targetMusicVolume(), 250);
+        }
       }
     }
 
@@ -1619,10 +1637,11 @@ input[type=range]{width:100px;}
     }
 
     _handleFirstInteraction() {
-      if (this._userInteracted) return;
+      if (this.started) return;
       this._userInteracted = true;
       // The current HTML has no dedicated "Mulai" button yet.
       // Starting on the first real interaction satisfies browser autoplay rules.
+      // Keep retrying on subsequent interactions if an earlier attempt failed.
       this.start();
     }
 
@@ -1670,7 +1689,7 @@ input[type=range]{width:100px;}
 
   manager.setMusic(
     'assets/backsound.mp3',
-    0.20
+    0.45
   );
 
   // Public API for the existing inline app code.
@@ -1708,7 +1727,7 @@ input[type=range]{width:100px;}
    PLAYER DATA / PERSISTENCE
 ============================================================ */
 const SAVE_KEY = 'pulauBelajarBajakLaut_v2';
-const defaultPlayer = {name:'Anak Ceria',stars:0,coins:0,level:1,streak:0,lastStudy:'',totalActivities:0,topic:{},achievements:[]};
+const defaultPlayer = {name:'Anak Ceria',gender:'netral',stars:0,coins:0,level:1,streak:0,lastStudy:'',totalActivities:0,topic:{},achievements:[]};
 let player = loadPlayer();
 function loadPlayer(){try{const raw=localStorage.getItem(SAVE_KEY);if(!raw)return {...defaultPlayer,topic:{}};const saved=JSON.parse(raw)||{};const topic={};Object.keys(saved.topic||{}).forEach(k=>{const t=saved.topic[k]||{};const attempts=Number(t.attempts)||0;const best=Math.max(0,Math.min(100,Number(t.best)||0));const score=Math.max(0,Math.min(100,Number(t.score)||0));topic[k]={attempts,best,score,lastScore:(t.lastScore==null?null:Math.max(0,Math.min(100,Number(t.lastScore)||0))),averageScore:(t.averageScore==null?score:Math.max(0,Math.min(100,Number(t.averageScore)||0)))};});return Object.assign({},defaultPlayer,saved,{topic});}catch(e){return {...defaultPlayer,topic:{}}}}
 function savePlayer(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(player));}catch(e){console.warn('Progress tidak dapat disimpan',e)}}
@@ -1720,13 +1739,18 @@ function recordTopicResult(topic,pct){const oldLevel=player.level;const cleanPct
 function updateStreak(){const today=localDateKey();if(player.lastStudy!==today){const last=player.lastStudy?new Date(player.lastStudy+'T00:00:00'):null;const now=new Date(today+'T00:00:00');const diff=last?Math.round((now-last)/86400000):0;player.streak=diff===1?player.streak+1:1;player.lastStudy=today;}}
 function checkAchievements(){const a=new Set(player.achievements);if(player.stars>=10)a.add('star10');if(player.stars>=50)a.add('star50');if(player.totalActivities>=5)a.add('active5');if(player.streak>=3)a.add('streak3');player.achievements=[...a];}
 function showLevelUp(level){const d=document.getElementById('levelUpDialog'),n=document.getElementById('levelUpNumber');if(!d)return;n.textContent='LEVEL '+level;d.classList.add('show');speak('Selamat! Kamu naik ke level '+level);}function closeLevelUp(){const d=document.getElementById('levelUpDialog');if(d)d.classList.remove('show');}
-function renderPlayerUI(){const n=document.getElementById('homePlayerName');if(n)n.textContent=player.name;const lv=document.getElementById('homePlayerLevel');if(lv)lv.textContent=`Level ${player.level} • ${player.streak>1?player.streak+' hari berturut-turut':'Ayo mulai belajar!'}`;const st=document.getElementById('homeStars');if(st)st.textContent='⭐ '+player.stars;const co=document.getElementById('homeCoins');if(co)co.textContent='🪙 '+player.coins;const pb=document.getElementById('homeProgressBar');if(pb)pb.style.width=Math.min(100,(player.stars%10)*10)+'%';}
-function openProfile(){document.getElementById('playerNameInput').value=player.name==='Anak Ceria'?'':player.name;document.getElementById('nameDialog').classList.add('show');setTimeout(()=>document.getElementById('playerNameInput').focus(),30)}
+function renderPlayerUI(){const n=document.getElementById('homePlayerName');if(n)n.textContent=player.name;const lv=document.getElementById('homePlayerLevel');if(lv)lv.textContent=`Level ${player.level} • ${player.streak>1?player.streak+' hari berturut-turut':'Ayo mulai belajar!'}`;const st=document.getElementById('homeStars');if(st)st.textContent='⭐ '+player.stars;const co=document.getElementById('homeCoins');if(co)co.textContent='🪙 '+player.coins;const pb=document.getElementById('homeProgressBar');if(pb)pb.style.width=Math.min(100,(player.stars%10)*10)+'%';const pf=document.getElementById('homeProfileBtn');if(pf)pf.textContent=genderAvatar(player.gender);}
+let selectedGender = null;
+function genderAvatar(g){ return g==='L'?'👦':g==='P'?'👧':'👤'; }
+function selectGender(g){ selectedGender=g; document.querySelectorAll('#genderPicker .gender-opt').forEach(b=>b.classList.toggle('active', b.dataset.g===g)); }
+function openProfile(){document.getElementById('playerNameInput').value=player.name==='Anak Ceria'?'':player.name;selectGender(player.gender==='L'||player.gender==='P'?player.gender:null);document.getElementById('nameDialog').classList.add('show');setTimeout(()=>document.getElementById('playerNameInput').focus(),30)}
 function closeProfile(){document.getElementById('nameDialog').classList.remove('show')}
-function saveProfile(){const v=document.getElementById('playerNameInput').value.trim();if(v)player.name=v;savePlayer();renderPlayerUI();closeProfile();toast('👋 Profil disimpan!')}
+function saveProfile(){const v=document.getElementById('playerNameInput').value.trim();if(v)player.name=v;if(selectedGender)player.gender=selectedGender;savePlayer();renderPlayerUI();closeProfile();toast('👋 Profil disimpan!')}
 function goProgress(){renderProgress();showScreen('screen-progress')}
-function resetProgress(){if(!confirm('Yakin ingin menghapus semua perkembangan (bintang, koin, level, dan lencana)? Tindakan ini tidak bisa dibatalkan.'))return;const keepName=player.name;player={...defaultPlayer,name:keepName,topic:{}};savePlayer();renderPlayerUI();renderProgress();toast('↻ Perkembangan telah direset');}
-function renderProgress(){const body=document.getElementById('progressBody');if(!body)return;const topicRows=Object.keys(TOPICS).map(k=>{const t=player.topic[k]||{best:0,attempts:0};return `<div class="topic-progress"><div class="topic-progress-head"><span>${TOPICS[k].emoji} ${TOPICS[k].name}</span><span>${t.best||0}%</span></div><div class="bar"><i style="width:${t.best||0}%"></i></div></div>`}).join('');const badges=[['⭐','10 Bintang','star10'],['🌟','50 Bintang','star50'],['🎯','5 Aktivitas','active5'],['🔥','3 Hari','streak3']];body.innerHTML=`<div class="dash-hero"><div style="font-size:48px">🎪</div><h2 style="margin:5px 0">${escapeHtml(player.name)}</h2><p style="margin:0;font-weight:800;color:#6b6082">Level ${player.level} • ${player.streak} hari streak</p></div><div class="dash-grid"><div class="dash-card"><h3>⭐ Bintang</h3><div class="dash-value">${player.stars}</div></div><div class="dash-card"><h3>🪙 Koin</h3><div class="dash-value">${player.coins}</div></div><div class="dash-card"><h3>🎮 Aktivitas</h3><div class="dash-value">${player.totalActivities}</div></div></div><div class="mission"><b>🎯 Misi Hari Ini</b><p>${player.totalActivities%2===0?'Coba satu kuis dan kumpulkan bintang!':'Mainkan satu aktivitas lagi untuk menambah koleksi!'}</p><button class="btn btn-sky" style="width:auto;padding:8px 14px" onclick="goDevQuiz()">Mulai Misi</button></div><div class="dash-card"><h3>📈 Kemajuan Materi</h3>${topicRows}</div><div class="dash-card"><h3>🏆 Pencapaian</h3><div class="achievement-list">${badges.map(b=>`<div class="badge-item ${player.achievements.includes(b[2])?'':'locked'}"><span class="bi">${b[0]}</span>${b[1]}</div>`).join('')}</div></div>`}
+function resetProgress(){document.getElementById('resetConfirmDialog').classList.add('show');}
+function closeResetConfirm(){document.getElementById('resetConfirmDialog').classList.remove('show');}
+function confirmResetProgress(){closeResetConfirm();player={...defaultPlayer,topic:{},achievements:[]};savePlayer();toast('↻ Perkembangan telah direset');goHome();}
+function renderProgress(){const body=document.getElementById('progressBody');if(!body)return;const topicRows=Object.keys(TOPICS).map(k=>{const t=player.topic[k]||{best:0,attempts:0};return `<div class="topic-progress"><div class="topic-progress-head"><span>${TOPICS[k].emoji} ${TOPICS[k].name}</span><span>${t.best||0}%</span></div><div class="bar"><i style="width:${t.best||0}%"></i></div></div>`}).join('');const badges=[['⭐','10 Bintang','star10'],['🌟','50 Bintang','star50'],['🎯','5 Aktivitas','active5'],['🔥','3 Hari','streak3']];body.innerHTML=`<div class="dash-hero"><div style="font-size:48px">${genderAvatar(player.gender)}</div><h2 style="margin:5px 0">${escapeHtml(player.name)}</h2><p style="margin:0;font-weight:800;color:#6b6082">Level ${player.level} • ${player.streak} hari streak</p></div><div class="dash-grid"><div class="dash-card"><h3>⭐ Bintang</h3><div class="dash-value">${player.stars}</div></div><div class="dash-card"><h3>🪙 Koin</h3><div class="dash-value">${player.coins}</div></div><div class="dash-card"><h3>🎮 Aktivitas</h3><div class="dash-value">${player.totalActivities}</div></div></div><div class="mission"><b>🎯 Misi Hari Ini</b><p>${player.totalActivities%2===0?'Coba satu kuis dan kumpulkan bintang!':'Mainkan satu aktivitas lagi untuk menambah koleksi!'}</p><button class="btn btn-sky" style="width:auto;padding:8px 14px" onclick="goDevQuiz()">Mulai Misi</button></div><div class="dash-card"><h3>📈 Kemajuan Materi</h3>${topicRows}</div><div class="dash-card"><h3>🏆 Pencapaian</h3><div class="achievement-list">${badges.map(b=>`<div class="badge-item ${player.achievements.includes(b[2])?'':'locked'}"><span class="bi">${b[0]}</span>${b[1]}</div>`).join('')}</div></div>`}
 
 /* ============================================================
    DATA
@@ -1894,7 +1918,7 @@ function renderHome(){
     grid.appendChild(el);
   });
 }
-function goHome(){ if(typeof endBalloon==='function' && balloonState && balloonState.running) endBalloon(); if(typeof stopMiniGame==='function' && miniGameState) stopMiniGame(); showScreen('screen-home'); renderPlayerUI(); }
+function goHome(){ if(typeof stopBalloon==='function' && balloonState && balloonState.running) stopBalloon(); if(typeof stopMiniGame==='function' && miniGameState) stopMiniGame(); showScreen('screen-home'); renderPlayerUI(); if(player.name==='Anak Ceria') setTimeout(openProfile,250); }
 function goColoring(){ showScreen('screen-mewarnai'); renderColoring(); }
 function goDrawing(){ showScreen('screen-gambar'); requestAnimationFrame(()=>requestAnimationFrame(initDrawCanvas)); }
 function goGamesHub(){ showScreen('screen-games'); }
@@ -3283,6 +3307,14 @@ function explodeAllBalloons(){
 }
 function balloonVisual(key,item){
   return item.emoji || item.main;
+}
+function stopBalloon(){
+  if(!balloonState) return;
+  balloonState.running = false;
+  clearTimeout(balloonState.roundTimer);
+  const area = document.getElementById('balloonArea');
+  if(area) area.querySelectorAll('.balloon').forEach(b=>{ if(b._timeoutMiss) clearTimeout(b._timeoutMiss); b.remove(); });
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
 }
 function endBalloon(){
   balloonState.running = false;
