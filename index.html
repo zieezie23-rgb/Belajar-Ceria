@@ -1112,6 +1112,7 @@ input[type=range]{width:100px;}
   <div class="player-bar">
     <div class="player-main"><span class="player-avatar">🎪</span><div style="min-width:0"><div class="player-name" id="homePlayerName">Anak Ceria</div><div class="player-meta" id="homePlayerLevel">Level 1 • Ayo mulai belajar!</div><div class="progress-mini"><i id="homeProgressBar"></i></div></div></div>
     <div class="player-stats"><span class="stat-pill" id="homeStars">⭐ 0</span><span class="stat-pill" id="homeCoins">🪙 0</span></div>
+    <button class="profile-edit" id="soundToggleBtn" onclick="toggleSound()" aria-label="Suara">🔊</button>
     <button class="profile-edit" onclick="openProfile()" aria-label="Profil anak">👤</button>
   </div>
   <div class="hero">
@@ -1661,7 +1662,7 @@ input[type=range]{width:100px;}
   }
 
   const manager = new AudioManager({
-    musicVolume: 0.20,
+    musicVolume: 0.5,
     duckVolume: 0.035,
     fadeTime: 450,
     effectVolume: 0.72
@@ -1677,6 +1678,30 @@ input[type=range]{width:100px;}
 
 })(window);
 
+</script>
+<script>
+  // Tombol on/off suara
+  function updateSoundBtn(){
+    const btn = document.getElementById('soundToggleBtn');
+    if(!btn) return;
+    const muted = localStorage.getItem('soundMuted') === '1';
+    btn.textContent = muted ? '🔇' : '🔊';
+  }
+  function toggleSound(){
+    if(!window.AudioManagerAPI) return;
+    window.AudioManagerAPI.toggleMute().then(function(isMuted){
+      try{ localStorage.setItem('soundMuted', isMuted ? '1' : '0'); }catch(e){}
+      updateSoundBtn();
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    try{
+      if(localStorage.getItem('soundMuted') === '1' && window.AudioManagerAPI){
+        window.AudioManagerAPI.mute();
+      }
+    }catch(e){}
+    updateSoundBtn();
+  });
 </script>
 <script>
 /* ============================================================
