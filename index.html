@@ -1102,6 +1102,34 @@ input[type=range]{width:100px;}
 
 </head>
 <body>
+<style id="app-loading-style">
+#appLoadingScreen{
+  position:fixed;inset:0;z-index:999999;
+  background:#000;
+  display:flex;align-items:center;justify-content:center;
+  opacity:1;visibility:visible;
+  transition:opacity .45s ease,visibility .45s ease;
+}
+#appLoadingScreen.hide{opacity:0;visibility:hidden;pointer-events:none}
+#appLoadingVideo{
+  display:block;width:100%;height:100%;
+  object-fit:contain;background:#000;
+}
+#appLoadingSkip{
+  position:absolute;right:14px;bottom:14px;z-index:2;
+  border:0;border-radius:999px;padding:8px 12px;
+  background:rgba(0,0,0,.55);color:#fff;font:600 13px Arial,sans-serif;
+  display:none;
+}
+</style>
+
+<div id="appLoadingScreen" aria-label="Memuat aplikasi">
+  <video id="appLoadingVideo" muted playsinline preload="auto">
+    <source src="loading.mp4" type="video/mp4">
+  </video>
+  <button id="appLoadingSkip" type="button">Lewati</button>
+</div>
+
 
 <div id="watermarkZie" class="watermark-zie" aria-hidden="true">CREATED BY: ZIE</div>
 
@@ -1681,7 +1709,7 @@ input[type=range]{width:100px;}
   }
 
   const manager = new AudioManager({
-    musicVolume: 0.5,
+    musicVolume: 1,
     duckVolume: 0.035,
     fadeTime: 450,
     effectVolume: 0.72
@@ -1689,7 +1717,7 @@ input[type=range]{width:100px;}
 
   manager.setMusic(
     'assets/backsound.mp3',
-    0.45
+    1
   );
 
   // Public API for the existing inline app code.
@@ -3867,6 +3895,53 @@ if(player.name==='Anak Ceria') setTimeout(openProfile,250);
   let i=0;
   el.style.color=colors[0];
   setInterval(()=>{ i=(i+1)%colors.length; el.style.color=colors[i]; },1000);
+})();
+</script>
+
+<script id="app-loading-script">
+(function(){
+  var screen=document.getElementById('appLoadingScreen');
+  var video=document.getElementById('appLoadingVideo');
+  var skip=document.getElementById('appLoadingSkip');
+  if(!screen || !video) return;
+
+  var closed=false;
+  var closeLoading=function(){
+    if(closed) return;
+    closed=true;
+    screen.classList.add('hide');
+    setTimeout(function(){ if(screen.parentNode) screen.parentNode.removeChild(screen); },500);
+  };
+
+  // Jangan biarkan layar hitam menggantung jika MP4 gagal dimuat/diputar.
+  video.addEventListener('ended',closeLoading);
+  video.addEventListener('error',closeLoading);
+  video.addEventListener('stalled',function(){ setTimeout(function(){ if(!closed && video.readyState===0) closeLoading(); },1500); });
+
+  // Autoplay tanpa suara diperbolehkan browser.
+  var playPromise=video.play();
+  if(playPromise && typeof playPromise.catch==='function'){
+    playPromise.catch(function(){
+      // Beri satu kesempatan setelah halaman selesai dimuat.
+      setTimeout(function(){
+        if(closed) return;
+        var p=video.play();
+        if(p && p.catch) p.catch(closeLoading);
+      },100);
+    });
+  }
+
+  // Jika video berhasil dimuat tetapi durasinya tidak terdeteksi, jangan menggantung.
+  video.addEventListener('loadeddata',function(){
+    if(video.duration && isFinite(video.duration)){
+      // Tidak perlu timer; tunggu event ended.
+    }else{
+      setTimeout(function(){ if(!closed && !video.duration) closeLoading(); },3000);
+    }
+  });
+
+  // Fallback terakhir.
+  setTimeout(function(){ if(!closed) closeLoading(); },15000);
 })();
 </script>
 </body>
