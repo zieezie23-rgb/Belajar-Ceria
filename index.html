@@ -2,13 +2,10 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Playground Belajar Ceria - Belajar & Bermain Ceria</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" type="image/png" href="./assets/icon.png">
-<link rel="apple-touch-icon" href="./assets/icon.png">
 <style>
 
 :root{
@@ -1103,6 +1100,15 @@ input[type=range]{width:100px;}
 
 
 
+
+<style id="viewport-fill-style">
+@supports (height: 100svh){
+  body{min-height:100svh;}
+}
+@media (display-mode: standalone){
+  body{min-height:100dvh;}
+}
+</style>
 </head>
 <body>
 <style id="app-loading-style">
@@ -1116,7 +1122,7 @@ input[type=range]{width:100px;}
 #appLoadingScreen.hide{opacity:0;visibility:hidden;pointer-events:none}
 #appLoadingVideo{
   display:block;width:100%;height:100%;
-  object-fit:contain;background:#000;
+  object-fit:cover;background:#000;
 }
 #appLoadingSkip{
   position:absolute;right:14px;bottom:14px;z-index:2;
@@ -1128,7 +1134,7 @@ input[type=range]{width:100px;}
   position:absolute;inset:0;z-index:3;
   display:flex;align-items:center;justify-content:center;
   padding:0;box-sizing:border-box;
-  background:rgba(43,27,18,.24);
+  background:rgba(0,0,0,.30);
 }
 #appLoadingStartCard{
   width:100%;box-sizing:border-box;text-align:center;
@@ -1178,6 +1184,14 @@ input[type=range]{width:100px;}
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .25s ease,visibility .25s ease;
 }</style>
+<style id="mobile-fullscreen-style">
+html,body{width:100%;min-height:100%;margin:0;padding:0;}
+body{overscroll-behavior:none;}
+html:fullscreen,html:-webkit-full-screen{width:100%;height:100%;background:#000;}
+html:fullscreen body,html:-webkit-full-screen body{width:100%;height:100%;}
+#appLoadingScreen{width:100vw;height:100dvh;min-height:100dvh;}
+#appLoadingVideo{width:100vw;height:100dvh;min-height:100dvh;}
+</style>
 
 <div id="appLoadingScreen" aria-label="Memuat aplikasi">
   <video id="appLoadingVideo" muted playsinline preload="auto">
@@ -3993,6 +4007,17 @@ if(player.name==='Anak Ceria') setTimeout(openProfile,250);
   // Tap pada tombol menjadi user gesture yang sah sehingga backsound
   // dapat dimulai dengan suara, lalu tetap berjalan saat loading selesai.
   startButton.addEventListener('click',function(){
+      // User tap on MULAI is the ideal moment to enter true fullscreen on Android/Chrome.
+      // The request is intentionally best-effort; if the browser refuses it, the app still runs normally.
+      try {
+        var root=document.documentElement;
+        var enterFs=root.requestFullscreen || root.webkitRequestFullscreen || root.msRequestFullscreen;
+        if(enterFs) {
+          var fsResult=enterFs.call(root);
+          if(fsResult && fsResult.catch) fsResult.catch(function(){});
+        }
+      } catch(e) {}
+
     if(started) return;
     started=true;
     startButton.disabled=true;
@@ -4047,10 +4072,5 @@ if(player.name==='Anak Ceria') setTimeout(openProfile,250);
   },15000);
 })();
 </script>
-<script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-    }
-  </script>
 </body>
 </html>
