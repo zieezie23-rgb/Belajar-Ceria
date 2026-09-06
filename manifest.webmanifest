@@ -5,9 +5,9 @@
   "description": "Belajar dan bermain ceria untuk anak-anak.",
   "start_url": "./index.html",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "display_override": [
-    "standalone"
+    "fullscreen"
   ],
   "orientation": "portrait",
   "background_color": "#fff8e7",
