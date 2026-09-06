@@ -1,15 +1,27 @@
 {
-  "name": "Belajar Ceria",
+  "name": "Belajar Ceria - Belajar & Bermain Ceria",
   "short_name": "Belajar Ceria",
+  "id": "./",
   "description": "Belajar dan bermain ceria untuk anak-anak.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "standalone",
+    "fullscreen"
+  ],
   "orientation": "portrait",
   "background_color": "#fff8e7",
   "theme_color": "#7dd3fc",
   "lang": "id",
+  "prefer_related_applications": false,
   "icons": [
+    {
+      "src": "./assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
     {
       "src": "./assets/icon.png",
       "sizes": "512x512",

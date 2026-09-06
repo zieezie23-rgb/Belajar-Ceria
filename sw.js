@@ -1,8 +1,10 @@
-const CACHE = 'belajar-ceria-v1';
+const CACHE = 'belajar-ceria-v2';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './assets/icon.png',
+  './assets/icon-192.png',
   './loading.mp4',
   './assets/backsound.mp3',
   './assets/topic_icon_angka.webp',
