@@ -1,0 +1,20 @@
+{
+  "name": "Belajar Ceria",
+  "short_name": "Belajar Ceria",
+  "description": "Belajar dan bermain ceria untuk anak-anak.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff8e7",
+  "theme_color": "#7dd3fc",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "./assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

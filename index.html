@@ -4044,5 +4044,10 @@ if(player.name==='Anak Ceria') setTimeout(openProfile,250);
   },15000);
 })();
 </script>
+<script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+    }
+  </script>
 </body>
 </html>
