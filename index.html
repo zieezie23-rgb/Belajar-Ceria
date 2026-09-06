@@ -597,8 +597,22 @@ input[type=range]{width:100px;}
 .progress-mini{height:7px;background:#eadfc8;border-radius:99px;overflow:hidden;margin-top:4px}.progress-mini>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sky),var(--leaf));border-radius:inherit;transition:width .35s ease}
 .dashboard{display:grid;gap:12px}.dash-hero{background:var(--white);border-radius:24px;padding:18px;box-shadow:var(--shadow);text-align:center}.dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.dash-card{background:var(--white);border-radius:20px;padding:14px;box-shadow:var(--shadow)}.dash-card h3{margin:0 0 8px;font-size:18px}.dash-value{font-family:"Fredoka";font-size:28px}.topic-progress{margin:9px 0}.topic-progress-head{display:flex;justify-content:space-between;font-size:12px;font-weight:900}.bar{height:9px;background:#eee4cf;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--sky);border-radius:inherit}.achievement-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.badge-item{text-align:center;background:#faf4e5;border-radius:14px;padding:10px 4px;font-size:11px;font-weight:900}.badge-item .bi{font-size:25px;display:block;margin-bottom:3px}.badge-item.locked{opacity:.4;filter:grayscale(1)}
 .mission{background:linear-gradient(135deg,#fff8dc,#fff);border:2px dashed var(--sun);border-radius:20px;padding:13px;text-align:left}.mission b{font-family:"Fredoka";font-size:18px}.mission p{margin:5px 0;font-size:12px;font-weight:800;color:#6b6082}
-.name-dialog{position:fixed;inset:0;background:rgba(43,27,18,.45);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.name-dialog.show{display:flex}.name-box{width:min(420px,100%);background:var(--white);border-radius:28px;padding:22px;box-shadow:0 15px 40px rgba(43,27,18,.25);text-align:center}.name-box h2{margin:0 0 8px}.name-box p{font-size:13px;font-weight:700;color:#6b6082}.name-input{width:100%;border:2px solid #eadfc8;border-radius:16px;padding:12px 14px;font:800 16px Nunito;outline:none}.name-actions{display:flex;gap:10px;margin-top:12px}.name-actions .btn{flex:1}
-.gender-picker{display:flex;gap:10px;margin-top:12px}.gender-opt{flex:1;border:2px solid #eadfc8;border-radius:16px;padding:10px 6px;font:800 13px Nunito;background:#fdfaf2;display:flex;flex-direction:column;align-items:center;gap:2px}.gender-opt .ge{font-size:26px}.gender-opt.active{border-color:var(--sky);background:#eaf6fb}
+.name-dialog{position:fixed;inset:0;background:rgba(43,27,18,.5);display:none;align-items:center;justify-content:center;padding:18px;z-index:100;backdrop-filter:blur(3px)}.name-dialog.show{display:flex;animation:fadeIn .22s ease}
+.name-box{width:min(420px,100%);background:linear-gradient(160deg,#fff,#FFF4B8,#E8D9FF);border-radius:30px;border:4px solid rgba(255,255,255,.9);padding:26px 22px 22px;box-shadow:0 14px 0 rgba(43,27,18,.15),0 20px 40px rgba(43,27,18,.22);text-align:center;position:relative;overflow:hidden}
+.name-box:before{content:"⭐ ✨ ⭐ ✨ ⭐";display:block;font-size:20px;letter-spacing:6px;margin-bottom:6px;animation:levelSpark 1.4s ease-in-out infinite}
+.name-box .name-mascot{font-size:56px;line-height:1;margin:0 0 4px;animation:levelBounce .9s ease-in-out infinite alternate}
+.name-box h2{margin:0 0 6px;color:#FF5C73;text-shadow:1px 2px 0 #FFD447;font-size:clamp(22px,5.5vw,26px)}
+.name-box p{font-size:13.5px;font-weight:800;color:#5D5570;line-height:1.35}
+.name-input{width:100%;border:3px solid #FFD447;border-radius:18px;padding:13px 16px;font:800 17px "Fredoka",Nunito;outline:none;background:#FFFDF5;color:#3B3154;text-align:center;margin-top:10px;transition:border-color .15s,box-shadow .15s}
+.name-input::placeholder{color:#b7ac8f}
+.name-input:focus{border-color:#42B9FF;box-shadow:0 0 0 4px rgba(66,185,255,.25)}
+.name-actions{display:flex;gap:10px;margin-top:16px}.name-actions .btn{flex:1;border-radius:18px;font:800 15px "Fredoka",Nunito;padding:13px 10px;box-shadow:0 5px 0 rgba(43,27,18,.18);transition:transform .12s}.name-actions .btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(43,27,18,.18)}
+.gender-picker{display:flex;gap:10px;margin-top:14px}
+.gender-opt{flex:1;border:3px solid rgba(255,255,255,.9);border-radius:18px;padding:12px 6px;font:800 13.5px "Fredoka",Nunito;background:linear-gradient(160deg,#EAF6FB,#D6ECFF);color:#1689D6;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 5px 0 rgba(43,27,18,.12);transition:transform .15s,box-shadow .15s}
+.gender-opt[data-g="P"]{background:linear-gradient(160deg,#FFEFF3,#FFD9E2);color:#E8445A}
+.gender-opt .ge{font-size:30px}
+.gender-opt:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(43,27,18,.12)}
+.gender-opt.active{border-color:#FFD447;transform:translateY(-2px) scale(1.04);box-shadow:0 7px 0 rgba(43,27,18,.16),0 0 0 3px rgba(255,212,71,.4)}
 @media(min-width:900px){.screen{max-width:980px}.dashboard{grid-template-columns:1.2fr .8fr}.dash-grid{grid-template-columns:repeat(3,1fr)}#screen-home{max-width:980px}#screen-home .topic-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,minmax(0,1fr));}}
 
 
@@ -889,7 +903,7 @@ input[type=range]{width:100px;}
   flex:1 1 auto; min-height:0;
   width:100%;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-template-rows:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(3,minmax(0,1fr));
   gap:clamp(12px,1.5vw,20px);
 }
 #screen-games .activity-row{
@@ -1082,12 +1096,12 @@ input[type=range]{width:100px;}
 
 @media(max-width:900px){
   #screen-games{min-height:100dvh;}
-  #screen-games .games-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(150px,1fr);}
+  #screen-games .games-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);}
   #screen-games .activity-row,#screen-games .activity-row:nth-child(4),#screen-games .activity-row:nth-child(5){grid-column:span 1;}
   #screen-games .activity-row .ae{font-size:clamp(50px,9vw,76px);}
 }
 @media(max-width:600px){
-  #screen-games .games-grid{grid-template-columns:1fr;grid-auto-rows:minmax(118px,auto);gap:10px;}
+  #screen-games .games-grid{grid-template-columns:1fr;grid-template-rows:repeat(7,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:10px;}
   #screen-games .activity-row,#screen-games .activity-row:nth-child(4),#screen-games .activity-row:nth-child(5){grid-column:span 1;}
   #screen-games .activity-row{padding:14px 16px;border-radius:22px;}
   #screen-games .activity-row .ae{font-size:50px;}
@@ -1440,6 +1454,7 @@ html:fullscreen body,html:-webkit-full-screen body{width:100%;height:100%;}
 
 <div class="name-dialog" id="nameDialog" role="dialog" aria-modal="true" aria-labelledby="nameDialogTitle">
   <div class="name-box">
+    <div class="name-mascot">🧸</div>
     <h2 id="nameDialogTitle">🎪 Profil Anak Ceria</h2>
     <p>Masukkan nama anak agar progres belajar bisa disimpan di perangkat ini.</p>
     <input id="playerNameInput" class="name-input" maxlength="24" placeholder="Nama anak" autocomplete="off">
