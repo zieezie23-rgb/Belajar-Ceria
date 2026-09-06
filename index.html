@@ -4076,5 +4076,17 @@ if(player.name==='Anak Ceria') setTimeout(openProfile,250);
   },15000);
 })();
 </script>
+
+<script id="pwa-registration">
+(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('./sw.js', {scope:'./'}).catch(function(err){
+        console.warn('Service Worker gagal didaftarkan:', err);
+      });
+    });
+  }
+})();
+</script>
 </body>
 </html>
