@@ -246,20 +246,42 @@ button{font-family:inherit; cursor:pointer; border:none; background:none;}
 .activity-list{display:flex; flex-direction:column; gap:12px;}
 .games-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-content:stretch;}
 #screen-games .activity-row{min-height:clamp(82px,11vh,112px);height:100%;padding:14px 16px;}
-#screen-games .activity-row .ae{font-size:clamp(32px,3.2vw,42px);}
+#screen-games .activity-row .ae{font-size:clamp(38px,3.8vw,50px);}
 #screen-games .activity-row .at b{font-size:clamp(16px,1.45vw,20px);}
 #screen-games .activity-row .at span{font-size:clamp(12px,1.05vw,14px);}
-@media(max-width:700px){.games-grid{grid-template-columns:1fr;gap:10px}#screen-games .activity-row{min-height:76px;padding:12px 13px;}#screen-games .activity-row .ae{font-size:30px;}}
+@media(max-width:700px){.games-grid{grid-template-columns:1fr;gap:10px}#screen-games .activity-row{min-height:76px;padding:12px 13px;}#screen-games .activity-row .ae{font-size:36px;}}
 .activity-row{
-  display:flex; align-items:center; gap:14px; background:var(--white); border-radius:20px;
-  padding:14px 16px; box-shadow:var(--shadow);
+  position:relative;
+  display:flex; align-items:center; gap:16px;
+  border-radius:28px;
+  padding:18px;
+  color:#fff;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,.18);
+  background:linear-gradient(135deg,#6a8dff,#8b5cf6);
 }
-.activity-row .ae{font-size:30px; flex:none;}
+.activity-row:nth-child(1){background:linear-gradient(135deg,#8b5cf6,#6366f1);}
+.activity-row:nth-child(2){background:linear-gradient(135deg,#fb7185,#f59e0b);}
+.activity-row:nth-child(3){background:linear-gradient(135deg,#22d3ee,#0ea5e9);}
+.activity-row:nth-child(4){background:linear-gradient(135deg,#64748b,#4338ca);}
+.activity-row:nth-child(5){background:linear-gradient(135deg,#22c55e,#15803d);}
+.activity-row:nth-child(6){background:linear-gradient(135deg,#38bdf8,#6366f1);}
+.activity-row:nth-child(7){background:linear-gradient(135deg,#f59e0b,#ef4444);}
+.activity-row::before{
+ content:"⭐";
+ position:absolute;
+ right:14px; top:10px;
+ font-size:18px; opacity:.35;
+}
+.activity-row .ae{
+  font-size:56px; flex:none;
+  display:flex;align-items:center;justify-content:center;
+}
 .activity-row .at{flex:1;}
-.activity-row .at b{display:block; font-size:16px;}
-.activity-row .at span{font-size:12.5px; color:#7a7092; font-weight:700;}
-.activity-row .arrow{font-size:20px; color:#c8c0d8;}
-.activity-row:active{transform:translateY(2px);}
+.activity-row .at b{display:block;font-size:18px;color:#fff;}
+.activity-row .at span{font-size:13px;color:rgba(255,255,255,.9);font-weight:700;}
+.activity-row .arrow{font-size:28px;color:rgba(255,255,255,.85);}
+.activity-row:active{transform:scale(.98);}
 
 /* ---------- Mengenal (grid) ---------- */
 .mengenal-grid{display:flex; flex-wrap:wrap; justify-content:center; gap:8px;}
@@ -440,8 +462,12 @@ button{font-family:inherit; cursor:pointer; border:none; background:none;}
   font-weight:800; font-size:13px; color:var(--plum); box-sizing:border-box; overflow:hidden;
 }
 .match-card .me{font-size:min(22vw,92px); line-height:1; display:block;}
-.match-card.selected{outline:3px solid var(--sun); background:#FFF6DD;}
-.match-card.found{background:var(--leaf); color:var(--white); opacity:.55;}
+.match-card:nth-child(4n+1){background:#FFF0A8;}
+.match-card:nth-child(4n+2){background:#C9EDFF;}
+.match-card:nth-child(4n+3){background:#E4D3FF;}
+.match-card:nth-child(4n+4){background:#C9F4D5;}
+.match-card.selected{outline:3px solid var(--sun); background:#FFF6DD !important;}
+.match-card.found{background:var(--leaf) !important; color:var(--white); opacity:.55;}
 .match-card.shake{animation:shake .35s;}
 .shake{animation:shake .35s;}
 @keyframes shake{25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
@@ -805,7 +831,7 @@ input[type=range]{width:100px;}
   gap:clamp(14px,3vw,24px);
 }
 #screen-topic .activity-row .ae{
-  font-size:clamp(38px,9vw,58px);
+  font-size:clamp(46px,10vw,70px);
   line-height:1;
 }
 #screen-topic .activity-row .at{
@@ -848,7 +874,7 @@ input[type=range]{width:100px;}
   }
 }
 
-:root{--cream:#FFF8E8;--sky:#42B9FF;--sky-dark:#1689D6;--leaf:#54C878;--leaf-dark:#2E9B55;--sun:#FFD447;--sun-dark:#F0A800;--coral:#FF6B7A;--coral-dark:#E8445A;--berry:#A66CFF;--berry-dark:#7541D1;--plum:#3B3154;--white:#fff;--shadow:0 7px 0 rgba(74,54,110,.16),0 10px 22px rgba(74,54,110,.08)}body{font-family:"Nunito",sans-serif;background:radial-gradient(circle at 8% 12%,rgba(255,212,71,.55) 0 2%,transparent 2.4%),radial-gradient(circle at 88% 14%,rgba(255,107,122,.3) 0 3%,transparent 3.4%),linear-gradient(180deg,#BFEFFF,#EAFBFF 42%,#FFF8E8);color:var(--plum);position:relative}body:before{content:"🎈  🧸  🪁  ⚽  🧩  🪀  🛝  🛴  🏀  🧸  🎨  🎈";position:fixed;inset:0;pointer-events:none;z-index:-1;font-size:clamp(22px,4vw,42px);line-height:3.3;letter-spacing:clamp(8px,3vw,34px);opacity:.12;overflow:hidden}body:after{content:"☁️        ☁️                    ☁️";position:fixed;top:2vh;left:0;width:100%;text-align:center;pointer-events:none;z-index:-1;font-size:clamp(32px,7vw,72px);opacity:.55}h1,.font-display,h2,h3{font-family:"Fredoka",sans-serif}.hero .home-title{color:#FF5C73!important;text-shadow:3px 3px 0 #FFD447,5px 5px 0 rgba(255,255,255,.8)}.hero .home-headline{color:#1689D6!important}.hero .home-desc{color:#5D5570!important}.player-bar,.card,.quick-item,.activity-row,.mengenal-card,.mini-question,.quiz-question-big,.opt-btn,.match-card,.name-box,.levelup-box{border:3px solid rgba(255,255,255,.85);box-shadow:var(--shadow)}.player-bar{background:linear-gradient(90deg,#fff,#FFF8DE)}.stat-pill:nth-child(1){background:#FFF0A8}.stat-pill:nth-child(2){background:#DCC8FF}.progress-mini>i{background:linear-gradient(90deg,#FF6B7A,#FFD447,#54C878,#42B9FF,#A66CFF)}.topic-card{border:4px solid rgba(255,255,255,.8);box-shadow:0 8px 0 rgba(74,54,110,.16),0 12px 25px rgba(74,54,110,.1)}.t-huruf{background:linear-gradient(145deg,#42B9FF,#1689D6)!important}.t-angka{background:linear-gradient(145deg,#FFD447,#F0A800)!important;color:#3B3154!important}.t-warna{background:linear-gradient(145deg,#FF7B8A,#E8445A)!important}.t-bentuk{background:linear-gradient(145deg,#B47CFF,#7541D1)!important}.t-hewan{background:linear-gradient(145deg,#6CDB87,#2E9B55)!important}.t-buah{background:linear-gradient(145deg,#FF9E63,#F06B38)!important}.topic-card:after{content:"✦";position:absolute;right:10px;top:5px;font-size:25px;color:rgba(255,255,255,.7)}.topic-card:nth-child(2):after{content:"●"}.topic-card:nth-child(3):after{content:"♥"}.topic-card:nth-child(4):after{content:"◆"}.topic-card:nth-child(5):after{content:"☘"}.topic-card:nth-child(6):after{content:"★"}.quick-item:nth-child(1){background:#FFF0A8}.quick-item:nth-child(2){background:#C9F4D5}.quick-item:nth-child(3){background:#C9EDFF}.quick-item:nth-child(4){background:#E4D3FF}.quick-item:hover{filter:saturate(1.08);transform:translateY(-2px) rotate(-1deg)}.btn-sky{background:linear-gradient(180deg,#42B9FF,#1689D6)}.btn-leaf{background:linear-gradient(180deg,#6CDB87,#2E9B55)}.btn-sun{background:linear-gradient(180deg,#FFD447,#F0A800)}.btn-coral{background:linear-gradient(180deg,#FF7B8A,#E8445A)}.btn-purple{background:linear-gradient(180deg,#B47CFF,#7541D1)}.btn-berry{background:linear-gradient(180deg,#FF9E63,#F06B38)}.topbar h2{color:#FF5C73!important;text-shadow:1px 2px 0 #FFD447}.activity-row:nth-child(1){border-left:8px solid #42B9FF}.activity-row:nth-child(2){border-left:8px solid #FF6B7A}.activity-row:nth-child(3){border-left:8px solid #FFD447}.activity-row:nth-child(4){border-left:8px solid #54C878}.mengenal-card:nth-child(4n/**/+1){background:#FFF5B8}.mengenal-card:nth-child(4n/**/+2){background:#D6F5FF}.mengenal-card:nth-child(4n/**/+3){background:#E8D9FF}.mengenal-card:nth-child(4n/**/+4){background:#D8F7E1}.mini-option:nth-child(4n/**/+1){background:#FFF0A8}.mini-option:nth-child(4n/**/+2){background:#C9EDFF}.mini-option:nth-child(4n/**/+3){background:#E4D3FF}.mini-option:nth-child(4n/**/+4){background:#C9F4D5}.quiz-question-big:before{content:none}.opt-btn:nth-child(1){background:#FFF5B8}.opt-btn:nth-child(2){background:#D6F5FF}.opt-btn:nth-child(3){background:#E8D9FF}.opt-btn:nth-child(4){background:#D8F7E1}.balloon-area{background:linear-gradient(180deg,#AEE8FF 0%,#E8FAFF 65%,#BEE9A9 65%,#8ED06E 100%);border:4px solid #fff}.balloon-area:after{content:"🛝   🧸   🪁   ⚽   🎈";position:absolute;bottom:5px;left:0;width:100%;text-align:center;font-size:clamp(28px,7vw,52px);opacity:.65}.memory-grid .memo-card{background:linear-gradient(145deg,#42B9FF,#A66CFF,#FF6B7A);border:3px solid #fff}.color-canvas-wrap,#drawCanvas{border:4px solid #fff}.mission{background:linear-gradient(135deg,#FFF0A8,#D6F5FF,#E8D9FF);border-color:#FFB928}.toast{background:#FF5C73;box-shadow:var(--shadow)}.levelup-box{background:linear-gradient(160deg,#fff,#FFF4B8,#E8D9FF)}.levelup-box h2{color:#FF5C73}.levelup-level{color:#1689D6}
+:root{--cream:#FFF8E8;--sky:#42B9FF;--sky-dark:#1689D6;--leaf:#54C878;--leaf-dark:#2E9B55;--sun:#FFD447;--sun-dark:#F0A800;--coral:#FF6B7A;--coral-dark:#E8445A;--berry:#A66CFF;--berry-dark:#7541D1;--plum:#3B3154;--white:#fff;--shadow:0 7px 0 rgba(74,54,110,.16),0 10px 22px rgba(74,54,110,.08)}body{font-family:"Nunito",sans-serif;background:radial-gradient(circle at 8% 12%,rgba(255,212,71,.55) 0 2%,transparent 2.4%),radial-gradient(circle at 88% 14%,rgba(255,107,122,.3) 0 3%,transparent 3.4%),linear-gradient(180deg,#BFEFFF,#EAFBFF 42%,#FFF8E8);color:var(--plum);position:relative}body:before{content:"🎈  🧸  🪁  ⚽  🧩  🪀  🛝  🛴  🏀  🧸  🎨  🎈";position:fixed;inset:0;pointer-events:none;z-index:-1;font-size:clamp(22px,4vw,42px);line-height:3.3;letter-spacing:clamp(8px,3vw,34px);opacity:.12;overflow:hidden}body:after{content:"☁️        ☁️                    ☁️";position:fixed;top:2vh;left:0;width:100%;text-align:center;pointer-events:none;z-index:-1;font-size:clamp(32px,7vw,72px);opacity:.55}h1,.font-display,h2,h3{font-family:"Fredoka",sans-serif}.hero .home-title{color:#FF5C73!important;text-shadow:3px 3px 0 #FFD447,5px 5px 0 rgba(255,255,255,.8)}.hero .home-headline{color:#1689D6!important}.hero .home-desc{color:#5D5570!important}.player-bar,.card,.quick-item,.activity-row,.mengenal-card,.mini-question,.quiz-question-big,.opt-btn,.match-card,.name-box,.levelup-box{border:3px solid rgba(255,255,255,.85);box-shadow:var(--shadow)}.player-bar{background:linear-gradient(90deg,#fff,#FFF8DE)}.stat-pill:nth-child(1){background:#FFF0A8}.stat-pill:nth-child(2){background:#DCC8FF}.progress-mini>i{background:linear-gradient(90deg,#FF6B7A,#FFD447,#54C878,#42B9FF,#A66CFF)}.topic-card{border:4px solid rgba(255,255,255,.8);box-shadow:0 8px 0 rgba(74,54,110,.16),0 12px 25px rgba(74,54,110,.1)}.t-huruf{background:linear-gradient(145deg,#42B9FF,#1689D6)!important}.t-angka{background:linear-gradient(145deg,#FFD447,#F0A800)!important;color:#3B3154!important}.t-warna{background:linear-gradient(145deg,#FF7B8A,#E8445A)!important}.t-bentuk{background:linear-gradient(145deg,#B47CFF,#7541D1)!important}.t-hewan{background:linear-gradient(145deg,#6CDB87,#2E9B55)!important}.t-buah{background:linear-gradient(145deg,#FF9E63,#F06B38)!important}.topic-card:after{content:"✦";position:absolute;right:10px;top:5px;font-size:25px;color:rgba(255,255,255,.7)}.topic-card:nth-child(2):after{content:"●"}.topic-card:nth-child(3):after{content:"♥"}.topic-card:nth-child(4):after{content:"◆"}.topic-card:nth-child(5):after{content:"☘"}.topic-card:nth-child(6):after{content:"★"}.quick-item:nth-child(1){background:#FFF0A8}.quick-item:nth-child(2){background:#C9F4D5}.quick-item:nth-child(3){background:#C9EDFF}.quick-item:nth-child(4){background:#E4D3FF}.quick-item:hover{filter:saturate(1.08);transform:translateY(-2px) rotate(-1deg)}.btn-sky{background:linear-gradient(180deg,#42B9FF,#1689D6)}.btn-leaf{background:linear-gradient(180deg,#6CDB87,#2E9B55)}.btn-sun{background:linear-gradient(180deg,#FFD447,#F0A800)}.btn-coral{background:linear-gradient(180deg,#FF7B8A,#E8445A)}.btn-purple{background:linear-gradient(180deg,#B47CFF,#7541D1)}.btn-berry{background:linear-gradient(180deg,#FF9E63,#F06B38)}.topbar h2{color:#FF5C73!important;text-shadow:1px 2px 0 #FFD447}.activity-row:nth-child(1){border-left:8px solid #A78BFA}.activity-row:nth-child(2){border-left:8px solid #FDBA74}.activity-row:nth-child(3){border-left:8px solid #67E8F9}.activity-row:nth-child(4){border-left:8px solid #94A3B8}.activity-row:nth-child(5){border-left:8px solid #86EFAC}.activity-row:nth-child(6){border-left:8px solid #7DD3FC}.activity-row:nth-child(7){border-left:8px solid #FCA5A5}.mengenal-card:nth-child(4n/**/+1){background:#FFF5B8}.mengenal-card:nth-child(4n/**/+2){background:#D6F5FF}.mengenal-card:nth-child(4n/**/+3){background:#E8D9FF}.mengenal-card:nth-child(4n/**/+4){background:#D8F7E1}.mini-option:nth-child(4n/**/+1){background:#FFF0A8}.mini-option:nth-child(4n/**/+2){background:#C9EDFF}.mini-option:nth-child(4n/**/+3){background:#E4D3FF}.mini-option:nth-child(4n/**/+4){background:#C9F4D5}.quiz-question-big:before{content:none}.opt-btn:nth-child(1){background:#FFF5B8}.opt-btn:nth-child(2){background:#D6F5FF}.opt-btn:nth-child(3){background:#E8D9FF}.opt-btn:nth-child(4){background:#D8F7E1}.balloon-area{background:linear-gradient(180deg,#AEE8FF 0%,#E8FAFF 65%,#BEE9A9 65%,#8ED06E 100%);border:4px solid #fff}.balloon-area:after{content:"🛝   🧸   🪁   ⚽   🎈";position:absolute;bottom:5px;left:0;width:100%;text-align:center;font-size:clamp(28px,7vw,52px);opacity:.65}.memory-grid .memo-card{background:linear-gradient(145deg,#42B9FF,#A66CFF,#FF6B7A);border:3px solid #fff}.color-canvas-wrap,#drawCanvas{border:4px solid #fff}.mission{background:linear-gradient(135deg,#FFF0A8,#D6F5FF,#E8D9FF);border-color:#FFB928}.toast{background:#FF5C73;box-shadow:var(--shadow)}.levelup-box{background:linear-gradient(160deg,#fff,#FFF4B8,#E8D9FF)}.levelup-box h2{color:#FF5C73}.levelup-level{color:#1689D6}
 
 /* Menu Bermain: isi lebar dan tinggi layar agar tidak menyisakan ruang kosong */
 #screen-games{
@@ -870,7 +896,7 @@ input[type=range]{width:100px;}
   min-height:0; height:100%; padding:clamp(16px,2vh,24px) clamp(16px,1.8vw,24px);
   border-radius:24px; gap:clamp(12px,1.3vw,18px);
 }
-#screen-games .activity-row .ae{font-size:clamp(42px,5vw,68px);}
+#screen-games .activity-row .ae{font-size:clamp(50px,6vw,82px);}
 #screen-games .activity-row .at b{font-size:clamp(19px,2vw,27px); line-height:1.05; margin-bottom:6px;}
 #screen-games .activity-row .at span{font-size:clamp(13px,1.25vw,17px); line-height:1.25;}
 #screen-games .activity-row .arrow{font-size:clamp(28px,2.5vw,38px);}
@@ -909,23 +935,25 @@ input[type=range]{width:100px;}
 #screen-mini-game .traffic-big{font-size:clamp(110px,13vw,180px); margin:12px 0 28px;}
 
 /* Game baru: puzzle, bayangan, dan labirin */
-#screen-mini-game .puzzle-board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;width:min(430px,90vw);aspect-ratio:1;margin:8px auto 18px;padding:8px;background:#D6F5FF;border:4px solid #fff;border-radius:24px;box-shadow:var(--shadow);}
-#screen-mini-game .puzzle-tile{border:0;border-radius:10px;background:#fff;padding:0;overflow:hidden;box-shadow:0 4px 0 rgba(43,27,18,.15);cursor:pointer;transition:transform .15s;}
+#screen-mini-game .puzzle-preview{width:88px;height:88px;margin:6px auto 14px;background:#fff8e8;border:4px solid var(--sun);border-radius:20px;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-size:48px;}
+#screen-mini-game .puzzle-panel-plain{background:transparent!important;box-shadow:none!important;padding:0!important;border:0!important;}
+#screen-mini-game .puzzle-board{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;width:min(430px,90vw);aspect-ratio:1;margin:8px auto 18px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;}
+#screen-mini-game .puzzle-tile{border:0;border-radius:0;background:var(--white);padding:0;overflow:hidden;box-shadow:0 4px 0 rgba(43,27,18,.15);cursor:pointer;transition:transform .15s;}
 #screen-mini-game .puzzle-tile svg{display:block;width:100%;height:100%;}
 #screen-mini-game .puzzle-tile.selected{outline:4px solid var(--sky-dark,#145E6D);outline-offset:-4px;transform:scale(.94);box-shadow:0 0 0 4px rgba(31,122,140,.35);}
 #screen-mini-game .mini-instruction{font-size:clamp(15px,1.6vw,20px);color:#746a82;font-weight:800;margin:0 0 clamp(10px,1.6vh,16px);text-align:center;}
-#screen-mini-game .shadow-stage{display:flex;align-items:center;justify-content:center;gap:clamp(24px,5vw,60px);width:min(820px,100%);margin:4px auto 22px;}
-#screen-mini-game .shadow-target{font-size:clamp(105px,14vw,180px);filter:brightness(0);opacity:.85;line-height:1;border-radius:28px;transition:transform .18s ease,filter .35s ease,background .18s ease;touch-action:none;}
+#screen-mini-game .shadow-stage{display:flex;align-items:center;justify-content:center;gap:clamp(24px,5vw,60px);width:min(820px,100%);margin:4px auto 14px;flex:0 0 auto;}
+#screen-mini-game .shadow-target{font-size:clamp(150px,22vw,260px);filter:brightness(0);opacity:.85;line-height:1;border-radius:28px;transition:transform .18s ease,filter .35s ease,background .18s ease;touch-action:none;}
 #screen-mini-game .shadow-target.drag-over{transform:scale(1.1);opacity:1;}
 #screen-mini-game .shadow-target.matched{filter:none;opacity:1;}
 #screen-mini-game .shadow-question{font-size:clamp(30px,3vw,44px);font-weight:900;}
-#screen-mini-game .shadow-options{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.5vw,20px);width:min(820px,100%);}
-#screen-mini-game .shadow-option{min-height:clamp(100px,12vh,140px);border-radius:24px;border:3px solid #fff;background:#FFF8E8;box-shadow:var(--shadow);font-size:clamp(55px,6vw,82px);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:center;transition:opacity .15s,transform .15s;}
+#screen-mini-game .shadow-options{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:clamp(12px,1.5vw,20px);width:min(820px,100%);flex:1 1 auto;min-height:0;}
+#screen-mini-game .shadow-option{border-radius:24px;border:3px solid #fff;background:#FFF8E8;box-shadow:var(--shadow);font-size:clamp(55px,6vw,82px);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:center;transition:opacity .15s,transform .15s;}
 #screen-mini-game .shadow-option.dragging{opacity:.45;outline:3px dashed rgba(43,27,18,.25);}
 #screen-mini-game .shadow-option.locked{pointer-events:none;}
 #screen-mini-game .shadow-option.correct{background:#dff5df;outline:3px solid var(--leaf);}
 #screen-mini-game .shadow-option.wrong{background:#ffe1dd;outline:3px solid var(--coral);animation:shadowShake .35s ease;}
-#screen-mini-game .shadow-game{justify-content:flex-start;}
+#screen-mini-game .shadow-game{justify-content:flex-start;background:transparent!important;box-shadow:none!important;padding:0!important;border:0!important;}
 #screen-mini-game .shadow-footer{margin:auto 0 0;padding-top:clamp(10px,1.6vh,16px);}
 .shadow-drag-ghost{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center;line-height:1;transform:translate(-50%,-50%);opacity:.98;box-sizing:border-box;background:transparent;border:none;box-shadow:none;filter:drop-shadow(0 6px 6px rgba(43,27,18,.35));}
 @keyframes shadowShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
@@ -941,7 +969,7 @@ input[type=range]{width:100px;}
 #screen-mini-game .maze-theme-title{font-size:clamp(15px,1.5vw,19px);font-weight:800;text-align:center;margin:0 0 8px;opacity:.85;}
 #screen-mini-game .maze-bottom{margin:auto 0 0;padding-top:10px;display:flex;flex-direction:column;align-items:center;gap:8px;}
 #screen-mini-game .maze-controls{display:flex;flex-direction:row;justify-content:center;align-items:center;gap:clamp(12px,2.2vw,20px);}
-#screen-mini-game .maze-nav{width:clamp(64px,11vw,84px);height:clamp(64px,11vw,84px);border-radius:20px;background:#fff;box-shadow:0 4px 0 rgba(43,27,18,.15);font-size:clamp(26px,3.2vw,36px);font-weight:900;color:var(--plum);display:flex;align-items:center;justify-content:center;}
+#screen-mini-game .maze-nav{width:clamp(80px,15vw,110px);height:clamp(80px,15vw,110px);border-radius:24px;background:#fff;box-shadow:0 4px 0 rgba(43,27,18,.15);font-size:clamp(34px,4.2vw,48px);font-weight:900;color:var(--plum);display:flex;align-items:center;justify-content:center;}
 #screen-mini-game .maze-nav:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(43,27,18,.15);}
 #screen-mini-game .maze-nav:disabled{opacity:.35;cursor:default;}
 #screen-mini-game .maze-footer{margin:0;text-align:center;}
@@ -954,7 +982,7 @@ input[type=range]{width:100px;}
 @media(max-width:600px){
   #screen-games .games-grid{grid-template-columns:1fr;grid-template-rows:repeat(5,minmax(112px,1fr));gap:10px;}
   #screen-games .activity-row{padding:14px 16px;border-radius:20px;}
-  #screen-games .activity-row .ae{font-size:38px;}
+  #screen-games .activity-row .ae{font-size:46px;}
   #screen-games .activity-row .at b{font-size:19px;}
   #screen-games .activity-row .at span{font-size:12.5px;}
   #screen-mini-game .mini-question{padding:18px 12px;border-radius:24px;}
@@ -978,7 +1006,7 @@ input[type=range]{width:100px;}
   border-radius:clamp(22px,2vw,30px);gap:clamp(14px,1.4vw,22px);
 }
 #screen-games .activity-row:nth-child(4),#screen-games .activity-row:nth-child(5){grid-column:span 3;}
-#screen-games .activity-row .ae{font-size:clamp(48px,5vw,76px);}
+#screen-games .activity-row .ae{font-size:clamp(58px,6vw,90px);}
 #screen-games .activity-row .at b{font-size:clamp(21px,2vw,30px);line-height:1.05;margin-bottom:8px;}
 #screen-games .activity-row .at span{font-size:clamp(14px,1.3vw,18px);line-height:1.3;}
 #screen-games .activity-row .arrow{font-size:clamp(30px,2.8vw,42px);}
@@ -998,10 +1026,11 @@ input[type=range]{width:100px;}
 
 /* Game Ingatan */
 #screen-memory .memory-grid{
-  flex:1 1 auto;min-height:0;width:min(1100px,100%);margin:auto;
-  grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(8px,1vw,16px);
+  flex:1 1 auto;min-height:0;width:100%;margin:auto;
+  display:grid;align-content:center;justify-content:center;
+  gap:clamp(8px,1vw,16px);
 }
-#screen-memory .memo-card{min-width:0;min-height:0;border-radius:clamp(14px,1.5vw,24px);border-width:4px;}
+#screen-memory .memo-card{width:100%;min-width:0;min-height:0;border-radius:clamp(14px,1.5vw,24px);border-width:4px;}
 #screen-memory .memo-card .memo-emoji{font-size:80cqi;line-height:1;}
 
 /* Tangkap Balon */
@@ -1036,34 +1065,34 @@ input[type=range]{width:100px;}
 #screen-mini-game .treasure-cell{font-size:clamp(52px,6vw,78px);border-radius:26px;}
 #screen-mini-game .order-visual{font-size:clamp(58px,7vw,92px);gap:clamp(16px,2vw,30px);margin:20px 0 32px;}
 #screen-mini-game .traffic-big{font-size:clamp(130px,15vw,210px);margin:14px 0 30px;}
-#screen-mini-game .puzzle-board{width:min(620px,78vh,100%);max-width:620px;gap:10px;padding:10px;border-radius:30px;margin:10px auto 22px;}
-#screen-mini-game .puzzle-tile{border-radius:18px;font-size:clamp(34px,4vw,52px);}
+#screen-mini-game .puzzle-preview{width:110px;height:110px;font-size:60px;margin:8px auto 18px;}
+#screen-mini-game .puzzle-board{width:min(620px,78vh,100%);max-width:620px;gap:4px;padding:0;border-radius:0;margin:10px auto 22px;}
+#screen-mini-game .puzzle-tile{border-radius:0;font-size:clamp(34px,4vw,52px);}
 #screen-mini-game .mini-instruction{font-size:clamp(17px,1.7vw,22px);margin:0 0 clamp(12px,1.8vh,18px);}
-#screen-mini-game .shadow-stage{width:min(1000px,100%);margin:6px auto 24px;gap:clamp(30px,6vw,80px);}
-#screen-mini-game .shadow-target{font-size:clamp(130px,16vw,220px);}
+#screen-mini-game .shadow-stage{width:min(1000px,100%);margin:6px auto 18px;gap:clamp(30px,6vw,80px);}
+#screen-mini-game .shadow-target{font-size:clamp(180px,26vw,320px);}
 #screen-mini-game .shadow-question{font-size:clamp(38px,3.5vw,54px);}
 #screen-mini-game .shadow-options{width:min(1000px,100%);gap:clamp(14px,1.5vw,22px);}
-#screen-mini-game .shadow-option{min-height:clamp(120px,15vh,170px);border-radius:28px;font-size:clamp(68px,7vw,100px);}
+#screen-mini-game .shadow-option{border-radius:28px;font-size:clamp(68px,7vw,100px);}
 #screen-mini-game .shadow-footer{margin:auto 0 0;padding-top:clamp(12px,1.8vh,18px);}
 #screen-mini-game .maze-board{width:min(680px,78vh,92vw);max-width:680px;padding:9px;border-radius:30px;margin:10px auto 12px;}
 #screen-mini-game .maze-tip{font-size:clamp(17px,1.6vw,22px);margin-bottom:10px;}
 #screen-mini-game .maze-theme-title{font-size:clamp(17px,1.6vw,21px);margin-bottom:10px;}
-#screen-mini-game .maze-nav{width:clamp(72px,9vw,96px);height:clamp(72px,9vw,96px);font-size:clamp(30px,3.4vw,42px);}
+#screen-mini-game .maze-nav{width:clamp(92px,12vw,130px);height:clamp(92px,12vw,130px);font-size:clamp(38px,4.5vw,56px);}
 
 @media(max-width:900px){
   #screen-games{min-height:100dvh;}
   #screen-games .games-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(150px,1fr);}
   #screen-games .activity-row,#screen-games .activity-row:nth-child(4),#screen-games .activity-row:nth-child(5){grid-column:span 1;}
-  #screen-games .activity-row .ae{font-size:clamp(42px,8vw,64px);}
+  #screen-games .activity-row .ae{font-size:clamp(50px,9vw,76px);}
 }
 @media(max-width:600px){
   #screen-games .games-grid{grid-template-columns:1fr;grid-auto-rows:minmax(118px,auto);gap:10px;}
   #screen-games .activity-row,#screen-games .activity-row:nth-child(4),#screen-games .activity-row:nth-child(5){grid-column:span 1;}
   #screen-games .activity-row{padding:14px 16px;border-radius:22px;}
-  #screen-games .activity-row .ae{font-size:42px;}
+  #screen-games .activity-row .ae{font-size:50px;}
   #screen-games .activity-row .at b{font-size:21px;}
   #screen-games .activity-row .at span{font-size:13px;}
-  #screen-memory .memory-grid{width:100%;gap:8px;grid-template-columns:repeat(4,minmax(0,1fr));}
   #screen-memory .memo-card{border-radius:16px;}
   #screen-memory .memo-card .memo-emoji{font-size:80cqi;line-height:1;}
   #screen-mini-game .mini-question{padding:20px 14px;border-radius:24px;}
@@ -1372,6 +1401,8 @@ html:fullscreen body,html:-webkit-full-screen body{width:100%;height:100%;}
     <button class="activity-row" onclick="startPicturePuzzle()"><span class="ae">🧩</span><span class="at"><b>Puzzle Gambar</b><span>Susun potongan hingga menjadi urutan yang benar</span></span><span class="arrow">›</span></button>
     <button class="activity-row" onclick="startShadowGame()"><span class="ae">👤</span><span class="at"><b>Teka-Teki Bayangan</b><span>Cari benda yang cocok dengan bayangannya</span></span><span class="arrow">›</span></button>
     <button class="activity-row" onclick="startLabirinGame()"><span class="ae">🗺️</span><span class="at"><b>Labirin Seru</b><span>Bantu karakter menemukan jalan menuju harta</span></span><span class="arrow">›</span></button>
+    <button class="activity-row" onclick="startSpelling()"><span class="ae">🔡</span><span class="at"><b>Eja Kata</b><span>Susun huruf menjadi kata yang tepat</span></span><span class="arrow">›</span></button>
+    <button class="activity-row" onclick="startCounting()"><span class="ae">🔢</span><span class="at"><b>Berhitung</b><span>Hitung jumlah benda dengan benar</span></span><span class="arrow">›</span></button>
   </div>
 </section>
 
@@ -1380,9 +1411,9 @@ html:fullscreen body,html:-webkit-full-screen body{width:100%;height:100%;}
   <div class="topbar">
     <button class="icon-btn" onclick="goGamesHub()">←</button>
     <h2>Game Ingatan</h2>
-    <div style="width:44px"></div>
+    <button class="icon-btn" onclick="resetMemoryGame()" title="Ulang dari Level 1">↻</button>
   </div>
-  <div class="game-hud"><span id="memMoves">Percobaan: 0</span><span id="memFound">Cocok: 0/0</span></div>
+  <div class="game-hud"><span id="memLevel">Level 1</span></div>
   <div class="memory-grid" id="memoryGrid"></div>
 </section>
 
@@ -1961,9 +1992,11 @@ const COLORING_PICS = {
 };
 
 let currentTopicKey = null;
+let quizReturnTo = null; // 'games' jika screen-kuis dibuka dari menu Bermain (Eja Kata/Berhitung)
 let quizState = null;
 let matchState = null;
 let memoryState = null;
+let memoryLastLevel = 1; // level terakhir Game Ingatan, dipakai untuk lanjut saat masuk kembali
 let balloonState = { running:false, score:0, lives:3, timer:null, spawnTimer:null };
 let drawCtx = null;
 let drawMode = { color:'#2B1B12', size:6, stamp:null, erase:false };
@@ -2045,11 +2078,9 @@ function openTopic(key){
     {icon:'🧩', title:'Mencocokkan', desc:'Pasangkan gambar dengan namanya', fn:()=>startMatching(key)}
   ];
   if(key==='huruf'){
-    rows.push({icon:'🔡', title:'Eja Kata', desc:'Susun huruf jadi kata', fn:startSpelling});
     rows.push({icon:'✍️', title:'Latihan Menulis', desc:'Jiplak bentuk huruf dengan jari', fn:()=>startMenulis(key)});
   }
   if(key==='angka'){
-    rows.push({icon:'🔢', title:'Menghitung', desc:'Hitung jumlah benda', fn:startCounting});
     rows.push({icon:'✍️', title:'Latihan Menulis', desc:'Jiplak bentuk angka dengan jari', fn:()=>startMenulis(key)});
   }
   list.innerHTML = '';
@@ -2063,6 +2094,7 @@ function openTopic(key){
   showScreen('screen-topic');
 }
 function backToTopic(){
+  if(quizReturnTo==='games'){ quizReturnTo=null; goGamesHub(); return; }
   if(currentTopicKey) openTopic(currentTopicKey); else goHome();
 }
 
@@ -2159,6 +2191,7 @@ function buildQuizQuestions(key, count){
 }
 function startTopicQuiz(key){
   currentTopicKey = key;
+  quizReturnTo = null;
   document.getElementById('kuisTitle').textContent = 'Kuis ' + TOPICS[key].name;
   quizState = { questions: buildQuizQuestions(key, 10), index:0, correctCount:0, mixed:false };
   renderQuizProgress(); renderQuizQuestion();
@@ -2491,7 +2524,7 @@ function renderQuizResult(){
 function startMatching(key){
   currentTopicKey = key;
   const t = TOPICS[key];
-  const items = shuffle(t.items.map((_,i)=>i)).slice(0, Math.min(6, t.items.length));
+  const items = shuffle(t.items.map((_,i)=>i)).slice(0, Math.min(9, t.items.length));
   let cards = [];
   items.forEach(idx=>{
     const item = t.items[idx];
@@ -2561,17 +2594,31 @@ function selectMatch(idx){
 ============================================================ */
 const SPELL_WORDS = ['BOLA','MEJA','IKAN','TOPI','SAPI','JERUK','KUDA','ULAR','AYAM','BUKU','APEL','MOBIL','RUMAH','BUNGA','ROTI','SUSU','TELUR','PAYUNG','SEPATU','GAJAH','BURUNG','PISANG','KUCING','ANJING'];
 let spellState = null;
-function startSpelling(){
-  const word = SPELL_WORDS[Math.floor(Math.random()*SPELL_WORDS.length)];
-  const letters = shuffle(word.split('').map((ch,i)=>({ch, id:i})));
+function spellWordLenForLevel(level){ return Math.min(4+Math.floor((level-1)/3), 6); }
+function spellDecoysForLevel(level){ return Math.min(Math.floor((level-1)/2), 4); }
+function pickSpellWord(level){
+  const targetLen=spellWordLenForLevel(level);
+  let pool=SPELL_WORDS.filter(w=>w.length===targetLen);
+  if(!pool.length) pool=SPELL_WORDS;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function startSpelling(level=1){
+  quizReturnTo = 'games';
+  const word = pickSpellWord(level);
+  const decoyCount = spellDecoysForLevel(level);
+  const usedChars = new Set(word.split(''));
+  const decoyPool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').filter(c=>!usedChars.has(c));
+  const decoys = shuffle(decoyPool.slice()).slice(0, decoyCount);
+  let idc=0;
+  const letters = shuffle([...word.split('').map(ch=>({ch, id:idc++})), ...decoys.map(ch=>({ch, id:idc++, decoy:true}))]);
   spellState = {
-    word, letters,
+    word, letters, level,
     slots: Array(word.length).fill(null), // each: {ch, sourceId} | null
     locked: Array(word.length).fill(false), // true = posisi sudah benar (hijau permanen)
     busy:false
   };
   document.getElementById('kuisTitle').textContent = 'Eja Kata';
-  document.getElementById('quizProgress').innerHTML = '';
+  document.getElementById('quizProgress').innerHTML = '🔤 Level '+level;
   renderSpelling();
   showScreen('screen-kuis');
 }
@@ -2637,9 +2684,13 @@ function checkSpelling(){
     el.classList.toggle('wrong', wrongIdx.includes(i));
   });
   if(allCorrect){
-    toast('🎉 Benar! ' + s.word);
-    speak('Hebat! ' + s.word);
-    setTimeout(startSpelling, 1400);
+    const level=s.level||1;
+    const milestone=level%5===0;
+    const stars=milestone?3:1;
+    addReward(stars, 5+level*2, null, 'Eja Kata');
+    toast((milestone?'🏆 Level '+level+' selesai! +':'🎉 Benar! ')+(milestone?stars+'⭐':s.word));
+    speak(milestone?('Hebat! Kamu berhasil menyelesaikan level '+level+'. Ayo lanjut ke level berikutnya'):('Hebat! '+s.word));
+    setTimeout(()=>startSpelling(level+1), milestone?1800:1400);
     return;
   }
   speak('Ada yang belum tepat, coba lagi');
@@ -2654,24 +2705,23 @@ function checkSpelling(){
 /* ============================================================
    MENGHITUNG (counting) - angka only
 ============================================================ */
-function startCounting(){
+function startCounting(level=1){
+  quizReturnTo = 'games';
   document.getElementById('kuisTitle').textContent = 'Menghitung';
-  quizState = { questions: buildCountingQuestions(10), index:0, correctCount:0, mixed:false, counting:true };
-  renderQuizProgress();
+  quizState = { level, question: buildCountingQuestion(level) };
+  document.getElementById('quizProgress').innerHTML = '🔢 Level '+level;
   renderCountingQuestion();
   showScreen('screen-kuis');
 }
-function buildCountingQuestions(count){
-  const objEmojis = ['🍎','⭐','🐟','🎈','🍌','🐱'];
-  const qs = [];
-  for(let i=0;i<count;i++){
-    const n = 1 + Math.floor(Math.random()*10);
-    const emoji = objEmojis[Math.floor(Math.random()*objEmojis.length)];
-    const opts = new Set([n]);
-    while(opts.size<4){ opts.add(1+Math.floor(Math.random()*10)); }
-    qs.push({ n, emoji, options: shuffle([...opts]) });
-  }
-  return qs;
+function countMaxForLevel(level){ return Math.min(10+Math.floor((level-1)/2)*3, 30); }
+function buildCountingQuestion(level){
+  const objEmojis = ['🍎','⭐','🐟','🎈','🍌','🐱','🍊','🐶','🌸','🚗','🍇','🦋','⚽','🐥','🍓','🎁','🐢','🌼','🍉','🐰','🎀','🐧','🍪','🚲'];
+  const max = countMaxForLevel(level);
+  const n = 1 + Math.floor(Math.random()*max);
+  const emoji = objEmojis[Math.floor(Math.random()*objEmojis.length)];
+  const opts = new Set([n]);
+  while(opts.size<4){ opts.add(1+Math.floor(Math.random()*max)); }
+  return { n, emoji, options: shuffle([...opts]) };
 }
 function countEmojiLayout(n){
   // Jumlah kolom dibuat bertahap agar setiap baris tetap penuh namun
@@ -2696,7 +2746,7 @@ function countEmojiSize(n, cols, rows, visual){
 }
 
 function renderCountingQuestion(){
-  const q = quizState.questions[quizState.index];
+  const q = quizState.question;
   const body = document.getElementById('quizBody');
   const layout = countEmojiLayout(q.n);
   body.innerHTML = `
@@ -2723,13 +2773,21 @@ function renderCountingQuestion(){
     b.innerHTML = `<div style="font-size:30cqi; font-weight:900; line-height:1;">${n}</div>`;
     b.onclick = ()=>{
       document.querySelectorAll('#countOptions .opt-btn').forEach(x=>x.onclick=null);
-      if(n===q.n){ b.classList.add('correct'); quizState.correctCount++; speak('Benar!'); toast('🎉 Benar!'); }
-      else { b.classList.add('wrong'); speak('Hitung lagi ya'); toast('Ayo hitung lagi, pelan-pelan.'); }
-      setTimeout(()=>{
-        quizState.index++;
-        if(quizState.index>=quizState.questions.length) renderQuizResult();
-        else { renderQuizProgress(); renderCountingQuestion(); }
-      },1100);
+      const level=quizState.level;
+      if(n===q.n){
+        b.classList.add('correct');
+        const milestone=level%5===0;
+        const stars=milestone?3:1;
+        addReward(stars, 5+level*2, null, 'Menghitung');
+        speak(milestone?('Hebat! Kamu berhasil menyelesaikan level '+level+'. Ayo lanjut ke level berikutnya'):'Benar!');
+        toast(milestone?('🏆 Level '+level+' selesai! +'+stars+'⭐'):'🎉 Benar!');
+        setTimeout(()=>startCounting(level+1), milestone?1800:1100);
+      } else {
+        b.classList.add('wrong');
+        speak('Hitung lagi ya');
+        toast('Ayo hitung lagi, pelan-pelan.');
+        setTimeout(()=>startCounting(level), 1100);
+      }
     };
     wrap.appendChild(b);
   });
@@ -3221,17 +3279,46 @@ function imagineMe(){
    GAME: INGATAN (memory)
 ============================================================ */
 function startMemory(){
+  memoryState = { level:memoryLastLevel, cards:[], selected:[], moves:0, found:0, lock:false };
+  loadMemoryLevel();
+  showScreen('screen-memory');
+}
+function resetMemoryGame(){
+  memoryLastLevel = 1;
+  memoryState.level = 1;
+  loadMemoryLevel();
+}
+function loadMemoryLevel(){
   const pool = [];
   Object.values(TOPICS).forEach(t=>{ t.items.forEach(it=>{ if(it.emoji) pool.push(it.emoji); }); });
-  const chosen = shuffle([...new Set(pool)]).slice(0,12);
-  let cards = shuffle([...chosen, ...chosen]).map((e,i)=>({id:i, emoji:e, flipped:false, found:false}));
-  memoryState = { cards, selected:[], moves:0, found:0, lock:false };
+  const uniquePool = [...new Set(pool)];
+  const pairCount = Math.min(1 + memoryState.level, 20, uniquePool.length);
+  const chosen = shuffle(uniquePool).slice(0, pairCount);
+  memoryState.cards = shuffle([...chosen, ...chosen]).map((e,i)=>({id:i, emoji:e, flipped:false, found:false}));
+  memoryState.selected = [];
+  memoryState.moves = 0;
+  memoryState.found = 0;
+  memoryState.lock = false;
+  memoryLastLevel = memoryState.level;
   renderMemory();
-  showScreen('screen-memory');
+}
+function bestGridCols(n){
+  const maxCols = 6; // batas kolom biar kartu tidak terlalu kecil di layar sempit
+  let best = null, bestDiff = Infinity;
+  for(let c=Math.min(n,maxCols); c>=1; c--){
+    if(n % c === 0){ // wajib pas dibagi rata dulu, tidak boleh ada sisa baris ganjil
+      const rows = n / c;
+      const diff = Math.abs(c-rows); // makin kecil makin mendekati persegi
+      if(diff < bestDiff){ bestDiff = diff; best = c; }
+    }
+  }
+  return best || n;
 }
 function renderMemory(){
   const grid = document.getElementById('memoryGrid');
   grid.innerHTML = '';
+  const cols = bestGridCols(memoryState.cards.length);
+  grid.style.gridTemplateColumns = `repeat(${cols}, minmax(0,120px))`;
   memoryState.cards.forEach(c=>{
     const b = document.createElement('button');
     b.className = 'memo-card' + (c.found?' found':'') + (c.flipped?' flipped':'');
@@ -3242,8 +3329,7 @@ function renderMemory(){
     b.onclick = ()=>flipMemory(c.id);
     grid.appendChild(b);
   });
-  document.getElementById('memMoves').textContent = 'Percobaan: ' + memoryState.moves;
-  document.getElementById('memFound').textContent = 'Cocok: ' + memoryState.found + '/' + (memoryState.cards.length/2);
+  document.getElementById('memLevel').textContent = 'Level ' + memoryState.level;
 }
 function flipMemory(id){
   if(memoryState.lock) return;
@@ -3268,8 +3354,9 @@ function flipMemory(id){
         const pct = Math.min(100, Math.round((pairs/memoryState.moves)*100));
         const stars = pct>=80?3:pct>=50?2:1;
         addReward(stars, stars*5, null, 'Game Ingatan');
-        setTimeout(()=>toast('🎉 Selesai! +'+stars+' ⭐ tersimpan di Pencapaian'),300);
-        setTimeout(()=>{ startMemory(); },1600);
+        const nextLevel = memoryState.level + 1;
+        setTimeout(()=>toast('🎉 Level '+memoryState.level+' selesai! +'+stars+' ⭐'),300);
+        setTimeout(()=>{ memoryState.level = nextLevel; loadMemoryLevel(); },1600);
       }
     } else {
       setTimeout(()=>{
@@ -3540,7 +3627,7 @@ function startPicturePuzzle(){
   loadPuzzleLevel();
 }
 function puzzleLevelDims(level){
-  const n=level+1;
+  const n=Math.min(level+1, 6);
   return {rows:n, cols:n};
 }
 function puzzleSolved(order){return order.every((v,i)=>v===i);}
@@ -3555,7 +3642,7 @@ function loadPuzzleLevel(){
 }
 function renderPuzzleBoard(){
   const {rows,cols,order,emoji,level}=puzzleState;
-  document.getElementById('miniScore').textContent='🧩 Level '+level+'/5';
+  document.getElementById('miniScore').textContent='🧩 Level '+level;
   document.getElementById('miniRound').textContent=rows+'×'+cols;
   const fontSize=(Math.min(rows,cols)*100*0.85).toFixed(0);
   const cx=cols*50, cy=rows*50;
@@ -3563,7 +3650,9 @@ function renderPuzzleBoard(){
     const row=Math.floor(correct/cols), col=correct%cols;
     return `<button class="puzzle-tile" data-pos="${pos}"><svg viewBox="${col*100} ${row*100} 100 100" preserveAspectRatio="xMidYMid slice"><text x="${cx}" y="${cy}" font-size="${fontSize}" text-anchor="middle" dominant-baseline="central">${emoji}</text></svg></button>`;
   }).join('');
-  document.getElementById('miniGameBody').innerHTML=miniHeader('🧩 Susun gambar sampai benar','Ketuk dua potongan untuk menukar posisinya')+`<div class="puzzle-board" style="grid-template-columns:repeat(${cols},1fr);aspect-ratio:${cols}/${rows}">${tilesHtml}</div><div class="mini-sub">🧩 Level ${level} dari 5 • ${rows*cols} potongan</div></div>`;
+  document.getElementById('miniGameBody').innerHTML=miniHeader('🧩 Susun gambar sampai benar','Ketuk dua potongan untuk menukar posisinya')+`<div class="puzzle-preview">${emoji}</div><div class="puzzle-board" style="grid-template-columns:repeat(${cols},1fr);aspect-ratio:${cols}/${rows}">${tilesHtml}</div><div class="mini-sub">🧩 Level ${level} • ${rows*cols} potongan</div></div>`;
+  const panel=document.querySelector('#miniGameBody .mini-question');
+  if(panel) panel.classList.add('puzzle-panel-plain');
   document.querySelectorAll('#miniGameBody .puzzle-tile').forEach(b=>b.onclick=()=>onPuzzleTileClick(+b.dataset.pos));
 }
 function onPuzzleTileClick(pos){
@@ -3584,25 +3673,26 @@ function onPuzzleTileClick(pos){
   puzzleState.selected=null;
   renderPuzzleBoard();
   if(puzzleSolved(puzzleState.order)){
-    toast('🧩 Level '+puzzleState.level+' selesai!');
-    speak('Hebat! Level selesai');
-    setTimeout(()=>{
-      if(!puzzleState) return;
-      if(puzzleState.level>=5){ finishPicturePuzzle(); }
-      else { puzzleState.level++; loadPuzzleLevel(); }
-    },800);
+    finishPuzzleLevel();
   }
 }
-function finishPicturePuzzle(){
-  addReward(3,15,null,'Puzzle Gambar');
-  toast('🏆 Semua level selesai! +3⭐');
-  speak('Hebat! Kamu berhasil menyusun semua puzzle gambar. Ayo mulai lagi dari level satu');
+function finishPuzzleLevel(){
+  const level=puzzleState.level;
+  const milestone=level%5===0;
+  const stars=milestone?3:1;
+  addReward(stars, 5+level*2, null, 'Puzzle Gambar');
+  if(milestone){
+    toast('🏆 Level '+level+' selesai! +'+stars+'⭐');
+    speak('Hebat! Kamu berhasil menyelesaikan level '+level+'. Ayo lanjut ke level berikutnya');
+  }else{
+    toast('🧩 Level '+level+' selesai! +'+stars+'⭐');
+    speak('Hebat! Level selesai');
+  }
   setTimeout(()=>{
     if(!puzzleState) return;
-    puzzleState.level=1;
-    puzzleState.emojiOrder=shuffle(PUZZLE_EMOJIS.slice());
+    puzzleState.level++;
     loadPuzzleLevel();
-  },1600);
+  },milestone?1600:800);
 }
 /* ============================================================
    GAME: TEKA-TEKI BAYANGAN (10 level, pilihan & kemiripan meningkat)
@@ -3617,12 +3707,12 @@ const SHADOW_FAMILIES={
 };
 let shadowState=null;
 function startShadowGame(){
-  shadowState={level:1, usedTargets:new Set()};
+  shadowState={level:1, usedTargets:new Set(), lives:5};
   showScreen('screen-mini-game');
   document.getElementById('miniGameTitle').textContent='Teka-Teki Bayangan';
   loadShadowLevel();
 }
-function shadowOptionsCount(level){ return Math.min(6, 3+Math.floor((level-1)/2)); }
+function shadowOptionsCount(level){ return 4; }
 function shadowSimilarRatio(level){ if(level<=3) return 0; if(level<=6) return 0.5; return 1; }
 function shadowAllItems(){
   return Object.entries(SHADOW_FAMILIES).flatMap(([fam,items])=>items.map(x=>({fam,pair:x})));
@@ -3651,15 +3741,14 @@ function loadShadowLevel(){
   renderShadowBoard(opts);
 }
 function renderShadowBoard(opts){
-  const {target,level}=shadowState;
-  document.getElementById('miniScore').textContent='👤 Level '+level+'/10';
-  document.getElementById('miniRound').textContent=opts.length+' pilihan';
-  document.getElementById('miniGameBody').innerHTML=`<div class="mini-question shadow-game">
-    <h3 class="mini-title">👤 Bayangan siapakah ini?</h3>
+  const {target,level,lives}=shadowState;
+  document.getElementById('miniScore').textContent='👤 Level '+level;
+  document.getElementById('miniRound').innerHTML='❤️'.repeat(lives)+'🖤'.repeat(5-lives);
+  document.getElementById('miniGameBody').innerHTML=`<div class="mini-question shadow-game puzzle-panel-plain">
+    <h3 class="mini-title">👤 Bayangan apakah ini?</h3>
     <p class="mini-instruction">Geser gambar yang cocok ke arah bayangan di tengah</p>
     <div class="shadow-stage"><div class="shadow-target" id="shadowDropZone" data-v="${target[0]}">${target[0]}</div></div>
     <div class="shadow-options" id="shadowOptions">${opts.map((x,i)=>`<div class="shadow-option" data-v="${x[0]}" data-i="${i}" aria-label="${x[1]}">${x[0]}</div>`).join('')}</div>
-    <p class="mini-sub shadow-footer">👤 Level ${level} dari 10</p>
   </div>`;
   setupShadowDrag();
 }
@@ -3723,30 +3812,52 @@ function onShadowDrop(ok,opt,zone){
     speak('Benar, cocok sekali!');
   } else {
     opt.classList.add('wrong');
-    toast('💡 Belum cocok, coba lagi');
-    speak('Belum cocok, coba lagi ya');
+    shadowState.lives--;
+    const rd=document.getElementById('miniRound');
+    if(rd) rd.innerHTML='❤️'.repeat(Math.max(shadowState.lives,0))+'🖤'.repeat(5-Math.max(shadowState.lives,0));
+    if(shadowState.lives<=0){
+      toast('💔 Nyawa habis!');
+      speak('Yah, nyawa kamu habis. Ayo coba lagi dari awal');
+    } else {
+      toast('💡 Belum cocok, coba lagi');
+      speak('Belum cocok, coba lagi ya');
+    }
   }
   setTimeout(()=>{
     if(!shadowState) return;
     if(ok){
-      if(shadowState.level>=10){ finishShadowGame(); }
-      else { shadowState.level++; loadShadowLevel(); }
+      finishShadowLevel();
+    } else if(shadowState.lives<=0){
+      restartShadowGame();
     } else {
       opt.classList.remove('wrong');
       document.querySelectorAll('#shadowOptions .shadow-option').forEach(o=>o.classList.remove('locked'));
     }
-  }, ok?900:700);
+  }, ok?900:900);
 }
-function finishShadowGame(){
-  addReward(3,15,null,'Teka-Teki Bayangan');
-  toast('🏆 Semua level bayangan selesai! +3⭐');
-  speak('Hebat! Kamu berhasil menyelesaikan semua level teka-teki bayangan. Ayo mulai lagi dari level satu');
+function restartShadowGame(){
+  if(!shadowState) return;
+  shadowState.level=1;
+  shadowState.lives=5;
+  shadowState.usedTargets=new Set();
+  loadShadowLevel();
+}
+function finishShadowLevel(){
+  const level=shadowState.level;
+  const milestone=level%5===0;
+  const stars=milestone?3:1;
+  addReward(stars, 5+level*2, null, 'Teka-Teki Bayangan');
+  if(milestone){
+    toast('🏆 Level '+level+' selesai! +'+stars+'⭐');
+    speak('Hebat! Kamu berhasil menyelesaikan level '+level+'. Ayo lanjut ke level berikutnya');
+  }else{
+    toast('⭐ Hebat, cocok! Level '+level+' selesai');
+  }
   setTimeout(()=>{
     if(!shadowState) return;
-    shadowState.level=1;
-    shadowState.usedTargets=new Set();
+    shadowState.level++;
     loadShadowLevel();
-  },1600);
+  },milestone?1600:400);
 }
 /* ============================================================
    GAME: LABIRIN SERU (5 level, makin besar & rumit, tema berbeda, bintang koleksi)
@@ -3764,6 +3875,14 @@ const MAZE_THEMES=[
    vars:{'--maze-wall':'#221B4A','--maze-path':'#39316E','--maze-path-border':'#4D4390','--maze-wall-cell':'#171235','--maze-wall-border':'#0F0C24','--maze-player':'#7C6BFF','--maze-goal':'#FFE38A','--maze-star':'#8FE3FF','--maze-visited':'#4D4390'}}
 ];
 let labirinState=null;
+function mazeSizeForLevel(level){
+  if(level<=MAZE_THEMES.length) return MAZE_THEMES[level-1].n;
+  return Math.min(6+Math.ceil((level-MAZE_THEMES.length)/2), 10);
+}
+function mazeStarsForLevel(level){
+  if(level<=MAZE_THEMES.length) return MAZE_THEMES[level-1].stars;
+  return Math.min(3+Math.floor((level-MAZE_THEMES.length)/3), 6);
+}
 function startLabirinGame(){
   labirinState={level:1};
   showScreen('screen-mini-game');
@@ -3835,7 +3954,8 @@ function mazeFindGoal(grid){
 }
 function loadLabirinLevel(){
   const level=labirinState.level;
-  const theme=MAZE_THEMES[level-1];
+  const baseTheme=MAZE_THEMES[(level-1)%MAZE_THEMES.length];
+  const theme={...baseTheme, n:mazeSizeForLevel(level), stars:mazeStarsForLevel(level)};
   const grid=generateMaze(theme.n);
   const size=grid.length;
   const goal=mazeFindGoal(grid);
@@ -3851,7 +3971,7 @@ function loadLabirinLevel(){
   labirinState.starsFound=0;
   labirinState.starsTotal=starKeys.size;
   labirinState.visited=new Set(['0,0']);
-  document.getElementById('miniScore').textContent='👤 Level '+level+'/'+MAZE_THEMES.length;
+  document.getElementById('miniScore').textContent='👤 Level '+level;
   document.getElementById('miniRound').textContent=theme.name;
   drawLabirin();
 }
@@ -3870,7 +3990,7 @@ function drawLabirin(){
     up:isLabirinStepValid(pos.x,pos.y-1), down:isLabirinStepValid(pos.x,pos.y+1),
     left:isLabirinStepValid(pos.x-1,pos.y), right:isLabirinStepValid(pos.x+1,pos.y)
   };
-  document.getElementById('miniGameBody').innerHTML=`<div class="mini-question" style="${varStyle}">
+  document.getElementById('miniGameBody').innerHTML=`<div class="mini-question puzzle-panel-plain" style="${varStyle}">
     <h3 class="mini-title">🗺️ ${theme.name}</h3>
     <p class="mini-instruction">Ketuk kotak atau gunakan tombol panah untuk bergerak</p>
     <div class="maze-tip">${theme.player} Kamu &nbsp;•&nbsp; ${theme.star} ${labirinState.starsFound}/${labirinState.starsTotal} &nbsp;•&nbsp; ${theme.goal} Tujuan</div>
@@ -3882,7 +4002,7 @@ function drawLabirin(){
         <button class="maze-nav" data-dir="down" ${canMove.down?'':'disabled'}>▼</button>
         <button class="maze-nav" data-dir="right" ${canMove.right?'':'disabled'}>▶</button>
       </div>
-      <p class="mini-sub maze-footer">👤 Level ${labirinState.level} dari ${MAZE_THEMES.length}</p>
+      <p class="mini-sub maze-footer">👤 Level ${labirinState.level}</p>
     </div>
   </div>`;
   document.querySelectorAll('#miniGameBody .maze-cell.path').forEach(b=>b.onclick=()=>onLabirinMove(+b.dataset.x,+b.dataset.y));
@@ -3937,19 +4057,10 @@ function onLabirinMove(x,y){
     speak('Hebat! Kamu menemukan harta di '+labirinState.theme.name);
     setTimeout(()=>{
       if(!labirinState) return;
-      if(labirinState.level>=MAZE_THEMES.length){ finishLabirinGame(); }
-      else { labirinState.level++; loadLabirinLevel(); }
+      labirinState.level++;
+      loadLabirinLevel();
     },1300);
   }
-}
-function finishLabirinGame(){
-  toast('🏆 Semua labirin selesai!');
-  speak('Hebat! Kamu berhasil menyelesaikan semua labirin. Ayo mulai lagi dari level satu');
-  setTimeout(()=>{
-    if(!labirinState) return;
-    labirinState.level=1;
-    loadLabirinLevel();
-  },1600);
 }
 
 function renderBentuk(){
