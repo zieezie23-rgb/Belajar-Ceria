@@ -1,4 +1,4 @@
-const CACHE = 'belajar-ceria-v3';
+const CACHE = 'belajar-ceria-v4';
 const CORE = [
   './',
   './index.html',

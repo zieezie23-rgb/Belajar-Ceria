@@ -4139,17 +4139,6 @@ if(player.name==='Anak Ceria') setTimeout(openProfile,250);
   // Tap pada tombol menjadi user gesture yang sah sehingga backsound
   // dapat dimulai dengan suara, lalu tetap berjalan saat loading selesai.
   startButton.addEventListener('click',function(){
-      // User tap on MULAI is the ideal moment to enter true fullscreen on Android/Chrome.
-      // The request is intentionally best-effort; if the browser refuses it, the app still runs normally.
-      try {
-        var root=document.documentElement;
-        var enterFs=root.requestFullscreen || root.webkitRequestFullscreen || root.msRequestFullscreen;
-        if(enterFs) {
-          var fsResult=enterFs.call(root);
-          if(fsResult && fsResult.catch) fsResult.catch(function(){});
-        }
-      } catch(e) {}
-
     if(started) return;
     started=true;
     startButton.disabled=true;
