@@ -1121,15 +1121,74 @@ input[type=range]{width:100px;}
   background:rgba(0,0,0,.55);color:#fff;font:600 13px Arial,sans-serif;
   display:none;
 }
-</style>
+#appLoadingStartOverlay{
+  position:absolute;inset:0;z-index:3;
+  display:flex;align-items:center;justify-content:center;
+  padding:0;box-sizing:border-box;
+  background:rgba(43,27,18,.24);
+}
+#appLoadingStartCard{
+  width:100%;box-sizing:border-box;text-align:center;
+  padding:0;margin:0;
+  background:transparent;
+  box-shadow:none;
+}
+#appLoadingStartEmoji{font-size:clamp(38px,11vw,58px);line-height:1;margin:0 0 10px;filter:drop-shadow(0 4px 3px rgba(43,27,18,.35))}
+#appLoadingStartTitle{
+  margin:0 0 22px;font:800 clamp(25px,7.5vw,40px)/1.08 Fredoka,Nunito,sans-serif;
+  color:#fff;text-shadow:0 4px 0 rgba(43,27,18,.38),0 7px 18px rgba(43,27,18,.45);
+}
+#appLoadingStartButton{
+  position:relative;overflow:hidden;
+  border:3px solid rgba(255,255,255,.95);border-radius:999px;padding:14px 30px;min-height:62px;
+  width:min(88vw,390px);cursor:pointer;
+  font:800 clamp(18px,5vw,25px)/1.1 Fredoka,Nunito,sans-serif;
+  color:var(--plum);background:linear-gradient(180deg,#ffe978 0%,#ffc83d 100%);
+  box-shadow:0 8px 0 var(--sun-dark),0 14px 28px rgba(43,27,18,.35),inset 0 2px 0 rgba(255,255,255,.65);
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease;
+  -webkit-tap-highlight-color:transparent;
+  animation:loadingButtonFloat 1.8s ease-in-out infinite,loadingButtonPulse 2s ease-in-out infinite;
+}
+#appLoadingStartButton::before{
+  content:"";position:absolute;top:0;left:-65%;width:45%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);
+  transform:skewX(-20deg);animation:loadingButtonShine 2.4s ease-in-out infinite;
+}
+#appLoadingStartButton::after{
+  content:"✨";position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  font-size:22px;animation:loadingSparkle 1s ease-in-out infinite alternate;
+}
+#appLoadingStartButton:active{
+  transform:translateY(7px) scale(.97);
+  box-shadow:0 2px 0 var(--sun-dark),0 6px 12px rgba(43,27,18,.22),inset 0 2px 0 rgba(255,255,255,.45);
+}
+#appLoadingStartButton:hover{filter:brightness(1.08);transform:translateY(-2px) scale(1.02)}
+@keyframes loadingButtonFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes loadingButtonPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.05)}}
+@keyframes loadingButtonShine{0%,35%{left:-65%}65%,100%{left:125%}}
+@keyframes loadingSparkle{from{opacity:.45;transform:translateY(-50%) scale(.8) rotate(-8deg)}to{opacity:1;transform:translateY(-50%) scale(1.15) rotate(8deg)}}
+#appLoadingStartTitle{animation:loadingTitleIn .8s cubic-bezier(.2,.9,.2,1) both}
+#appLoadingStartEmoji{animation:loadingEmojiBounce 1.5s ease-in-out infinite}
+@keyframes loadingTitleIn{from{opacity:0;transform:translateY(18px) scale(.95)}to{opacity:1;transform:none}}
+@keyframes loadingEmojiBounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(2deg)}}
+#appLoadingStartOverlay.hide{
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .25s ease,visibility .25s ease;
+}</style>
 
 <div id="appLoadingScreen" aria-label="Memuat aplikasi">
   <video id="appLoadingVideo" muted playsinline preload="auto">
     <source src="loading.mp4" type="video/mp4">
   </video>
+  <div id="appLoadingStartOverlay" aria-label="Mulai aplikasi">
+    <div id="appLoadingStartCard">
+      <div id="appLoadingStartEmoji" aria-hidden="true">🌟🎨📚</div>
+      <h1 id="appLoadingStartTitle">Ayo, Belajar sambil bermain</h1>
+      <button id="appLoadingStartButton" type="button">MULAI</button>
+    </div>
+  </div>
   <button id="appLoadingSkip" type="button">Lewati</button>
 </div>
-
 
 <div id="watermarkZie" class="watermark-zie" aria-hidden="true">CREATED BY: ZIE</div>
 
@@ -1667,9 +1726,9 @@ input[type=range]{width:100px;}
     _handleFirstInteraction() {
       if (this.started) return;
       this._userInteracted = true;
-      // The current HTML has no dedicated "Mulai" button yet.
-      // Starting on the first real interaction satisfies browser autoplay rules.
-      // Keep retrying on subsequent interactions if an earlier attempt failed.
+      // If autoplay from the loading screen was blocked, this first real
+      // interaction is a valid gesture and starts the same persistent music.
+      // The music element is not recreated when the loading screen closes.
       this.start();
     }
 
@@ -3900,48 +3959,89 @@ if(player.name==='Anak Ceria') setTimeout(openProfile,250);
 
 <script id="app-loading-script">
 (function(){
+  var startOverlay=document.getElementById('appLoadingStartOverlay');
+  var startButton=document.getElementById('appLoadingStartButton');
   var screen=document.getElementById('appLoadingScreen');
   var video=document.getElementById('appLoadingVideo');
   var skip=document.getElementById('appLoadingSkip');
-  if(!screen || !video) return;
+  if(!startOverlay || !startButton || !screen || !video) return;
 
   var closed=false;
+  var started=false;
+
   var closeLoading=function(){
     if(closed) return;
     closed=true;
     screen.classList.add('hide');
-    setTimeout(function(){ if(screen.parentNode) screen.parentNode.removeChild(screen); },500);
+    setTimeout(function(){
+      if(screen.parentNode) screen.parentNode.removeChild(screen);
+    },500);
   };
 
-  // Jangan biarkan layar hitam menggantung jika MP4 gagal dimuat/diputar.
   video.addEventListener('ended',closeLoading);
   video.addEventListener('error',closeLoading);
-  video.addEventListener('stalled',function(){ setTimeout(function(){ if(!closed && video.readyState===0) closeLoading(); },1500); });
+  video.addEventListener('stalled',function(){
+    setTimeout(function(){
+      if(!closed && video.readyState===0) closeLoading();
+    },1500);
+  });
 
-  // Autoplay tanpa suara diperbolehkan browser.
-  var playPromise=video.play();
-  if(playPromise && typeof playPromise.catch==='function'){
-    playPromise.catch(function(){
-      // Beri satu kesempatan setelah halaman selesai dimuat.
-      setTimeout(function(){
-        if(closed) return;
-        var p=video.play();
-        if(p && p.catch) p.catch(closeLoading);
-      },100);
+  // Tombol berada LANGSUNG di atas video loading.
+  // Tap pada tombol menjadi user gesture yang sah sehingga backsound
+  // dapat dimulai dengan suara, lalu tetap berjalan saat loading selesai.
+  startButton.addEventListener('click',function(){
+    if(started) return;
+    started=true;
+    startButton.disabled=true;
+
+    try{
+      if(window.AudioManagerAPI){
+        try{
+          if(localStorage.getItem('soundMuted') === '1'){
+            window.AudioManagerAPI.mute();
+          }else{
+            window.AudioManagerAPI.unmute();
+          }
+        }catch(_){}
+        // Dipanggil langsung dari event click agar gesture pengguna
+        // diteruskan ke HTMLAudioElement.
+        window.AudioManagerAPI.start();
+      }
+    }catch(_){}
+
+    startOverlay.classList.add('hide');
+
+    var playPromise=video.play();
+    if(playPromise && typeof playPromise.catch==='function'){
+      playPromise.catch(function(){
+        setTimeout(function(){
+          if(!closed) video.play().catch(function(){});
+        },100);
+      });
+    }
+  },{once:true});
+
+  // Tombol Lewati tetap tersedia setelah user menekan MULAI.
+  if(skip){
+    skip.addEventListener('click',function(){
+      if(!started) return;
+      closeLoading();
     });
   }
 
-  // Jika video berhasil dimuat tetapi durasinya tidak terdeteksi, jangan menggantung.
   video.addEventListener('loadeddata',function(){
-    if(video.duration && isFinite(video.duration)){
-      // Tidak perlu timer; tunggu event ended.
-    }else{
-      setTimeout(function(){ if(!closed && !video.duration) closeLoading(); },3000);
-    }
+    try{
+      if(!isFinite(video.duration) || video.duration<=0){
+        setTimeout(function(){
+          if(started && !closed) closeLoading();
+        },3000);
+      }
+    }catch(_){}
   });
 
-  // Fallback terakhir.
-  setTimeout(function(){ if(!closed) closeLoading(); },15000);
+  setTimeout(function(){
+    if(started && !closed) closeLoading();
+  },15000);
 })();
 </script>
 </body>
