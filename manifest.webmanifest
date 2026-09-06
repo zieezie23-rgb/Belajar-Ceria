@@ -1,7 +1,7 @@
 {
   "name": "Belajar Ceria - Belajar & Bermain Ceria",
   "short_name": "Belajar Ceria",
-  "id": "./",
+  "id": "./index.html",
   "description": "Belajar dan bermain ceria untuk anak-anak.",
   "start_url": "./index.html",
   "scope": "./",
